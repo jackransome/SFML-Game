@@ -1,0 +1,24 @@
+﻿  Game.cpp
+  Graphics.cpp
+  InputManager.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\InputManager.cpp(62,24): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\InputManager.cpp(63,24): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+  main.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\main.cpp(23,30): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
+  Sound.cpp
+  SoundPlayer.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SoundPlayer.cpp(13,20): warning C4018: '<': signed/unsigned mismatch
+  Sprite.cpp
+  SpriteCollection.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(18,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(23): warning C4715: 'SpriteCollection::getPointerFromName': not all control paths return a value
+  SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe
