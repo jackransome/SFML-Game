@@ -24,10 +24,6 @@ int main()
 
     // Game setup
     Game game(&window);
-
-
-
-
     
     while (window.isOpen())
     {

@@ -23,3 +23,7 @@ void Graphics::drawRect(float x, float y, float w, float h, sf::Color color) {
 void Graphics::clearScreen(sf::Color color){
     pWindow->clear(color);
 }
+
+void Graphics::setUseCamera(bool _useCamera) {
+    useCamera = _useCamera;
+}
