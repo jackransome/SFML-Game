@@ -9,9 +9,11 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.createSprite("pic1", "resources/pic1.png");
 	spriteCollection.createSprite("pic2", "resources/pic2.png");
 	spriteCollection.createSprite("pic3", "resources/pic3.png");
+	spriteCollection.createSprite("animation1", "resources/animation1.png", 144, 172, 4);
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
+	animation1 = spriteCollection.getPointerFromName("animation1");
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
 	camera.setScreenDimensions(1920, 1080);
@@ -57,8 +59,13 @@ void Game::Draw() {
 
 	spriteCollection.addSpriteDraw(sprite2, 400, 400, 400);
 	spriteCollection.addSpriteDraw(sprite3, 800, 800, 800);
-	spriteCollection.addSpriteDraw(sprite1, x, y, y);
-	std::cout << y << "\n";
+	spriteCollection.addSpriteDraw(sprite1, 400, 800, 800);
+
+	if (frame % 8 == 0) {
+		animation1->run();
+	}
+	spriteCollection.addSpriteDraw(animation1, x, y, y);
 	spriteCollection.drawAll();
 
+	frame++;
 }

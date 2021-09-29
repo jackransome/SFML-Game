@@ -1,6 +1,2 @@
 ﻿  Game.cpp
-  SpriteCollection.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(24): warning C4715: 'SpriteCollection::getPointerFromName': not all control paths return a value
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

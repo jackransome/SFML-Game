@@ -17,8 +17,9 @@ private:
 	bool lastSpace = false;
 	Sprite *sprite1;
 	Sprite *sprite2;
-	Sprite *sprite3;
-
+	Sprite* sprite3;
+	Sprite *animation1;
+	unsigned long frame = 0;
 	glm::vec2 tranformedMousePos;
 
 	sf::RenderWindow* pWindow;

@@ -35,3 +35,12 @@
 .vs/SFML_Engine/v16/Browse.VC.db-wal
 .vs/SFML_Engine/v16/Browse.VC.db-shm
 .vs/SFML_Engine/v16/Browse.VC.opendb
+SFML_Engine/Debug/vc142.idb
+SFML_Engine/Debug/vc142.pdb
+*.tlog
+*.log
+*.ilk
+*.log
+*.pdb
+*.ipch
+*.ipch

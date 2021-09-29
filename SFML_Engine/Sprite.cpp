@@ -23,7 +23,7 @@ Sprite::Sprite(sf::RenderWindow* pwindow, std::string _name, std::string path, i
 
 void Sprite::run(){
 	if (frames > 1) {
-		frames++;
+		frame++;
 	}
 	if (frame == frames) {
 		frame = 0;
