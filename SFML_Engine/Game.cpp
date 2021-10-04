@@ -4,7 +4,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	pWindow = pwindow;
 	graphics = Graphics(pwindow);
 	inputManager = InputManager(pwindow);
-	spriteCollection = SpriteCollection(pwindow);
+	spriteCollection = SpriteCollection(pwindow, &graphics);
 	soundPlayer = SoundPlayer();
 	spriteCollection.createSprite("pic1", "resources/pic1.png");
 	spriteCollection.createSprite("pic2", "resources/pic2.png");
@@ -60,6 +60,8 @@ void Game::Draw() {
 	spriteCollection.addSpriteDraw(sprite2, 400, 400, 400);
 	spriteCollection.addSpriteDraw(sprite3, 800, 800, 800);
 	spriteCollection.addSpriteDraw(sprite1, 400, 800, 800);
+
+	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 
 	if (frame % 8 == 0) {
 		animation1->run();
