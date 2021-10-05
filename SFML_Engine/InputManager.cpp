@@ -87,3 +87,8 @@ bool InputManager::isKeyDown(keys key){
 	std::cout << "key not implemented!\n";
 	return false;
 }
+
+void InputManager::translateMouseCoords(float cameraX, float cameraY){
+	translatedMouseX = mouseX + cameraX;
+	translatedMouseY = mouseY + cameraY;
+}

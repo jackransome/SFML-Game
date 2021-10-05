@@ -17,6 +17,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
 	camera.setScreenDimensions(1920, 1080);
+	camera.setScreenshakeCutoff(1);
+	camera.setScreenshakeDecay(0.9);
 	spriteCollection.setUseCamera(true);
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
@@ -24,6 +26,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 
 void Game::HandleInput() {
 	inputManager.update();
+	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
 	if (inputManager.isKeyDown(w)) {
 		y -= 5;
 	}
@@ -39,6 +42,7 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(space)) {
 		if (!lastSpace) {
 			soundPlayer.playSoundByName("hh");
+			camera.addScreenshake(15);
 		}		
 		lastSpace = true;
 	}
@@ -52,11 +56,10 @@ void Game::Run() {
 }
 
 void Game::Draw() {
+	camera.runscreenShake();
 	camera.setPosition(glm::vec2(x, y));
 	graphics.clearScreen(sf::Color(255, 255, 255, 100));
-	//graphics.drawCircle(300, 300, 100, sf::Color(0, 255, 0, 255));
-	//graphics.drawRect(600, 600, 30, 30, sf::Color(0, 0, 255, 255));
-
+	
 	spriteCollection.addSpriteDraw(sprite2, 400, 400, 400);
 	spriteCollection.addSpriteDraw(sprite3, 800, 800, 800);
 	spriteCollection.addSpriteDraw(sprite1, 400, 800, 800);
