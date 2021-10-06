@@ -7,18 +7,14 @@ SpriteCollection::SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphic
 	pWindow = pwindow;
 }
 
-void SpriteCollection::createSprite(std::string name, std::string path, int width, int height, int frames, float _scale){
-	sprites.push_back(new Sprite(pWindow, name, path, width, height, frames, _scale));
+void SpriteCollection::loadImage(std::string name, std::string path){
+	images.push_back(new Image(pWindow, name, path));
 }
 
-void SpriteCollection::createSprite(std::string name, std::string path, float _scale){
-	sprites.push_back(new Sprite(pWindow, name, path, _scale));
-}
-
-Sprite* SpriteCollection::getPointerFromName(std::string name) {
-	for (int i = 0; i < sprites.size(); i++) {
-		if (sprites[i]->getName().compare(name) == 0) {
-			return sprites[i];
+Image* SpriteCollection::getPointerFromName(std::string name) {
+	for (int i = 0; i < images.size(); i++) {
+		if (images[i]->getName().compare(name) == 0) {
+			return images[i];
 		}
 	}
 }
@@ -35,12 +31,36 @@ void SpriteCollection::setOrderZ(bool _orderZ) {
 	orderZ = _orderZ;
 }
 
-void SpriteCollection::addSpriteDraw(Sprite* pSprite, float x, float y, float z){
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
 	}
-	spriteDraws[currentDrawIndex] = new SpriteDraw(pSprite, x, y, z);
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
+	currentDrawIndex++;
+}
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
+	currentDrawIndex++;
+}
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, float scale) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	currentDrawIndex++;
+}
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
 	currentDrawIndex++;
 }
 
@@ -62,14 +82,40 @@ void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Col
 	currentDrawIndex++;
 }
 
-void SpriteCollection::addAbsoluteSpriteDraw(Sprite* pSprite, float x, float y, float z) {
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
 	}
-	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pSprite, x, y, z);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
 	currentAbsoluteDrawIndex++;
+}
 
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
+	currentAbsoluteDrawIndex++;
+}
+
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	currentAbsoluteDrawIndex++;
+}
+
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	currentAbsoluteDrawIndex++;
 }
 
 void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color color) {
@@ -117,42 +163,54 @@ void SpriteCollection::drawAll() {
 		if (useCamera) {
 			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
 			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pSprite->draw(temp.x, temp.y);
+				spriteDraws[i]->pImage->draw(temp.x, temp.y);
 			}
 			else if (spriteDraws[i]->type == 1) {
-				pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
+				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 			}
 			else if (spriteDraws[i]->type == 2) {
-				pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
+				pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
 			}
 			else if (spriteDraws[i]->type == 3) {
+				pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
+			}
+			else if (spriteDraws[i]->type == 4) {
 				drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
 			}
 		}
 		else {
 			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pSprite->draw(spriteDraws[i]->x, spriteDraws[i]->y);
+				spriteDraws[i]->pImage->draw(spriteDraws[i]->x, spriteDraws[i]->y);
 			}
 			else if (spriteDraws[i]->type == 1) {
-				pGraphics->drawRect(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
+				spriteDraws[i]->pImage->drawSection(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 			}
 			else if (spriteDraws[i]->type == 2) {
-				pGraphics->drawCircle(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->r, spriteDraws[i]->color);
+				pGraphics->drawRect(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
 			}
 			else if (spriteDraws[i]->type == 3) {
+				pGraphics->drawCircle(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->r, spriteDraws[i]->color);
+			}
+			else if (spriteDraws[i]->type == 4) {
 				drawText(spriteDraws[i]->fontIndex, spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
 			}
 		}
 	}
 	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
 		if (absoluteSpriteDraws[i]->type == 0) {
-			absoluteSpriteDraws[i]->pSprite->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y);
+			absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y);
 		}
 		else if (absoluteSpriteDraws[i]->type == 1) {
+			absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH);
+		}
+		else if (absoluteSpriteDraws[i]->type == 2) {
 			pGraphics->drawRect(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->w, absoluteSpriteDraws[i]->h, absoluteSpriteDraws[i]->color);
 		}
-		else {
+		else if (absoluteSpriteDraws[i]->type == 3) {
 			pGraphics->drawCircle(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->r, absoluteSpriteDraws[i]->color);
+		}
+		else if (absoluteSpriteDraws[i]->type == 4) {
+			drawText(absoluteSpriteDraws[i]->fontIndex, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->string, absoluteSpriteDraws[i]->fontSize, absoluteSpriteDraws[i]->color);
 		}
 	}
 	clearSpriteDraws();

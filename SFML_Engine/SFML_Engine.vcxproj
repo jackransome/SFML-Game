@@ -150,11 +150,12 @@
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
-    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,10 +164,11 @@
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
-    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

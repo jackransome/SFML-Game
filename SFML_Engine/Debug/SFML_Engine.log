@@ -1,3 +1,7 @@
 ﻿  Game.cpp
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(21,32): warning C4305: 'argument': truncation from 'double' to 'float'
+  SpriteCollection.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(15,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(20): warning C4715: 'SpriteCollection::getPointerFromName': not all control paths return a value
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe
