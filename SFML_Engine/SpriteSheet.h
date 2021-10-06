@@ -11,6 +11,7 @@ public:
 	std::string getName();
 	void setDoesReset(bool _doesReset);
 	void setChangeTimer(int _changeTimer);
+	void reset();
 private:
 	int frame = 0;
 	int frames = 1;

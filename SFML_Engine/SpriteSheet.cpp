@@ -14,6 +14,10 @@ SpriteSheet::SpriteSheet(sf::RenderWindow* pwindow, SpriteCollection* _pSpriteCo
 }
 
 void SpriteSheet::run(){
+	timer++;
+	if (timer == changeTimer) {
+		timer = 0;
+	}
 	if (timer == 0) {
 		frame++;
 		if (frame == frames) {
@@ -26,10 +30,7 @@ void SpriteSheet::run(){
 
 		}
 	}
-	timer++;
-	if (timer == changeTimer) {
-		timer = 0;
-	}
+
 }
 
 void SpriteSheet::draw(float x, float y, float z){
@@ -50,4 +51,9 @@ void SpriteSheet::setDoesReset(bool _doesReset) {
 
 void SpriteSheet::setChangeTimer(int _changeTimer) {
 	changeTimer = _changeTimer;
+}
+
+void SpriteSheet::reset() {
+	timer = 0;
+	frame = 0;
 }

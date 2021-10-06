@@ -10,11 +10,14 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
 	spriteCollection.loadImage("animation1", "resources/animation1.png");
+	spriteCollection.loadImage("animation2", "resources/pillar_small_2.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
-	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
+	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
+	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	spriteSheet1.setChangeTimer(8);
+	spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
 	camera.setScreenDimensions(1920, 1080);
@@ -36,6 +39,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 // cinematic bits that show you fighting nothing
 // sometimes the AR will flicker
 // some effects in game will cause noisyness in AR, or cut it out
+// hovering drone indicates when virtual enemies are nearby
+// real enemies are revealed at somepoint, first appear in AR but remain when taking your headset off
 // 
 // GOAL: explore, upgrade gear, learn more and escape
 // 
@@ -75,7 +80,7 @@ void Game::HandleInput() {
 		lastSpace = false;
 	}
 	if (inputManager.mouseL) {
-		//do something
+		spriteSheet1.reset();
 	}
 }
 

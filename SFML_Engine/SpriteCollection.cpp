@@ -163,10 +163,10 @@ void SpriteCollection::drawAll() {
 		if (useCamera) {
 			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
 			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pImage->draw(temp.x, temp.y);
+				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale);
 			}
 			else if (spriteDraws[i]->type == 1) {
-				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
 			}
 			else if (spriteDraws[i]->type == 2) {
 				pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
@@ -180,10 +180,10 @@ void SpriteCollection::drawAll() {
 		}
 		else {
 			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pImage->draw(spriteDraws[i]->x, spriteDraws[i]->y);
+				spriteDraws[i]->pImage->draw(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->scale);
 			}
 			else if (spriteDraws[i]->type == 1) {
-				spriteDraws[i]->pImage->drawSection(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+				spriteDraws[i]->pImage->drawSection(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
 			}
 			else if (spriteDraws[i]->type == 2) {
 				pGraphics->drawRect(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
@@ -198,10 +198,10 @@ void SpriteCollection::drawAll() {
 	}
 	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
 		if (absoluteSpriteDraws[i]->type == 0) {
-			absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y);
+			absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale);
 		}
 		else if (absoluteSpriteDraws[i]->type == 1) {
-			absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH);
+			absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale);
 		}
 		else if (absoluteSpriteDraws[i]->type == 2) {
 			pGraphics->drawRect(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->w, absoluteSpriteDraws[i]->h, absoluteSpriteDraws[i]->color);
