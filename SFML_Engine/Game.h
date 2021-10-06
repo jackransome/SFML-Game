@@ -21,7 +21,6 @@ private:
 	Sprite *animation1;
 	unsigned long frame = 0;
 	glm::vec2 tranformedMousePos;
-
 	sf::RenderWindow* pWindow;
 	Graphics graphics;
 	InputManager inputManager;

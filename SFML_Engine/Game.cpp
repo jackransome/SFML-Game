@@ -22,6 +22,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.setUseCamera(true);
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
+	spriteCollection.addFont("Taurus-Mono-Outline-Regular.ttf");
 }
 
 void Game::HandleInput() {
@@ -63,6 +64,8 @@ void Game::Draw() {
 	spriteCollection.addSpriteDraw(sprite2, 400, 400, 400);
 	spriteCollection.addSpriteDraw(sprite3, 800, 800, 800);
 	spriteCollection.addSpriteDraw(sprite1, 400, 800, 800);
+	spriteCollection.addTextDraw(0, 20, 20, 20, "HELLO WORLD", 40, sf::Color::Black);
+
 
 	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 
@@ -71,6 +74,10 @@ void Game::Draw() {
 	}
 	spriteCollection.addSpriteDraw(animation1, x, y, y);
 	spriteCollection.drawAll();
+
+
+
+	// inside the main loop, between window.clear() and window.display()
 
 	frame++;
 }

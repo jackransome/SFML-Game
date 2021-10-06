@@ -8,6 +8,7 @@ public:
 	Sprite(sf::RenderWindow* pwindow, std::string name, std::string path, int width, int height, int frames);
 	void run();
 	void draw(float x, float y);
+	void drawFrame(float x, float y, int frame);
 	std::string getName();
 private:
 	int frame = 0;

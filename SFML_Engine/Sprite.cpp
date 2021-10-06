@@ -38,6 +38,12 @@ void Sprite::draw(float x, float y){
 	pWindow->draw(sprite);
 }
 
+void Sprite::drawFrame(float x, float y, int _frame) {
+	sprite.setTextureRect(sf::IntRect(_frame * width, 0, width, height));
+	sprite.setPosition(x, y);
+	pWindow->draw(sprite);
+}
+
 std::string Sprite::getName() {
 	return name;
 }
