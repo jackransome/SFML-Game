@@ -75,8 +75,8 @@ class SpriteCollection {
 public:
 	SpriteCollection();
 	SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphics);
-	void createSprite(std::string name, std::string path, int _width, int _height, int _frames);
-	void createSprite(std::string name, std::string path);
+	void createSprite(std::string name, std::string path, int _width, int _height, int _frames, float _scale);
+	void createSprite(std::string name, std::string path, float _scale);
 	Sprite* getPointerFromName(std::string name);
 	void setUseCamera(bool _useCamera);
 	void setPCamera(Camera *_pCamera);

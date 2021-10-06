@@ -6,10 +6,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	inputManager = InputManager(pwindow);
 	spriteCollection = SpriteCollection(pwindow, &graphics);
 	soundPlayer = SoundPlayer();
-	spriteCollection.createSprite("pic1", "resources/pic1.png");
-	spriteCollection.createSprite("pic2", "resources/pic2.png");
-	spriteCollection.createSprite("pic3", "resources/pic3.png");
-	spriteCollection.createSprite("animation1", "resources/animation1.png", 144, 172, 4);
+	spriteCollection.createSprite("pic1", "resources/pic1.png", 1);
+	spriteCollection.createSprite("pic2", "resources/pic2.png", 1);
+	spriteCollection.createSprite("pic3", "resources/pic3.png", 1);
+	spriteCollection.createSprite("animation1", "resources/animation1.png", 144, 172, 4, 1);
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -49,6 +49,9 @@ void Game::HandleInput() {
 	}
 	else {
 		lastSpace = false;
+	}
+	if (inputManager.mouseL) {
+		//do something
 	}
 }
 

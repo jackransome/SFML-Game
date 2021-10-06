@@ -21,6 +21,8 @@ public:
 	float mouseY;
 	float translatedMouseX;
 	float translatedMouseY;
+	bool mouseL;
+	bool mouseR;
 private:
 	sf::RenderWindow* pWindow;
 	sf::Event ev;

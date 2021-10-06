@@ -7,12 +7,12 @@ SpriteCollection::SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphic
 	pWindow = pwindow;
 }
 
-void SpriteCollection::createSprite(std::string name, std::string path, int width, int height, int frames){
-	sprites.push_back(new Sprite(pWindow, name, path, width, height, frames));
+void SpriteCollection::createSprite(std::string name, std::string path, int width, int height, int frames, float _scale){
+	sprites.push_back(new Sprite(pWindow, name, path, width, height, frames, _scale));
 }
 
-void SpriteCollection::createSprite(std::string name, std::string path){
-	sprites.push_back(new Sprite(pWindow, name, path));
+void SpriteCollection::createSprite(std::string name, std::string path, float _scale){
+	sprites.push_back(new Sprite(pWindow, name, path, _scale));
 }
 
 Sprite* SpriteCollection::getPointerFromName(std::string name) {
