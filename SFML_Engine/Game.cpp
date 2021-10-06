@@ -14,6 +14,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
 	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
+	spriteSheet1.setChangeTimer(8);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
 	camera.setScreenDimensions(1920, 1080);
@@ -83,6 +84,9 @@ void Game::Run() {
 }
 
 void Game::Draw() {
+
+	// inside the main loop, between window.clear() and window.display()
+
 	camera.runscreenShake();
 	camera.setPosition(glm::vec2(x, y));
 	graphics.clearScreen(sf::Color(255, 255, 255, 100));
@@ -95,14 +99,12 @@ void Game::Draw() {
 
 	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 
-	if (frame % 8 == 0) {
-		spriteSheet1.run();
-	}
+	spriteSheet1.run();
 	spriteSheet1.draw(x, y, y);
 
 	spriteCollection.drawAll();
 
-	// inside the main loop, between window.clear() and window.display()
+	
 
 	frame++;
 }

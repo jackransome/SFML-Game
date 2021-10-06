@@ -14,11 +14,21 @@ SpriteSheet::SpriteSheet(sf::RenderWindow* pwindow, SpriteCollection* _pSpriteCo
 }
 
 void SpriteSheet::run(){
-	if (frames > 1) {
+	if (timer == 0) {
 		frame++;
+		if (frame == frames) {
+			if (doesReset) {
+				frame = 0;
+			}
+			else {
+				frame--;
+			}
+
+		}
 	}
-	if (frame == frames) {
-		frame = 0;
+	timer++;
+	if (timer == changeTimer) {
+		timer = 0;
 	}
 }
 
@@ -32,4 +42,12 @@ void SpriteSheet::drawFrame(float x, float y, float z, int _frame) {
 
 std::string SpriteSheet::getName() {
 	return name;
+}
+
+void SpriteSheet::setDoesReset(bool _doesReset) {
+	doesReset = _doesReset;
+}
+
+void SpriteSheet::setChangeTimer(int _changeTimer) {
+	changeTimer = _changeTimer;
 }
