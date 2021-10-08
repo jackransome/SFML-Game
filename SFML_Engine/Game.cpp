@@ -11,13 +11,32 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
 	spriteCollection.loadImage("animation1", "resources/animation1.png");
 	spriteCollection.loadImage("animation2", "resources/pillar_small_2.png");
+	spriteCollection.loadImage("animation3", "resources/main_character/mc_walk_back.png");
+	spriteCollection.loadImage("animation4", "resources/main_character/mc_walk_left.png");
+	spriteCollection.loadImage("animation5", "resources/main_character/mc_walk_front.png");
+	spriteCollection.loadImage("animation6", "resources/fire_animation_1.png");
+	spriteCollection.loadImage("animation7", "resources/drone_fly.png");
+	spriteCollection.loadImage("animation8", "resources/main_character/mc_run_left.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
-	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
-	spriteSheet1.setChangeTimer(8);
-	spriteSheet1.setDoesReset(false);
+	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
+	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation3", 16, 32, 8, 2);
+	spriteSheet1.setChangeTimer(6);
+	spriteSheet2 = SpriteSheet(pwindow, &spriteCollection, "animation4", 16, 32, 4, 2);
+	spriteSheet2.setChangeTimer(6);
+	spriteSheet3 = SpriteSheet(pwindow, &spriteCollection, "animation5", 16, 32, 8, 2);
+	spriteSheet3.setChangeTimer(6);
+	spriteSheet4 = SpriteSheet(pwindow, &spriteCollection, "animation6", 20, 28, 6, 2);
+	spriteSheet4.setChangeTimer(4);
+	spriteSheet5 = SpriteSheet(pwindow, &spriteCollection, "animation7", 5, 13, 4, 2);
+	spriteSheet5.setChangeTimer(2);
+	spriteSheet6 = SpriteSheet(pwindow, &spriteCollection, "animation8", 22, 32, 6, 2);
+	spriteSheet6.setChangeTimer(3);
+	spriteSheet7 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 1);
+	spriteSheet7.setChangeTimer(10);
+	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
 	camera.setScreenDimensions(1920, 1080);
@@ -26,7 +45,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.setUseCamera(true);
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
-	spriteCollection.addFont("Taurus-Mono-Outline-Regular.ttf");
+	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 }
 
 // GAME plan
@@ -114,6 +133,15 @@ Game::Game(sf::RenderWindow* pwindow) {
 //			stairs: faster to walk down, slower to walk up
 //			ledges/cliffs: falling off (moving off a raises platform(just a square) and not onto stairs, changes your position to a much greater y and adds equal z
 //			then gravity and z is a thing
+// 
+//		Art:
+//			Run cycle:
+//				4 movement per frame
+//				1 change per 4 frames
+//				= 16 movement in image per frame of sheet
+//				= 8 movement per frame of sheet becasue 2x scaling
+// 
+//  1 frame =  8 pixel step
 //
 //
 
@@ -122,18 +150,35 @@ Game::Game(sf::RenderWindow* pwindow) {
 void Game::HandleInput() {
 	inputManager.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
-	if (inputManager.isKeyDown(w)) {
-		y -= 5;
+	if (inputManager.isKeyDown(lShift)) {
+		if (inputManager.isKeyDown(w)) {
+			y -= 4;
+		}
+		if (inputManager.isKeyDown(a)) {
+			x -= 4;
+		}
+		if (inputManager.isKeyDown(s)) {
+			y += 4;
+		}
+		if (inputManager.isKeyDown(d)) {
+			x += 4;
+		}
 	}
-	if (inputManager.isKeyDown(a)) {
-		x -= 5;
+	else {
+		if (inputManager.isKeyDown(w)) {
+			y -= 2;
+		}
+		if (inputManager.isKeyDown(a)) {
+			x -= 2;
+		}
+		if (inputManager.isKeyDown(s)) {
+			y += 2;
+		}
+		if (inputManager.isKeyDown(d)) {
+			x += 2;
+		}
 	}
-	if (inputManager.isKeyDown(s)) {
-		y += 5;
-	}
-	if (inputManager.isKeyDown(d)) {
-		x += 5;
-	}
+
 	if (inputManager.isKeyDown(space)) {
 		if (!lastSpace) {
 			soundPlayer.playSoundByName("hh");
@@ -164,7 +209,7 @@ void Game::Draw() {
 	spriteCollection.addImageDraw(sprite2, 400, 400, 400);
 	spriteCollection.addImageDraw(sprite3, 800, 800, 800);
 	spriteCollection.addImageDraw(sprite1, 400, 800, 800);
-	spriteCollection.addTextDraw(0, 20, 20, 20, "HELLO WORLD", 40, sf::Color::Black);
+	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
 
 	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
@@ -172,6 +217,18 @@ void Game::Draw() {
 
 	spriteSheet1.run();
 	spriteSheet1.draw(x, y, y);
+	spriteSheet2.run();
+	spriteSheet2.draw(x + 50, y, y);
+	spriteSheet3.run();
+	spriteSheet3.draw(x + 100, y, y);
+	spriteSheet4.run();
+	spriteSheet4.draw(x + 150, y, y);
+	spriteSheet5.run();
+	spriteSheet5.draw(x + 200, y, y);
+	spriteSheet6.run();
+	spriteSheet6.draw(x + 250, y, y);
+	spriteSheet7.run();
+	spriteSheet7.draw(x + 300, y, y);
 
 	spriteCollection.drawAll();
 

@@ -29,4 +29,10 @@ private:
 	SoundPlayer soundPlayer;
 	Camera camera;
 	SpriteSheet spriteSheet1;
+	SpriteSheet spriteSheet2;
+	SpriteSheet spriteSheet3;
+	SpriteSheet spriteSheet4;
+	SpriteSheet spriteSheet5;
+	SpriteSheet spriteSheet6;
+	SpriteSheet spriteSheet7;
 };

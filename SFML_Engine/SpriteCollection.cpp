@@ -239,9 +239,9 @@ void SpriteCollection::drawText(int fontIndex, float x, float y, std::string str
 	pWindow->draw(text);
 }
 
-void SpriteCollection::addFont(std::string name) {
+void SpriteCollection::addFont(std::string path) {
 	sf::Font temp;
-	if (!temp.loadFromFile("Taurus-Mono-Outline-Regular.ttf")) {
+	if (!temp.loadFromFile(path)) {
 		std::cout << "ERROR LOADING FONT\n";
 	}
 	fonts.push_back(temp);

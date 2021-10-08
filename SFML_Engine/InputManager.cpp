@@ -136,6 +136,21 @@ bool InputManager::isKeyDown(keys key){
 	case escape:
 		return keyStruct.escape;
 		break;
+	case q:
+		return keyStruct.q;
+		break;
+	case e:
+		return keyStruct.e;
+		break;
+	case f:
+		return keyStruct.f;
+		break;
+	case lShift:
+		return keyStruct.lShift;
+		break;
+	case lControl:
+		return keyStruct.lControl;
+		break;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
