@@ -4,7 +4,7 @@
 class SpriteSheet {
 public:
 	SpriteSheet();
-	SpriteSheet(sf::RenderWindow* pwindow, SpriteCollection* _pSpriteCollection, std::string name, int width, int height, int frames, float scale);
+	SpriteSheet(SpriteCollection* _pSpriteCollection, std::string name, int width, int height, int frames, float scale);
 	void run();
 	void draw(float x, float y, float z);
 	void drawFrame(float x, float y, float z, int frame);

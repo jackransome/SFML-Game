@@ -2,9 +2,8 @@
 
 SpriteSheet::SpriteSheet() {}
 
-SpriteSheet::SpriteSheet(sf::RenderWindow* pwindow, SpriteCollection* _pSpriteCollection, std::string _name, int _width, int _height, int _frames, float _scale) {
+SpriteSheet::SpriteSheet(SpriteCollection* _pSpriteCollection, std::string _name, int _width, int _height, int _frames, float _scale) {
 	scale = _scale;
-	pWindow = pwindow;
 	name = _name;
 	width = _width;
 	height = _height;

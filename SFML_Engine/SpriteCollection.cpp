@@ -248,6 +248,13 @@ void SpriteCollection::addFont(std::string path) {
 }
 
 void SpriteCollection::clearSpriteDraws() {
+	for (int i = 0; i < currentDrawIndex; i++) {
+		delete spriteDraws[i];
+	}
+	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
+		delete absoluteSpriteDraws[i];
+	}
+
 	currentDrawIndex = 0;
 	currentAbsoluteDrawIndex = 0;
 }

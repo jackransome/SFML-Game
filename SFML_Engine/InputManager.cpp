@@ -22,92 +22,131 @@ InputManager::InputManager(sf::RenderWindow* pwindow){
 void InputManager::update(){
 	while (pWindow->pollEvent(ev))
 	{
+		if (keyStruct.w > 0) {
+			keyStruct.w++;
+		}
+		if (keyStruct.a > 0) {
+			keyStruct.a++;
+		}
+		if (keyStruct.s > 0) {
+			keyStruct.s++;
+		}
+		if (keyStruct.d > 0) {
+			keyStruct.d++;
+		}
+		if (keyStruct.space > 0) {
+			keyStruct.space++;
+		}
+		if (keyStruct.escape > 0) {
+			keyStruct.escape++;
+		}
+		if (keyStruct.q > 0) {
+			keyStruct.q++;
+		}
+		if (keyStruct.e > 0) {
+			keyStruct.e++;
+		}
+		if (keyStruct.f > 0) {
+			keyStruct.f++;
+		}
+		if (keyStruct.lShift > 0) {
+			keyStruct.lShift++;
+		}
+		if (keyStruct.lControl > 0) {
+			keyStruct.lControl++;
+		}
+		if (mouseL > 0) {
+			mouseL++;
+		}
+		if (mouseR > 0) {
+			mouseR++;
+		}
 		if (ev.type == sf::Event::Closed) pWindow->close();
 
 		if (ev.type == sf::Event::KeyPressed) {
 			if (ev.key.code == sf::Keyboard::W) {
-				keyStruct.w = true;
+				keyStruct.w = 1;
 			}
 			if (ev.key.code == sf::Keyboard::A) {
-				keyStruct.a = true;
+				keyStruct.a = 1;
 			}
 			if (ev.key.code == sf::Keyboard::S) {
-				keyStruct.s = true;
+				keyStruct.s = 1;
 			}
 			if (ev.key.code == sf::Keyboard::D) {
-				keyStruct.d = true;
+				keyStruct.d = 1;
 			}
 			if (ev.key.code == sf::Keyboard::Space) {
-				keyStruct.space = true;
+				keyStruct.space = 1;
 			}
 			if (ev.key.code == sf::Keyboard::Escape) {
-				keyStruct.escape = true;
+				keyStruct.escape = 1;
 			}
 			if (ev.key.code == sf::Keyboard::Q) {
-				keyStruct.q = true;
+				keyStruct.q = 1;
 			}
 			if (ev.key.code == sf::Keyboard::E) {
-				keyStruct.e = true;
+				keyStruct.e = 1;
 			}
 			if (ev.key.code == sf::Keyboard::F) {
-				keyStruct.f = true;
+				keyStruct.f = 1;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
-				keyStruct.lShift = true;
+				keyStruct.lShift = 1;
 			}
 			if (ev.key.code == sf::Keyboard::LControl) {
-				keyStruct.lControl = true;
+				keyStruct.lControl = 1;
 			}
 		}
 		if (ev.type == sf::Event::KeyReleased) {
 			if (ev.key.code == sf::Keyboard::W) {
-				keyStruct.w = false;
+				keyStruct.w = 0;
 			}
 			if (ev.key.code == sf::Keyboard::A) {
-				keyStruct.a = false;
+				keyStruct.a = 0;
 			}
 			if (ev.key.code == sf::Keyboard::S) {
-				keyStruct.s = false;
+				keyStruct.s = 0;
 			}
 			if (ev.key.code == sf::Keyboard::D) {
-				keyStruct.d = false;
+				keyStruct.d = 0;
 			}
 			if (ev.key.code == sf::Keyboard::Space) {
-				keyStruct.space = false;
+				keyStruct.space = 0;
 			}
 			if (ev.key.code == sf::Keyboard::Escape) {
-				keyStruct.escape = false;
+				keyStruct.escape = 0;
 			}
 			if (ev.key.code == sf::Keyboard::Q) {
-				keyStruct.q = false;
+				keyStruct.q = 0;
 			}
 			if (ev.key.code == sf::Keyboard::E) {
-				keyStruct.e = false;
+				keyStruct.e = 0;
 			}
 			if (ev.key.code == sf::Keyboard::F) {
-				keyStruct.f = false;
+				keyStruct.f = 0;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
-				keyStruct.lShift = false;
+				keyStruct.lShift = 0;
 			}
 			if (ev.key.code == sf::Keyboard::LControl) {
-				keyStruct.lControl = false;
+				keyStruct.lControl = 0;
 			}
 		}
 		if (ev.type == sf::Event::MouseButtonPressed) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
-				mouseL = true;
+				mouseL = 1;
 			}
 			if (ev.mouseButton.button == sf::Mouse::Right) {
-				mouseR = true;
+				mouseR = 1;
 			}
 		}
 		if (ev.type == sf::Event::MouseButtonReleased) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
-				mouseL = false;
+				mouseL = 0;
 			}
 			if (ev.mouseButton.button == sf::Mouse::Right) {
-				mouseR = false;
+				mouseR = 0;
 			}
 		}
 	}
@@ -116,7 +155,7 @@ void InputManager::update(){
 	mouseY = localPosition.y;
 }
 
-bool InputManager::isKeyDown(keys key){
+int InputManager::isKeyDown(keys key){
 	switch (key) {
 	case w:
 		return keyStruct.w;

@@ -1,3 +1,2 @@
-﻿  Game.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(44,32): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  MainCharacter.cpp
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

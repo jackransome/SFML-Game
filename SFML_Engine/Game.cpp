@@ -6,6 +6,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	inputManager = InputManager(pwindow);
 	spriteCollection = SpriteCollection(pwindow, &graphics);
 	soundPlayer = SoundPlayer();
+	objectCollection = ObjectCollection(&inputManager, &spriteCollection, &soundPlayer, &camera);
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
@@ -22,19 +23,19 @@ Game::Game(sf::RenderWindow* pwindow) {
 	sprite3 = spriteCollection.getPointerFromName("pic3");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
-	spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation3", 16, 32, 8, 2);
+	spriteSheet1 = SpriteSheet(&spriteCollection, "animation3", 16, 32, 8, 2);
 	spriteSheet1.setChangeTimer(6);
-	spriteSheet2 = SpriteSheet(pwindow, &spriteCollection, "animation4", 16, 32, 4, 2);
+	spriteSheet2 = SpriteSheet(&spriteCollection, "animation4", 16, 32, 4, 2);
 	spriteSheet2.setChangeTimer(6);
-	spriteSheet3 = SpriteSheet(pwindow, &spriteCollection, "animation5", 16, 32, 8, 2);
+	spriteSheet3 = SpriteSheet(&spriteCollection, "animation5", 16, 32, 8, 2);
 	spriteSheet3.setChangeTimer(6);
-	spriteSheet4 = SpriteSheet(pwindow, &spriteCollection, "animation6", 20, 28, 6, 2);
+	spriteSheet4 = SpriteSheet(&spriteCollection, "animation6", 20, 28, 6, 2);
 	spriteSheet4.setChangeTimer(4);
-	spriteSheet5 = SpriteSheet(pwindow, &spriteCollection, "animation7", 5, 13, 4, 2);
+	spriteSheet5 = SpriteSheet(&spriteCollection, "animation7", 5, 13, 4, 2);
 	spriteSheet5.setChangeTimer(2);
-	spriteSheet6 = SpriteSheet(pwindow, &spriteCollection, "animation8", 22, 32, 6, 2);
+	spriteSheet6 = SpriteSheet(&spriteCollection, "animation8", 22, 32, 6, 2);
 	spriteSheet6.setChangeTimer(3);
-	spriteSheet7 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 1);
+	spriteSheet7 = SpriteSheet(&spriteCollection, "animation2", 16, 26, 6, 1);
 	spriteSheet7.setChangeTimer(10);
 	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
@@ -46,6 +47,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
+	objectCollection.addMainCharacter(0, 0);
 }
 
 // GAME plan
@@ -60,8 +62,11 @@ Game::Game(sf::RenderWindow* pwindow) {
 // sometimes the AR will flicker
 // some effects in game will cause noisyness in AR, or cut it out
 // 
-// real enemies are revealed at somepoint, first appear in AR but remain when taking your headset off
-// first AR encounter: put on, screen fased to black, then to black and white, then to colour with AR stuff
+// // first AR encounter: put on, screen fased to black, then to black and white, then to colour with AR stuff
+// 
+// "real world" enemies are revealed at somepoint, first appear in AR but remain when taking your headset off
+// at some point ar and the real world may switch (maybe showing it doesnt matter which way around it is?
+//
 // 
 // GOAL: explore, upgrade gear, learn more and escape
 // 
@@ -103,10 +108,17 @@ Game::Game(sf::RenderWindow* pwindow) {
 //		Outdoors: snow and footprints
 //		Indoors: stone walls and floor
 // 
+//	- AR:
+//		some walls may only be in AR(and be able to be walked through) (may switch around when ar and normal modes switch?)
+// 
 // GRAPHICS:
 //		Footprints and blood will be left on snow, fading away over time
+//		Parallax scrolling for chasms etc
 // 
 // TODO:
+//		Screen effects class:
+//			fading in/out, black / white
+//			shader stuff
 //		Global interfaces:
 //			Graphics
 //			Audio
@@ -143,41 +155,11 @@ Game::Game(sf::RenderWindow* pwindow) {
 // 
 //  1 frame =  8 pixel step
 //
-//
-
 
 
 void Game::HandleInput() {
 	inputManager.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
-	if (inputManager.isKeyDown(lShift)) {
-		if (inputManager.isKeyDown(w)) {
-			y -= 4;
-		}
-		if (inputManager.isKeyDown(a)) {
-			x -= 4;
-		}
-		if (inputManager.isKeyDown(s)) {
-			y += 4;
-		}
-		if (inputManager.isKeyDown(d)) {
-			x += 4;
-		}
-	}
-	else {
-		if (inputManager.isKeyDown(w)) {
-			y -= 2;
-		}
-		if (inputManager.isKeyDown(a)) {
-			x -= 2;
-		}
-		if (inputManager.isKeyDown(s)) {
-			y += 2;
-		}
-		if (inputManager.isKeyDown(d)) {
-			x += 2;
-		}
-	}
 
 	if (inputManager.isKeyDown(space)) {
 		if (!lastSpace) {
@@ -195,7 +177,7 @@ void Game::HandleInput() {
 }
 
 void Game::Run() {
-
+	objectCollection.update();
 }
 
 void Game::Draw() {
@@ -229,10 +211,11 @@ void Game::Draw() {
 	spriteSheet6.draw(x + 250, y, y);
 	spriteSheet7.run();
 	spriteSheet7.draw(x + 300, y, y);
+	
+	objectCollection.draw();
 
 	spriteCollection.drawAll();
 
-	
 
 	frame++;
 }

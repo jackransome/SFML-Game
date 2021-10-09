@@ -5,6 +5,7 @@
 #include "SoundPlayer.h"
 #include "Camera.h"
 #include "SpriteSheet.h"
+#include "ObjectCollection.h"
 
 class Game {
 public:
@@ -35,4 +36,5 @@ private:
 	SpriteSheet spriteSheet5;
 	SpriteSheet spriteSheet6;
 	SpriteSheet spriteSheet7;
+	ObjectCollection objectCollection;
 };
