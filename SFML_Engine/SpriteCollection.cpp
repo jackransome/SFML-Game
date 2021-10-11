@@ -17,6 +17,7 @@ Image* SpriteCollection::getPointerFromName(std::string name) {
 			return images[i];
 		}
 	}
+	std::cout << "NO SUCH IMAGE: " << name << "\n";
 }
 
 void SpriteCollection::setUseCamera(bool _useCamera) {

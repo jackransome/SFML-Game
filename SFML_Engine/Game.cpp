@@ -11,32 +11,21 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
 	spriteCollection.loadImage("animation1", "resources/animation1.png");
-	spriteCollection.loadImage("animation2", "resources/pillar_small_2.png");
-	spriteCollection.loadImage("animation3", "resources/main_character/mc_walk_back.png");
-	spriteCollection.loadImage("animation4", "resources/main_character/mc_walk_left.png");
-	spriteCollection.loadImage("animation5", "resources/main_character/mc_walk_front.png");
-	spriteCollection.loadImage("animation6", "resources/fire_animation_1.png");
-	spriteCollection.loadImage("animation7", "resources/drone_fly.png");
-	spriteCollection.loadImage("animation8", "resources/main_character/mc_run_left.png");
+	spriteCollection.loadImage("pillar_small_2", "resources/pillar_small_2.png");
+	spriteCollection.loadImage("mc_walk_back", "resources/main_character/mc_walk_back.png");
+	spriteCollection.loadImage("mc_walk_right", "resources/main_character/mc_walk_right.png");
+	spriteCollection.loadImage("mc_walk_left", "resources/main_character/mc_walk_left.png");
+	spriteCollection.loadImage("mc_walk_front", "resources/main_character/mc_walk_front.png");
+	spriteCollection.loadImage("fire_animation_1", "resources/fire_animation_1.png");
+	spriteCollection.loadImage("drone_fly", "resources/drone_fly.png");
+	spriteCollection.loadImage("mc_run_left", "resources/main_character/mc_run_left.png");
+	spriteCollection.loadImage("mc_run_right", "resources/main_character/mc_run_right.png");
+	spriteCollection.loadImage("mc_blink_1", "resources/main_character/mc_blink_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
-	spriteSheet1 = SpriteSheet(&spriteCollection, "animation3", 16, 32, 8, 2);
-	spriteSheet1.setChangeTimer(6);
-	spriteSheet2 = SpriteSheet(&spriteCollection, "animation4", 16, 32, 4, 2);
-	spriteSheet2.setChangeTimer(6);
-	spriteSheet3 = SpriteSheet(&spriteCollection, "animation5", 16, 32, 8, 2);
-	spriteSheet3.setChangeTimer(6);
-	spriteSheet4 = SpriteSheet(&spriteCollection, "animation6", 20, 28, 6, 2);
-	spriteSheet4.setChangeTimer(4);
-	spriteSheet5 = SpriteSheet(&spriteCollection, "animation7", 5, 13, 4, 2);
-	spriteSheet5.setChangeTimer(2);
-	spriteSheet6 = SpriteSheet(&spriteCollection, "animation8", 22, 32, 6, 2);
-	spriteSheet6.setChangeTimer(3);
-	spriteSheet7 = SpriteSheet(&spriteCollection, "animation2", 16, 26, 6, 1);
-	spriteSheet7.setChangeTimer(10);
 	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	camera = Camera();
@@ -196,21 +185,6 @@ void Game::Draw() {
 
 	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 
-
-	spriteSheet1.run();
-	spriteSheet1.draw(x, y, y);
-	spriteSheet2.run();
-	spriteSheet2.draw(x + 50, y, y);
-	spriteSheet3.run();
-	spriteSheet3.draw(x + 100, y, y);
-	spriteSheet4.run();
-	spriteSheet4.draw(x + 150, y, y);
-	spriteSheet5.run();
-	spriteSheet5.draw(x + 200, y, y);
-	spriteSheet6.run();
-	spriteSheet6.draw(x + 250, y, y);
-	spriteSheet7.run();
-	spriteSheet7.draw(x + 300, y, y);
 	
 	objectCollection.draw();
 
