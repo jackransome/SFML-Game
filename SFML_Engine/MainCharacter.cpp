@@ -9,9 +9,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	animationRunRight = SpriteSheet(pSpriteCollection, "mc_run_right", 22, 32, 6, 2);
 	animationRunRight.setChangeTimer(3);
 	animationWalkLeft = SpriteSheet(pSpriteCollection, "mc_walk_left", 16, 32, 4, 2);
-	animationWalkLeft.setChangeTimer(6);
+	animationWalkLeft.setChangeTimer(4);
 	animationWalkRight = SpriteSheet(pSpriteCollection, "mc_walk_right", 16, 32, 4, 2);
-	animationWalkRight.setChangeTimer(6);
+	animationWalkRight.setChangeTimer(4);
 	animationWalkDown = SpriteSheet(pSpriteCollection, "mc_walk_front", 16, 32, 8, 2);
 	animationWalkDown.setChangeTimer(6);
 	animationWalkUp = SpriteSheet(pSpriteCollection, "mc_walk_back", 16, 32, 8, 2);
@@ -55,6 +55,9 @@ void MainCharacter::update() {
 	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
+	if ((boundingBox.xv || boundingBox.yv)) {
+		pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x, boundingBox.y);
+	}
 }
 
 void MainCharacter::draw() {

@@ -24,3 +24,23 @@ void Object::update() {
 void Object::draw() {
 
 }
+
+bool Object::getToDestroy() {
+	return toDestroy;
+}
+
+void Object::setToDestroy(bool _toDestroy) {
+	toDestroy = _toDestroy;
+}
+
+int Object::getId() {
+	return id;
+}
+
+void Object::setId(int _id) {
+	id = _id;
+}
+
+void Object::setConsolePointer(Console* _pConsole) {
+	pConsole = _pConsole;
+}

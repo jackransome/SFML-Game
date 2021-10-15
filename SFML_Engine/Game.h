@@ -1,11 +1,7 @@
 #pragma once
 #include "Graphics.h"
-#include "InputManager.h"
-#include "SpriteCollection.h"
-#include "SoundPlayer.h"
-#include "Camera.h"
-#include "SpriteSheet.h"
-#include "ObjectCollection.h"
+#include "CommandExecuter.h"
+#include "Console.h"
 
 class Game {
 public:
@@ -37,4 +33,6 @@ private:
 	SpriteSheet spriteSheet6;
 	SpriteSheet spriteSheet7;
 	ObjectCollection objectCollection;
+	Console console;
+	CommandExecuter commandExecuter;
 };

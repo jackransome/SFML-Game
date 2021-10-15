@@ -6,7 +6,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	inputManager = InputManager(pwindow);
 	spriteCollection = SpriteCollection(pwindow, &graphics);
 	soundPlayer = SoundPlayer();
-	objectCollection = ObjectCollection(&inputManager, &spriteCollection, &soundPlayer, &camera);
+	camera = Camera();
+	console = Console();
+	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
+	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera);
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
@@ -28,7 +31,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
-	camera = Camera();
+	
+
 	camera.setScreenDimensions(1920, 1080);
 	camera.setScreenshakeCutoff(1);
 	camera.setScreenshakeDecay(0.9);
@@ -102,7 +106,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 // 
 // GRAPHICS:
 //		Footprints and blood will be left on snow, fading away over time
-//		Parallax scrolling for chasms etc
+//		Parallax scrolling for chasms etc (blur the background art for these)
 // 
 // TODO:
 //		Screen effects class:
@@ -152,8 +156,8 @@ void Game::HandleInput() {
 
 	if (inputManager.isKeyDown(space)) {
 		if (!lastSpace) {
-			soundPlayer.playSoundByName("hh");
-			camera.addScreenshake(15);
+			console.addCommand(commandPlaySound, "hh");
+			console.addCommand(commandShakeScreen, 15);
 		}		
 		lastSpace = true;
 	}
@@ -167,6 +171,10 @@ void Game::HandleInput() {
 
 void Game::Run() {
 	objectCollection.update();
+	objectCollection.addFootPrint(((double)rand() / (RAND_MAX)) * 500, ((double)rand() / (RAND_MAX)) * 500);
+	while (console.getSize() > 0) {
+		commandExecuter.execute(console.getCommand());
+	}
 }
 
 void Game::Draw() {

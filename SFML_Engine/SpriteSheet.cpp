@@ -56,3 +56,7 @@ void SpriteSheet::reset() {
 	timer = 0;
 	frame = 0;
 }
+
+int SpriteSheet::getFrame() {
+	return frame;
+}

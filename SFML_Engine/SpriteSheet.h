@@ -12,6 +12,7 @@ public:
 	void setDoesReset(bool _doesReset);
 	void setChangeTimer(int _changeTimer);
 	void reset();
+	int getFrame();
 private:
 	int frame = 0;
 	int frames = 1;

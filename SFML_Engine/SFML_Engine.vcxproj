@@ -148,6 +148,10 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
+    <ClCompile Include="CommandExecuter.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="FootPrint.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -165,6 +169,10 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="CommandExecuter.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Decoration.h" />
+    <ClInclude Include="FootPrint.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Image.h" />
