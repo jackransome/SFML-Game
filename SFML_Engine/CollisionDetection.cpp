@@ -211,6 +211,7 @@ void CollisionDetection::correctPosition(glm::vec4* _rect1, glm::vec4* _rect2) {
 	}
 }
 bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
+	if (!isCheckRequired(bb1, bb2)) return false;
 	BoundingBox temp1 = *bb1;
 	collisionResult result;
 	if (bb1->x + bb1->w > bb2->x && bb1->x < bb2->x + bb2->w) {
@@ -232,11 +233,11 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 	if (result.bottom) {
 		if (result.left) {
 			if (bb1->y + bb1->h + bb1->yv - bb2->y > (bb1->x + bb1->w + bb1->xv) - bb2->x) {
-				bb1->y = bb2->y - bb1->h;
+				bb1->x = bb2->x - bb1->w;
 				if (bb1->yv > 0) { bb1->yv = 0; }
 			}
 			else {
-				bb1->x = bb2->x - bb1->w;
+				bb1->y = bb2->y - bb1->h;
 				if (bb1->xv > 0) { bb1->xv = 0; }
 			}
 		}

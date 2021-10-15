@@ -1,4 +1,5 @@
 #include "ObjectCollection.h"
+#include "CollisionDetection.h"
 
 ObjectCollection::ObjectCollection() {}
 
@@ -39,6 +40,12 @@ void ObjectCollection::addFootPrint(float x, float y) {
 	setLatestConsole();
 }
 
+void ObjectCollection::addWall(int x, int y, int w, int h) {
+	objects.push_back(new Wall(pSpriteCollection, x, y, w, h));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::setLatestId() {
 	objects[objects.size() - 1]->setId(nextId);
 	nextId++; //when is this gonna overflow
@@ -46,4 +53,16 @@ void ObjectCollection::setLatestId() {
 
 void ObjectCollection::setLatestConsole() {
 	objects[objects.size() - 1]->setConsolePointer(pConsole);
+}
+
+void ObjectCollection::runCollisionDetection() {
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getCollidability() == immovable) {
+			for (int j = 0; j < objects.size(); j++) {
+				if (objects[j]->getCollidability() == movable) {
+					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+				}
+			}
+		}
+	}
 }

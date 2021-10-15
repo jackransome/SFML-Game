@@ -1,6 +1,6 @@
 #include "Object.h"
 
-Object::Object(float x, float y, float w, float h, float _z, bool _collidable, bool _hasGravity) {
+Object::Object(float x, float y, float w, float h, float _z, Collidability _collidability, bool _hasGravity) {
 	boundingBox.x = x;
 	boundingBox.y = y;
 	boundingBox.w = w;
@@ -8,7 +8,7 @@ Object::Object(float x, float y, float w, float h, float _z, bool _collidable, b
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	z = _z;
-	collidable = _collidable;
+	collidability = _collidability;
 	hasGravity = _hasGravity;
 }
 
@@ -43,4 +43,8 @@ void Object::setId(int _id) {
 
 void Object::setConsolePointer(Console* _pConsole) {
 	pConsole = _pConsole;
+}
+
+Collidability Object::getCollidability() {
+	return collidability;
 }

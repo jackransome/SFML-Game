@@ -164,6 +164,7 @@
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="SpriteDraw.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

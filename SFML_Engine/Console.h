@@ -23,6 +23,14 @@ struct Command {
 		f1 = _f1;
 		f2 = _f2;
 	}
+	Command(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4) {
+		type = _type;
+		objectType = _objectType;
+		f1 = _f1;
+		f2 = _f2;
+		f3 = _f3;
+		f4 = _f4;
+	}
 	CommandType type;
 	ObjectType objectType;
 	std::string string;

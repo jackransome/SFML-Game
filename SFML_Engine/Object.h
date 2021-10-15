@@ -2,9 +2,11 @@
 #include "BoundingBox.h"
 #include "Console.h"
 
+enum Collidability { none, immovable, movable };
+
 class Object {
 public:
-	Object(float x, float y, float w, float h, float z, bool collidable, bool hasGravity);
+	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity);
 	BoundingBox getBoundingBox();
 	BoundingBox *getBoundingBoxPointer();
 	virtual void update();
@@ -14,12 +16,14 @@ public:
 	int getId();
 	void setId(int _id);
 	void setConsolePointer(Console* _pConsole);
+	Collidability getCollidability();
 protected:
 	Console* pConsole;
 	int id;
 	bool toDestroy;
 	BoundingBox boundingBox;
 	float z;
-	bool collidable;
+	Collidability collidability;
+
 	bool hasGravity;
 };

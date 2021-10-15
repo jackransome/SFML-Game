@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "MainCharacter.h"
 #include "FootPrint.h"
+#include "Wall.h"
 
 class ObjectCollection {
 public:
@@ -15,8 +16,10 @@ public:
 	void update();
 	void addMainCharacter(float x, float y);
 	void addFootPrint(float x, float y);
+	void addWall(int x, int y, int w, int h);
 	void setLatestId();
 	void setLatestConsole();
+	void runCollisionDetection();
 private:
 	Console* pConsole;
 	InputManager *pInputManager;

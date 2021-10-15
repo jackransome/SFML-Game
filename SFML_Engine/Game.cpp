@@ -41,6 +41,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.setOrderZ(true);
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 	objectCollection.addMainCharacter(0, 0);
+	objectCollection.addWall(300, 300, 100, 100);
 }
 
 // GAME plan
@@ -171,7 +172,7 @@ void Game::HandleInput() {
 
 void Game::Run() {
 	objectCollection.update();
-	objectCollection.addFootPrint(((double)rand() / (RAND_MAX)) * 500, ((double)rand() / (RAND_MAX)) * 500);
+	objectCollection.runCollisionDetection();
 	while (console.getSize() > 0) {
 		commandExecuter.execute(console.getCommand());
 	}
