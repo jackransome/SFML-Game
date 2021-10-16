@@ -216,10 +216,10 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 	collisionResult result;
 	if (bb1->x + bb1->w > bb2->x && bb1->x < bb2->x + bb2->w) {
 		if (bb1->y < bb2->y && bb1->y + bb1->h + bb1->yv > bb2->y) {
-			result.bottom = true;
+			result.top = true;
 		}
 		else if (bb1->y + bb1->h > bb2->y + bb2->h && bb1->y + bb1->yv < bb2->y + bb2->h) {
-			result.top = true;
+			result.bottom = true;
 		}
 	}
 	if (bb1->y + bb1->h > bb2->y && bb1->y < bb2->y + bb2->h) {
@@ -230,25 +230,25 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 			result.right = true;
 		}
 	}
-	if (result.bottom) {
+	if (result.top) {
 		if (result.left) {
-			if (bb1->y + bb1->h + bb1->yv - bb2->y > (bb1->x + bb1->w + bb1->xv) - bb2->x) {
+			if ((bb1->y + bb1->h + bb1->yv) - (bb2->y) > (bb1->x + bb1->w + bb1->xv) - (bb2->x)) {
 				bb1->x = bb2->x - bb1->w;
-				if (bb1->yv > 0) { bb1->yv = 0; }
+				if (bb1->xv > 0) { bb1->xv = 0; }
 			}
 			else {
 				bb1->y = bb2->y - bb1->h;
-				if (bb1->xv > 0) { bb1->xv = 0; }
+				if (bb1->yv > 0) { bb1->yv = 0; }
 			}
 		}
 		else if (result.right) {
-			if (bb1->y + bb1->h + bb1->yv - bb2->y > bb1->x + bb1->w + bb1->xv - bb2->x) {
-				bb1->y = bb2->y - bb1->h;
-				if (bb1->yv > 0) { bb1->yv = 0; }
-			}
-			else {
+			if ((bb1->y + bb1->h + bb1->yv) - (bb2->y) > -(bb1->x + bb1->xv) + (bb2->x + bb2->w)) {
 				bb1->x = bb2->x + bb2->w;
 				if (bb1->xv < 0) { bb1->xv = 0; }
+			}
+			else {
+				bb1->y = bb2->y - bb1->h;
+				if (bb1->yv > 0) { bb1->yv = 0; }
 			}
 		}
 		else {
@@ -256,7 +256,7 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 			bb1->yv = 0;
 		}
 	}
-	else if (result.top) {
+	else if (result.bottom) {
 		if (result.left) {
 			if (bb2->y + bb2->h - (bb1->y + bb1->yv) > bb1->x + bb1->w + bb1->xv - bb2->x) {
 				bb1->x = bb2->x - bb1->w;
@@ -279,25 +279,25 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 			}
 			}
 		else if (result.right) {
-			if (bb1->y + bb1->yv - bb2->y + bb2->h > bb1->x + bb1->w + bb1->xv - bb2->x) {
+			if (-(bb1->y + bb1->yv) + (bb2->y + bb2->h) > - (bb1->x + bb1->xv) + (bb2->x + bb2->w)) {
 				bb1->x = bb2->x + bb2->w;
-				bb1->xv = 0;
 				if (bb1->xv < 0) { bb1->xv = 0; }
 			}
 			else {
-					bb1->y = bb2->y + bb2->h;
-				if (bb1->yv < 0) { bb1->yv = 0; }
-				bb1->onGround = true;
+				bb1->y = bb2->y + bb2->h;
+				if (bb1->yv > 0) { bb1->yv = 0; }
+
 				//fullyOnGroundTest
-				if (bb1->x > bb2->x && bb2->x + bb2->w > bb1->x + bb1->w) {
-					bb1->fullyOnGround = true;
-				}
-				else if (bb1->x < bb2->x) {
-					bb1->halfSideLeft = true;
-				}
-				else if (bb1->x + bb1->w > bb2->x + bb2->w) {
-					bb1->halfSideLeft = false;
-				}
+				//bb1->onGround = true;
+				//if (bb1->x > bb2->x && bb2->x + bb2->w > bb1->x + bb1->w) {
+				//	bb1->fullyOnGround = true;
+				//}
+				//else if (bb1->x < bb2->x) {
+				//	bb1->halfSideLeft = true;
+				//}
+				//else if (bb1->x + bb1->w > bb2->x + bb2->w) {
+				//	bb1->halfSideLeft = false;
+				//}
 			}
 		}
 		else {

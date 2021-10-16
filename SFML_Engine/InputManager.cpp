@@ -49,6 +49,9 @@ void InputManager::update(){
 		if (keyStruct.f > 0) {
 			keyStruct.f++;
 		}
+		if (keyStruct.g > 0) {
+			keyStruct.g++;
+		}
 		if (keyStruct.lShift > 0) {
 			keyStruct.lShift++;
 		}
@@ -91,6 +94,9 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::F) {
 				keyStruct.f = 1;
 			}
+			if (ev.key.code == sf::Keyboard::G) {
+				keyStruct.g = 1;
+			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 1;
 			}
@@ -125,6 +131,9 @@ void InputManager::update(){
 			}
 			if (ev.key.code == sf::Keyboard::F) {
 				keyStruct.f = 0;
+			}
+			if (ev.key.code == sf::Keyboard::G) {
+				keyStruct.g = 0;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 0;
@@ -183,6 +192,9 @@ int InputManager::isKeyDown(keys key){
 		break;
 	case f:
 		return keyStruct.f;
+		break;
+	case g:
+		return keyStruct.g;
 		break;
 	case lShift:
 		return keyStruct.lShift;

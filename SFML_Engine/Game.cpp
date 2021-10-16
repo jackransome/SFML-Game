@@ -42,6 +42,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addWall(300, 300, 100, 100);
+	objectCollection.setDebug(false);
 }
 
 // GAME plan
@@ -155,19 +156,17 @@ void Game::HandleInput() {
 	inputManager.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
 
-	if (inputManager.isKeyDown(space)) {
-		if (!lastSpace) {
-			console.addCommand(commandPlaySound, "hh");
-			console.addCommand(commandShakeScreen, 15);
-		}		
-		lastSpace = true;
+	if (inputManager.isKeyDown(space) == 1) {
+		console.addCommand(commandPlaySound, "hh");
+		console.addCommand(commandShakeScreen, 15);	
 	}
-	else {
-		lastSpace = false;
+	if (inputManager.isKeyDown(f)) {
+		console.addCommand(commandEnableDebug, 1);
 	}
-	if (inputManager.mouseL) {
-		spriteSheet1.reset();
+	if (inputManager.isKeyDown(g)) {
+		console.addCommand(commandEnableDebug, 0);
 	}
+
 }
 
 void Game::Run() {

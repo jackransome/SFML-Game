@@ -69,7 +69,7 @@ void MainCharacter::draw() {
 		}
 		else if (boundingBox.xv > 0) {
 			animationRunRight.run();
-			animationRunRight.draw(boundingBox.x, boundingBox.y, boundingBox.y);
+			animationRunRight.draw(boundingBox.x-6, boundingBox.y, boundingBox.y);
 		}
 	}
 	else {

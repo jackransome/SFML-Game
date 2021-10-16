@@ -25,6 +25,14 @@ void CommandExecuter::execute(Command command) {
 	case commandShakeScreen:
 		pCamera->addScreenshake(command.f1);
 		break;
+	case commandEnableDebug:
+		if (command.f1) {
+			pObjectCollection->setDebug(true);
+		}
+		else {
+			pObjectCollection->setDebug(false);
+		}
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

@@ -12,8 +12,16 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 }
 
 void ObjectCollection::draw() {
-	for (int i = 0; i < objects.size(); i++) {
-		objects[i]->draw();
+	if (!debug) {
+		for (int i = 0; i < objects.size(); i++) {
+			objects[i]->draw();
+		}
+	}
+	else {
+		for (int i = 0; i < objects.size(); i++) {
+			objects[i]->draw();
+			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
+		}
 	}
 }
 
@@ -65,4 +73,8 @@ void ObjectCollection::runCollisionDetection() {
 			}
 		}
 	}
+}
+
+void ObjectCollection::setDebug(bool _debug) {
+	debug = _debug;
 }

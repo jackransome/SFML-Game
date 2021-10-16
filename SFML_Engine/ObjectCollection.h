@@ -20,7 +20,9 @@ public:
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
+	void setDebug(bool _debug);
 private:
+	bool debug = false;
 	Console* pConsole;
 	InputManager *pInputManager;
 	SpriteCollection* pSpriteCollection;

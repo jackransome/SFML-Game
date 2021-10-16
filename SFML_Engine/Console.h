@@ -2,7 +2,7 @@
 #include <string>
 #include <queue>
 
-enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject};
+enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug};
 enum ObjectType{ objectFootprint};
 
 struct Command {
