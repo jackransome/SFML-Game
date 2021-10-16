@@ -24,6 +24,9 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("mc_run_left", "resources/main_character/mc_run_left.png");
 	spriteCollection.loadImage("mc_run_right", "resources/main_character/mc_run_right.png");
 	spriteCollection.loadImage("mc_blink_1", "resources/main_character/mc_blink_1.png");
+	spriteCollection.loadImage("mc_stand_back", "resources/main_character/mc_stand_back.png");
+	spriteCollection.loadImage("mc_stand_left", "resources/main_character/mc_stand_left.png");
+	spriteCollection.loadImage("mc_stand_right", "resources/main_character/mc_stand_right.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -182,7 +185,6 @@ void Game::Draw() {
 	// inside the main loop, between window.clear() and window.display()
 
 	camera.runscreenShake();
-	camera.setPosition(glm::vec2(x, y));
 	graphics.clearScreen(sf::Color(255, 255, 255, 100));
 
 	spriteCollection.addImageDraw(sprite2, 400, 400, 400);

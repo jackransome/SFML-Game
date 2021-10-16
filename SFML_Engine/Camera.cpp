@@ -9,6 +9,10 @@ void Camera::setPosition(glm::vec2 newPosition) {
 	position = newPosition;
 }
 
+void Camera::setPosition(float x, float y) {
+	position = glm::vec2(x, y);
+}
+
 void Camera::setScreenDimensions(int w, int h) {
 	screenW = w;
 	screenH = h;

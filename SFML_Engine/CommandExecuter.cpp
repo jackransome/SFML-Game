@@ -33,6 +33,9 @@ void CommandExecuter::execute(Command command) {
 			pObjectCollection->setDebug(false);
 		}
 		break;
+	case commandSetCameraPos:
+		pCamera->setPosition(command.f1, command.f2);
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

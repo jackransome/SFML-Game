@@ -22,6 +22,14 @@ void Console::addCommand(CommandType _type, ObjectType _objectType, float _f1, f
 	commands.push(Command(_type, _objectType, _f1, _f2));
 }
 
+void Console::addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4) {
+	commands.push(Command(_type, _objectType, _f1, _f2, _f3, _f4));
+}
+
+void Console::addCommand(CommandType _type, float _f1, float _f2) {
+	commands.push(Command(_type, _f1, _f2));
+}
+
 
 int Console::getSize() {
 	return commands.size();

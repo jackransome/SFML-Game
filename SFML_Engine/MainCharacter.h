@@ -3,6 +3,8 @@
 #include "SpriteSheet.h"
 #include "InputManager.h"
 
+enum Direction {up, down, left, right};
+
 class MainCharacter : public Object {
 public:
 	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y);
@@ -17,7 +19,12 @@ private:
 	SpriteSheet animationWalkRight;
 	SpriteSheet animationWalkDown;
 	SpriteSheet animationWalkUp;
+	SpriteSheet imageStandBack;
+	SpriteSheet imageStandLeft;
+	SpriteSheet imageStandRight;
 	InputManager* pInputManager;
 	SpriteCollection* pSpriteCollection;
+	Direction direction;
+	float vel;
 	bool sprinting;
 };

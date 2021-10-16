@@ -10,8 +10,6 @@ public:
 	void Run();
 	void Draw();
 private:
-	float x = 500;
-	float y = 500;
 	bool lastSpace = false;
 	Image *sprite1;
 	Image* sprite2;

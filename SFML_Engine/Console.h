@@ -2,7 +2,7 @@
 #include <string>
 #include <queue>
 
-enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug};
+enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug, commandSetCameraPos};
 enum ObjectType{ objectFootprint};
 
 struct Command {
@@ -16,6 +16,11 @@ struct Command {
 	Command(CommandType _type, std::string _string) {
 		type = _type;
 		string = _string;
+	}
+	Command(CommandType _type, float _f1, float _f2) {
+		type = _type;
+		f1 = _f1;
+		f2 = _f2;
 	}
 	Command(CommandType _type, ObjectType _objectType, float _f1, float _f2) {
 		type = _type;
@@ -50,6 +55,8 @@ public:
 	void addCommand(CommandType _type, float _f1);
 	void addCommand(CommandType _type, std::string _string);
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2);
+	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4);
+	void addCommand(CommandType _type, float _f1, float _f2);
 	int getSize();
 	Command getCommand();
 private:
