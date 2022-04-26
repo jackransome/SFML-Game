@@ -15,11 +15,13 @@ InputManager::InputManager(sf::RenderWindow* pwindow){
 	keyStruct.f = false;
 	keyStruct.lShift = false;
 	keyStruct.lControl = false;
+	lastKeyStruct = keyStruct;
 	mouseL = false;
 	mouseR = false;
 }
 
 void InputManager::update(){
+	lastKeyStruct = keyStruct;
 	while (pWindow->pollEvent(ev))
 	{
 		if (keyStruct.w > 0) {
@@ -34,6 +36,7 @@ void InputManager::update(){
 		if (keyStruct.d > 0) {
 			keyStruct.d++;
 		}
+
 		if (keyStruct.space > 0) {
 			keyStruct.space++;
 		}
@@ -201,6 +204,49 @@ int InputManager::isKeyDown(keys key){
 		break;
 	case lControl:
 		return keyStruct.lControl;
+		break;
+	}
+	std::cout << "key not implemented!\n";
+	return false;
+}
+
+int InputManager::wasKeyDown(keys key) {
+	switch (key) {
+	case w:
+		return lastKeyStruct.w;
+		break;
+	case a:
+		return lastKeyStruct.a;
+		break;
+	case s:
+		return lastKeyStruct.s;
+		break;
+	case d:
+		return lastKeyStruct.d;
+		break;
+	case space:
+		return lastKeyStruct.space;
+		break;
+	case escape:
+		return lastKeyStruct.escape;
+		break;
+	case q:
+		return lastKeyStruct.q;
+		break;
+	case e:
+		return lastKeyStruct.e;
+		break;
+	case f:
+		return lastKeyStruct.f;
+		break;
+	case g:
+		return lastKeyStruct.g;
+		break;
+	case lShift:
+		return lastKeyStruct.lShift;
+		break;
+	case lControl:
+		return lastKeyStruct.lControl;
 		break;
 	}
 	std::cout << "key not implemented!\n";

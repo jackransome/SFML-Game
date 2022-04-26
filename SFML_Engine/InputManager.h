@@ -16,6 +16,7 @@ public:
 	InputManager(sf::RenderWindow* pwindow);
 	void update();
 	int isKeyDown(keys key);
+	int wasKeyDown(keys key);
 	void translateMouseCoords(float cameraX, float cameraY);
 	float mouseX;
 	float mouseY;
@@ -27,4 +28,5 @@ private:
 	sf::RenderWindow* pWindow;
 	sf::Event ev;
 	KeyStruct keyStruct;
+	KeyStruct lastKeyStruct;
 };

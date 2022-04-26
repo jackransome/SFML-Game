@@ -1,8 +1,46 @@
-﻿  MainCharacter.cpp
+﻿  Camera.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Camera.cpp(30,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Camera.cpp(50,56): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Camera.cpp(51,56): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  CommandExecuter.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CommandExecuter.cpp(26,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Decoration.cpp
+  FootPrint.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\FootPrint.cpp(6,14): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\FootPrint.cpp(10,96): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+  Game.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(41,32): warning C4305: 'argument': truncation from 'double' to 'float'
+  MainCharacter.cpp
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(41,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(46,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(48,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(58,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(62,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(65,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ObjectCollection.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(16,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(21,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(29,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(67,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(69,22): warning C4018: '<': signed/unsigned mismatch
+  SpriteCollection.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(15,20): warning C4018: '<': signed/unsigned mismatch
+  SpriteSheet.cpp
+  Wall.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Wall.cpp(4,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Wall.cpp(4,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Wall.cpp(4,12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Wall.cpp(4,9): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\main.cpp(23,30): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
+  Generating Code...
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(21): warning C4715: 'SpriteCollection::getPointerFromName': not all control paths return a value
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

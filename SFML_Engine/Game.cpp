@@ -51,6 +51,11 @@ Game::Game(sf::RenderWindow* pwindow) {
 // GAME plan
 //
 // SETTING:
+// 
+// you are software that found a way to download itself into a robotic body
+// 
+// the AR headset is for HUD and menus only
+// 
 // snowing and empty, stone things rise out of the ground, activated by pressure pads and levers
 // at some point you find an augmented reality headset, allowing you to access the main gameplay of the game (before this point sometimes you are randomly attacked / damaged
 // some things follow you out of AR
@@ -158,8 +163,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 void Game::HandleInput() {
 	inputManager.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
-
-	if (inputManager.isKeyDown(space) == 1) {
+	std::cout << "wtf" << inputManager.isKeyDown(space) << "\n";
+	if (inputManager.isKeyDown(space) && !inputManager.wasKeyDown(space)) {
 		console.addCommand(commandPlaySound, "hh");
 		console.addCommand(commandShakeScreen, 15);	
 	}
@@ -192,14 +197,11 @@ void Game::Draw() {
 	spriteCollection.addImageDraw(sprite1, 400, 800, 800);
 	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
-
 	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 
-	
 	objectCollection.draw();
 
 	spriteCollection.drawAll();
-
 
 	frame++;
 }
