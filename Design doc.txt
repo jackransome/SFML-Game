@@ -1,0 +1,70 @@
+2.5d
+global clock
+
+all moves are synced to global clock
+moves can add events that:
+	block incoming damage
+	do damage to an enemy
+	set up something for next clock cycle, or more in the future
+	things happening at the same time have synergy
+temporarily slow downs time
+
+moves are basically just bindings between controls and the creation of events
+
+event data structure:
+	source (player / enemy id)
+	type
+	run()
+		can see what other events are happening at the same time
+		can add new events in the future
+		can deal damage, block damage, etc
+	
+	
+	
+
+items can:
+	add a new move
+	add a new synergy between evisting events
+
+example start:
+	obtain item that  gives attack move
+	obtain item that gives windup move
+	now with this amount of damage you can one shot an enemy, that normally regenerates health before your next attack
+
+
+target areas:
+	close: closest point in an x radius around the player to the mouse
+	far: mouse position
+
+events:
+	windup:
+		adds "windup done" event 1 beat later
+	simple attack:
+		does 10 damage to close target area
+		does extra 10 damage if windup done event happens simultaneuously
+
+Event tracker:
+	add event(time, type, source)
+	clear events up to including this time()
+	run() (calls clear at end and then increments)
+	^ runs on the beat
+
+object collection:
+	should maintain vectors of pointers to specific types of objects inside itself
+
+structure of event type storage:
+	id
+	list of ids of events to create, with times in future, with any conditions (concurrent events) for the creation of these events
+	list of actions to do, eg to damage at close target area, do healing at far target area
+
+actions:
+	(all have amount)
+	do damage at close target area
+	do damage at far target area
+	do damage to self
+	do healing to self
+	do healing at close target area
+	do healing at far target area
+
+timing:
+	there is a global clock, events dont have to happen on each tick, can happen anytime, but triggers etc are added by amounts of time that are multiples of the time between beats in the global clock

@@ -210,43 +210,43 @@ int InputManager::isKeyDown(keys key){
 	return false;
 }
 
-int InputManager::wasKeyDown(keys key) {
+bool InputManager::onKeyDown(keys key) {
 	switch (key) {
 	case w:
-		return lastKeyStruct.w;
+		return !lastKeyStruct.w && keyStruct.w;
 		break;
 	case a:
-		return lastKeyStruct.a;
+		return !lastKeyStruct.a && keyStruct.a;
 		break;
 	case s:
-		return lastKeyStruct.s;
+		return !lastKeyStruct.s && keyStruct.s;
 		break;
 	case d:
-		return lastKeyStruct.d;
+		return !lastKeyStruct.d && keyStruct.d;
 		break;
 	case space:
-		return lastKeyStruct.space;
+		return !lastKeyStruct.space && keyStruct.space;
 		break;
 	case escape:
-		return lastKeyStruct.escape;
+		return !lastKeyStruct.escape && keyStruct.escape;
 		break;
 	case q:
-		return lastKeyStruct.q;
+		return !lastKeyStruct.q && keyStruct.q;
 		break;
 	case e:
-		return lastKeyStruct.e;
+		return !lastKeyStruct.e && keyStruct.e;
 		break;
 	case f:
-		return lastKeyStruct.f;
+		return !lastKeyStruct.f && keyStruct.f;
 		break;
 	case g:
-		return lastKeyStruct.g;
+		return !lastKeyStruct.g && keyStruct.g;
 		break;
 	case lShift:
-		return lastKeyStruct.lShift;
+		return !lastKeyStruct.lShift && keyStruct.lShift;
 		break;
 	case lControl:
-		return lastKeyStruct.lControl;
+		return !lastKeyStruct.lControl && keyStruct.lControl;
 		break;
 	}
 	std::cout << "key not implemented!\n";

@@ -163,8 +163,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 void Game::HandleInput() {
 	inputManager.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
-	std::cout << "wtf" << inputManager.isKeyDown(space) << "\n";
-	if (inputManager.isKeyDown(space) && !inputManager.wasKeyDown(space)) {
+	if (inputManager.onKeyDown(space)) {
 		console.addCommand(commandPlaySound, "hh");
 		console.addCommand(commandShakeScreen, 15);	
 	}
@@ -174,7 +173,6 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
 	}
-
 }
 
 void Game::Run() {
