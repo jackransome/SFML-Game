@@ -16,6 +16,12 @@ struct Command {
 	Command(CommandType _type, std::string _string) {
 		type = _type;
 		string = _string;
+		f1 = 1;
+	}
+	Command(CommandType _type, std::string _string, float _f1) {
+		type = _type;
+		string = _string;
+		f1 = _f1;
 	}
 	Command(CommandType _type, float _f1, float _f2) {
 		type = _type;
@@ -54,6 +60,7 @@ public:
 	void addCommand(CommandType _type);
 	void addCommand(CommandType _type, float _f1);
 	void addCommand(CommandType _type, std::string _string);
+	void addCommand(CommandType _type, std::string _string, float _f1);
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2);
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4);
 	void addCommand(CommandType _type, float _f1, float _f2);

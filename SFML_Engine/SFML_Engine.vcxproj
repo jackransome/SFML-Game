@@ -151,6 +151,7 @@
     <ClCompile Include="CommandExecuter.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="FootPrint.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +175,7 @@
     <ClInclude Include="CommandExecuter.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="FootPrint.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="SpriteDraw.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

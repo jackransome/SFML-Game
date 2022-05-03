@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "CommandExecuter.h"
 #include "Console.h"
+#include "Timer.h"
 
 class Game {
 public:
@@ -33,4 +34,5 @@ private:
 	ObjectCollection objectCollection;
 	Console console;
 	CommandExecuter commandExecuter;
+	Timer timer;
 };

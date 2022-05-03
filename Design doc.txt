@@ -1,5 +1,8 @@
 2.5d
 global clock
+	attached to ticking sound
+	can have this change for dif situations or moves?
+	or sync w some music
 
 all moves are synced to global clock
 moves can add events that:
@@ -43,12 +46,6 @@ events:
 		does 10 damage to close target area
 		does extra 10 damage if windup done event happens simultaneuously
 
-Event tracker:
-	add event(time, type, source)
-	clear events up to including this time()
-	run() (calls clear at end and then increments)
-	^ runs on the beat
-
 object collection:
 	should maintain vectors of pointers to specific types of objects inside itself
 
@@ -65,6 +62,61 @@ actions:
 	do healing to self
 	do healing at close target area
 	do healing at far target area
+	play sound
+	addscreenshake
 
 timing:
 	there is a global clock, events dont have to happen on each tick, can happen anytime, but triggers etc are added by amounts of time that are multiples of the time between beats in the global clock
+
+TODO:
+
+	learn what deque is
+	implement sound instance deque
+	use deque with emplace_back to add new sounds, check element and use remove if stopped
+	use sound getStatus(), sf::SoundSource::Status stopped to remove
+
+	action
+		:int source id
+		:type
+		:amount
+		event type (to add)
+		event delay
+		sound name
+	event
+		:source id DONE
+		:type DONE
+		:amount DONE
+		:phase DONE
+		:beats (if equal to current beat, triger event when up to phase) DONE
+		action
+		bool haswindow
+		*window
+		bool hascondition(s) DONE
+		*condition list
+		*action list
+		
+	window
+		:middlePhase	
+		:bool is after
+		:bool is before
+		:float amount of time
+		float getAccuracy(currentPhase)
+	
+	condition
+		:bool has same source id
+		:type of concurrent event
+
+	Timer / Global clock / Event tracker
+		:frequency in bpm x beat / 60min DONE
+		:console DONE
+		and attach ticking sound DONE
+		adds to phase position every frame based on bpm y*60 = bpm/60 DONE
+		int beat DONE
+		float phase DONE
+		float phaseperframe DONE
+		*vector events DONE
+		void changeBpm(int bpm) DONE
+		void addevent(int beats in future, source id, type, amount) DONE
+		void update() if phase >= 1, subtract 1 DONE
+		
+		

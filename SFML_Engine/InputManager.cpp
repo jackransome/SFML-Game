@@ -55,6 +55,9 @@ void InputManager::update(){
 		if (keyStruct.g > 0) {
 			keyStruct.g++;
 		}
+		if (keyStruct.r > 0) {
+			keyStruct.r++;
+		}
 		if (keyStruct.lShift > 0) {
 			keyStruct.lShift++;
 		}
@@ -100,6 +103,9 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::G) {
 				keyStruct.g = 1;
 			}
+			if (ev.key.code == sf::Keyboard::R) {
+				keyStruct.r = 1;
+			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 1;
 			}
@@ -138,6 +144,9 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::G) {
 				keyStruct.g = 0;
 			}
+			if (ev.key.code == sf::Keyboard::R) {
+				keyStruct.r = 0;
+			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 0;
 			}
@@ -171,40 +180,30 @@ int InputManager::isKeyDown(keys key){
 	switch (key) {
 	case w:
 		return keyStruct.w;
-		break;
 	case a:
 		return keyStruct.a;
-		break;
 	case s:
 		return keyStruct.s;
-		break;
 	case d:
 		return keyStruct.d;
-		break;
 	case space:
 		return keyStruct.space;
-		break;
 	case escape:
 		return keyStruct.escape;
-		break;
 	case q:
 		return keyStruct.q;
-		break;
 	case e:
 		return keyStruct.e;
-		break;
 	case f:
 		return keyStruct.f;
-		break;
 	case g:
 		return keyStruct.g;
-		break;
+	case r:
+		return keyStruct.r;
 	case lShift:
 		return keyStruct.lShift;
-		break;
 	case lControl:
 		return keyStruct.lControl;
-		break;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -214,40 +213,30 @@ bool InputManager::onKeyDown(keys key) {
 	switch (key) {
 	case w:
 		return !lastKeyStruct.w && keyStruct.w;
-		break;
 	case a:
 		return !lastKeyStruct.a && keyStruct.a;
-		break;
 	case s:
 		return !lastKeyStruct.s && keyStruct.s;
-		break;
 	case d:
 		return !lastKeyStruct.d && keyStruct.d;
-		break;
 	case space:
 		return !lastKeyStruct.space && keyStruct.space;
-		break;
 	case escape:
 		return !lastKeyStruct.escape && keyStruct.escape;
-		break;
 	case q:
 		return !lastKeyStruct.q && keyStruct.q;
-		break;
 	case e:
 		return !lastKeyStruct.e && keyStruct.e;
-		break;
 	case f:
 		return !lastKeyStruct.f && keyStruct.f;
-		break;
 	case g:
 		return !lastKeyStruct.g && keyStruct.g;
-		break;
+	case r:
+		return !lastKeyStruct.r && keyStruct.r;
 	case lShift:
 		return !lastKeyStruct.lShift && keyStruct.lShift;
-		break;
 	case lControl:
 		return !lastKeyStruct.lControl && keyStruct.lControl;
-		break;
 	}
 	std::cout << "key not implemented!\n";
 	return false;

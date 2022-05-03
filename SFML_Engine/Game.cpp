@@ -8,6 +8,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer = SoundPlayer();
 	camera = Camera();
 	console = Console();
+	timer = Timer(100, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera);
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
@@ -34,6 +35,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
+	soundPlayer.loadSound("ohh", "resources/ohh.wav");
 	
 
 	camera.setScreenDimensions(1920, 1080);
@@ -173,6 +175,12 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
 	}
+	if (inputManager.onKeyDown(e)) {
+		timer.addEvent(1, test1, 0, 1);
+	}
+	if (inputManager.onKeyDown(r)) {
+		timer.addEvent(2, test2, 0, 1);
+	}
 }
 
 void Game::Run() {
@@ -181,6 +189,8 @@ void Game::Run() {
 	while (console.getSize() > 0) {
 		commandExecuter.execute(console.getCommand());
 	}
+	timer.update();
+	soundPlayer.update();
 }
 
 void Game::Draw() {
