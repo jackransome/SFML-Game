@@ -142,6 +142,7 @@ TODO:
 	condition
 		:bool has same source id
 		:type of concurrent event
+		:minimum amount of cuncurrent event
 
 	Timer / Global clock / Event tracker
 		:frequency in bpm x beat / 60min DONE
