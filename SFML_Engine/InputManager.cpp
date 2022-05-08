@@ -95,6 +95,7 @@ void InputManager::update(){
 				keyStruct.q = 1;
 			}
 			if (ev.key.code == sf::Keyboard::E) {
+				std::cout << "YEP\n";
 				keyStruct.e = 1;
 			}
 			if (ev.key.code == sf::Keyboard::F) {

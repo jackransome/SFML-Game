@@ -8,9 +8,9 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer = SoundPlayer();
 	camera = Camera();
 	console = Console();
-	timer = Timer(100, &console);
+	timer = Timer(200, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
-	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera);
+	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection);
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");

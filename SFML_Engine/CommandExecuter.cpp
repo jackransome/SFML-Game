@@ -2,10 +2,11 @@
 
 CommandExecuter::CommandExecuter() {}
 
-CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera){
+CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection){
 	pObjectCollection = _pObjectCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
+	pSpriteCollection = _pSpriteCollection;
 }
 
 void CommandExecuter::execute(Command command) {
@@ -35,6 +36,12 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandSetCameraPos:
 		pCamera->setPosition(command.f1, command.f2);
+		break;
+	case commandDrawGreenRect:
+		pSpriteCollection->addRectDraw(0, 0, 50, 50, 0, sf::Color(0, 255, 0, 255));
+		break;
+	case commandDrawRedRect:
+		pSpriteCollection->addRectDraw(0, 50, 50, 50, 0, sf::Color(255, 0, 0, 255));
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

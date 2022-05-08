@@ -70,10 +70,47 @@ timing:
 
 TODO:
 
-	learn what deque is
-	implement sound instance deque
-	use deque with emplace_back to add new sounds, check element and use remove if stopped
-	use sound getStatus(), sf::SoundSource::Status stopped to remove
+	Timer:
+		int bpm DONE
+		int miliseconds per beat DONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	multithread timing
 
 	action
 		:int source id
