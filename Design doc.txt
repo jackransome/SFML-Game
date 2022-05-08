@@ -113,39 +113,34 @@ TODO:
 	multithread timing
 
 	action
-		:int source id
-		:type
-		:amount
-		event type (to add)
-		event delay
-		sound name
+		:int source id DONE
+		:type (actiontype) DONE
+		:amount DONE
+		event type (to add) DONE
+		event delay DONE
+		sound name DONE
 	event
 		:source id DONE
 		:type DONE
 		:amount DONE
 		:phase DONE
-		:beats (if equal to current beat, triger event when up to phase) DONE
+		:beat (if equal to current beat, triger event when up to phase) DONE
 		action
-		bool haswindow
-		*window
 		bool hascondition(s) DONE
-		*condition list
+		*condition list DONE
 		*action list
-		
-	window
-		:middlePhase	
-		:bool is after
-		:bool is before
-		:float amount of time
-		float getAccuracy(currentPhase)
+
+	event loader:
+		is static
+		load conditions DONE
+		load actions DONE
 	
 	condition
-		:bool has same source id
-		:type of concurrent event
-		:minimum amount of cuncurrent event
+		:bool has same source id DONE
+		:type of concurrent event DONE
+		:minimum amount of cuncurrent event DONE
 
 	Timer / Global clock / Event tracker
-		:frequency in bpm x beat / 60min DONE
 		:console DONE
 		and attach ticking sound DONE
 		adds to phase position every frame based on bpm y*60 = bpm/60 DONE
@@ -155,6 +150,13 @@ TODO:
 		*vector events DONE
 		void changeBpm(int bpm) DONE
 		void addevent(int beats in future, source id, type, amount) DONE
-		void update() if phase >= 1, subtract 1 DONE
+		void update()
+			get time and do phase and beat stuff DONE
+			check new evends and:
+				delete is needed DONE
+				run action
+					add new events
+					play sounds
+					do commands
 		
 		

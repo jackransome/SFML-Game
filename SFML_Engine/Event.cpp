@@ -1,25 +1,22 @@
 #include "Event.h"
 
-Event::Event(int _sourceId, EventType _type, float _amount, int _beat, float _phase) {
+Event::Event(int _sourceId, EventType _type, float _amount, int _beat) {
 	sourceId = _sourceId;
 	type = _type;
 	amount = _amount;
 	beat = _beat;
-	phase = _phase;
-	if (type == test1) {
-		hasConditions = false;
+	conditions = EventLoader::loadConditions(_type, _sourceId);
+	actions = EventLoader::loadActions(_type, _sourceId);
+	if (conditions.size > 0) {
+		hasConditions = true;
 	}
 	else {
-		hasConditions = true;
+		hasConditions = false;
 	}
 }
 
 int Event::getBeat() {
 	return beat;
-}
-
-float Event::getPhase() {
-	return phase;
 }
 
 bool Event::getHasConditions() {
@@ -28,4 +25,16 @@ bool Event::getHasConditions() {
 
 EventType Event::getType() {
 	return type;
+}
+
+ActionList Event::getActions() {
+	return actions;
+}
+
+ConditionList Event::getConditions() {
+	return conditions;
+}
+
+int Event::getSourceId() {
+	return sourceId;
 }

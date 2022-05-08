@@ -179,6 +179,7 @@ void Game::HandleInput() {
 		timer.addEvent(1, test1, 0, 1);
 	}
 	if (inputManager.onKeyDown(r)) {
+
 		timer.addEvent(2, test2, 0, 1);
 	}
 }

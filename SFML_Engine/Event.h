@@ -1,19 +1,21 @@
 #pragma once
-#include "EventType.h"
-
+#include "EventLoader.h"
 
 class Event {
 public:
-	Event(int _sourceId, EventType _type, float _amount, int _beat, float _phase);
+	Event(int _sourceId, EventType _type, float _amount, int _beat);
 	int getBeat();
-	float getPhase();
 	bool getHasConditions();
 	EventType getType();
+	ActionList getActions();
+	ConditionList getConditions();
+	int getSourceId();
 private:
 	int sourceId;
 	EventType type;
 	float amount;
 	int beat;
-	float phase;
 	bool hasConditions;
+	ConditionList conditions;
+	ActionList actions;
 };
