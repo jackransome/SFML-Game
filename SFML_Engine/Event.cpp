@@ -5,36 +5,25 @@ Event::Event(int _sourceId, EventType _type, float _amount, int _beat) {
 	type = _type;
 	amount = _amount;
 	beat = _beat;
-	conditions = EventLoader::loadConditions(_type, _sourceId);
-	actions = EventLoader::loadActions(_type, _sourceId);
-	if (conditions.size > 0) {
-		hasConditions = true;
-	}
-	else {
-		hasConditions = false;
-	}
+	CAPairs = EventLoader::loadCAPairs(_type, _sourceId, amount);
 }
 
 int Event::getBeat() {
 	return beat;
 }
 
-bool Event::getHasConditions() {
-	return hasConditions;
-}
-
 EventType Event::getType() {
 	return type;
 }
 
-ActionList Event::getActions() {
-	return actions;
-}
-
-ConditionList Event::getConditions() {
-	return conditions;
+CAPairList Event::getCAPairs() {
+	return CAPairs;
 }
 
 int Event::getSourceId() {
 	return sourceId;
+}
+
+float Event::getAmount() {
+	return amount;
 }

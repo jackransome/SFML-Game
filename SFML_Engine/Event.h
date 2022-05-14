@@ -7,15 +7,13 @@ public:
 	int getBeat();
 	bool getHasConditions();
 	EventType getType();
-	ActionList getActions();
-	ConditionList getConditions();
+	CAPairList getCAPairs();
 	int getSourceId();
+	float getAmount();
 private:
 	int sourceId;
 	EventType type;
 	float amount;
 	int beat;
-	bool hasConditions;
-	ConditionList conditions;
-	ActionList actions;
+	CAPairList CAPairs;
 };

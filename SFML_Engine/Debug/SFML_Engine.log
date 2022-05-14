@@ -1,9 +1,9 @@
 ﻿  Timer.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(24,50): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(28,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(59,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(83,6): warning C4060: switch statement contains no 'case' or 'default' labels
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(108,82): warning C4244: 'return': conversion from '_Rep' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(75,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(117,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Timer.cpp(136,82): warning C4244: 'return': conversion from '_Rep' to 'int', possible loss of data
           with
           [
               _Rep=__int64

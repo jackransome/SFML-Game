@@ -36,6 +36,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//spriteSheet1.setDoesReset(false);
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	soundPlayer.loadSound("ohh", "resources/ohh.wav");
+	soundPlayer.loadSound("sh", "resources/sh.wav");
+	soundPlayer.loadSound("thk", "resources/thk2.wav");
+	soundPlayer.loadSound("ex5", "resources/ex5.wav");
+	soundPlayer.loadSound("1", "resources/1.wav");
 	
 
 	camera.setScreenDimensions(1920, 1080);
@@ -176,11 +180,16 @@ void Game::HandleInput() {
 		console.addCommand(commandEnableDebug, 0);
 	}
 	if (inputManager.onKeyDown(e)) {
+		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(1, test1, 0, 1);
 	}
 	if (inputManager.onKeyDown(r)) {
-
+		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(2, test2, 0, 1);
+	}
+	if (inputManager.onKeyDown(t)) {
+		console.addCommand(commandPlaySound, "thk");
+		timer.addEvent(2, test3, 0, 1);
 	}
 }
 

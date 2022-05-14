@@ -2,7 +2,7 @@
 #include "EventType.h"
 #include <string>
 
-enum ActionType { addEvent, playSound };
+enum ActionType { a_addEvent, a_playSound };
 
 class Action {
 public:

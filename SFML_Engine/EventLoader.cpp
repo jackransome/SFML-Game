@@ -1,30 +1,41 @@
 #include "EventLoader.h"
 #include <iostream>
 
-ConditionList EventLoader::loadConditions(EventType type, int sourceId){
-	ConditionList conditionList = ConditionList();
+CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
+{
+	CAPairList list = CAPairList();
+	//switch based on event type, fill with pairs inside
 	switch (type) {
 	case test1:
-		conditionList.size = 0;
-		break;
-	case test2:
-		conditionList.size = 1;
-		conditionList.list[0] = Condition(true, test1);
-		break;
-	}
-	return conditionList;
-}
 
-ActionList EventLoader::loadActions(EventType type, int sourceId) {
-	ActionList actionList = ActionList();
-	switch (type) {
-	case test1:
-		actionList.size = 0;
+		list.size = 0;
 		break;
 	case test2:
-		actionList.size = 1;
-		actionList.list[0] = Action(sourceId, addEvent, test2, 2, "", 1);
+		list.pairs[0] = new CAPair();
+		list.pairs[0]->hasCondition = true;
+		list.pairs[0]->conditionList = ConditionList();
+		list.pairs[0]->conditionList.size = 1;
+		list.pairs[0]->conditionList.list[0] = new Condition(true, test1);
+		list.pairs[0]->conditionList.soundName = "ex5";
+		list.pairs[0]->actionList = ActionList();
+		list.pairs[0]->actionList.size = 1;
+		list.pairs[0]->actionList.list[0] = new Action(sourceId, a_addEvent, test2, 2, "", 1);
+		list.size = 1;
+		break;
+	case test3:
+		list.pairs[0] = new CAPair();
+		list.pairs[0]->hasCondition = true;
+		list.pairs[0]->conditionList = ConditionList();
+		list.pairs[0]->conditionList.size = 2;
+		list.pairs[0]->conditionList.list[0] = new Condition(true, test1, true);
+		list.pairs[0]->conditionList.list[1] = new Condition(true, test3, false, 0.2);
+		list.pairs[0]->conditionList.amountModifier = 0.5;
+		//list.pairs[0]->conditionList.soundName = "1";
+		list.pairs[0]->actionList = ActionList();
+		list.pairs[0]->actionList.size = 1;
+		list.pairs[0]->actionList.list[0] = new Action(sourceId, a_addEvent, test3, 2, "", amount);
+		list.size = 1;
 		break;
 	}
-	return actionList;
+	return list;
 }

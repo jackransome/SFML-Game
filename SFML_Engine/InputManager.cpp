@@ -13,6 +13,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow){
 	keyStruct.q = false;
 	keyStruct.e = false;
 	keyStruct.f = false;
+	keyStruct.t = false;
 	keyStruct.lShift = false;
 	keyStruct.lControl = false;
 	lastKeyStruct = keyStruct;
@@ -57,6 +58,9 @@ void InputManager::update(){
 		}
 		if (keyStruct.r > 0) {
 			keyStruct.r++;
+		}
+		if (keyStruct.t > 0) {
+			keyStruct.t++;
 		}
 		if (keyStruct.lShift > 0) {
 			keyStruct.lShift++;
@@ -106,6 +110,9 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::R) {
 				keyStruct.r = 1;
 			}
+			if (ev.key.code == sf::Keyboard::T) {
+				keyStruct.t = 1;
+			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 1;
 			}
@@ -146,6 +153,9 @@ void InputManager::update(){
 			}
 			if (ev.key.code == sf::Keyboard::R) {
 				keyStruct.r = 0;
+			}
+			if (ev.key.code == sf::Keyboard::T) {
+				keyStruct.t = 0;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 0;
@@ -200,6 +210,8 @@ int InputManager::isKeyDown(keys key){
 		return keyStruct.g;
 	case r:
 		return keyStruct.r;
+	case t:
+		return keyStruct.t;
 	case lShift:
 		return keyStruct.lShift;
 	case lControl:
@@ -233,6 +245,8 @@ bool InputManager::onKeyDown(keys key) {
 		return !lastKeyStruct.g && keyStruct.g;
 	case r:
 		return !lastKeyStruct.r && keyStruct.r;
+	case t:
+		return !lastKeyStruct.t && keyStruct.t;
 	case lShift:
 		return !lastKeyStruct.lShift && keyStruct.lShift;
 	case lControl:

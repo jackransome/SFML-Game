@@ -70,47 +70,28 @@ timing:
 
 TODO:
 
-	Timer:
-		int bpm DONE
-		int miliseconds per beat DONE
+	shouldnt be able to add the same event twice on one beat with user input
+	enemies
+	add do event directly to timer, for user input
+		because a user should be able to set up something for beat 3, and then activate it any time in beat 3
+		may have to be a different type of event? wont be detectable in the conditions part anyway
+	add windows
+	add amount being determined by time accuracy
 
 
 
+	condition sounds DONE
+	have condition for lack of event DONE
+	should be able to pass on its amount with a modifier DONE
+	should have conditions about its own amount DONE
+	multiple conditions w multiple actions DONE
 
 
+	CAPair:
+		contains a condition list and an action list
+		if hasCondition is true, conditionlist is checked
+		if false or condlist satisfied, do action
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	multithread timing
 
 	action
 		:int source id DONE
@@ -125,10 +106,7 @@ TODO:
 		:amount DONE
 		:phase DONE
 		:beat (if equal to current beat, triger event when up to phase) DONE
-		action
-		bool hascondition(s) DONE
-		*condition list DONE
-		*action list
+		CAPair list DONE
 
 	event loader:
 		is static
@@ -152,11 +130,11 @@ TODO:
 		void addevent(int beats in future, source id, type, amount) DONE
 		void update()
 			get time and do phase and beat stuff DONE
-			check new evends and:
+			check new events and:
 				delete is needed DONE
 				run action
-					add new events
-					play sounds
-					do commands
+					add new events DONE
+					play sounds DONE
+					do commands DONE
 		
 		

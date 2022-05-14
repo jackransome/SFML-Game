@@ -21,65 +21,93 @@ void Timer::update(){
 	phase = (float)(now % msInOneBeat) / (float)msInOneBeat;
 	//std::cout << beat << " b / p " << phase << "\n";
 	if (lastPhase < 0.5f && phase >= 0.5f) {
-		//beat++;
-		//console->addCommand(commandPlaySound, "hh", 20);
-		console->addCommand(commandDrawGreenRect);
+		console->addCommand(commandPlaySound, "sh", 0.1);
+		//console->addCommand(commandDrawGreenRect);
+		console->addCommand(commandAddObject, objectFootprint, 10, 10);
 	}
 	for (int i = 0; i < events.size(); i++) {
 		
 		//middle of beat, for doing things and playing sounds
 		if (lastPhase < 0.5f && phase >= 0.5f) {
-			if (i == 0) {
-				std::cout << beat << "MIDDLE\n";
-				std::cout << events[i]->getBeat() << "\n";
-				std::cout << beat << "\n";
-			}
+			
 			if (events[i]->getBeat() == beat) {
 				//run actions
 				if (events[i]->getType() == test1) {
 					console->addCommand(commandPlaySound, "hh");
-					console->addCommand(commandDrawRedRect);
+					console->addCommand(commandAddObject, objectFootprint, 20, 10);
+					//console->addCommand(commandDrawRedRect);
 				}
 				else if (events[i]->getType() == test2) {
+					console->addCommand(commandAddObject, objectFootprint, 20, 10);
 					console->addCommand(commandPlaySound, "ohh");
-					console->addCommand(commandDrawRedRect);
+					//console->addCommand(commandDrawRedRect);
+				}
+				else if (events[i]->getType() == test3) {
+					console->addCommand(commandAddObject, objectFootprint, 20, 10);
+					console->addCommand(commandPlaySound, "1", events[i]->getAmount());
+					//console->addCommand(commandDrawRedRect);
 				}
 
 			}
 		}
-		// end of beat, for assessing conditions etc
+		// end of beat, for assessing conditions and adding new evensetc
 		if (events[i]->getBeat() < beat) {
 			//checking if has conditions
-			bool fulfilled = true;
-			if (events[i]->getHasConditions()) {
-				// if condition met, do actions / add events
-				ConditionList condList = events[i]->getConditions();
-				for (int j = 0; j < condList.size; j++) {
-					EventType eType = condList.list[i].getEventType();
-					for (int k = 0; k < events.size(); k++) {
+			
+			int fulfilledCount = 0;
+			bool runActions = true;
+			CAPairList capl = events[i]->getCAPairs();
+			// loop thru pairs
+			for (int j = 0; j < capl.size; j++) {
+				//loop thru conditions in the pair
+				bool fulfilled = true;
+				bool individualFulfilled;
+				for (int k = 0; k < capl.pairs[j]->conditionList.size; k++) {
+					if (capl.pairs[j]->conditionList.list[k]->getLackOf()) {
+						individualFulfilled = true;;
+					}
+					else {
+						individualFulfilled = false;
+					}
+					
+					EventType eType = capl.pairs[j]->conditionList.list[k]->getEventType();
+					bool sameSourceId = capl.pairs[j]->conditionList.list[k]->getSameSourceId();
+					for (int l = 0; l < events.size(); l++) {
 						//checking if event that happened in the beat just finished matches the condition
-						if (events[k]->getBeat() == beat - 1 && events[k]->getType() == eType) {
-							//checking for if needs same source id of not
-							if (!condList.list[j].getSameSourceId() || events[i]->getSourceId() == events[k]->getSourceId()) {
-
-							} else {
-								fulfilled = false;
+						if (events[l]->getBeat() == beat - 1 && events[l]->getType() == eType) {
+							//checking for if needs same source id of not, also checking min amount against amount
+							if ((sameSourceId || events[i]->getSourceId() == events[l]->getSourceId()) && capl.pairs[j]->conditionList.list[k]->getMinAmount() <= events[l]->getAmount()) {
+								if (capl.pairs[j]->conditionList.list[k]->getLackOf()) {
+									fulfilled = false;
+									break;
+								}
+								individualFulfilled = true;
 							}
-						} else {
-							fulfilled = false;
 						}
 					}
-					if (!fulfilled) {
+					if (!individualFulfilled) {
+						fulfilled = false;
 						break;
 					}
 				}
-			}
-			if (fulfilled) {
-				//if conditions fullfilled or has no conditions execture the actions
-				ActionList actionList = events[i]->getActions();
-				for (int j = 0; j < actionList.size; j++) {
-					switch (actionList.list[j].getEventType()) {
-						//ADD HERE NEXT
+				//if all conditions are fulfilled or there are none, do action
+				if (fulfilled) {
+					//play sound if there were condition and the pair has a sound
+					if (capl.pairs[j]->conditionList.size > 0 && capl.pairs[j]->conditionList.soundName.compare("") != 0) {
+						console->addCommand(commandPlaySound, capl.pairs[j]->conditionList.soundName);
+					}
+					//if conditions fullfilled or has no conditions execture the actions
+					ActionList actionList = capl.pairs[j]->actionList;
+					for (int j = 0; j < actionList.size; j++) {
+						switch (actionList.list[j]->getType()) {
+						case a_addEvent:
+							addEvent(actionList.list[j]->getEventDelay(), actionList.list[j]->getEventType(), actionList.list[j]->getSourceId(), actionList.list[j]->getAmount() * capl.pairs[j]->conditionList.amountModifier);
+							console->addCommand(commandAddObject, objectFootprint, 30, 10);
+							break;
+						/*case a_playSound:
+							console->addCommand(commandPlaySound, actionList.list[j]->getSoundName());
+							break;*/
+						}
 					}
 				}
 			}
