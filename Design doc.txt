@@ -70,15 +70,24 @@ timing:
 
 TODO:
 
-	shouldnt be able to add the same event twice on one beat with user input
-	enemies
+	shouldnt be able to add the same event twice on one beat with user input DONE
+
 	add do event directly to timer, for user input
 		because a user should be able to set up something for beat 3, and then activate it any time in beat 3
 		may have to be a different type of event? wont be detectable in the conditions part anyway
+
+	
+
+	have actions that are done in the middle of a beat(where sound currently plays)
+		they can be conditional, as the events they rely on existing will already be in their beat from earlier (may change things overall?)
+
+	enemies 
 	add windows
 	add amount being determined by time accuracy
 
-
+	sound processing:
+		load from soundbuffer into array: getSamples
+		load into soundbuffer from array: loadFromSamples
 
 	condition sounds DONE
 	have condition for lack of event DONE
@@ -88,9 +97,9 @@ TODO:
 
 
 	CAPair:
-		contains a condition list and an action list
-		if hasCondition is true, conditionlist is checked
-		if false or condlist satisfied, do action
+		contains a condition list and an action list DONE
+		if hasCondition is true, conditionlist is checked DONE
+		if false or condlist satisfied, do action DONE
 
 
 	action

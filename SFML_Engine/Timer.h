@@ -10,6 +10,8 @@ public:
 	void update();
 	void changeBpm(int _bpm);
 	void addEvent(int beatDelay, EventType type, int sourceId, float amount);
+	bool checkConditionList(ConditionList conditionList, int sourceId);
+	bool doActionList(CAPair* _CAPair);
 private:
 	int getCurrentTime();
 	int bpm; //beats per minute
@@ -20,5 +22,6 @@ private:
 	int now; //curent time in ms
 	int msInOneBeat;
 	std::vector<Event*> events;
+	std::vector<EventType> addedThisBeat;
 	Console* console;
 };

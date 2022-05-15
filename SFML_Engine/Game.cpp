@@ -40,6 +40,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("thk", "resources/thk2.wav");
 	soundPlayer.loadSound("ex5", "resources/ex5.wav");
 	soundPlayer.loadSound("1", "resources/1.wav");
+	soundPlayer.loadSound("8tom", "resources/8tom.wav");
 	
 
 	camera.setScreenDimensions(1920, 1080);
@@ -190,6 +191,10 @@ void Game::HandleInput() {
 	if (inputManager.onKeyDown(t)) {
 		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(2, test3, 0, 1);
+	}
+	if (inputManager.onKeyDown(y)) {
+		console.addCommand(commandPlaySound, "thk");
+		timer.addEvent(1, test4, 0, 1);
 	}
 }
 
