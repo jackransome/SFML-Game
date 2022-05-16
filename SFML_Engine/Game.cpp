@@ -182,19 +182,23 @@ void Game::HandleInput() {
 	}
 	if (inputManager.onKeyDown(e)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(1, test1, 0, 1);
+		timer.addEvent(1, test1, 0, 1, false);
 	}
 	if (inputManager.onKeyDown(r)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(2, test2, 0, 1);
+		timer.addEvent(2, test2, 0, 1, false);
 	}
 	if (inputManager.onKeyDown(t)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(2, test3, 0, 1);
+		timer.addEvent(2, test3, 0, 1, true);
 	}
 	if (inputManager.onKeyDown(y)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(1, test4, 0, 1);
+		timer.addEvent(1, test4, 0, 1, false);
+	}
+	if (inputManager.onKeyDown(u)) {
+		console.addCommand(commandPlaySound, "thk");
+		timer.addEvent(0, test1, 0, 1, false);
 	}
 }
 

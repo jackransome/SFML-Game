@@ -9,9 +9,10 @@ public:
 	Timer(int _bpm, Console* _console);
 	void update();
 	void changeBpm(int _bpm);
-	void addEvent(int beatDelay, EventType type, int sourceId, float amount);
-	bool checkConditionList(ConditionList conditionList, int sourceId);
-	bool doActionList(CAPair* _CAPair);
+	void addEvent(int beatDelay, EventType type, int sourceId, float amount, bool accuracy);
+	bool checkConditionList(ConditionList conditionList, int sourceId, bool sameBeat);
+	void doActionList(CAPair* _CAPair);
+	void runPairs(Event* event, bool post, bool sameBeat);
 private:
 	int getCurrentTime();
 	int bpm; //beats per minute

@@ -10,10 +10,13 @@ public:
 	CAPairList getCAPairs();
 	int getSourceId();
 	float getAmount();
+	bool getActivated();
+	void setActivated(bool _activated);
 private:
 	int sourceId;
 	EventType type;
 	float amount;
 	int beat;
 	CAPairList CAPairs;
+	bool activated;
 };

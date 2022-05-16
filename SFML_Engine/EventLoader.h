@@ -28,11 +28,13 @@ struct CAPair {
 	bool hasCondition;
 	ConditionList conditionList;
 	ActionList actionList;
+	bool post; //if should be done after or in the middle of the beat
 };
 
 struct CAPairList {
 	int size;
 	CAPair* pairs[5];
+	
 };
 
 class EventLoader {

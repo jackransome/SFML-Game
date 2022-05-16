@@ -6,6 +6,7 @@ Event::Event(int _sourceId, EventType _type, float _amount, int _beat) {
 	amount = _amount;
 	beat = _beat;
 	CAPairs = EventLoader::loadCAPairs(_type, _sourceId, amount);
+	activated = false;
 }
 
 int Event::getBeat() {
@@ -26,4 +27,12 @@ int Event::getSourceId() {
 
 float Event::getAmount() {
 	return amount;
+}
+
+bool Event::getActivated() {
+	return activated;
+}
+
+void Event::setActivated(bool _activated) {
+	activated = _activated;
 }
