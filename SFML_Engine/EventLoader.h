@@ -6,10 +6,14 @@
 
 struct ConditionList {
 	int size;
-	Condition* list[5];
-	void addCondition(Condition* condition) {
+	Condition* list;
+	void addCondition(Condition condition) {
 		list[size] = condition;
 		size++;
+	}
+	void initialise(int _size) {
+		size = _size;
+		list = new Condition[_size];
 	}
 	std::string soundName = "";
 	float amountModifier;
@@ -17,10 +21,14 @@ struct ConditionList {
 
 struct ActionList {
 	int size;
-	Action* list[5];
-	void addAction(Action* action) {
+	Action* list;
+	void addAction(Action action) {
 		list[size] = action;
 		size++;
+	}
+	void initialise(int _size) {
+		size = _size;
+		list = new Action[_size];
 	}
 };
 
@@ -33,8 +41,11 @@ struct CAPair {
 
 struct CAPairList {
 	int size;
-	CAPair* pairs[5];
-	
+	CAPair* list;
+	void initialise(int _size) {
+		size = _size;
+		list = new CAPair[_size];
+	}
 };
 
 class EventLoader {

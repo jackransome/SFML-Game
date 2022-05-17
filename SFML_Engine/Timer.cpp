@@ -85,20 +85,20 @@ bool Timer::checkConditionList(ConditionList conditionList, int sourceId, bool s
 	bool fulfilled = true;
 	bool individualFulfilled;
 	for (int k = 0; k < conditionList.size; k++) {
-		if (conditionList.list[k]->getLackOf()) {
+		if (conditionList.list[k].getLackOf()) {
 			individualFulfilled = true;;
 		}
 		else {
 			individualFulfilled = false;
 		}
-		EventType eType = conditionList.list[k]->getEventType();
-		bool sameSourceId = conditionList.list[k]->getSameSourceId();
+		EventType eType = conditionList.list[k].getEventType();
+		bool sameSourceId = conditionList.list[k].getSameSourceId();
 		for (int l = 0; l < events.size(); l++) {
 			//checking if event that happened in the beat just finished matches the condition
 			if (((events[l]->getBeat() == beat - 1 && !sameBeat) || (events[l]->getBeat() == beat && sameBeat)) && events[l]->getType() == eType) {
 				//checking for if needs same source id of not, also checking min amount against amount
-				if ((sameSourceId || sourceId == events[l]->getSourceId()) && conditionList.list[k]->getMinAmount() <= events[l]->getAmount()) {
-					if (conditionList.list[k]->getLackOf()) {
+				if ((sameSourceId || sourceId == events[l]->getSourceId()) && conditionList.list[k].getMinAmount() <= events[l]->getAmount()) {
+					if (conditionList.list[k].getLackOf()) {
 						fulfilled = false;
 						break;
 					}
@@ -117,13 +117,13 @@ bool Timer::checkConditionList(ConditionList conditionList, int sourceId, bool s
 void Timer::doActionList(CAPair* _CAPair) {
 	ActionList actionList = _CAPair->actionList;
 	for (int k = 0; k < actionList.size; k++) {
-		switch (actionList.list[k]->getType()) {
+		switch (actionList.list[k].getType()) {
 		case a_addEvent:
-			addEvent(actionList.list[k]->getEventDelay(), actionList.list[k]->getEventType(), actionList.list[k]->getSourceId(), actionList.list[k]->getAmount() * _CAPair->conditionList.amountModifier, false);
+			addEvent(actionList.list[k].getEventDelay(), actionList.list[k].getEventType(), actionList.list[k].getSourceId(), actionList.list[k].getAmount() * _CAPair->conditionList.amountModifier, false);
 			console->addCommand(commandAddObject, objectFootprint, 30, 10);
 			break;
 		case a_playSound:
-			console->addCommand(commandPlaySound, actionList.list[k]->getSoundName());
+			console->addCommand(commandPlaySound, actionList.list[k].getSoundName());
 			break;
 		}
 	}
@@ -140,11 +140,11 @@ void Timer::runPairs(Event* event, bool post, bool sameBeat) {
 	// loop thru pairs
 	for (int j = 0; j < capl.size; j++) {
 		//make sure the pair is / is not for post
-		if (capl.pairs[j]->post == post) {
+		if (capl.list[j].post == post) {
 			//check condition list in pair
-			if (checkConditionList(capl.pairs[j]->conditionList, event->getSourceId(), sameBeat)) {
+			if (checkConditionList(capl.list[j].conditionList, event->getSourceId(), sameBeat)) {
 				//if conditions fullfilled or has no conditions execute the actions
-				doActionList(capl.pairs[j]);
+				doActionList(&capl.list[j]);
 			}
 		}
 	}
