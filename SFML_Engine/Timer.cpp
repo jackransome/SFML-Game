@@ -23,13 +23,13 @@ void Timer::update(){
 	if (lastPhase < 0.5f && phase >= 0.5f) {
 		console->addCommand(commandPlaySound, "sh", 0.1);
 		//console->addCommand(commandDrawGreenRect);
-		console->addCommand(commandAddObject, objectFootprint, 10, 10);
 	}
 	for (int i = 0; i < events.size(); i++) {
 		
 		//middle of beat, for doing things and playing sounds. also making sure it hasnt already been activated (from beatdelay0, from user input)
 		if (events[i]->getBeat() == beat && !events[i]->getActivated()) {
 			if (lastPhase < 0.5f && phase >= 0.5f) {
+				console->addCommand(commandAddObject, objectAction1animation, 30, 100);
 				runPairs(events[i], false, false);
 			}
 		}
@@ -69,7 +69,7 @@ void Timer::addEvent(int beatDelay, EventType type, int sourceId, float amount, 
 		phase = (float)(now % msInOneBeat) / (float)msInOneBeat;
 		float difference = 1 - (2 * abs(phase - 0.5));
 		newAmount *= difference;
-		std::cout << "difference: " << difference << "\n";
+		std::cout << "accuracy: " << difference << "\n";
 	}
 	
 	events.push_back(new Event(sourceId, type, newAmount, beat + beatDelay));
@@ -77,6 +77,7 @@ void Timer::addEvent(int beatDelay, EventType type, int sourceId, float amount, 
 	if (beatDelay == 0) {
 		events[events.size() - 1]->setActivated(true);
 		runPairs(events[events.size() - 1], false, true);
+		console->addCommand(commandAddObject, objectAction1animation, 300, 100);
 	}
 	std::cout << "added event to beat" << beat + beatDelay << "\n";
 }
@@ -120,7 +121,7 @@ void Timer::doActionList(CAPair* _CAPair) {
 		switch (actionList.list[k].getType()) {
 		case a_addEvent:
 			addEvent(actionList.list[k].getEventDelay(), actionList.list[k].getEventType(), actionList.list[k].getSourceId(), actionList.list[k].getAmount() * _CAPair->conditionList.amountModifier, false);
-			console->addCommand(commandAddObject, objectFootprint, 30, 10);
+			
 			break;
 		case a_playSound:
 			console->addCommand(commandPlaySound, actionList.list[k].getSoundName());

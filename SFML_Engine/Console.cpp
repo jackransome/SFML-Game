@@ -38,15 +38,18 @@ void Console::addCommand(CommandType _type, float _f1, float _f2) {
 	commands.push(Command(_type, _f1, _f2));
 }
 
+void Console::addCommand(Command command) {
+	commands.push(command);
+}
 
 int Console::getSize() {
 	return commands.size();
 }
 
-Command Console::getCommand() {
+Command Console::getCommand(bool toLog) {
 	Command temp = commands.front();
 	commands.pop();
-	if (enableLogging) {
+	if (enableLogging && toLog) {
 		log.push(temp);
 	}
 	return temp;

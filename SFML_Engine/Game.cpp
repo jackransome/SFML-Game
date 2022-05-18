@@ -28,6 +28,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("mc_stand_back", "resources/main_character/mc_stand_back.png");
 	spriteCollection.loadImage("mc_stand_left", "resources/main_character/mc_stand_left.png");
 	spriteCollection.loadImage("mc_stand_right", "resources/main_character/mc_stand_right.png");
+	spriteCollection.loadImage("action1", "resources/action1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");

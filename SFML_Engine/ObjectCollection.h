@@ -16,6 +16,7 @@ public:
 	void update();
 	void addMainCharacter(float x, float y);
 	void addFootPrint(float x, float y);
+	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
 	void setLatestId();
 	void setLatestConsole();

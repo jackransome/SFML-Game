@@ -48,6 +48,12 @@ void ObjectCollection::addFootPrint(float x, float y) {
 	setLatestConsole();
 }
 
+void ObjectCollection::addAction1Animation(float x, float y) {
+	objects.push_back(new Action1Animation(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addWall(int x, int y, int w, int h) {
 	objects.push_back(new Wall(pSpriteCollection, x, y, w, h));
 	setLatestId();

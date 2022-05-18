@@ -13,21 +13,11 @@ moves can add events that:
 temporarily slow downs time
 
 moves are basically just bindings between controls and the creation of events
-
-event data structure:
-	source (player / enemy id)
-	type
-	run()
-		can see what other events are happening at the same time
-		can add new events in the future
-		can deal damage, block damage, etc
-	
-	
 	
 
 items can:
 	add a new move
-	add a new synergy between evisting events
+	upgrade a move (add a synergy/ new conditions etc)
 
 example start:
 	obtain item that  gives attack move
@@ -77,7 +67,18 @@ TODO:
 	have actions that are done in the middle of a beat(where sound currently plays) DONE
 		they can be conditional, as the events they rely on existing will already be in their beat from earlier (may change things overall?)
 
-	enemies 
+	decoration using spritesheet DONE
+
+	spritesheets for action animations
+
+	enemies
+		enemy class
+			health
+			regen rate
+			draw
+			update
+		object collection
+			add enemy
 	add windows (isnt this technically done with the adding to the same beat?)
 	add amount being determined by time accuracy DONE
 

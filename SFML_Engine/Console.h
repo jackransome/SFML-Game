@@ -3,9 +3,10 @@
 #include <queue>
 
 enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug, commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect };
-enum ObjectType{ objectFootprint};
+enum ObjectType{ objectFootprint, objectAction1animation};
 
 struct Command {
+	Command() {}
 	Command(CommandType _type) {
 		type = _type;
 	}
@@ -73,8 +74,9 @@ public:
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2);
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4);
 	void addCommand(CommandType _type, float _f1, float _f2);
+	void addCommand(Command command);
 	int getSize();
-	Command getCommand();
+	Command getCommand(bool toLog = true);
 private:
 	bool enableLogging = false;
 	std::queue<Command> commands;

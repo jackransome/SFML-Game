@@ -1,6 +1,7 @@
 #pragma once
 #include "EventType.h"
 #include <string>
+#include "Console.h"
 
 enum ActionType { a_addEvent, a_playSound };
 
@@ -21,4 +22,6 @@ private:
 	int eventDelay;
 	std::string soundName;
 	float amount;
+	bool hasCommand;
+	Command command;
 };

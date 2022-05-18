@@ -16,6 +16,9 @@ void CommandExecuter::execute(Command command) {
 		case objectFootprint:
 			pObjectCollection->addFootPrint(command.f1, command.f2);
 				break;
+		case objectAction1animation:
+			pObjectCollection->addAction1Animation(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}

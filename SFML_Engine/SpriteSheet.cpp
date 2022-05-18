@@ -52,6 +52,10 @@ void SpriteSheet::setChangeTimer(int _changeTimer) {
 	changeTimer = _changeTimer;
 }
 
+bool SpriteSheet::isComplete() {
+	return frame == (frames-1);
+}
+
 void SpriteSheet::reset() {
 	timer = 0;
 	frame = 0;

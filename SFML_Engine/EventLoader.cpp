@@ -14,8 +14,7 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 		pairList.list[0].actionList.size = 1;
 		pairList.list[0].actionList.initialise(1);
 		pairList.list[0].actionList.list[0] = Action(sourceId, a_playSound, test1, 0, "hh", 1);
-		pairList.list[0].post = false;
-		
+		pairList.list[0].post = false;		
 		break;
 	case test2:
 		pairList.initialise(2);
@@ -37,7 +36,6 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 		pairList.list[1].actionList.initialise(1);
 		pairList.list[1].actionList.list[0] = Action(sourceId, a_playSound, test2, 2, "ohh", 1);
 		pairList.list[1].post = false;
-
 		break;
 	case test3:
 		pairList.initialise(2);
@@ -60,7 +58,6 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 		pairList.list[1].actionList.initialise(1);
 		pairList.list[1].actionList.list[0] = Action(sourceId, a_playSound, test3, 2, "1", 1);
 		pairList.list[1].post = false;
-
 		break;
 	case test4:
 		//2 pairs, one is no test1, modifier 0.5
@@ -97,9 +94,6 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 		pairList.list[2].actionList.initialise(1);
 		pairList.list[2].actionList.list[0] = Action(sourceId, a_playSound, test4, 2, "8tom", 1);
 		pairList.list[2].post = false;
-
-		pairList.size = 3;
-
 		break;
 	}
 	return pairList;
