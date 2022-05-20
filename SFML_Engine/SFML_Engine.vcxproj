@@ -153,6 +153,7 @@
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventLoader.cpp" />
     <ClCompile Include="FootPrint.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Living.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -180,6 +182,7 @@
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventLoader.h" />
     <ClInclude Include="EventType.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Living.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />

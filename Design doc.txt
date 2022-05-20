@@ -69,16 +69,27 @@ TODO:
 
 	decoration using spritesheet DONE
 
-	spritesheets for action animations
+	spritesheets for action animation DONE 
 
 	enemies
-		enemy class
-			health
-			regen rate
-			draw
-			update
+		enemy class DONE
 		object collection
-			add enemy
+			add enemy DONE
+
+	living class DONE
+
+	health bars
+
+	doing damage command
+		to specific ID
+		to all expect specific ID
+		to all
+		to enemies only
+		amount
+		type?
+
+	
+
 	add windows (isnt this technically done with the adding to the same beat?)
 	add amount being determined by time accuracy DONE
 

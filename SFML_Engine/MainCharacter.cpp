@@ -1,7 +1,8 @@
 #include "MainCharacter.h"
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float x, float y) :
-	Object(x, y, 32, 64, 0, movable, true) {
+	Object(x, y, 32, 64, 0, movable, true),
+	Living(100, 2) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	animationRunLeft = SpriteSheet(pSpriteCollection, "mc_run_left", 22, 32, 6, 2);

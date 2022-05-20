@@ -7,6 +7,7 @@
 #include "MainCharacter.h"
 #include "FootPrint.h"
 #include "Wall.h"
+#include "Enemy.h"
 
 class ObjectCollection {
 public:
@@ -18,6 +19,7 @@ public:
 	void addFootPrint(float x, float y);
 	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
+	void addEnemy(int x, int y);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();

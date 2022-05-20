@@ -42,7 +42,6 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("ex5", "resources/ex5.wav");
 	soundPlayer.loadSound("1", "resources/1.wav");
 	soundPlayer.loadSound("8tom", "resources/8tom.wav");
-	
 
 	camera.setScreenDimensions(1920, 1080);
 	camera.setScreenshakeCutoff(1);
@@ -54,6 +53,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addWall(300, 300, 100, 100);
 	objectCollection.setDebug(false);
+	objectCollection.addEnemy(200, 200);
 }
 
 // GAME plan

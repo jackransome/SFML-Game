@@ -60,6 +60,12 @@ void ObjectCollection::addWall(int x, int y, int w, int h) {
 	setLatestConsole();
 }
 
+void ObjectCollection::addEnemy(int x, int y) {
+	objects.push_back(new Enemy(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::setLatestId() {
 	objects[objects.size() - 1]->setId(nextId);
 	nextId++; //when is this gonna overflow
