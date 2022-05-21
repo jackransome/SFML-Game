@@ -1,27 +1,5 @@
-﻿  CommandExecuter.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CommandExecuter.cpp(30,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Enemy.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(4,41): error C2512: 'Living': no appropriate default constructor available
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Living.h(3,7): message : see declaration of 'Living'
-  Game.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(48,32): warning C4305: 'argument': truncation from 'double' to 'float'
-  main.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\main.cpp(23,30): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
-  MainCharacter.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(4,41): error C2512: 'Living': no appropriate default constructor available
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Living.h(3,7): message : see declaration of 'Living'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(41,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(46,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(48,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(58,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(62,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(65,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  ObjectCollection.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(16,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(21,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(29,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(64,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(64,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(79,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(81,22): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  EventLoader.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(59,77): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(83,77): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(95,77): warning C4305: 'argument': truncation from 'double' to 'float'
+  SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

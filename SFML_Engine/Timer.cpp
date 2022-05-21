@@ -126,6 +126,9 @@ void Timer::doActionList(CAPair* _CAPair) {
 		case a_playSound:
 			console->addCommand(commandPlaySound, actionList.list[k].getSoundName());
 			break;
+
+		case a_doAOEDamage50:
+			console->addCommand(commandDoAEODamage, 0, 0, 50, 10);
 		}
 	}
 }

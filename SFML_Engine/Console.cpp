@@ -14,6 +14,10 @@ void Console::addCommand(CommandType _type, float _f1) {
 	commands.push(Command(_type, _f1));
 }
 
+void Console::addCommand(CommandType _type, float _f1, float _f2, float _f3, float _f4){
+	commands.push(Command(_type, _f1, _f2, _f3, _f4));
+}
+
 void Console::addCommand(CommandType _type, std::string _string) {
 	commands.push(Command(_type, _string));
 }

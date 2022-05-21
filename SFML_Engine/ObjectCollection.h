@@ -23,6 +23,8 @@ public:
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
+	void drawHealthBars();
+	void doAEODamage(float x, float y, float range, float damage);
 	void setDebug(bool _debug);
 private:
 	bool debug = false;

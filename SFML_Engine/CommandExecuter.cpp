@@ -46,6 +46,9 @@ void CommandExecuter::execute(Command command) {
 	case commandDrawRedRect:
 		pSpriteCollection->addRectDraw(0, 50, 50, 50, 0, sf::Color(255, 0, 0, 255));
 		break;
+	case commandDoAEODamage:
+		pObjectCollection->doAEODamage(command.f1, command.f2, command.f3, command.f4);
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

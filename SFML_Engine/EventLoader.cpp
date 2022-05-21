@@ -7,14 +7,26 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 	//switch based on event type, fill with pairs inside
 	switch (type) {
 	case test1:
-		pairList.initialise(1);
+		pairList.initialise(2);
 		pairList.list[0] = CAPair();
 		pairList.list[0].hasCondition = false;
 		pairList.list[0].actionList = ActionList();
 		pairList.list[0].actionList.size = 1;
 		pairList.list[0].actionList.initialise(1);
 		pairList.list[0].actionList.list[0] = Action(sourceId, a_playSound, test1, 0, "hh", 1);
-		pairList.list[0].post = false;		
+		pairList.list[0].post = false;
+
+		pairList.list[1] = CAPair();
+		pairList.list[1].hasCondition = true;
+		pairList.list[1].conditionList = ConditionList();
+		pairList.list[1].conditionList.initialise(1);
+		pairList.list[1].conditionList.list[0] = Condition(true, test3, false);
+		pairList.list[1].conditionList.amountModifier = 2;
+		//list.list[0].conditionList.soundName = "1";
+		pairList.list[1].actionList = ActionList();
+		pairList.list[1].actionList.initialise(1);
+		pairList.list[1].actionList.list[0] = Action(sourceId, a_doAOEDamage50, test1, 2, "", amount);
+		pairList.list[1].post = false;
 		break;
 	case test2:
 		pairList.initialise(2);

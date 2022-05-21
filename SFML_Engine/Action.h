@@ -3,7 +3,7 @@
 #include <string>
 #include "Console.h"
 
-enum ActionType { a_addEvent, a_playSound };
+enum ActionType { a_addEvent, a_playSound, a_doAOEDamage50 };
 
 class Action {
 public:

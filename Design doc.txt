@@ -78,9 +78,10 @@ TODO:
 
 	living class DONE
 
-	health bars
+	health bars DONE
 
 	doing damage command
+		AOE DONE
 		to specific ID
 		to all expect specific ID
 		to all

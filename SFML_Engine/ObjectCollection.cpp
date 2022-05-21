@@ -87,6 +87,30 @@ void ObjectCollection::runCollisionDetection() {
 	}
 }
 
+void ObjectCollection::drawHealthBars() {
+	Living* living;
+	for (int i = 0; i < objects.size(); i++) {
+		//check if object inherits living
+		if (living = dynamic_cast<Living*>(objects[i])) {
+			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y - 10, living->getHealth(), 5, -10000, sf::Color(0, 255, 0));
+		}
+	}
+}
+
+void ObjectCollection::doAEODamage(float x, float y, float range, float damage) {
+	Living* living;
+	for (int i = 0; i < objects.size(); i++) {
+		//check if object inherits living
+		if (living = dynamic_cast<Living*>(objects[i])) {
+			//check if within range
+			if (pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - x, 2) + pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - y, 2) < pow(range, 2)) {
+				//do damge
+				living->doDamage(damage);
+			}
+		}
+	}
+}
+
 void ObjectCollection::setDebug(bool _debug) {
 	debug = _debug;
 }

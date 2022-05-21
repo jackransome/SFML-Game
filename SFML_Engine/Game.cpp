@@ -231,5 +231,7 @@ void Game::Draw() {
 
 	spriteCollection.drawAll();
 
+	objectCollection.drawHealthBars();
+
 	frame++;
 }
