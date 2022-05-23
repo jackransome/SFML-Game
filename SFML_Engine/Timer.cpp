@@ -147,9 +147,16 @@ void Timer::runPairs(Event* event, bool post, bool sameBeat) {
 		if (capl.list[j].post == post) {
 			//check condition list in pair
 			if (checkConditionList(capl.list[j].conditionList, event->getSourceId(), sameBeat)) {
+				if (capl.list[j].conditionList.hasSound) {
+					console->addCommand(commandPlaySound, capl.list[j].conditionList.soundName);
+				}
 				//if conditions fullfilled or has no conditions execute the actions
 				doActionList(&capl.list[j]);
 			}
 		}
 	}
+}
+
+float Timer::getPhase() {
+	return phase;
 }

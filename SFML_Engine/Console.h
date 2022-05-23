@@ -2,8 +2,8 @@
 #include <string>
 #include <queue>
 
-enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug, commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage };
-enum ObjectType{ objectFootprint, objectAction1animation};
+enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug, commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull };
+enum ObjectType{ objectFootprint, objectAction1animation, objectNull};
 
 struct Command {
 	Command() {}
@@ -60,16 +60,16 @@ struct Command {
 		f3 = _f3;
 		f4 = _f4;
 	}
-	CommandType type;
-	ObjectType objectType;
+	CommandType type = commandNull;
+	ObjectType objectType = objectNull;
 	std::string string;
-	float f1;
-	float f2;
-	float f3;
-	float f4;
-	int a;
-	int b;
-	int c;
+	float f1 = 0;
+	float f2 = 0;
+	float f3 = 0;
+	float f4 = 0;
+	int a = 0;
+	int b = 0;
+	int c = 0;
 };
 
 class Console {

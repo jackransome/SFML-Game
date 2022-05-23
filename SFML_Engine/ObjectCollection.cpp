@@ -106,6 +106,10 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage) 
 			if (pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - x, 2) + pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - y, 2) < pow(range, 2)) {
 				//do damge
 				living->doDamage(damage);
+				if (living->getHealth() <= 0) {
+					objects.erase(objects.begin() + i);
+					i--;
+				}
 			}
 		}
 	}

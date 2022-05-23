@@ -13,6 +13,7 @@ public:
 	bool checkConditionList(ConditionList conditionList, int sourceId, bool sameBeat);
 	void doActionList(CAPair* _CAPair);
 	void runPairs(Event* event, bool post, bool sameBeat);
+	float getPhase();
 private:
 	int getCurrentTime();
 	int bpm; //beats per minute

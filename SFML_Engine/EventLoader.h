@@ -15,6 +15,7 @@ struct ConditionList {
 		size = _size;
 		list = new Condition[_size];
 	}
+	bool hasSound;
 	std::string soundName = "";
 	float amountModifier;
 };

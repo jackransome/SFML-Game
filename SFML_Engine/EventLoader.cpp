@@ -36,6 +36,7 @@ CAPairList EventLoader::loadCAPairs(EventType type, int sourceId, float amount)
 		pairList.list[0].conditionList.initialise(1);;
 		pairList.list[0].conditionList.list[0] = Condition(true, test1);
 		pairList.list[0].conditionList.soundName = "ex5";
+		pairList.list[0].conditionList.hasSound = true;
 		pairList.list[0].actionList = ActionList();
 		pairList.list[0].actionList.initialise(1);
 		pairList.list[0].actionList.list[0] = Action(sourceId, a_addEvent, test2, 2, "", 1);
