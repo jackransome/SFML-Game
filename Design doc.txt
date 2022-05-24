@@ -60,9 +60,9 @@ timing:
 
 TODO:
 
-	add PRE/MID/POST actions and sounds
+	add PRE/MID/POST/THROUGHOUT actions and sounds
 
-	inaudible middle beat, raise tempo
+	inaudible middle beat, raise tempo DONE
 
 	add windows to conditions
 

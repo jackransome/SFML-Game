@@ -6,6 +6,7 @@ Event::Event(int _sourceId, EventType _type, float _amount, int _beat) {
 	amount = _amount;
 	beat = _beat;
 	CAPairs = EventLoader::loadCAPairs(_type, _sourceId, amount);
+	sounds = EventLoader::loadEventSounds(_type);
 	activated = false;
 }
 

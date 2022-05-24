@@ -2,11 +2,12 @@
 
 CommandExecuter::CommandExecuter() {}
 
-CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection){
+CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager){
 	pObjectCollection = _pObjectCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
 	pSpriteCollection = _pSpriteCollection;
+	pInputManager = _pInputManager;
 }
 
 void CommandExecuter::execute(Command command) {
@@ -48,6 +49,9 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandDoAEODamage:
 		pObjectCollection->doAEODamage(command.f1, command.f2, command.f3, command.f4);
+		break;
+	case commandDamageAtMouse:
+		pObjectCollection->doAEODamage(pInputManager->translatedMouseX, pInputManager->translatedMouseY, 30, command.f1);
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

@@ -11,6 +11,8 @@ public:
 	void Run();
 	void Draw();
 private:
+	int screenW;
+	int screenH;
 	bool lastSpace = false;
 	Image *sprite1;
 	Image* sprite2;

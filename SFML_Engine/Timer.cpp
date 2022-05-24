@@ -21,7 +21,11 @@ void Timer::update(){
 	phase = (float)(now % msInOneBeat) / (float)msInOneBeat;
 	//std::cout << beat << " b / p " << phase << "\n";
 	if (lastPhase < 0.5f && phase >= 0.5f) {
-		console->addCommand(commandPlaySound, "sh", 0.1);
+		if (beat % 2 == 0) {
+			console->addCommand(commandPlaySound, "sh", 0.1);
+		}
+		
+		console->addCommand(commandPlaySound, "hh4", 0.05);
 		//console->addCommand(commandDrawGreenRect);
 	}
 	for (int i = 0; i < events.size(); i++) {
@@ -115,7 +119,7 @@ bool Timer::checkConditionList(ConditionList conditionList, int sourceId, bool s
 	return fulfilled;
 }
 
-void Timer::doActionList(CAPair* _CAPair) {
+void Timer::doActionList(CAPair* _CAPair, float amount) {
 	ActionList actionList = _CAPair->actionList;
 	for (int k = 0; k < actionList.size; k++) {
 		switch (actionList.list[k].getType()) {
@@ -129,6 +133,11 @@ void Timer::doActionList(CAPair* _CAPair) {
 
 		case a_doAOEDamage50:
 			console->addCommand(commandDoAEODamage, 0, 0, 50, 10);
+			break;
+
+		case a_doAOEdamageAtMouse:
+			console->addCommand(commandDamageAtMouse, amount * _CAPair->conditionList.amountModifier);
+			break;
 		}
 	}
 }
@@ -151,7 +160,7 @@ void Timer::runPairs(Event* event, bool post, bool sameBeat) {
 					console->addCommand(commandPlaySound, capl.list[j].conditionList.soundName);
 				}
 				//if conditions fullfilled or has no conditions execute the actions
-				doActionList(&capl.list[j]);
+				doActionList(&capl.list[j], event->getAmount());
 			}
 		}
 	}

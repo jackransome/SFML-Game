@@ -3,14 +3,14 @@
 Game::Game(sf::RenderWindow* pwindow) {
 	pWindow = pwindow;
 	graphics = Graphics(pwindow);
+	camera = Camera();
 	inputManager = InputManager(pwindow);
 	spriteCollection = SpriteCollection(pwindow, &graphics);
 	soundPlayer = SoundPlayer();
-	camera = Camera();
 	console = Console();
 	timer = Timer(250, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
-	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection);
+	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager);
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
@@ -42,8 +42,15 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("ex5", "resources/ex5.wav");
 	soundPlayer.loadSound("1", "resources/1.wav");
 	soundPlayer.loadSound("8tom", "resources/8tom.wav");
-
-	camera.setScreenDimensions(1920, 1080);
+	soundPlayer.loadSound("hh2", "resources/hh2.wav");
+	soundPlayer.loadSound("hh3", "resources/hh3.wav");
+	soundPlayer.loadSound("beep1", "resources/beep1.wav");
+	soundPlayer.loadSound("beep2", "resources/beep2.wav");
+	soundPlayer.loadSound("hh4", "resources/hh4.wav");
+	soundPlayer.loadSound("punch1", "resources/punch1.wav");
+	screenW = 1920;
+	screenH = 1080;
+	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(1);
 	camera.setScreenshakeDecay(0.9);
 	spriteCollection.setUseCamera(true);
@@ -54,11 +61,12 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addWall(300, 300, 100, 100);
 	objectCollection.setDebug(false);
 	objectCollection.addEnemy(200, 200);
+	objectCollection.addEnemy(400, 200);
+	objectCollection.addEnemy(300, 450);
 }
 
 void Game::HandleInput() {
 	inputManager.update();
-	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
 	if (inputManager.onKeyDown(space)) {
 		console.addCommand(commandPlaySound, "hh");
 		console.addCommand(commandShakeScreen, 15);	
@@ -71,13 +79,13 @@ void Game::HandleInput() {
 	}
 	if (inputManager.onKeyDown(e)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(1, test1, 0, 1, false);
+		timer.addEvent(0, eventA, 0, 20, false);
 	}
 	if (inputManager.onKeyDown(r)) {
 		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(2, test2, 0, 1, false);
+		timer.addEvent(0, eventB, 0, 1, false);
 	}
-	if (inputManager.onKeyDown(t)) {
+	/*if (inputManager.onKeyDown(t)) {
 		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(2, test3, 0, 1, true);
 	}
@@ -88,7 +96,7 @@ void Game::HandleInput() {
 	if (inputManager.onKeyDown(u)) {
 		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(0, test1, 0, 1, false);
-	}
+	}*/
 }
 
 void Game::Run() {
@@ -99,6 +107,7 @@ void Game::Run() {
 		commandExecuter.execute(console.getCommand());
 	}
 	soundPlayer.update();
+	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
 }
 
 void Game::Draw() {
@@ -113,7 +122,8 @@ void Game::Draw() {
 	spriteCollection.addImageDraw(sprite1, 400, 800, 800);
 	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
-	spriteCollection.addAbsoluteCircleDraw(inputManager.mouseX, inputManager.mouseY, 50, inputManager.mouseY, sf::Color(255, 0, 0, 255));
+	spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));
+	
 
 	spriteCollection.addRectDraw(200 + timer.getPhase() * 50, 200, 5, 20, 5, sf::Color(0, 0, 255, 255));
 

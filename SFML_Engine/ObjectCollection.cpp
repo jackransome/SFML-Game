@@ -9,6 +9,7 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
+	debug = false;
 }
 
 void ObjectCollection::draw() {
@@ -21,6 +22,7 @@ void ObjectCollection::draw() {
 		for (int i = 0; i < objects.size(); i++) {
 			objects[i]->draw();
 			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
+			pSpriteCollection->addCircleDraw(objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2) - 2, objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2) - 2, 4, 100000, sf::Color(255, 255, 255, 2000));
 		}
 	}
 }
@@ -103,7 +105,12 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage) 
 		//check if object inherits living
 		if (living = dynamic_cast<Living*>(objects[i])) {
 			//check if within range
-			if (pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - x, 2) + pow((objects[i]->getBoundingBox().x + objects[i]->getBoundingBox().w / 2) - y, 2) < pow(range, 2)) {
+			if (i == 0) {
+				std::cout << "obj: " << objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2) << "|" << objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2) << "|\n";
+				std::cout << "mouse: " << x << "|" << y << "|\n";
+				std::cout << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().h / 2)) - y << "|\n";
+			}
+			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do damge
 				living->doDamage(damage);
 				if (living->getHealth() <= 0) {

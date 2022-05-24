@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Camera.h"
 
 enum keys {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, leftArrow, rightArrow, upArrow, downArrow, escape, tab, backSpace, space, lControl, rControl, lShift, rShift, enter};
 

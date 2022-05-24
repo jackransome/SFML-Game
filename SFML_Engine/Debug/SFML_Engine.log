@@ -1,3 +1,5 @@
-﻿  Game.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(48,32): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  EventLoader.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(71,77): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(94,77): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\EventLoader.cpp(105,77): warning C4305: 'argument': truncation from 'double' to 'float'
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

@@ -1,6 +1,8 @@
 #pragma once
 #include "EventLoader.h"
 
+
+
 class Event {
 public:
 	Event(int _sourceId, EventType _type, float _amount, int _beat);
@@ -19,4 +21,5 @@ private:
 	int beat;
 	CAPairList CAPairs;
 	bool activated;
+	EventSounds sounds;
 };

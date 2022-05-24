@@ -11,7 +11,7 @@ public:
 	void changeBpm(int _bpm);
 	void addEvent(int beatDelay, EventType type, int sourceId, float amount, bool accuracy);
 	bool checkConditionList(ConditionList conditionList, int sourceId, bool sameBeat);
-	void doActionList(CAPair* _CAPair);
+	void doActionList(CAPair* _CAPair, float amount);
 	void runPairs(Event* event, bool post, bool sameBeat);
 	float getPhase();
 private:

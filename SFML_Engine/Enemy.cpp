@@ -2,7 +2,7 @@
 
 Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
 	Object(x, y, 30, 30, 0, movable, true),
-	Living(50, 1)
+	Living(100, 1)
 {
 	pSpriteCollection = _pSpriteCollection;
 }
