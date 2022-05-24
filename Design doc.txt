@@ -60,25 +60,7 @@ timing:
 
 TODO:
 
-	shouldnt be able to add the same event twice on one beat with user input DONE
-	have event sounds DONE
-	add do event directly to timer, for user input DONE
-
-	have actions that are done in the middle of a beat(where sound currently plays) DONE
-		they can be conditional, as the events they rely on existing will already be in their beat from earlier (may change things overall?)
-
-	decoration using spritesheet DONE
-
-	spritesheets for action animation DONE 
-
-	enemies
-		enemy class DONE
-		object collection
-			add enemy DONE
-
-	living class DONE
-
-	health bars DONE
+	add windows to conditions
 
 	doing damage command
 		AOE DONE
@@ -91,68 +73,120 @@ TODO:
 
 	
 
-	add windows (isnt this technically done with the adding to the same beat?)
-	add amount being determined by time accuracy DONE
-
 	sound processing:
 		load from soundbuffer into array: getSamples
 		load into soundbuffer from array: loadFromSamples
 
-	condition sounds DONE
-	have condition for lack of event DONE
-	should be able to pass on its amount with a modifier DONE
-	should have conditions about its own amount DONE
-	multiple conditions w multiple actions DONE
-
-
-	CAPair:
-		contains a condition list and an action list DONE
-		if hasCondition is true, conditionlist is checked DONE
-		if false or condlist satisfied, do action DONE
-
-
-	action
-		:int source id DONE
-		:type (actiontype) DONE
-		:amount DONE
-		event type (to add) DONE
-		event delay DONE
-		sound name DONE
-	event
-		:source id DONE
-		:type DONE
-		:amount DONE
-		:phase DONE
-		:beat (if equal to current beat, triger event when up to phase) DONE
-		CAPair list DONE
-
-	event loader:
-		is static
-		load conditions DONE
-		load actions DONE
-	
-	condition
-		:bool has same source id DONE
-		:type of concurrent event DONE
-		:minimum amount of cuncurrent event DONE
-
-	Timer / Global clock / Event tracker
-		:console DONE
-		and attach ticking sound DONE
-		adds to phase position every frame based on bpm y*60 = bpm/60 DONE
-		int beat DONE
-		float phase DONE
-		float phaseperframe DONE
-		*vector events DONE
-		void changeBpm(int bpm) DONE
-		void addevent(int beats in future, source id, type, amount) DONE
-		void update()
-			get time and do phase and beat stuff DONE
-			check new events and:
-				delete is needed DONE
-				run action
-					add new events DONE
-					play sounds DONE
-					do commands DONE
+Setting and old plan:
+// GAME plan
+//
+// SETTING:
+// 
+// you are software that found a way to download itself into a robotic body
+// 
+// the AR headset is for HUD and menus only
+// 
+// snowing and empty, stone things rise out of the ground, activated by pressure pads and levers
+// at some point you find an augmented reality headset, allowing you to access the main gameplay of the game (before this point sometimes you are randomly attacked / damaged
+// some things follow you out of AR
+// 
+// 
+// cinematic bits that show you fighting nothing
+// sometimes the AR will flicker
+// some effects in game will cause noisyness in AR, or cut it out
+// 
+// // first AR encounter: put on, screen fased to black, then to black and white, then to colour with AR stuff
+// 
+// "real world" enemies are revealed at somepoint, first appear in AR but remain when taking your headset off
+// at some point ar and the real world may switch (maybe showing it doesnt matter which way around it is?
+//
+// 
+// GOAL: explore, upgrade gear, learn more and escape
+// 
+// MUSIC:
+// 
+//		intro track will be track 1 from my ep
+//		another track will be triasic period
+//		use drone track for some death sounds and maybe ambience
+//		untitled 149 from FL for happy victory or chill bustling area
+//		tracks w breaks for in AR
+// 
+// MECHANICS:
+// 
+//  - GENERAL
+//		AR things used to open up real world areas
+//		hovering drone indicates when virtual enemies are nearby
+//		mostfights will be in AR
+//		puzzles will have some AR component most of the time
+//		AR headset will have battery, when it runs out and enemies come you are defenseless
+// 
+//  - COMBAT:
+//		you can dash twice and then have a cooldown
+//		can place down pylons, or marks, when 2 have been place a beem appears between the two for a split second and damages all enemies inside (beam: fire? electric?)
+//		Dying in AR = dying irl, like killed by the guardians in halo, maybe a stone pillar will rise out of the snow and laser beam you
+//		
+//	- hovering drone:
+//		indicates when virtual enemies are nearby
+//		also indicates nearby things you can interact with
+//		may play a role in other puzzles, leaving you vulerable it you make it stay in one place for a task
+//		may also become possessed in some parts of the story, going yellow?
+//		
+// 
+//	- INTERRACTION AND INVENTORY
+//		F to interract, must hold F to use things, fills up a box or bar, instead of just clicking
+//		E to open inventory
+//		Interacting with specific thing can open and close doors, as well as spawn enemies and structures
+// 
+//  - ENVIRONMENTS:
+//		Outdoors: snow and footprints
+//		Indoors: stone walls and floor
+// 
+//	- AR:
+//		some walls may only be in AR(and be able to be walked through) (may switch around when ar and normal modes switch?)
+// 
+// GRAPHICS:
+//		Footprints and blood will be left on snow, fading away over time
+//		Parallax scrolling for chasms etc (blur the background art for these)
+// 
+// TODO:
+//		Screen effects class:
+//			fading in/out, black / white
+//			shader stuff
+//		Global interfaces:
+//			Graphics
+//			Audio
+//		Object class and inheritance and collection
+//			bounding boxes
+//			has z
+//			generic drawing method
+//			(for player, enemies, walls, stairs, items, Particle etc)
+//			Object collection may need subsets that are loopable, for particles, enemies, etc
+// 
+//		Decoration class and inheritance and collection:
+//			has xy and spritesheet/image
+//			
+//			(for blood, footsteps, burn marks)
+// 
+//		Particle class with inheritance and collection
+//			Inherits object
+//			has xyz and spritesheet/image
+//			obeys same system as players and enemies in terms of elevated areas / cliffs
+//			some should spawn decoration when landing / despawning
+//			be able to remain on ground for set period of time, or disapear on impact
+// 
+//		Figure out system for elevated areas and stairs:
+//			stairs: faster to walk down, slower to walk up
+//			ledges/cliffs: falling off (moving off a raises platform(just a square) and not onto stairs, changes your position to a much greater y and adds equal z
+//			then gravity and z is a thing
+// 
+//		Art:
+//			Run cycle:
+//				4 movement per frame
+//				1 change per 4 frames
+//				= 16 movement in image per frame of sheet
+//				= 8 movement per frame of sheet becasue 2x scaling
+// 
+//  1 frame =  8 pixel step
+//
 		
 		
