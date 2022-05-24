@@ -60,6 +60,10 @@ timing:
 
 TODO:
 
+	add PRE/MID/POST actions and sounds
+
+	inaudible middle beat, raise tempo
+
 	add windows to conditions
 
 	doing damage command
