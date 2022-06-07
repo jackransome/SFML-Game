@@ -90,7 +90,6 @@ void MainCharacter::update() {
 }
 
 void MainCharacter::draw() {
-	pSpriteCollection->addCircleDraw(boundingBox.x - 15, boundingBox.y - 15, 15, 40, sf::Color(255, 0, 255, 255));
 	if (sprinting) {
 		if (boundingBox.xv < 0) {
 			animationRunLeft.run();

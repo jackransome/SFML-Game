@@ -124,8 +124,7 @@ void Game::Draw() {
 
 	spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 	
-
-	spriteCollection.addRectDraw(200 + timer.getPhase() * 50, 200, 5, 20, 5, sf::Color(0, 0, 255, 255));
+	//spriteCollection.addRectDraw(200 + timer.getPhase() * 50, 200, 5, 20, 5, sf::Color(0, 0, 255, 255));
 
 	objectCollection.draw();
 
