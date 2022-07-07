@@ -9,6 +9,8 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	animationRunLeft.setChangeTimer(3);
 	animationRunRight = SpriteSheet(pSpriteCollection, "mc_run_right", 22, 32, 6, 2);
 	animationRunRight.setChangeTimer(3);
+	animationRunDown = SpriteSheet(pSpriteCollection, "mc_run_down", 16, 32, 12, 2);
+	animationRunDown.setChangeTimer(3);
 	animationWalkLeft = SpriteSheet(pSpriteCollection, "mc_walk_left", 16, 32, 4, 2);
 	animationWalkLeft.setChangeTimer(4);
 	animationWalkRight = SpriteSheet(pSpriteCollection, "mc_walk_right", 16, 32, 4, 2);
@@ -22,6 +24,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	imageStandLeft = SpriteSheet(pSpriteCollection, "mc_stand_left", 16, 32, 1, 2);
 	imageStandRight = SpriteSheet(pSpriteCollection, "mc_stand_right", 16, 32, 1, 2);
 	direction = down;
+
+	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
+	miniAnimation.setChangeTimer(12);
 }
 
 void MainCharacter::update() {
@@ -112,15 +117,7 @@ void MainCharacter::draw() {
 	}
 
 	if (boundingBox.xv == 0) {
-		if (boundingBox.yv > 0) {
-			animationWalkDown.run();
-			animationWalkDown.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
-		}
-		else if (boundingBox.yv < 0) {
-			animationWalkUp.run();
-			animationWalkUp.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
-		}
-		else {
+		if (boundingBox.yv == 0){
 			switch (direction) {
 			case up:
 				imageStandBack.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
@@ -144,9 +141,30 @@ void MainCharacter::draw() {
 			case right:
 				imageStandRight.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
 				break;
-			}
 
+			}
+		}
+		if (sprinting) {
+			if (boundingBox.yv > 0) {
+				animationRunDown.run();
+				animationRunDown.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			}
+			else if (boundingBox.yv < 0) {
+				animationWalkUp.run();
+				animationWalkUp.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			}
+		} else{
+			if (boundingBox.yv > 0) {
+				animationWalkDown.run();
+				animationWalkDown.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			}
+			else if (boundingBox.yv < 0) {
+				animationWalkUp.run();
+				animationWalkUp.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			}
 		}
 	}
 
+	miniAnimation.run();
+	miniAnimation.draw(boundingBox.x-100, boundingBox.y-100, boundingBox.y + boundingBox.h);
 }

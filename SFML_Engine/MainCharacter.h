@@ -23,6 +23,8 @@ private:
 	SpriteSheet imageStandBack;
 	SpriteSheet imageStandLeft;
 	SpriteSheet imageStandRight;
+	SpriteSheet miniAnimation;
+	SpriteSheet animationRunDown;
 	InputManager* pInputManager;
 	SpriteCollection* pSpriteCollection;
 	Direction direction;

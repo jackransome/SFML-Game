@@ -24,11 +24,13 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("drone_fly", "resources/drone_fly.png");
 	spriteCollection.loadImage("mc_run_left", "resources/main_character/mc_run_left.png");
 	spriteCollection.loadImage("mc_run_right", "resources/main_character/mc_run_right.png");
+	spriteCollection.loadImage("mc_run_down", "resources/main_character/mc_run_down2.png");
 	spriteCollection.loadImage("mc_blink_1", "resources/main_character/mc_blink_1.png");
 	spriteCollection.loadImage("mc_stand_back", "resources/main_character/mc_stand_back.png");
 	spriteCollection.loadImage("mc_stand_left", "resources/main_character/mc_stand_left.png");
 	spriteCollection.loadImage("mc_stand_right", "resources/main_character/mc_stand_right.png");
 	spriteCollection.loadImage("action1", "resources/action1.png");
+	spriteCollection.loadImage("mc_mini_run_right", "resources/main_character/mc_mini_run_right.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
