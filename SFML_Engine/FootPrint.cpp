@@ -2,12 +2,13 @@
 
 FootPrint::FootPrint(SpriteCollection* _pSpriteCollection, float x, float y) :
 	Decoration(_pSpriteCollection, x, y) {
-	opacity = 100;
+	opacity = 80;
 	decay = 0.95;
 }
 
 void FootPrint::draw() {
-	pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 16, 16, -10000, sf::Color(0, 0, 0, opacity));
+	//pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 16, 16, -10000, sf::Color(0, 0, 0, opacity));
+	pSpriteCollection->addCircleDraw(boundingBox.x-8, boundingBox.y-8, 8, -10000, sf::Color(0, 0, 0, opacity));
 }
 
 void FootPrint::update() {

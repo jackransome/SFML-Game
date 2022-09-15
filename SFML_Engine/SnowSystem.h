@@ -10,6 +10,7 @@ struct SnowPart {
 	float sw;
 	float sh;
 	float opacity;
+	float maxOpacity;
 };
 
 class SnowSystem {
@@ -23,12 +24,12 @@ public:
 private:
 	SpriteCollection* pSpriteCollection;
 	SnowPart getNewSnowPart(glm::vec2 cameraPos);
-	SnowPart snowParts[40];
+	SnowPart snowParts[50];
 	float fallAngle = 1.6;
 	float fallSpeed = 1;
 	int screenW;
 	int screenH;
-	int size = 40;
+	int size = 50;
 	int borderSize = 800;
 	int time;
 };

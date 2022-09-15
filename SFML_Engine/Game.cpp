@@ -73,8 +73,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addWall(300, 300, 100, 100);
 	objectCollection.setDebug(false);
 	objectCollection.addEnemy(200, 200);
-	objectCollection.addEnemy(400, 200);
-	objectCollection.addEnemy(300, 450);
+	//objectCollection.addEnemy(400, 200);
+	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
 }
 
@@ -102,7 +102,7 @@ void Game::HandleInput() {
 		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(2, test3, 0, 1, true);
 	}
-	if (inputManager.onKeyDown(y)) {
+	if (inputManager.onKeyDown(y)) {s
 		console.addCommand(commandPlaySound, "thk");
 		timer.addEvent(1, test4, 0, 1, false);
 	}
@@ -127,16 +127,19 @@ void Game::Run() {
 }
 
 void Game::Draw() {
-
+	spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 300, 0, false);
 	// inside the main loop, between window.clear() and window.display()
 
 	camera.runscreenShake();
-	//graphics.clearScreen(sf::Color(255, 255, 255, 100));
+	
 	//spriteCollection.addRectDraw(camera.getPosition().x - 1920 / 2, camera.getPosition().y - 1080 / 2, 1920, 1080, -10000, sf::Color::White);
-	spriteCollection.addImageDraw(sprite2, 400, 400, 400);
-	spriteCollection.addImageDraw(sprite3, 800, 800, 800);
-	spriteCollection.addImageDraw(sprite1, 400, 800, 800);
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - 1000, camera.getPosition().y - 1000, -100000);
+	//spriteCollection.addImageDraw(sprite2, 400, 400, 400);
+	//spriteCollection.addImageDraw(sprite3, 800, 800, 800);
+	
+	//spriteCollection.addImageDraw(sprite1, 400, 800, 800);
+
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - 1920 / 2, camera.getPosition().y - 1080 / 2, -100000, 1, 1);
+	
 	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
 	//spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));

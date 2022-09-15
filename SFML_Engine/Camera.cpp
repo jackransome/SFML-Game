@@ -47,6 +47,6 @@ void Camera::runscreenShake(){
 		screenshake = 0;
 	}
 	screenshake *= screenshakeDecay;
-	screenshakePosition.x = ((double)rand() / (RAND_MAX)) * screenshake;
-	screenshakePosition.y = ((double)rand() / (RAND_MAX)) * screenshake;
+	screenshakePosition.x = ((double)rand() / (RAND_MAX)) * screenshake - screenshake/2;
+	screenshakePosition.y = ((double)rand() / (RAND_MAX)) * screenshake - screenshake / 2;
 }

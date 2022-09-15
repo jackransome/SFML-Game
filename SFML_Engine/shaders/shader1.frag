@@ -24,10 +24,10 @@ void main()
 			if (d/lightIntensities[j] > 3.1415/2){
 				newLightIntensity = 0;
 			} else {
-				newLightIntensity = cos(d/lightIntensities[j]);
+				newLightIntensity = 0.8*lightIntensities[j] / (d*d) + 0.8 * cos(d/lightIntensities[j]);
 			}
 		} else {
-			newBloomIntensity += lightIntensities[j] / d;
+			newBloomIntensity += lightIntensities[j] / (d*d);
 		}
 
 		//newLightIntensity += (1 - newLightIntensity) * 200/(d);

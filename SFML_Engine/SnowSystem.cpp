@@ -19,6 +19,9 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 	//get normal to direction vector
 	glm::vec2 normalDirection = glm::vec2(direction.y*0.5, direction.x*0.5);
 	for (int i = 0; i < size; i++) {
+		if (snowParts[i].opacity < snowParts[i].maxOpacity) {
+			snowParts[i].opacity += 0.01;
+		}
 		snowParts[i].x += direction.x*fallSpeed + sin(0.002*time + snowParts[i].phase)*normalDirection.x;
 		snowParts[i].y += direction.y * fallSpeed + sin(0.002 * time + snowParts[i].phase) * normalDirection.y;
 		if (snowParts[i].x < cameraPos.x - screenW / 2 - borderSize*1.5 ||
@@ -48,7 +51,8 @@ SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){
 	SnowPart temp = SnowPart();
 	temp.x = cameraPos.x - borderSize - screenW/2 +  rand() % (screenW+borderSize*2);
 	temp.y = cameraPos.y - borderSize - screenH / 2 + rand() % (screenH + borderSize * 2);
-	temp.opacity = ((float)rand() / (float)RAND_MAX) / 3;
+	temp.maxOpacity = ((float)rand() / (float)RAND_MAX) / 2;
+	temp.opacity = 0;
 	temp.phase = (float)rand() / (float)RAND_MAX * 3.1415 * 2;
 	return temp;
 }
