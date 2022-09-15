@@ -1,4 +1,5 @@
 #include "Console.h"
+#include <chrono>
 
 Console::Console() {
 	commands = std::queue<Command>();
@@ -48,6 +49,19 @@ void Console::addCommand(Command command) {
 
 int Console::getSize() {
 	return commands.size();
+}
+
+int Console::getTime()
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();;
+}
+
+void Console::incrementFrame() {
+	frame++;
+}
+
+int Console::getFrame() {
+	return frame;
 }
 
 Command Console::getCommand(bool toLog) {

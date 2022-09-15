@@ -7,7 +7,7 @@ FootPrint::FootPrint(SpriteCollection* _pSpriteCollection, float x, float y) :
 }
 
 void FootPrint::draw() {
-	pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 5, 5, -10000, sf::Color(0, 0, 0, opacity));
+	pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 16, 16, -10000, sf::Color(0, 0, 0, opacity));
 }
 
 void FootPrint::update() {

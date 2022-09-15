@@ -33,7 +33,12 @@ void SpriteSheet::run(){
 }
 
 void SpriteSheet::draw(float x, float y, float z){
-	pSpriteCollection->addImageDraw(pImage, x, y, z, frame * width, 0, width, height, scale);
+	if (opacity < 1) {
+		pSpriteCollection->addImageDraw(pImage, x, y, z, frame * width, 0, width, height, scale, opacity);
+	}
+	else {
+		pSpriteCollection->addImageDraw(pImage, x, y, z, frame * width, 0, width, height, scale);
+	}
 }
 
 void SpriteSheet::drawFrame(float x, float y, float z, int _frame) {
@@ -63,4 +68,8 @@ void SpriteSheet::reset() {
 
 int SpriteSheet::getFrame() {
 	return frame;
+}
+
+void SpriteSheet::setOpacity(float _opacity){
+	opacity = _opacity;
 }

@@ -14,7 +14,7 @@ Timer::Timer(int _bpm, Console* _console){
 }
 
 void Timer::update(){
-	now = getCurrentTime() - startTime;;
+	now = getCurrentTime() - startTime;
 	
 	beat = now / msInOneBeat;
 	lastPhase = phase;

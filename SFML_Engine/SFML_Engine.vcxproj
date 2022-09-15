@@ -166,6 +166,7 @@
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
+    <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
+    <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="SpriteDraw.h" />
@@ -202,6 +204,9 @@
     <ClInclude Include="SpriteCollection.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Wall.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shader1.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

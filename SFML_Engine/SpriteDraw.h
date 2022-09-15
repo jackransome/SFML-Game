@@ -17,6 +17,21 @@ struct SpriteDraw {
 		type = 0;
 		color = sf::Color(0, 0, 0, 0);
 	}
+
+	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, float _scale, float _opacity) {
+		scale = _scale;
+		pImage = _pSprite;
+		x = _x;
+		y = _y;
+		z = _z;
+		w = 0;
+		h = 0;
+		r = 0;
+		type = 0;
+		color = sf::Color(0, 0, 0, 0);
+		opacity = _opacity;
+	}
+
 	// Image constructor with draw section
 	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale) {
 		scale = _scale;
@@ -33,6 +48,24 @@ struct SpriteDraw {
 		sY = _sY;
 		sW = _sW;
 		sH = _sH;
+	}
+	// Image constructor with draw section
+	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale, float _opacity) {
+		scale = _scale;
+		pImage = _pSprite;
+		x = _x;
+		y = _y;
+		z = _z;
+		w = 0;
+		h = 0;
+		r = 0;
+		type = 1;
+		color = sf::Color(0, 0, 0, 0);
+		sX = _sX;
+		sY = _sY;
+		sW = _sW;
+		sH = _sH;
+		opacity = _opacity;
 	}
 	// Rectangle constructor
 	SpriteDraw(float _x, float _y, float _w, float _h, float _z, sf::Color _color) {
@@ -70,6 +103,13 @@ struct SpriteDraw {
 		type = 4;
 		fontIndex = _fontIndex;
 	}
+	void setShader(sf::Shader* _shader) {
+		shader = _shader;
+	}
+	sf::Shader* getShader() {
+		return shader;
+	}
+	sf::Shader *shader = nullptr;
 	Image* pImage;
 	float x;
 	float y;
@@ -87,4 +127,5 @@ struct SpriteDraw {
 	int sW = 0;
 	int sH = 0;
 	float scale;
+	float opacity = 1;
 };

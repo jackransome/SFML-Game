@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2d3c7099-c519-435a-baf7-1a0cc94b12b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +94,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Living.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,5 +185,13 @@
     <ClInclude Include="Living.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SnowSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shader1.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

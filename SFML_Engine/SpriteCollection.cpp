@@ -5,6 +5,7 @@ SpriteCollection::SpriteCollection() {}
 SpriteCollection::SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphics) {
 	pGraphics = pgraphics;
 	pWindow = pwindow;
+
 }
 
 void SpriteCollection::loadImage(std::string name, std::string path){
@@ -38,6 +39,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z){
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 }
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH) {
@@ -46,6 +48,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 }
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, float scale) {
@@ -54,14 +57,36 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, fl
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 }
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	currentDrawIndex++;
+}
+
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	currentDrawIndex++;
+}
+
+void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 }
 
@@ -71,6 +96,7 @@ void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, 
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++; 
 }
 
@@ -80,6 +106,7 @@ void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Col
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, r, z, color);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 }
 
@@ -110,12 +137,30 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	currentAbsoluteDrawIndex++;
 }
 
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	currentAbsoluteDrawIndex++;
+}
+
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	currentAbsoluteDrawIndex++;
+}
+
+void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
 	currentAbsoluteDrawIndex++;
 }
 
@@ -156,53 +201,60 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 }
 
 void SpriteCollection::drawAll() {
+	sendLightDataToShader();
 	if (orderZ) {
 		orderByZ();
 	}
 	glm::vec2 temp;
 	for (int i = 0; i < currentDrawIndex; i++) {
+		if (spriteDraws[i]->type < 2) { spriteDraws[i]->pImage->setShader(spriteDraws[i]->getShader()); }
 		if (useCamera) {
 			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
-			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale);
-			}
-			else if (spriteDraws[i]->type == 1) {
-				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
-			}
-			else if (spriteDraws[i]->type == 2) {
-				pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
-			}
-			else if (spriteDraws[i]->type == 3) {
-				pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
-			}
-			else if (spriteDraws[i]->type == 4) {
-				drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
-			}
 		}
 		else {
-			if (spriteDraws[i]->type == 0) {
-				spriteDraws[i]->pImage->draw(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->scale);
-			}
-			else if (spriteDraws[i]->type == 1) {
-				spriteDraws[i]->pImage->drawSection(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
-			}
-			else if (spriteDraws[i]->type == 2) {
-				pGraphics->drawRect(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
-			}
-			else if (spriteDraws[i]->type == 3) {
-				pGraphics->drawCircle(spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->r, spriteDraws[i]->color);
-			}
-			else if (spriteDraws[i]->type == 4) {
-				drawText(spriteDraws[i]->fontIndex, spriteDraws[i]->x, spriteDraws[i]->y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
+			temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y);
+		}
+		if (spriteDraws[i]->type == 0) {
+			if (spriteDraws[i]->opacity < 1) {
+				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity);
+			} else {
+				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale);
 			}
 		}
+		else if (spriteDraws[i]->type == 1) {
+			if (spriteDraws[i]->opacity < 1) {
+				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale, spriteDraws[i]->opacity);
+			} else {
+				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
+			}
+		}
+		else if (spriteDraws[i]->type == 2) {
+			pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
+		}
+		else if (spriteDraws[i]->type == 3) {
+			pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
+		}
+		else if (spriteDraws[i]->type == 4) {
+			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
+		}
+
 	}
 	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
 		if (absoluteSpriteDraws[i]->type == 0) {
-			absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale);
+			if (absoluteSpriteDraws[i]->opacity < 1) {
+				absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, spriteDraws[i]->opacity);
+			}
+			else {
+				absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale);
+			}
 		}
 		else if (absoluteSpriteDraws[i]->type == 1) {
-			absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale);
+			if (absoluteSpriteDraws[i]->opacity < 1) {
+				absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale, spriteDraws[i]->opacity);
+			}
+			else {
+				absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale);
+			}
 		}
 		else if (absoluteSpriteDraws[i]->type == 2) {
 			pGraphics->drawRect(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->w, absoluteSpriteDraws[i]->h, absoluteSpriteDraws[i]->color);
@@ -248,6 +300,18 @@ void SpriteCollection::addFont(std::string path) {
 	fonts.push_back(temp);
 }
 
+void SpriteCollection::setShader(sf::Shader *shader) {
+	lightingShader = shader;
+}
+
+void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
+	lightColours[numLights] = sf::Glsl::Vec3(colour.r, colour.g, colour.b);
+	lightPositions[numLights] = sf::Glsl::Vec2(position.x - pCamera->getPosition().x + windowW/2, -position.y + pCamera->getPosition().y + windowH / 2);
+	lightIntensities[numLights] = intensity;
+	lightTypes[numLights] = type;
+	numLights++;
+}
+
 void SpriteCollection::clearSpriteDraws() {
 	for (int i = 0; i < currentDrawIndex; i++) {
 		delete spriteDraws[i];
@@ -258,6 +322,15 @@ void SpriteCollection::clearSpriteDraws() {
 
 	currentDrawIndex = 0;
 	currentAbsoluteDrawIndex = 0;
+}
+
+void SpriteCollection::sendLightDataToShader(){
+	lightingShader->setUniform("numLights", (float)numLights);
+	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
+	lightingShader->setUniformArray("lightColours", lightColours, 100);
+	lightingShader->setUniformArray("lightIntensities", lightIntensities, 100);
+	lightingShader->setUniformArray("lightTypes", lightTypes, 100);
+	numLights = 0;
 }
 
 void SpriteCollection::orderByZ() {
@@ -271,4 +344,9 @@ void SpriteCollection::orderByZ() {
 			}
 		}
 	}
+}
+
+void SpriteCollection::setWindowDimensions(int w, int h){
+	windowW = w;
+	windowH = h;
 }

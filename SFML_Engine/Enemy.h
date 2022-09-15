@@ -8,7 +8,15 @@ public:
 	Enemy(SpriteCollection* _pSpriteCollection, float x, float y);
 	virtual void update() override;
 	virtual void draw() override;
+	void setTarget(int x, int y);
 private:
 	SpriteCollection* pSpriteCollection;
-	float vel;
+	float maxVel;
+	float acceleration;
+	glm::vec2 target;
+	glm::vec2 velocity;
+	glm::vec2 position;
+	void normaliseVec(glm::vec2 *vec);
+
+	SpriteSheet mainAnimation;
 };

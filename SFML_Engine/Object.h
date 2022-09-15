@@ -1,14 +1,18 @@
 #pragma once
 #include "BoundingBox.h"
 #include "Console.h"
+#include "glm/glm.hpp"
 
 enum Collidability { none, immovable, movable };
+
+//enum ObjectType { none, player, enemy };
 
 class Object {
 public:
 	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity);
 	BoundingBox getBoundingBox();
 	BoundingBox *getBoundingBoxPointer();
+	glm::vec2 getCenter();
 	virtual void update();
 	virtual void draw();
 	bool getToDestroy();
@@ -17,6 +21,7 @@ public:
 	void setId(int _id);
 	void setConsolePointer(Console* _pConsole);
 	Collidability getCollidability();
+	int getType();
 protected:
 	Console* pConsole;
 	int id;
@@ -24,6 +29,7 @@ protected:
 	BoundingBox boundingBox;
 	float z;
 	Collidability collidability;
-
+	int type = 0;
+	
 	bool hasGravity;
 };

@@ -26,6 +26,7 @@ public:
 	void drawHealthBars();
 	void doAEODamage(float x, float y, float range, float damage);
 	void setDebug(bool _debug);
+	void setEnemyTarget(int x, int y);
 private:
 	bool debug = false;
 	Console* pConsole;

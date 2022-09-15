@@ -1,11 +1,10 @@
-﻿  Game.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(57,32): warning C4305: 'argument': truncation from 'double' to 'float'
-  MainCharacter.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(47,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(52,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(54,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(64,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(68,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(71,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  MainCharacter.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(51,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(56,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(58,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(68,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(72,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(75,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(140,139): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MainCharacter.cpp(141,140): warning C4305: 'argument': truncation from 'double' to 'float'
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

@@ -86,8 +86,12 @@ public:
 	void addCommand(CommandType _type, float _f1, float _f2);
 	void addCommand(Command command);
 	int getSize();
+	int getTime();
+	void incrementFrame();
+	int getFrame();
 	Command getCommand(bool toLog = true);
 private:
+	long int frame = 0;
 	bool enableLogging = false;
 	std::queue<Command> commands;
 	std::queue<Command> log;

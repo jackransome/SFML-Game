@@ -18,6 +18,10 @@ BoundingBox Object::getBoundingBox() {
 BoundingBox* Object::getBoundingBoxPointer() {
 	return &boundingBox;
 }
+glm::vec2 Object::getCenter()
+{
+	return glm::vec2(boundingBox.x + boundingBox.w/2, boundingBox.y + boundingBox.h / 2);
+}
 void Object::update() {
 	
 }
@@ -47,4 +51,8 @@ void Object::setConsolePointer(Console* _pConsole) {
 
 Collidability Object::getCollidability() {
 	return collidability;
+}
+
+int Object::getType(){
+	return type;
 }

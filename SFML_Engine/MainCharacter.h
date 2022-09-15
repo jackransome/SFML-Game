@@ -25,6 +25,7 @@ private:
 	SpriteSheet imageStandRight;
 	SpriteSheet miniAnimation;
 	SpriteSheet animationRunDown;
+	SpriteSheet animationRunUp;
 	InputManager* pInputManager;
 	SpriteCollection* pSpriteCollection;
 	Direction direction;

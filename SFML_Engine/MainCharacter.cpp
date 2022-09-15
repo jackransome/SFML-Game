@@ -1,7 +1,7 @@
 #include "MainCharacter.h"
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float x, float y) :
-	Object(x, y, 32, 64, 0, movable, true),
+	Object(x, y, 16, 16, 0, movable, true),
 	Living(100, 2) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
@@ -11,6 +11,8 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	animationRunRight.setChangeTimer(3);
 	animationRunDown = SpriteSheet(pSpriteCollection, "mc_run_down", 16, 32, 12, 2);
 	animationRunDown.setChangeTimer(3);
+	animationRunUp = SpriteSheet(pSpriteCollection, "mc_run_up", 16, 32, 12, 2);
+	animationRunUp.setChangeTimer(3);
 	animationWalkLeft = SpriteSheet(pSpriteCollection, "mc_walk_left", 16, 32, 4, 2);
 	animationWalkLeft.setChangeTimer(4);
 	animationWalkRight = SpriteSheet(pSpriteCollection, "mc_walk_right", 16, 32, 4, 2);
@@ -24,6 +26,8 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	imageStandLeft = SpriteSheet(pSpriteCollection, "mc_stand_left", 16, 32, 1, 2);
 	imageStandRight = SpriteSheet(pSpriteCollection, "mc_stand_right", 16, 32, 1, 2);
 	direction = down;
+
+	type = 1;
 
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
 	miniAnimation.setChangeTimer(12);
@@ -88,58 +92,60 @@ void MainCharacter::update() {
 	pConsole->addCommand(commandSetCameraPos, boundingBox.x, boundingBox.y);
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
-	if ((boundingBox.xv || boundingBox.yv)) {
+	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
 		pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x, boundingBox.y);
 	}
 
 }
 
 void MainCharacter::draw() {
+	pSpriteCollection->drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 10, 0, false);
 	if (sprinting) {
 		if (boundingBox.xv < 0) {
 			animationRunLeft.run();
-			animationRunLeft.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			animationRunLeft.draw(boundingBox.x-8-6, boundingBox.y-48, boundingBox.y + boundingBox.h);
 		}
 		else if (boundingBox.xv > 0) {
 			animationRunRight.run();
-			animationRunRight.draw(boundingBox.x-6, boundingBox.y, boundingBox.y + boundingBox.h);
+			animationRunRight.draw(boundingBox.x- 8-6, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 		}
 	}
 	else {
 		if (boundingBox.xv < 0) {
 			animationWalkLeft.run();
-			animationWalkLeft.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			animationWalkLeft.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 		}
 		else if (boundingBox.xv > 0) {
 			animationWalkRight.run();
-			animationWalkRight.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+			animationWalkRight.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 		}
 	}
-
 	if (boundingBox.xv == 0) {
 		if (boundingBox.yv == 0){
 			switch (direction) {
 			case up:
-				imageStandBack.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				imageStandBack.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y+ boundingBox.h);
 				break;
 			case down:
 				blinkCounter++;
-				if (blinkCounter == 100) {
+				if (blinkCounter == 180) {
 					blinkCounter = 0;
 
 				}
-				if (blinkCounter > 90) {
-					animationBlink.drawFrame(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h, 1);
+				if (blinkCounter > 160) {
+					animationBlink.drawFrame(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h, 1);
 				}
 				else {
-					animationBlink.drawFrame(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h, 0);
+					animationBlink.drawFrame(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h, 0);
+					pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x -8 + 13, boundingBox.y - 48 + 13), glm::vec3(160, 214, 255), 0.1, 1, false);
+					pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13), glm::vec3(160, 214, 255), 0.1, 1, false);
 				}
 				break;
 			case left:
-				imageStandLeft.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				imageStandLeft.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 			case right:
-				imageStandRight.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				imageStandRight.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 
 			}
@@ -147,24 +153,23 @@ void MainCharacter::draw() {
 		if (sprinting) {
 			if (boundingBox.yv > 0) {
 				animationRunDown.run();
-				animationRunDown.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				animationRunDown.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			}
 			else if (boundingBox.yv < 0) {
-				animationWalkUp.run();
-				animationWalkUp.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				animationRunUp.run();
+				animationRunUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			}
 		} else{
 			if (boundingBox.yv > 0) {
 				animationWalkDown.run();
-				animationWalkDown.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				animationWalkDown.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			}
 			else if (boundingBox.yv < 0) {
 				animationWalkUp.run();
-				animationWalkUp.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
+				animationWalkUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			}
 		}
 	}
-
-	miniAnimation.run();
-	miniAnimation.draw(boundingBox.x-100, boundingBox.y-100, boundingBox.y + boundingBox.h);
+	//miniAnimation.run();
+	//miniAnimation.draw(boundingBox.x-100, boundingBox.y-100, boundingBox.y + boundingBox.h);
 }

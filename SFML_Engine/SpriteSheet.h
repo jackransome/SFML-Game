@@ -14,6 +14,7 @@ public:
 	bool isComplete();
 	void reset();
 	int getFrame();
+	void setOpacity(float _opacity);
 private:
 	int frame = 0;
 	int frames = 1;
@@ -27,4 +28,5 @@ private:
 	Image *pImage;
 	SpriteCollection *pSpriteCollection;
 	int timer = 0;
+	float opacity = 1;
 };
