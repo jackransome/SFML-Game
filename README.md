@@ -3,7 +3,7 @@
 
 Features:
 
-spirte drawing:
+sprite drawing:
    Images
    Animations
    Rectangles
