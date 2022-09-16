@@ -19,8 +19,10 @@ void Camera::setScreenDimensions(int w, int h) {
 }
 
 glm::vec2 Camera::getPosition() {
-	return position + screenshakePosition;
+	return position - screenshakePosition;
 }
+
+
 
 glm::vec2 Camera::transformPosition(glm::vec2 toTransform) {
 	return toTransform - position + glm::vec2(screenW/2, screenH/2) + screenshakePosition;

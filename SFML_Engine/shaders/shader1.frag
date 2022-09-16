@@ -7,6 +7,13 @@ uniform float lightTypes[100];
 uniform float numLights;
 uniform float ambientLightLevel;
 uniform vec3 ambientLightColour;
+uniform float time;
+
+float noise(vec2 seed)
+{
+    float x = (seed.x / 3.14159 + 4) * (seed.y / 5.49382 + 4) * ((fract(time) + 1));
+    return mod((mod(x, 13) + 1) * (mod(x, 123) + 1), 0.01) - 0.005;
+}
 
 void main()
 {
@@ -57,6 +64,9 @@ void main()
 	//pixel = pixel * ambientLight;
 	//pixel *= 2;
 
+	//film grain
+
+	pixel -= 5*noise(gl_FragCoord.xy + vec2(time*100, 0));
 
     // multiply it by the color
     gl_FragColor = gl_Color * pixel;

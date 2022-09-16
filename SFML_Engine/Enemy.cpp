@@ -8,7 +8,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
 	target = glm::vec2(0, 0);
 	velocity = glm::vec2(0, 0);
 	acceleration = 0.6;
-	maxVel = 4;
+	maxVel = 2;
 
 	pSpriteCollection = _pSpriteCollection;
 	type = 2;
@@ -50,7 +50,7 @@ void Enemy::update() {
 void Enemy::draw() {
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y-12), glm::vec3(255, 0, 0), 2, 1, false);
 	mainAnimation.run();
-	mainAnimation.draw(boundingBox.x, boundingBox.y-18, boundingBox.y);
+	mainAnimation.draw(boundingBox.x, boundingBox.y-18, boundingBox.y + boundingBox.h);
 }
 
 void Enemy::setTarget(int x, int y) {

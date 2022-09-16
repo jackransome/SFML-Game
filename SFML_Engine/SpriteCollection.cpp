@@ -306,7 +306,8 @@ void SpriteCollection::setShader(sf::Shader *shader) {
 
 void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
 	lightColours[numLights] = sf::Glsl::Vec3(colour.r, colour.g, colour.b);
-	lightPositions[numLights] = sf::Glsl::Vec2(position.x - pCamera->getPosition().x + windowW/2, -position.y + pCamera->getPosition().y + windowH / 2);
+	lightPositions[numLights] = sf::Glsl::Vec2(position.x, position.y);
+
 	lightIntensities[numLights] = intensity;
 	lightTypes[numLights] = type;
 	numLights++;
@@ -325,6 +326,10 @@ void SpriteCollection::clearSpriteDraws() {
 }
 
 void SpriteCollection::sendLightDataToShader(){
+	int temp = windowW;
+	for (int i = 0; i < numLights; i++) {
+		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + windowW / 2, -lightPositions[i].y + pCamera->getPosition().y + windowH / 2);
+	}
 	lightingShader->setUniform("numLights", (float)numLights);
 	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
 	lightingShader->setUniformArray("lightColours", lightColours, 100);

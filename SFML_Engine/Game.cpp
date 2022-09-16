@@ -43,6 +43,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("snow1", "resources/snow2.png");
 	spriteCollection.loadImage("white_background", "resources/white_background.png");
 	spriteCollection.loadImage("XFrame", "resources/XFrame.png");
+	spriteCollection.loadImage("XFrame", "resources/XFrame.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -62,6 +63,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("beep2", "resources/beep2.wav");
 	soundPlayer.loadSound("hh4", "resources/hh4.wav");
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
+	soundPlayer.loadSound("wind", "resources/wind.wav");
 
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(1);
@@ -78,6 +80,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
 	ambientLightColour = sf::Glsl::Vec3(253/255.0, 251/255.0, 230/255.0);
+	console.addCommand(commandPlaySound, "wind");
 }
 
 void Game::HandleInput() {
@@ -114,6 +117,7 @@ void Game::HandleInput() {
 	}
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
 	shader1.setUniform("ambientLightColour", ambientLightColour);
+	shader1.setUniform("time", (float)(frame % 30));
 	//if (inputManager.onKeyDown(e)) {
 	//	console.addCommand(commandPlaySound, "thk");
 	//	timer.addEvent(0, eventA, 0, 20, false);
@@ -166,9 +170,9 @@ void Game::Draw() {
 	
 	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), 300, 300, -10000, 4, 1);
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, 300, -10000, 4, 1);
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, -300, -10000, 4, 1);
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), 300, 300, 300+88*4, 4, 1);
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, 300, 300 + 88 * 4, 4, 1);
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, -300, -300 + 88 * 4, 4, 1);
 
 
 	//spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));
