@@ -42,6 +42,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("enemyDrone1", "resources/enemyDrone1.png");
 	spriteCollection.loadImage("snow1", "resources/snow2.png");
 	spriteCollection.loadImage("white_background", "resources/white_background.png");
+	spriteCollection.loadImage("XFrame", "resources/XFrame.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -76,6 +77,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
+	ambientLightColour = sf::Glsl::Vec3(253/255.0, 251/255.0, 230/255.0);
 }
 
 void Game::HandleInput() {
@@ -90,6 +92,28 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
 	}
+	if (inputManager.isKeyDown(e)) {
+		if (snowOpacity <= 0.99) {
+			snowOpacity += 0.01;
+		}
+	}
+	if (inputManager.isKeyDown(r)) {
+		if (snowOpacity >= 0.01) {
+			snowOpacity -= 0.01;
+		}
+	}
+	if (inputManager.isKeyDown(t)) {
+		if (ambientLightLevel <= 0.99) {
+			ambientLightLevel += 0.01;
+		}
+	}
+	if (inputManager.isKeyDown(y)) {
+		if (ambientLightLevel >= 0.01) {
+			ambientLightLevel -= 0.01;
+		}
+	}
+	shader1.setUniform("ambientLightLevel", ambientLightLevel);
+	shader1.setUniform("ambientLightColour", ambientLightColour);
 	//if (inputManager.onKeyDown(e)) {
 	//	console.addCommand(commandPlaySound, "thk");
 	//	timer.addEvent(0, eventA, 0, 20, false);
@@ -142,13 +166,20 @@ void Game::Draw() {
 	
 	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), 300, 300, -10000, 4, 1);
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, 300, -10000, 4, 1);
+	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, -300, -10000, 4, 1);
+
+
 	//spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));
 	
 	//spriteCollection.addRectDraw(200 + timer.getPhase() * 50, 200, 5, 20, 5, sf::Color(0, 0, 255, 255));
 
 	objectCollection.draw();
 
-	snowSystem.draw();
+	snowSystem.draw(snowOpacity);
+
+	
 
 	//objectCollection.drawHealthBars();
 

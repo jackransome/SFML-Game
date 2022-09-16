@@ -41,4 +41,7 @@ private:
 	Timer timer;
 	SnowSystem snowSystem;
 	sf::Shader shader1;
+	float ambientLightLevel = 0;
+	sf::Glsl::Vec3 ambientLightColour;
+	float snowOpacity = 0;
 };

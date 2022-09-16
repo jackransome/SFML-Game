@@ -39,6 +39,12 @@ void SnowSystem::draw(){
 	}
 }
 
+void SnowSystem::draw(float opacity) {
+	for (int i = 0; i < size; i++) {
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("snow1"), snowParts[i].x - 800, snowParts[i].y - 800, 1000000, 2, snowParts[i].opacity * opacity);
+	}
+}
+
 void SnowSystem::setFallAngle(float _fallAngle) {
 	fallAngle = _fallAngle;
 }
@@ -51,7 +57,7 @@ SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){
 	SnowPart temp = SnowPart();
 	temp.x = cameraPos.x - borderSize - screenW/2 +  rand() % (screenW+borderSize*2);
 	temp.y = cameraPos.y - borderSize - screenH / 2 + rand() % (screenH + borderSize * 2);
-	temp.maxOpacity = ((float)rand() / (float)RAND_MAX) / 2;
+	temp.maxOpacity = ((float)rand() / (float)RAND_MAX) / 1.5;
 	temp.opacity = 0;
 	temp.phase = (float)rand() / (float)RAND_MAX * 3.1415 * 2;
 	return temp;

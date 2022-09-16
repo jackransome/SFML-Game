@@ -5,12 +5,14 @@ uniform vec3 lightColours[100];
 uniform float lightIntensities[100];
 uniform float lightTypes[100];
 uniform float numLights;
+uniform float ambientLightLevel;
+uniform vec3 ambientLightColour;
 
 void main()
 {
     // lookup the pixel in the texture
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
-	vec4 newLightColor = vec4(0.1, 0.1, 0.1, 1);
+	vec4 newLightColor = vec4(ambientLightLevel*ambientLightColour.r, ambientLightLevel*ambientLightColour.g, ambientLightLevel*ambientLightColour.b, 1);
 	float newLightIntensity = 0;
 	float newBloomIntensity = 0;
 	vec4 bloomColour = vec4(0, 0, 0, 0);

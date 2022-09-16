@@ -19,6 +19,7 @@ public:
 	SnowSystem(SpriteCollection* _pSpriteCollection, int _screenW, int _screenH, glm::vec2 cameraPos);
 	void run(glm::vec2 cameraPos);
 	void draw();
+	void draw(float opacity);
 	void setFallAngle(float _fallAngle);
 	void setSpeed(float _fallSpeed);
 private:
