@@ -27,6 +27,12 @@ void CommandExecuter::execute(Command command) {
 	case commandPlaySound:
 		pSoundPlayer->playSoundByName(command.string, command.f1, command.f2);
 		break;
+	case commandLoopSound:
+		pSoundPlayer->loopSound(command.a);
+		break;
+	case commandStopSound:
+		pSoundPlayer->stopSound(command.a);
+		break;
 	case commandShakeScreen:
 		pCamera->addScreenshake(command.f1);
 		break;

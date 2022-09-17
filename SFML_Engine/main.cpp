@@ -39,6 +39,7 @@ int main()
         // sfml display window
         window.display();
     }
+    game.finishAudio();
 
     return 0;
 }

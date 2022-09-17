@@ -15,8 +15,10 @@ public:
 	void reset();
 	int getFrame();
 	void setOpacity(float _opacity);
+	bool getChangedFrame();
 private:
 	int frame = 0;
+	int lastFrame = 0;
 	int frames = 1;
 	int width = 0;
 	int height = 0;

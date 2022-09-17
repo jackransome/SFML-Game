@@ -13,6 +13,7 @@ SpriteSheet::SpriteSheet(SpriteCollection* _pSpriteCollection, std::string _name
 }
 
 void SpriteSheet::run(){
+	lastFrame = frame;
 	timer++;
 	if (timer == changeTimer) {
 		timer = 0;
@@ -72,4 +73,9 @@ int SpriteSheet::getFrame() {
 
 void SpriteSheet::setOpacity(float _opacity){
 	opacity = _opacity;
+}
+
+bool SpriteSheet::getChangedFrame()
+{
+	return (frame != lastFrame);
 }

@@ -63,7 +63,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("beep2", "resources/beep2.wav");
 	soundPlayer.loadSound("hh4", "resources/hh4.wav");
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
-	soundPlayer.loadSound("wind", "resources/wind.wav");
+	soundPlayer.loadSound("wind", "resources/wind_better2.wav");
+	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
 
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(1);
@@ -79,8 +80,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
-	ambientLightColour = sf::Glsl::Vec3(253/255.0, 251/255.0, 230/255.0);
-	console.addCommand(commandPlaySound, "wind");
+	ambientLightColour = sf::Glsl::Vec3(255/255.0, 253/255.0, 240/255.0);
+	//console.addCommand(commandPlaySound, "wind");
+	int id = soundPlayer.playSoundByName("wind", 0.25);
+	soundPlayer.loopSound(id);
 }
 
 void Game::HandleInput() {
@@ -95,29 +98,41 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
 	}
-	if (inputManager.isKeyDown(e)) {
+	if (inputManager.isKeyDown(q)) {
 		if (snowOpacity <= 0.99) {
 			snowOpacity += 0.01;
 		}
 	}
-	if (inputManager.isKeyDown(r)) {
+	if (inputManager.isKeyDown(e)) {
 		if (snowOpacity >= 0.01) {
 			snowOpacity -= 0.01;
 		}
 	}
-	if (inputManager.isKeyDown(t)) {
+	if (inputManager.isKeyDown(r)) {
 		if (ambientLightLevel <= 0.99) {
 			ambientLightLevel += 0.01;
 		}
 	}
-	if (inputManager.isKeyDown(y)) {
+	if (inputManager.isKeyDown(t)) {
 		if (ambientLightLevel >= 0.01) {
 			ambientLightLevel -= 0.01;
 		}
 	}
+
+	if (inputManager.isKeyDown(y)) {
+		if (shaderNoiseIntensity >= 0.03) {
+			shaderNoiseIntensity -= 0.03;
+		}
+	}
+	if (inputManager.isKeyDown(u)) {
+		if (shaderNoiseIntensity <= 4.97) {
+			shaderNoiseIntensity += 0.03;
+		}
+	}
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
 	shader1.setUniform("ambientLightColour", ambientLightColour);
-	shader1.setUniform("time", (float)(frame % 30));
+	shader1.setUniform("time", (float)(frame % 30)); 
+	shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
 	//if (inputManager.onKeyDown(e)) {
 	//	console.addCommand(commandPlaySound, "thk");
 	//	timer.addEvent(0, eventA, 0, 20, false);
@@ -192,4 +207,8 @@ void Game::Draw() {
 	
 
 	frame++;
+}
+
+void Game::finishAudio(){
+	soundPlayer.finish();
 }

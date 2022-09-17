@@ -18,9 +18,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	animationWalkRight = SpriteSheet(pSpriteCollection, "mc_walk_right", 16, 32, 4, 2);
 	animationWalkRight.setChangeTimer(4);
 	animationWalkDown = SpriteSheet(pSpriteCollection, "mc_walk_front", 16, 32, 8, 2);
-	animationWalkDown.setChangeTimer(6);
+	animationWalkDown.setChangeTimer(4);
 	animationWalkUp = SpriteSheet(pSpriteCollection, "mc_walk_back", 16, 32, 8, 2);
-	animationWalkUp.setChangeTimer(6);
+	animationWalkUp.setChangeTimer(4);
 	animationBlink = SpriteSheet(pSpriteCollection, "mc_blink_1", 16, 32, 1, 2);
 	imageStandBack = SpriteSheet(pSpriteCollection, "mc_stand_back", 16, 32, 1, 2);
 	imageStandLeft = SpriteSheet(pSpriteCollection, "mc_stand_left", 16, 32, 1, 2);
@@ -93,7 +93,7 @@ void MainCharacter::update() {
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
-		pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w/2, boundingBox.y + boundingBox.h / 2);
+
 	}
 
 }
@@ -115,6 +115,10 @@ void MainCharacter::draw() {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 17);
 			}
 			eyeVisible1 = true;
+			if (animationRunLeft.getChangedFrame() && animationRunLeft.getFrame() == 1) {
+				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 - 10, boundingBox.y + boundingBox.h / 2 + 6);
+				pConsole->addCommand(commandPlaySound, "footstep_snow");
+			}
 		}
 		else if (boundingBox.xv > 0) {
 			animationRunRight.run();
@@ -129,6 +133,10 @@ void MainCharacter::draw() {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 17);
 			}
 			eyeVisible1 = true;
+			if (animationRunRight.getChangedFrame() && animationRunRight.getFrame() == 1) {
+				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 + 10, boundingBox.y + boundingBox.h / 2 + 6);
+				pConsole->addCommand(commandPlaySound, "footstep_snow");
+			}
 		}
 	}
 	else {
@@ -145,6 +153,10 @@ void MainCharacter::draw() {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 11);
 			}
 			eyeVisible1 = true;
+			if (animationWalkLeft.getChangedFrame() && animationWalkLeft.getFrame() == 1) {
+				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 - 6, boundingBox.y + boundingBox.h / 2+6);
+				pConsole->addCommand(commandPlaySound, "footstep_snow");
+			}
 		}
 		else if (boundingBox.xv > 0) {
 			animationWalkRight.run();
@@ -159,6 +171,10 @@ void MainCharacter::draw() {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 11);
 			}
 			eyeVisible1 = true;
+			if (animationWalkRight.getChangedFrame() && animationWalkRight.getFrame() == 1) {
+				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 +6, boundingBox.y + boundingBox.h / 2 + 6);
+				pConsole->addCommand(commandPlaySound, "footstep_snow");
+			}
 		}
 	}
 	if (boundingBox.xv == 0) {
@@ -213,10 +229,18 @@ void MainCharacter::draw() {
 
 				eyeVisible1 = true;
 				eyeVisible2 = true;
+				if (animationRunDown.getChangedFrame() && (animationRunDown.getFrame() == 0 || animationRunDown.getFrame() == 6)) {
+					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 + 6);
+					pConsole->addCommand(commandPlaySound, "footstep_snow");
+				}
 			}
 			else if (boundingBox.yv < 0) {
 				animationRunUp.run();
 				animationRunUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
+				if (animationRunUp.getChangedFrame() && (animationRunUp.getFrame() == 4 || animationRunUp.getFrame() == 10)) {
+					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
+					pConsole->addCommand(commandPlaySound, "footstep_snow");
+				}
 			}
 		} else{
 			if (boundingBox.yv > 0) {
@@ -226,10 +250,18 @@ void MainCharacter::draw() {
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 				eyeVisible1 = true;
 				eyeVisible2 = true;
+				if (animationWalkDown.getChangedFrame() && (animationWalkDown.getFrame() == 0 || animationWalkDown.getFrame() == 4)) {
+					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 + 6);
+					pConsole->addCommand(commandPlaySound, "footstep_snow");
+				}
 			}
 			else if (boundingBox.yv < 0) {
 				animationWalkUp.run();
 				animationWalkUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
+				if (animationWalkUp.getChangedFrame() && (animationWalkUp.getFrame() == 1 || animationWalkUp.getFrame() == 5)) {
+					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
+					pConsole->addCommand(commandPlaySound, "footstep_snow");
+				}
 			}
 		}
 	}
