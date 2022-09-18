@@ -34,11 +34,7 @@ void main()
 		newBloomIntensity = 0;
 		d = distance(lightPositions[j], gl_FragCoord.xy);
 		if (lightTypes[j] == 0){
-			if (d/lightIntensities[j] > 3.1415/2){
-				newLightIntensity = 0;
-			} else {
-				newLightIntensity = 0.8*lightIntensities[j] / (d*d) + 0.8 * cos(d/lightIntensities[j]);
-			}
+				newLightIntensity = 1 / (d*d*0.00005 + 1);//+ 0.8 * cos(d/lightIntensities[j]);
 		} else {
 			newBloomIntensity += lightIntensities[j] / (d*d);
 		}
