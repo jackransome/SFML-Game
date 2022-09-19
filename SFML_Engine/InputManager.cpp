@@ -76,6 +76,12 @@ void InputManager::update(){
 		if (keyStruct.lControl > 0) {
 			keyStruct.lControl++;
 		}
+		//if (keyStruct.upArrow > 0) {
+		//	keyStruct.upArrow++;
+		//}
+		//if (keyStruct.downArrow > 0) {
+		//	keyStruct.downArrow++;
+		//}
 		if (mouseL > 0) {
 			mouseL++;
 		}
@@ -126,6 +132,12 @@ void InputManager::update(){
 			}
 			if (ev.key.code == sf::Keyboard::U) {
 				keyStruct.u = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Up) {
+				keyStruct.upArrow = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Down) {
+				keyStruct.downArrow = 1;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 1;
@@ -182,6 +194,12 @@ void InputManager::update(){
 			}
 			if (ev.key.code == sf::Keyboard::LControl) {
 				keyStruct.lControl = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Up) {
+				keyStruct.upArrow = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Down) {
+				keyStruct.downArrow = 0;
 			}
 		}
 		if (ev.type == sf::Event::MouseButtonPressed) {
@@ -240,6 +258,10 @@ int InputManager::isKeyDown(keys key){
 		return keyStruct.lShift;
 	case lControl:
 		return keyStruct.lControl;
+	case upArrow:
+		return keyStruct.upArrow;
+	case downArrow:
+		return keyStruct.downArrow;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -279,6 +301,10 @@ bool InputManager::onKeyDown(keys key) {
 		return !lastKeyStruct.lShift && keyStruct.lShift;
 	case lControl:
 		return !lastKeyStruct.lControl && keyStruct.lControl;
+	case upArrow:
+		return !lastKeyStruct.upArrow && keyStruct.upArrow;
+	case downArrow:
+		return !lastKeyStruct.downArrow && keyStruct.downArrow;
 	}
 	std::cout << "key not implemented!\n";
 	return false;

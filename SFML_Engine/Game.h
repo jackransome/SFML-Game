@@ -46,4 +46,5 @@ private:
 	sf::Glsl::Vec3 ambientLightColour;
 	float snowOpacity = 0.5;
 	float shaderNoiseIntensity = 1;
+	float daylightPhase = 0;
 };

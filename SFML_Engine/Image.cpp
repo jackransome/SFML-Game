@@ -9,18 +9,20 @@ Image::Image(sf::RenderWindow* pwindow, std::string _name, std::string path) {
 	sprite = sf::Sprite();
 	texture = sf::Texture();
 	texture.loadFromFile(path);
-	sprite.setTexture(texture);	
+	sprite.setTexture(texture, true);	
 }
 
 void Image::draw(float x, float y) {
 	sprite.setScale(1, 1);
 	sprite.setPosition(x, y);
+	sprite.setTexture(texture, true);
 	executeDraw();
 }
 
 void Image::draw(float x, float y, float scale) {
 	sprite.setPosition(x, y);
 	sprite.setScale(scale, scale);
+	sprite.setTexture(texture, true);
 	executeDraw();
 }
 
@@ -28,6 +30,7 @@ void Image::draw(float x, float y, float scale, float opacity) {
 	sprite.setPosition(x, y);
 	sprite.setScale(scale, scale);
 	sprite.setColor(sf::Color(255, 255, 255, opacity * 255));
+	sprite.setTexture(texture, true);
 	executeDraw();
 }
 

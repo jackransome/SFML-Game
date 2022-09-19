@@ -43,7 +43,9 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("snow1", "resources/snow2.png");
 	spriteCollection.loadImage("white_background", "resources/white_background.png");
 	spriteCollection.loadImage("XFrame", "resources/XFrame.png");
-	spriteCollection.loadImage("XFrame", "resources/XFrame.png");
+	spriteCollection.loadImage("wall_texture1", "resources/wall_texture1.png");
+	spriteCollection.loadImage("platform_top_edge", "resources/platform_top_edge.png");
+	spriteCollection.loadImage("platform_top_main", "resources/platform_top_main.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -75,6 +77,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addWall(300, 300, 100, 100);
+	objectCollection.addWall(500, 300, 100, 100);
+	objectCollection.addWall(300, -100, 100, 100);
 	objectCollection.setDebug(false);
 	objectCollection.addEnemy(200, 200);
 	//objectCollection.addEnemy(400, 200);
@@ -109,26 +113,31 @@ void Game::HandleInput() {
 		}
 	}
 	if (inputManager.isKeyDown(r)) {
+
+	}
+	if (inputManager.isKeyDown(t)) {
+
+	}
+
+	if (inputManager.isKeyDown(upArrow)) {
+		if (daylightPhase <= 0.99) {
+			daylightPhase += 0.01;
+		}
 		if (ambientLightLevel <= 0.99) {
 			ambientLightLevel += 0.01;
 		}
 	}
-	if (inputManager.isKeyDown(t)) {
+	if (inputManager.isKeyDown(downArrow)) {
 		if (ambientLightLevel >= 0.01) {
 			ambientLightLevel -= 0.01;
 		}
+		if (daylightPhase >= 0.01) {
+			daylightPhase -= 0.01;
+		}
 	}
 
-	if (inputManager.isKeyDown(y)) {
-		if (shaderNoiseIntensity >= 0.03) {
-			shaderNoiseIntensity -= 0.03;
-		}
-	}
-	if (inputManager.isKeyDown(u)) {
-		if (shaderNoiseIntensity <= 4.97) {
-			shaderNoiseIntensity += 0.03;
-		}
-	}
+
+
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
 	shader1.setUniform("ambientLightColour", ambientLightColour);
 	shader1.setUniform("time", (float)(frame % 30)); 
@@ -167,10 +176,17 @@ void Game::Run() {
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
 	snowSystem.run(camera.getPosition());
 	console.incrementFrame();
+	if (daylightPhase < 0.5) {
+		ambientLightColour = sf::Glsl::Vec3(255, 112 + 128 * daylightPhase*2, 69 + 121 * daylightPhase*2);
+	}
+	else {
+		ambientLightColour = sf::Glsl::Vec3(255 - 33 * (daylightPhase-0.5)*2, 240 - 2 * (daylightPhase - 0.5) * 2, 190 + 65 * (daylightPhase - 0.5) * 2);
+	}
+	
 }
 
 void Game::Draw() {
-	spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 300, 0, false);
+	spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 0.75, 0, false);
 	// inside the main loop, between window.clear() and window.display()
 
 	camera.runscreenShake();
@@ -180,6 +196,7 @@ void Game::Draw() {
 	//spriteCollection.addImageDraw(sprite3, 800, 800, 800);
 	
 	//spriteCollection.addImageDraw(sprite1, 400, 800, 800);
+	pWindow->clear();
 
 	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - 1920 / 2, camera.getPosition().y - 1080 / 2, -100000, 1, 1);
 	

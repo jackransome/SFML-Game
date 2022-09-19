@@ -23,7 +23,7 @@ void main()
 {
     // lookup the pixel in the texture
     vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
-	vec4 newLightColor = vec4(ambientLightLevel*ambientLightColour.r, ambientLightLevel*ambientLightColour.g, ambientLightLevel*ambientLightColour.b, 1);
+	vec4 newLightColor = vec4(ambientLightLevel*ambientLightColour.r/255, ambientLightLevel*ambientLightColour.g/255, ambientLightLevel*ambientLightColour.b/255, 1);
 	float newLightIntensity = 0;
 	float newBloomIntensity = 0;
 	vec4 bloomColour = vec4(0, 0, 0, 0);
@@ -34,7 +34,7 @@ void main()
 		newBloomIntensity = 0;
 		d = distance(lightPositions[j], gl_FragCoord.xy);
 		if (lightTypes[j] == 0){
-				newLightIntensity = 1 / (d*d*0.00005 + 1);//+ 0.8 * cos(d/lightIntensities[j]);
+				newLightIntensity = lightIntensities[j] / (d*d*0.00005 + 1);//+ 0.8 * cos(d/lightIntensities[j]);
 		} else {
 			newBloomIntensity += lightIntensities[j] / (d*d);
 		}

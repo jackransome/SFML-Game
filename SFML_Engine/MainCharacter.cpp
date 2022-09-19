@@ -101,6 +101,9 @@ void MainCharacter::update() {
 void MainCharacter::draw() {
 	eyeVisible1 = false;
 	eyeVisible2 = false;
+	if (pInputManager->isKeyDown(y)) {
+		pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x, boundingBox.y), glm::vec3(255, 255, 255), 0.5, 0, false);
+	}
 	if (sprinting) {
 		if (boundingBox.xv < 0) {
 			animationRunLeft.run();
