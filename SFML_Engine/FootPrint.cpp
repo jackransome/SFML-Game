@@ -2,8 +2,8 @@
 
 FootPrint::FootPrint(SpriteCollection* _pSpriteCollection, float x, float y) :
 	Decoration(_pSpriteCollection, x, y) {
-	opacity = 80;
-	decay = 0.95;
+	opacity = 50;
+	decay = 0.97;
 }
 
 void FootPrint::draw() {
