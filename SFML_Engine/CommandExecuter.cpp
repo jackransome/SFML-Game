@@ -37,7 +37,7 @@ void CommandExecuter::execute(Command command) {
 		pCamera->addScreenshake(command.f1);
 		break;
 	case commandEnableDebug:
-		if (command.f1) {
+		if (command.a) {
 			pObjectCollection->setDebug(true);
 		}
 		else {
@@ -46,6 +46,9 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandSetCameraPos:
 		pCamera->setPosition(command.f1, command.f2);
+		break;
+	case commandSetCameraFocusId:
+		pObjectCollection->setCameraFocus(command.a);
 		break;
 	case commandDrawGreenRect:
 		pSpriteCollection->addRectDraw(0, 0, 50, 50, 0, sf::Color(0, 255, 0, 255));
@@ -58,6 +61,13 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandDamageAtMouse:
 		pObjectCollection->doAEODamage(pInputManager->translatedMouseX, pInputManager->translatedMouseY, 30, command.f1);
+		break;
+	case commandEnableObjectControls:
+		pObjectCollection->resetAllControls();
+		pObjectCollection->setControls(command.a, true);
+		break;
+	case commandDisableObjectControls:
+		pObjectCollection->setControls(command.a, false);
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

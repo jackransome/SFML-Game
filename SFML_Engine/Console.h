@@ -2,7 +2,10 @@
 #include <string>
 #include <queue>
 
-enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug, commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull, commandDamageAtMouse, commandLoopSound, commandStopSound};
+enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug,
+	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
+	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls, commandDisableObjectControls
+};
 enum ObjectType{ objectFootprint, objectAction1animation, objectNull};
 
 struct Command {
@@ -81,6 +84,7 @@ public:
 	Console();
 	void addCommand(CommandType _type);
 	void addCommand(CommandType _type, float _f1);
+	void addCommand(CommandType _type, int _a);
 	void addCommand(CommandType _type, float _f1, float _f2, float _f3, float _f4);
 	void addCommand(CommandType _type, std::string _string);
 	void addCommand(CommandType _type, std::string _string, float _f1);

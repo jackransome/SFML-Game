@@ -36,60 +36,62 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 void MainCharacter::update() {
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-
-	if (pInputManager->isKeyDown(lShift)) {
-		vel = 4;
-		sprinting = true;
-	}
-	else {
-		vel = 2;
-		sprinting = false;
-	}
-	if (pInputManager->isKeyDown(w)) {
-		if (!pInputManager->isKeyDown(a) != !pInputManager->isKeyDown(d)) {
-			if (pInputManager->isKeyDown(d)) {
-				boundingBox.xv = vel * (1 / sqrt(2));
-				direction = right;
-			}
-			else if (pInputManager->isKeyDown(a)) {
-				direction = left;
-				boundingBox.xv = -vel * (1 / sqrt(2));
-			}
-			boundingBox.yv = -vel*(1/sqrt(2));
+	if (controlled) {
+		if (pInputManager->isKeyDown(lShift)) {
+			vel = 4;
+			sprinting = true;
 		}
 		else {
-			boundingBox.yv = -vel;
-			direction = up;
+			vel = 2;
+			sprinting = false;
 		}
-	}
-	else if (pInputManager->isKeyDown(s)) {
-		if (!pInputManager->isKeyDown(a) != !pInputManager->isKeyDown(d)) {
-			if (pInputManager->isKeyDown(d)) {
-				boundingBox.xv = vel * (1 / sqrt(2));
-				direction = right;
+		if (pInputManager->isKeyDown(w)) {
+			if (!pInputManager->isKeyDown(a) != !pInputManager->isKeyDown(d)) {
+				if (pInputManager->isKeyDown(d)) {
+					boundingBox.xv = vel * (1 / sqrt(2));
+					direction = right;
+				}
+				else if (pInputManager->isKeyDown(a)) {
+					direction = left;
+					boundingBox.xv = -vel * (1 / sqrt(2));
+				}
+				boundingBox.yv = -vel * (1 / sqrt(2));
 			}
-			else if (pInputManager->isKeyDown(a)) {
-				boundingBox.xv = -vel * (1 / sqrt(2));
-				direction = left;
+			else {
+				boundingBox.yv = -vel;
+				direction = up;
 			}
-			boundingBox.yv = vel * (1 / sqrt(2));
 		}
-		else {
-			direction = down;
-			boundingBox.yv = vel;
+		else if (pInputManager->isKeyDown(s)) {
+			if (!pInputManager->isKeyDown(a) != !pInputManager->isKeyDown(d)) {
+				if (pInputManager->isKeyDown(d)) {
+					boundingBox.xv = vel * (1 / sqrt(2));
+					direction = right;
+				}
+				else if (pInputManager->isKeyDown(a)) {
+					boundingBox.xv = -vel * (1 / sqrt(2));
+					direction = left;
+				}
+				boundingBox.yv = vel * (1 / sqrt(2));
+			}
+			else {
+				direction = down;
+				boundingBox.yv = vel;
+			}
 		}
-	}
-	else if (pInputManager->isKeyDown(a) && !pInputManager->isKeyDown(d)) {
-		boundingBox.xv = -vel;
-		direction = left;
-	}
-	else if (pInputManager->isKeyDown(d) && !pInputManager->isKeyDown(a)) {
-		boundingBox.xv = vel;
-		direction = right;
+		else if (pInputManager->isKeyDown(a) && !pInputManager->isKeyDown(d)) {
+			boundingBox.xv = -vel;
+			direction = left;
+		}
+		else if (pInputManager->isKeyDown(d) && !pInputManager->isKeyDown(a)) {
+			boundingBox.xv = vel;
+			direction = right;
+		}
 	}
 
 
-	pConsole->addCommand(commandSetCameraPos, boundingBox.x, boundingBox.y);
+	
+	//pConsole->addCommand(commandSetCameraPos, boundingBox.x, boundingBox.y);
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
@@ -110,12 +112,15 @@ void MainCharacter::draw() {
 			animationRunLeft.draw(boundingBox.x-8-6, boundingBox.y-48, boundingBox.y + boundingBox.h);
 			if (animationRunLeft.getFrame() == 0 || animationRunLeft.getFrame() == 3) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 19);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 19);
 			}
 			else if (animationRunLeft.getFrame() == 1 || animationRunLeft.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 21);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 21);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 17);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 17);
 			}
 			eyeVisible1 = true;
 			if (animationRunLeft.getChangedFrame() && animationRunLeft.getFrame() == 1) {
@@ -128,12 +133,15 @@ void MainCharacter::draw() {
 			animationRunRight.draw(boundingBox.x- 8-6, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			if (animationRunRight.getFrame() == 0 || animationRunRight.getFrame() == 3) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
 			}
 			else if (animationRunRight.getFrame() == 1 || animationRunRight.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 21);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 17);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
 			}
 			eyeVisible1 = true;
 			if (animationRunRight.getChangedFrame() && animationRunRight.getFrame() == 1) {
@@ -148,12 +156,15 @@ void MainCharacter::draw() {
 			animationWalkLeft.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			if (animationWalkLeft.getFrame() == 0 || animationWalkLeft.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
 			}
 			else if (animationWalkLeft.getFrame() == 1) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 15);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 15);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 11);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 11);
 			}
 			eyeVisible1 = true;
 			if (animationWalkLeft.getChangedFrame() && animationWalkLeft.getFrame() == 1) {
@@ -166,12 +177,15 @@ void MainCharacter::draw() {
 			animationWalkRight.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			if (animationWalkRight.getFrame() == 0 || animationWalkRight.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
 			}
 			else if (animationWalkRight.getFrame() == 1) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 15);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 15);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 11);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 11);
 			}
 			eyeVisible1 = true;
 			if (animationWalkRight.getChangedFrame() && animationWalkRight.getFrame() == 1) {
@@ -185,6 +199,8 @@ void MainCharacter::draw() {
 			switch (direction) {
 			case up:
 				imageStandBack.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y+ boundingBox.h);
+				eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 				break;
 			case down:
 				blinkCounter++;
@@ -207,11 +223,13 @@ void MainCharacter::draw() {
 			case left:
 				eyeVisible1 = true;
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
 				imageStandLeft.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 			case right:
 				eyeVisible1 = true;
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
 				imageStandRight.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 
@@ -240,6 +258,14 @@ void MainCharacter::draw() {
 			else if (boundingBox.yv < 0) {
 				animationRunUp.run();
 				animationRunUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
+				if ((animationRunDown.getFrame() > 0 && animationRunDown.getFrame() < 4) || (animationRunDown.getFrame() > 6 && animationRunDown.getFrame() < 10)) {
+					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 15);
+					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 15);
+				}
+				else {
+					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
+					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
+				}
 				if (animationRunUp.getChangedFrame() && (animationRunUp.getFrame() == 4 || animationRunUp.getFrame() == 10)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
 					pConsole->addCommand(commandPlaySound, "footstep_snow");
@@ -261,6 +287,8 @@ void MainCharacter::draw() {
 			else if (boundingBox.yv < 0) {
 				animationWalkUp.run();
 				animationWalkUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
+				eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 				if (animationWalkUp.getChangedFrame() && (animationWalkUp.getFrame() == 1 || animationWalkUp.getFrame() == 5)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
 					pConsole->addCommand(commandPlaySound, "footstep_snow");
@@ -270,9 +298,13 @@ void MainCharacter::draw() {
 	}
 	if (eyeVisible1) {
 		pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 1, 1, false);
+		
 	}
+	pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 0.03, 0, false);
+	pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 0.03, 0, false);
 	if (eyeVisible2) {
 		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1, 1, false);
+		
 	}
 	
 	

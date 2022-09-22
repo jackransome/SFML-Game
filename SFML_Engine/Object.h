@@ -22,7 +22,9 @@ public:
 	void setConsolePointer(Console* _pConsole);
 	Collidability getCollidability();
 	int getType();
+	void setControlled(bool _controlled);
 protected:
+	bool controlled = false;
 	Console* pConsole;
 	int id;
 	bool toDestroy;

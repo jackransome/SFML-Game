@@ -90,6 +90,29 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 	currentDrawIndex++;
 }
 
+void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation){
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->setRotation(rotation);
+	currentDrawIndex++;
+}
+
+void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry) {
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->setRotation(rotation);
+	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
+	currentDrawIndex++;
+}
+
 void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, sf::Color color) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
@@ -207,7 +230,14 @@ void SpriteCollection::drawAll() {
 	}
 	glm::vec2 temp;
 	for (int i = 0; i < currentDrawIndex; i++) {
-		if (spriteDraws[i]->type < 2) { spriteDraws[i]->pImage->setShader(spriteDraws[i]->getShader()); }
+		
+		if (spriteDraws[i]->type < 2) {
+			spriteDraws[i]->pImage->setShader(spriteDraws[i]->getShader());
+			spriteDraws[i]->pImage->setRotation(spriteDraws[i]->rotation);
+			if (spriteDraws[i]->rotationPoint) {
+				spriteDraws[i]->pImage->setRPoint(spriteDraws[i]->rx, spriteDraws[i]->ry);
+			}
+		}
 		if (useCamera) {
 			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
 		}

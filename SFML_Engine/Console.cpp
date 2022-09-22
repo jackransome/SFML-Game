@@ -11,6 +11,10 @@ void Console::addCommand(CommandType _type) {
 	commands.push(Command(_type));
 }
 
+void Console::addCommand(CommandType _type, int _a) {
+	commands.push(Command(_type, _a));
+}
+
 void Console::addCommand(CommandType _type, float _f1) {
 	commands.push(Command(_type, _f1));
 }

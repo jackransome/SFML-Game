@@ -46,6 +46,9 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("wall_texture1", "resources/wall_texture1.png");
 	spriteCollection.loadImage("platform_top_edge", "resources/platform_top_edge.png");
 	spriteCollection.loadImage("platform_top_main", "resources/platform_top_main.png");
+	spriteCollection.loadImage("rover_stack_1", "resources/rover_stack_1.png"); 
+	spriteCollection.loadImage("rover_stack_crate", "resources/rover_stack_crate.png");
+	spriteCollection.loadImage("crate_stack_1", "resources/crate_stack_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -81,6 +84,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addWall(300, -100, 100, 100);
 	objectCollection.setDebug(false);
 	objectCollection.addEnemy(200, 200);
+	objectCollection.addRover(-100, -100);
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
@@ -88,6 +92,16 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//console.addCommand(commandPlaySound, "wind");
 	int id = soundPlayer.playSoundByName("wind", 0.25);
 	soundPlayer.loopSound(id);
+	//blizzard conditions
+	snowSystem.setSpeed(10);
+	snowSystem.setFallAngle(0.5);
+	snowSystem.setSize(100);
+	snowOpacity = 1;
+	snowSystem.setOpacity(snowOpacity);
+	console.addCommand(commandSetCameraFocusId, 0);
+	console.addCommand(commandEnableObjectControls, 0);
+	objectCollection.addCrate(-30, 30);
+
 }
 
 void Game::HandleInput() {
@@ -105,18 +119,24 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(q)) {
 		if (snowOpacity <= 0.99) {
 			snowOpacity += 0.01;
+			snowSystem.setOpacity(snowOpacity);
 		}
 	}
 	if (inputManager.isKeyDown(e)) {
 		if (snowOpacity >= 0.01) {
 			snowOpacity -= 0.01;
+			snowSystem.setOpacity(snowOpacity);
 		}
 	}
 	if (inputManager.isKeyDown(r)) {
-
+		snowSystem.setSpeed(10);
+		snowSystem.setFallAngle(0.5);
+		snowSystem.setSize(100);
 	}
 	if (inputManager.isKeyDown(t)) {
-
+		snowSystem.setSpeed(1);
+		snowSystem.setFallAngle(1.6);
+		snowSystem.setSize(50);
 	}
 
 	if (inputManager.isKeyDown(upArrow)) {
@@ -135,7 +155,35 @@ void Game::HandleInput() {
 			daylightPhase -= 0.01;
 		}
 	}
-
+	if (inputManager.isKeyDown(n0)) {
+		console.addCommand(commandSetCameraFocusId, 0);
+		console.addCommand(commandEnableObjectControls, 0);
+	}
+	if (inputManager.isKeyDown(n1)) {
+		console.addCommand(commandSetCameraFocusId, 0);
+		console.addCommand(commandEnableObjectControls, 0);
+	}
+	if (inputManager.isKeyDown(n2)) {
+		console.addCommand(commandSetCameraFocusId, 5);
+		console.addCommand(commandEnableObjectControls, 5);
+	}
+	if (inputManager.isKeyDown(n3)) {
+		console.addCommand(commandSetCameraFocusId, 4);
+		console.addCommand(commandEnableObjectControls, 4);
+	}
+	if (inputManager.isKeyDown(n4)) {
+		console.addCommand(commandSetCameraFocusId, 4);
+		console.addCommand(commandEnableObjectControls, 4);
+	}
+	if (inputManager.isKeyDown(n5)) {
+		console.addCommand(commandSetCameraFocusId, 5);
+		console.addCommand(commandEnableObjectControls, 5);
+	}
+	if (inputManager.isKeyDown(n6)) {
+		console.addCommand(commandSetCameraFocusId, 6);
+		console.addCommand(commandEnableObjectControls, 6);
+	}
+	
 
 
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
@@ -213,7 +261,7 @@ void Game::Draw() {
 
 	objectCollection.draw();
 
-	snowSystem.draw(snowOpacity);
+	snowSystem.draw();
 
 	
 

@@ -109,6 +109,14 @@ struct SpriteDraw {
 	sf::Shader* getShader() {
 		return shader;
 	}
+	void setRotation(float _rotation) {
+		rotation = _rotation;
+	}
+	void setRPoint(float _rx, float _ry) {
+		rx = _rx;
+		ry = _ry;
+		rotationPoint = true;
+	}
 	sf::Shader *shader = nullptr;
 	Image* pImage;
 	float x;
@@ -117,6 +125,9 @@ struct SpriteDraw {
 	float w = 0;
 	float h = 0;
 	float r = 0;
+	float rx;
+	float ry;
+	bool rotationPoint = false;
 	int type; // 0 = image, 1 = image section, 2 = rectangle, 3 = circle, 4 = text
 	sf::Color color;
 	std::string string;
@@ -128,4 +139,5 @@ struct SpriteDraw {
 	int sH = 0;
 	float scale;
 	float opacity = 1;
+	float rotation = 0;
 };

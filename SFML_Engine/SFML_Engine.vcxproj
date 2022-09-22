@@ -155,6 +155,7 @@
     <ClCompile Include="CommandExecuter.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Crate.cpp" />
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -169,11 +170,13 @@
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
+    <ClCompile Include="Rover.cpp" />
     <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
+    <ClCompile Include="SpriteStack.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
@@ -185,6 +188,7 @@
     <ClInclude Include="CommandExecuter.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Crate.h" />
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
@@ -199,12 +203,14 @@
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
+    <ClInclude Include="Rover.h" />
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="SpriteDraw.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />
+    <ClInclude Include="SpriteStack.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

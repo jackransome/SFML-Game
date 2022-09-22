@@ -16,6 +16,9 @@ void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
 			objects[i]->draw();
+			if (objects[i]->getId() == cameraFocusId) {
+				pCamera->setPosition(objects[i]->getCenter());
+			}
 		}
 	}
 	else {
@@ -23,6 +26,9 @@ void ObjectCollection::draw() {
 			objects[i]->draw();
 			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
 			pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
+			if (objects[i]->getId() == cameraFocusId) {
+				pCamera->setPosition(objects[i]->getCenter());
+			}
 		}
 	}
 }
@@ -64,6 +70,18 @@ void ObjectCollection::addWall(int x, int y, int w, int h) {
 
 void ObjectCollection::addEnemy(int x, int y) {
 	objects.push_back(new Enemy(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addRover(int x, int y){
+	objects.push_back(new Rover(pInputManager, pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addCrate(int x, int y){
+	objects.push_back(new Crate(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -132,5 +150,24 @@ void ObjectCollection::setEnemyTarget(int x, int y){
 		if (objects[i]->getType() == 2) {
 			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y);
 		}
+	}
+}
+
+void ObjectCollection::setCameraFocus(int id){
+	cameraFocusId = id;
+}
+
+void ObjectCollection::setControls(int _id, bool _controlled){
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getId() == _id) {
+			objects[i]->setControlled(_controlled);
+			break;
+		}
+	}
+}
+
+void ObjectCollection::resetAllControls(){
+	for (int i = 0; i < objects.size(); i++) {
+		objects[i]->setControlled(false);
 	}
 }

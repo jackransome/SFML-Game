@@ -56,17 +56,19 @@ void main()
 			newLightColor.b = 1;
 		}
 
+	pixel = vec4((newLightColor.r) * pixel.r, (newLightColor.g) * pixel.g,(newLightColor.b) * pixel.b, pixel.a) + bloomColour;
+
 	//if (fragmentLightAlpha <= 0) {
 	//color = (1+fragmentLightAlpha)*color + ((-1*(fragmentLightAlpha)) * color * newLightColor);
 	//pixel = pixel + newLightColor/20;
 
-	pixel = vec4((newLightColor.r) * pixel.r, (newLightColor.g) * pixel.g,(newLightColor.b) * pixel.b, pixel.a) + bloomColour;
+	
 	//pixel = pixel * ambientLight;
 	//pixel *= 2;
 
 	//film grain
 
-	pixel -= noiseIntensity*5*noise(gl_FragCoord.xy + vec2(time*100, 0));
+	pixel -= noiseIntensity*4*noise(gl_FragCoord.xy + vec2(time*100, 0));
 
     // multiply it by the color
     gl_FragColor = gl_Color * pixel;

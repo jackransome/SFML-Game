@@ -7,7 +7,7 @@ SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int _screenW, int _
 	screenW = _screenW;
 	screenH = _screenH;
 	//loop through array and fill
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < maxSize; i++) {
 		snowParts[i] = getNewSnowPart(cameraPos);
 	}
 }
@@ -35,12 +35,6 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 
 void SnowSystem::draw(){
 	for (int i = 0; i < size; i++) {
-		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("snow1"), snowParts[i].x - 800, snowParts[i].y - 800, 1000000, 2, snowParts[i].opacity);
-	}
-}
-
-void SnowSystem::draw(float opacity) {
-	for (int i = 0; i < size; i++) {
 		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("snow1"), snowParts[i].x - 800, snowParts[i].y - 800, 1000000, 2, snowParts[i].opacity * opacity);
 	}
 }
@@ -51,6 +45,14 @@ void SnowSystem::setFallAngle(float _fallAngle) {
 
 void SnowSystem::setSpeed(float _fallSpeed){
 	fallSpeed = _fallSpeed;
+}
+
+void SnowSystem::setOpacity(float _opacity){
+	opacity = _opacity;
+}
+
+void SnowSystem::setSize(int _size){
+	size = _size;
 }
 
 SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){

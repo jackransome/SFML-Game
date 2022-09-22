@@ -8,6 +8,8 @@
 #include "FootPrint.h"
 #include "Wall.h"
 #include "Enemy.h"
+#include "Rover.h";
+#include "Crate.h"
 
 class ObjectCollection {
 public:
@@ -20,6 +22,8 @@ public:
 	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
 	void addEnemy(int x, int y);
+	void addRover(int x, int y);
+	void addCrate(int x, int y);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
@@ -27,6 +31,9 @@ public:
 	void doAEODamage(float x, float y, float range, float damage);
 	void setDebug(bool _debug);
 	void setEnemyTarget(int x, int y);
+	void setCameraFocus(int id);
+	void setControls(int id, bool controlled);
+	void resetAllControls();
 private:
 	bool debug = false;
 	Console* pConsole;
@@ -35,6 +42,6 @@ private:
 	SoundPlayer* pSoundPlayer;
 	Camera* pCamera;
 	std::vector<Object*> objects;
-
+	int cameraFocusId;
 	int nextId = 0;
 };

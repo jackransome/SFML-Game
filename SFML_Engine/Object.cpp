@@ -56,3 +56,7 @@ Collidability Object::getCollidability() {
 int Object::getType(){
 	return type;
 }
+
+void Object::setControlled(bool _controlled){
+	controlled = _controlled;
+}
