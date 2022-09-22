@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "Rover.h";
 #include "Crate.h"
+#include "RoverTracks.h"
 
 class ObjectCollection {
 public:
@@ -19,6 +20,7 @@ public:
 	void update();
 	void addMainCharacter(float x, float y);
 	void addFootPrint(float x, float y);
+	void addRoverTracks(float x, float y, float rotation);
 	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
 	void addEnemy(int x, int y);
@@ -34,7 +36,10 @@ public:
 	void setCameraFocus(int id);
 	void setControls(int id, bool controlled);
 	void resetAllControls();
+	void runPickUp(int id);
+	void runDrop(int id);
 private:
+	Object* getObjectById(int id);
 	bool debug = false;
 	Console* pConsole;
 	InputManager *pInputManager;

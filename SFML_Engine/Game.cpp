@@ -49,6 +49,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("rover_stack_1", "resources/rover_stack_1.png"); 
 	spriteCollection.loadImage("rover_stack_crate", "resources/rover_stack_crate.png");
 	spriteCollection.loadImage("crate_stack_1", "resources/crate_stack_1.png");
+	spriteCollection.loadImage("decoration_rover_tracks_1", "resources/decoration_rover_tracks_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -70,9 +71,12 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
 	soundPlayer.loadSound("wind", "resources/wind_better2.wav");
 	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
+	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_1.wav");
+	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
+	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
 
 	camera.setScreenDimensions(screenW, screenH);
-	camera.setScreenshakeCutoff(1);
+	camera.setScreenshakeCutoff(0.1);
 	camera.setScreenshakeDecay(0.9);
 	spriteCollection.setUseCamera(true);
 	spriteCollection.setPCamera(&camera);
@@ -108,7 +112,7 @@ void Game::HandleInput() {
 	inputManager.update();
 	if (inputManager.onKeyDown(space)) {
 		console.addCommand(commandPlaySound, "hh");
-		console.addCommand(commandShakeScreen, 15);	
+		console.addCommand(commandShakeScreen, 15.0f);	
 	}
 	if (inputManager.isKeyDown(f)) {
 		console.addCommand(commandEnableDebug, 1);
@@ -116,24 +120,24 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
 	}
-	if (inputManager.isKeyDown(q)) {
+	if (inputManager.isKeyDown(r)) {
 		if (snowOpacity <= 0.99) {
 			snowOpacity += 0.01;
 			snowSystem.setOpacity(snowOpacity);
 		}
 	}
-	if (inputManager.isKeyDown(e)) {
+	if (inputManager.isKeyDown(t)) {
 		if (snowOpacity >= 0.01) {
 			snowOpacity -= 0.01;
 			snowSystem.setOpacity(snowOpacity);
 		}
 	}
-	if (inputManager.isKeyDown(r)) {
+	if (inputManager.isKeyDown(y)) {
 		snowSystem.setSpeed(10);
 		snowSystem.setFallAngle(0.5);
 		snowSystem.setSize(100);
 	}
-	if (inputManager.isKeyDown(t)) {
+	if (inputManager.isKeyDown(u)) {
 		snowSystem.setSpeed(1);
 		snowSystem.setFallAngle(1.6);
 		snowSystem.setSize(50);

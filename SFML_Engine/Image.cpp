@@ -16,7 +16,13 @@ void Image::draw(float x, float y) {
 	sprite.setScale(1, 1);
 	sprite.setPosition(x, y);
 	sprite.setTexture(texture, true);
-	sprite.setRotation(rotation);
+	if (rotationPoint) {
+		transform = sf::Transform();
+		transform.rotate(rotation, sf::Vector2f(x + rx, y + ry));
+	}
+	else {
+		sprite.setRotation(rotation);
+	}
 	executeDraw();
 }
 
@@ -24,23 +30,45 @@ void Image::draw(float x, float y, float scale) {
 	sprite.setPosition(x, y);
 	sprite.setScale(scale, scale);
 	sprite.setTexture(texture, true);
-	sprite.setRotation(rotation);
+	if (rotationPoint) {
+		transform = sf::Transform();
+		transform.rotate(rotation, sf::Vector2f(x + rx, y + ry));
+	}
+	else {
+		sprite.setRotation(rotation);
+	}
 	executeDraw();
 }
 
 void Image::draw(float x, float y, float scale, float opacity) {
+	if (name == "decoration_rover_tracks_1") {
+		int r = 6;
+	}
 	sprite.setPosition(x, y);
 	sprite.setScale(scale, scale);
 	sprite.setColor(sf::Color(255, 255, 255, opacity * 255));
 	sprite.setTexture(texture, true);
-	sprite.setRotation(rotation);
+	if (rotationPoint) {
+		transform = sf::Transform();
+		transform.rotate(rotation, sf::Vector2f(x + rx, y + ry));
+		//sprite.setRotation(rotation);
+	}
+	else {
+		sprite.setRotation(rotation);
+	}
 	executeDraw();
 }
 
 void Image::drawSection(float x, float y, int sX, int sY, int sW, int sH) {
 	sprite.setTextureRect(sf::IntRect(sX, sY, sW, sH));
 	sprite.setPosition(x, y);
-	sprite.setRotation(rotation);
+	transform = sf::Transform();
+	if (rotationPoint) {
+		transform.rotate(rotation, sf::Vector2f(x + rx, y + ry));
+	}
+	else {
+		transform.rotate(rotation, sf::Vector2f(x + (sW * 1) / 2, y + (sH * 1) / 2));
+	}
 	executeDraw();
 }
 

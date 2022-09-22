@@ -11,7 +11,9 @@ public:
 	int playSoundByName(std::string name, float volume);
 	int playSoundByName(std::string name, float volume, float pitch);
 	void loopSound(int id);
+	void loopSoundBetween(int id, float start, float end);
 	void stopSound(int id);
+	float getPlayingOffset(int id);
 	void update();
 	void finish();
 private:

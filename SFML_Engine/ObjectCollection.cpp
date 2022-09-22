@@ -15,19 +15,23 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
-			objects[i]->draw();
-			if (objects[i]->getId() == cameraFocusId) {
-				pCamera->setPosition(objects[i]->getCenter());
+			if (!objects[i]->getPickedUp()) {
+				objects[i]->draw();
+				if (objects[i]->getId() == cameraFocusId) {
+					pCamera->setPosition(objects[i]->getCenter());
+				}
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < objects.size(); i++) {
-			objects[i]->draw();
-			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
-			pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
-			if (objects[i]->getId() == cameraFocusId) {
-				pCamera->setPosition(objects[i]->getCenter());
+			if (!objects[i]->getPickedUp()) {
+				objects[i]->draw();
+				pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
+				pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
+				if (objects[i]->getId() == cameraFocusId) {
+					pCamera->setPosition(objects[i]->getCenter());
+				}
 			}
 		}
 	}
@@ -56,6 +60,12 @@ void ObjectCollection::addFootPrint(float x, float y) {
 	setLatestConsole();
 }
 
+void ObjectCollection::addRoverTracks(float x, float y, float rotation){
+	objects.push_back(new RoverTracks(pSpriteCollection, x, y, rotation));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addAction1Animation(float x, float y) {
 	objects.push_back(new Action1Animation(pSpriteCollection, x, y));
 	setLatestId();
@@ -75,7 +85,7 @@ void ObjectCollection::addEnemy(int x, int y) {
 }
 
 void ObjectCollection::addRover(int x, int y){
-	objects.push_back(new Rover(pInputManager, pSpriteCollection, x, y));
+	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -97,7 +107,7 @@ void ObjectCollection::setLatestConsole() {
 
 void ObjectCollection::runCollisionDetection() {
 	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getCollidability() == immovable) {
+		if (objects[i]->getCollidability() == immovable && !objects[i]->getPickedUp()) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (objects[j]->getCollidability() == movable) {
 					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
@@ -121,7 +131,7 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage) 
 	Living* living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if (living = dynamic_cast<Living*>(objects[i])) {
+		if ((living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
 			//check if within range
 			if (i == 0) {
 				std::cout << "obj: " << objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2) << "|" << objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2) << "|\n";
@@ -170,4 +180,60 @@ void ObjectCollection::resetAllControls(){
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->setControlled(false);
 	}
+}
+
+void ObjectCollection::runPickUp(int id){
+	Object* object = getObjectById(id);
+	if (object == nullptr) {
+		return;
+	}
+	Pickuper* pickuper;
+	if (!(pickuper = dynamic_cast<Pickuper*>(object))) {
+		std::cout << "OBJECT WITH ID " << id << " NOT A PICKUPER\n";
+		return;
+	}
+	if (pickuper->getHolding()) {
+		std::cout << "OBJECT WITH ID " << id << " ALREADY HOLDING SOMETHING\n";
+		return;
+	}
+	glm::vec2 pickupPos = pickuper->getPickupPos();
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getCanBePickedUp()) {
+			if (CollisionDetection::getDistance(pickupPos, objects[i]->getCenter()) < 30){//} CollisionDetection::pointRectangleIntersect(pickupPos, objects[i]->getBoundingBoxPointer())) {
+				objects[i]->setPickedUp(true);
+				pickuper->setIdHeld(objects[i]->getId());
+			}
+		}
+	}
+}
+
+void ObjectCollection::runDrop(int id) {
+	Object* object = getObjectById(id);
+	if (object == nullptr) {
+		return;
+	}
+	Pickuper* pickuper;
+	if (!(pickuper = dynamic_cast<Pickuper*>(object))) {
+		std::cout << "OBJECT WITH ID " << id << " NOT A PICKUPER\n";
+		return;
+	}
+	if (!pickuper->getHolding()) {
+		std::cout << "OBJECT WITH ID " << id << " NOT HOLDING ANYTHING\n";
+		return;
+	}
+	object = getObjectById(pickuper->getIdHeld());
+	object->setPickedUp(false);
+	object->setCenter(pickuper->getPickupPos());
+	pickuper->drop();
+}
+
+Object* ObjectCollection::getObjectById(int id)
+{
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getId() == id) {
+			return objects[i];
+		}
+	}
+	std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
+	return nullptr;
 }

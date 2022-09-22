@@ -20,6 +20,9 @@ void CommandExecuter::execute(Command command) {
 		case objectAction1animation:
 			pObjectCollection->addAction1Animation(command.f1, command.f2);
 			break;
+		case objectRoverTracks:
+			pObjectCollection->addRoverTracks(command.f1, command.f2, command.f3);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
@@ -68,6 +71,12 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandDisableObjectControls:
 		pObjectCollection->setControls(command.a, false);
+		break;
+	case commandPickUp:
+		pObjectCollection->runPickUp(command.a);
+		break;
+	case commandDrop:
+		pObjectCollection->runDrop(command.a);
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

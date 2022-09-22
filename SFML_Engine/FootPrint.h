@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Decoration.h"
 
 class FootPrint : public Decoration {

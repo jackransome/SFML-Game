@@ -9,8 +9,8 @@ public:
 	void setScreenDimensions(int w, int h);
 	glm::vec2 getPosition();
 	glm::vec2 transformPosition(glm::vec2 toTransform);
-	void setScreenshakeAmount(int amount);
-	void addScreenshake(int amount);
+	void setScreenshakeAmount(float amount);
+	void addScreenshake(float amount);
 	void setScreenshakeDecay(float decay);
 	void setScreenshakeCutoff(float cutoff);
 	void runscreenShake();

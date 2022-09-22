@@ -23,12 +23,18 @@ public:
 	Collidability getCollidability();
 	int getType();
 	void setControlled(bool _controlled);
+	bool getCanBePickedUp();
+	bool getPickedUp();
+	void setPickedUp(bool _pickedUp);
+	void setCenter(glm::vec2 _center);
 protected:
 	bool controlled = false;
 	Console* pConsole;
 	int id;
 	bool toDestroy;
 	BoundingBox boundingBox;
+	bool canBePickedUp = false;
+	bool pickedUp = false;
 	float z;
 	Collidability collidability;
 	int type = 0;

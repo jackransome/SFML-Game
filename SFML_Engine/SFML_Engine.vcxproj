@@ -170,7 +170,9 @@
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
+    <ClCompile Include="Pickuper.cpp" />
     <ClCompile Include="Rover.cpp" />
+    <ClCompile Include="RoverTracks.cpp" />
     <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
@@ -203,7 +205,9 @@
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
+    <ClInclude Include="Pickuper.h" />
     <ClInclude Include="Rover.h" />
+    <ClInclude Include="RoverTracks.h" />
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />

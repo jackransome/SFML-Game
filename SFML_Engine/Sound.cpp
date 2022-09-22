@@ -17,3 +17,21 @@ sf::SoundBuffer* Sound::getBuffer() {
 std::string Sound::getName() {
 	return name;
 }
+
+bool Sound::getLoopsBetween(){
+	return loopsBetween;
+}
+
+void Sound::setLoopsBetween(float start, float end){
+	loopsBetween = true;
+	loopStart = start;
+	loopEnd = end;
+}
+
+float Sound::getLoopStart(){
+	return loopStart;
+}
+
+float Sound::getLoopEnd() {
+	return loopEnd;
+}

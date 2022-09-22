@@ -90,6 +90,40 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 	currentDrawIndex++;
 }
 
+void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float rotation){
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->setRotation(rotation);
+	currentDrawIndex++;
+}
+
+void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation){
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->setRotation(rotation);
+	currentDrawIndex++;
+}
+
+void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry){
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->setRotation(rotation);
+	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
+	currentDrawIndex++;
+}
+
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
@@ -230,8 +264,11 @@ void SpriteCollection::drawAll() {
 	}
 	glm::vec2 temp;
 	for (int i = 0; i < currentDrawIndex; i++) {
-		
+
 		if (spriteDraws[i]->type < 2) {
+			if (spriteDraws[i]->pImage->getName() == "decoration_rover_tracks_1") {
+				int r = 6;
+			}
 			spriteDraws[i]->pImage->setShader(spriteDraws[i]->getShader());
 			spriteDraws[i]->pImage->setRotation(spriteDraws[i]->rotation);
 			if (spriteDraws[i]->rotationPoint) {
@@ -255,6 +292,7 @@ void SpriteCollection::drawAll() {
 			if (spriteDraws[i]->opacity < 1) {
 				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale, spriteDraws[i]->opacity);
 			} else {
+				
 				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
 			}
 		}

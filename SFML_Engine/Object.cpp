@@ -60,3 +60,21 @@ int Object::getType(){
 void Object::setControlled(bool _controlled){
 	controlled = _controlled;
 }
+
+bool Object::getCanBePickedUp()
+{
+	return canBePickedUp;
+}
+
+bool Object::getPickedUp(){
+	return pickedUp;
+}
+
+void Object::setPickedUp(bool _pickedUp){
+	pickedUp = _pickedUp;
+}
+
+void Object::setCenter(glm::vec2 _center){
+	boundingBox.x = _center.x - boundingBox.w / 2;
+	boundingBox.y = _center.y - boundingBox.h / 2;
+}

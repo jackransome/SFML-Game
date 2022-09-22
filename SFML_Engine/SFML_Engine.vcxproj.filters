@@ -108,6 +108,12 @@
     <ClCompile Include="Crate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pickuper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoverTracks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -204,6 +210,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Crate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickuper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoverTracks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

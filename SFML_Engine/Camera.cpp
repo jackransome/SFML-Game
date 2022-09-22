@@ -22,17 +22,15 @@ glm::vec2 Camera::getPosition() {
 	return position - screenshakePosition;
 }
 
-
-
 glm::vec2 Camera::transformPosition(glm::vec2 toTransform) {
 	return toTransform - position + glm::vec2(screenW/2, screenH/2) + screenshakePosition;
 }
 
-void Camera::setScreenshakeAmount(int amount){
+void Camera::setScreenshakeAmount(float amount){
 	screenshake = amount;
 }
 
-void Camera::addScreenshake(int amount){
+void Camera::addScreenshake(float amount){
 	screenshake += amount;
 }
 
@@ -49,6 +47,9 @@ void Camera::runscreenShake(){
 		screenshake = 0;
 	}
 	screenshake *= screenshakeDecay;
-	screenshakePosition.x = ((double)rand() / (RAND_MAX)) * screenshake - screenshake/2;
+	if (screenshake > 0) {
+		int e = 3;
+	}
+	screenshakePosition.x = ((double)rand() / (RAND_MAX)) * screenshake - screenshake / 2;
 	screenshakePosition.y = ((double)rand() / (RAND_MAX)) * screenshake - screenshake / 2;
 }

@@ -60,6 +60,14 @@ void SoundPlayer::loopSound(int id){
 	}
 }
 
+void SoundPlayer::loopSoundBetween(int id, float start, float end){
+	for (int i = 0; i < soundPlayers.size(); i++) {
+		if (soundIDs[i] == id) {
+			sounds[i]->setLoopsBetween(start, end);
+		}
+	}
+}
+
 void SoundPlayer::stopSound(int id){
 	for (int i = 0; i < soundPlayers.size(); i++) {
 		if (soundIDs[i] == id) {
@@ -68,12 +76,30 @@ void SoundPlayer::stopSound(int id){
 	}
 }
 
+float SoundPlayer::getPlayingOffset(int id)
+{
+	for (int i = 0; i < soundPlayers.size(); i++) {
+		if (soundIDs[i] == id) {
+			return soundPlayers[i]->getPlayingOffset().asSeconds();
+		}
+	}
+	std::cout << "SOUND ID " << id << " DOES NOT EXIST\n";
+	return 0;
+}
+
 void SoundPlayer::update() {
 	for (int i = 0; i < soundPlayers.size(); i++) {
 		if (soundPlayers[i]->getStatus() == sf::SoundSource::Status::Stopped) {
 			delete soundPlayers[i];
 			soundPlayers.erase(soundPlayers.begin() + i);
 			soundIDs.erase(soundIDs.begin() + i);
+		}
+		else {
+			if (sounds[i]->getLoopsBetween()) {
+				if (soundPlayers[i]->getPlayingOffset().asSeconds() > sounds[i]->getLoopEnd()) {
+					soundPlayers[i]->setPlayingOffset(sf::seconds( sounds[i]->getLoopStart()));
+				}
+			}
 		}
 	}
 }

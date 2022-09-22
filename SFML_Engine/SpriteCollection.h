@@ -33,6 +33,9 @@ public:
 	void addImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity);
 	void addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
 	void addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
+	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float rotation);
+	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation);
+	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry);
 	void addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation);
 	void addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry);
 	void addRectDraw(float x, float y, float w, float h, float z, sf::Color);
