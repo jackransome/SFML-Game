@@ -15,30 +15,35 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
-			if (!objects[i]->getPickedUp()) {
+			//if (!objects[i]->getPickedUp()) {
 				objects[i]->draw();
 				if (objects[i]->getId() == cameraFocusId) {
 					pCamera->setPosition(objects[i]->getCenter());
 				}
-			}
+			//}
 		}
 	}
 	else {
 		for (int i = 0; i < objects.size(); i++) {
-			if (!objects[i]->getPickedUp()) {
+			//if (!objects[i]->getPickedUp()) {
 				objects[i]->draw();
 				pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
 				pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
 				if (objects[i]->getId() == cameraFocusId) {
 					pCamera->setPosition(objects[i]->getCenter());
 				}
-			}
+			//}
 		}
 	}
 }
 
 void ObjectCollection::update() {
 	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getPickedUp()) {
+			Pickuper* temp = dynamic_cast<Pickuper*>(getObjectById(objects[i]->getPickedUpById()));
+			objects[i]->setCenter(temp->getPickupPos());
+			objects[i]->setRotation(temp->getDropRotation());
+		}
 		if (objects[i]->getToDestroy()) {
 			objects.erase(objects.begin() + i);
 			i--;
@@ -92,6 +97,12 @@ void ObjectCollection::addRover(int x, int y){
 
 void ObjectCollection::addCrate(int x, int y){
 	objects.push_back(new Crate(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addRelay(int x, int y){
+	objects.push_back(new Relay(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -157,7 +168,7 @@ void ObjectCollection::setDebug(bool _debug) {
 void ObjectCollection::setEnemyTarget(int x, int y){
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if (objects[i]->getType() == 2) {
+		if (objects[i]->getType() == objectEnemy) {
 			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y);
 		}
 	}
@@ -201,7 +212,10 @@ void ObjectCollection::runPickUp(int id){
 		if (objects[i]->getCanBePickedUp()) {
 			if (CollisionDetection::getDistance(pickupPos, objects[i]->getCenter()) < 30){//} CollisionDetection::pointRectangleIntersect(pickupPos, objects[i]->getBoundingBoxPointer())) {
 				objects[i]->setPickedUp(true);
+				objects[i]->setPickedUpById(id);
+				pickuper->setTypeHeld(objects[i]->getType());
 				pickuper->setIdHeld(objects[i]->getId());
+				return;
 			}
 		}
 	}
@@ -224,6 +238,7 @@ void ObjectCollection::runDrop(int id) {
 	object = getObjectById(pickuper->getIdHeld());
 	object->setPickedUp(false);
 	object->setCenter(pickuper->getPickupPos());
+	object->setRotation(pickuper->getDropRotation());
 	pickuper->drop();
 }
 

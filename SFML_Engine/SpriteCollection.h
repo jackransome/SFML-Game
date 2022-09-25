@@ -18,6 +18,15 @@ struct LightSource {
 	float intensity;
 };
 
+struct shaderWrapper {
+	shaderWrapper(std::string _name, sf::Shader* _shader) {
+		name = _name;
+		shader = _shader;
+	}
+	std::string name;
+	sf::Shader* shader;
+};
+
 class SpriteCollection {
 public:
 	SpriteCollection();
@@ -54,9 +63,11 @@ public:
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color);
 	void addFont(std::string name);
 	void setShader(sf::Shader *shader);
+	void addShader(std::string name, sf::Shader* shader);
 	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute);
 	void sendLightDataToShader();
 	void setWindowDimensions(int w, int h);
+	void addShaderToLast(std::string shader);
 private:
 	void clearSpriteDraws();
 	void orderByZ();
@@ -81,6 +92,9 @@ private:
 	float lightTypes[100];
 	int windowW;
 	int windowH;
-
+	shaderWrapper* shaders[10];
+	int nextShaderIndex = 0;
+	int maxShaders = 10;
 	int numLights = 0;
+	bool lastAbsolute = false;;
 };

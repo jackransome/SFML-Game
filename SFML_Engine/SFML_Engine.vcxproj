@@ -171,6 +171,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
     <ClCompile Include="Pickuper.cpp" />
+    <ClCompile Include="Relay.cpp" />
     <ClCompile Include="Rover.cpp" />
     <ClCompile Include="RoverTracks.cpp" />
     <ClCompile Include="SnowSystem.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Pickuper.h" />
+    <ClInclude Include="Relay.h" />
     <ClInclude Include="Rover.h" />
     <ClInclude Include="RoverTracks.h" />
     <ClInclude Include="SnowSystem.h" />
@@ -220,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader1.frag" />
+    <None Include="shaders\test.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

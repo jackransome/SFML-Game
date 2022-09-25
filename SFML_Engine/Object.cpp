@@ -53,7 +53,7 @@ Collidability Object::getCollidability() {
 	return collidability;
 }
 
-int Object::getType(){
+ObjectType Object::getType(){
 	return type;
 }
 
@@ -74,7 +74,24 @@ void Object::setPickedUp(bool _pickedUp){
 	pickedUp = _pickedUp;
 }
 
+int Object::getPickedUpById()
+{
+	return pickedUpById;
+}
+
+void Object::setPickedUpById(int id){
+	pickedUpById = id;
+}
+
 void Object::setCenter(glm::vec2 _center){
 	boundingBox.x = _center.x - boundingBox.w / 2;
 	boundingBox.y = _center.y - boundingBox.h / 2;
+}
+
+void Object::setRotation(float _rotation){
+	rotation = _rotation;
+}
+
+float Object::getRotation(float _rotation){
+	return rotation;
 }

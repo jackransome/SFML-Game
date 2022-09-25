@@ -117,6 +117,15 @@ struct SpriteDraw {
 		ry = _ry;
 		rotationPoint = true;
 	}
+	void addShader(sf::Shader* _shader) {
+		if (nextShaderIndex >= maxShaders) {
+			std::cout << "max number of shaders reached for this image\n";
+			return;
+		}
+		shaders[nextShaderIndex] = _shader;
+		nextShaderIndex++;
+		numShaders++;
+	}
 	sf::Shader *shader = nullptr;
 	Image* pImage;
 	float x;
@@ -140,4 +149,8 @@ struct SpriteDraw {
 	float scale;
 	float opacity = 1;
 	float rotation = 0;
+	sf::Shader* shaders[10];
+	const int maxShaders = 10;
+	int nextShaderIndex = 0;
+	int numShaders = 0;
 };

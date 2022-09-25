@@ -27,7 +27,7 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	imageStandRight = SpriteSheet(pSpriteCollection, "mc_stand_right", 16, 32, 1, 2);
 	direction = down;
 
-	type = 1;
+	type = objectMainCharacter;
 
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
 	miniAnimation.setChangeTimer(12);

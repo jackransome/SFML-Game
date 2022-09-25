@@ -11,7 +11,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	shader1.loadFromFile("shaders/shader1.frag", sf::Shader::Fragment);
 	shader1.setUniform("texture", sf::Shader::CurrentTexture);
 	spriteCollection = SpriteCollection(pwindow, &graphics);
-	spriteCollection.setShader(&shader1);
+	spriteCollection.addShader("shader1",  &shader1);
+	shaders[0] = new sf::Shader();
+	shaders[0]->loadFromFile("shaders/test.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("test", shaders[0]);
 	soundPlayer = SoundPlayer();
 	console = Console();
 	timer = Timer(250, &console);
@@ -50,6 +53,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("rover_stack_crate", "resources/rover_stack_crate.png");
 	spriteCollection.loadImage("crate_stack_1", "resources/crate_stack_1.png");
 	spriteCollection.loadImage("decoration_rover_tracks_1", "resources/decoration_rover_tracks_1.png");
+	spriteCollection.loadImage("relay_stack_1", "resources/relay_stack_1.png");
+	spriteCollection.loadImage("rover_stack_relay", "resources/rover_stack_relay.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -89,6 +94,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.setDebug(false);
 	objectCollection.addEnemy(200, 200);
 	objectCollection.addRover(-100, -100);
+	objectCollection.addRelay(-200, -500);
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
@@ -97,10 +103,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	int id = soundPlayer.playSoundByName("wind", 0.25);
 	soundPlayer.loopSound(id);
 	//blizzard conditions
-	snowSystem.setSpeed(10);
+	snowSystem.setSpeed(5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(100);
-	snowOpacity = 1;
+	snowSystem.setSize(20);
+	snowOpacity = 0.25;
 	snowSystem.setOpacity(snowOpacity);
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);

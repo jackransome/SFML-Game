@@ -21,12 +21,16 @@ public:
 	void setId(int _id);
 	void setConsolePointer(Console* _pConsole);
 	Collidability getCollidability();
-	int getType();
+	ObjectType getType();
 	void setControlled(bool _controlled);
 	bool getCanBePickedUp();
 	bool getPickedUp();
 	void setPickedUp(bool _pickedUp);
+	int getPickedUpById();
+	void setPickedUpById(int id);
 	void setCenter(glm::vec2 _center);
+	void setRotation(float _rotation);
+	float getRotation(float _rotation);
 protected:
 	bool controlled = false;
 	Console* pConsole;
@@ -35,9 +39,11 @@ protected:
 	BoundingBox boundingBox;
 	bool canBePickedUp = false;
 	bool pickedUp = false;
+	int pickedUpById;
+	float rotation = 0;
 	float z;
 	Collidability collidability;
-	int type = 0;
+	ObjectType type;
 	
 	bool hasGravity;
 };

@@ -98,15 +98,23 @@ void Image::drawSection(float x, float y, int sX, int sY, int sW, int sH, float 
 	executeDraw();
 }
 
-void Image::setShader(sf::Shader *_shader) {
-	shader = _shader;
+void Image::addShader(sf::Shader *_shader) {
+	if (nextShaderIndex >= maxShaders) {
+		std::cout << "max number of shaders reached for this image\n";
+		return;
+	}
+	shaders[nextShaderIndex] = _shader;
+	nextShaderIndex++;
+	numShaders++;
 }
 
 void Image::executeDraw() {
 	renderStates = sf::RenderStates::Default;// sf::RenderStates(sf::BlendNone, transform, NULL, shader);
-	renderStates.shader = shader;
+	renderStates.shader = shaders[0];
 	renderStates.transform = transform;
 	pWindow->draw(sprite, renderStates);
+	numShaders = 0;
+	nextShaderIndex = 0;
 }
 
 void Image::setRotation(float _rotation){

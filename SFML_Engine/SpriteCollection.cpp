@@ -41,6 +41,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z){
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH) {
 	if (currentDrawIndex >= maxSpriteDraws) {
@@ -50,6 +51,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, float scale) {
 	if (currentDrawIndex >= maxSpriteDraws) {
@@ -59,6 +61,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, fl
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity) {
 	if (currentDrawIndex >= maxSpriteDraws) {
@@ -68,6 +71,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, fl
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
@@ -78,6 +82,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
@@ -88,6 +93,7 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float rotation){
@@ -99,6 +105,7 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation){
@@ -110,6 +117,7 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry){
@@ -122,6 +130,7 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation){
@@ -133,6 +142,7 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry) {
@@ -145,6 +155,7 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, sf::Color color) {
@@ -155,6 +166,7 @@ void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, 
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++; 
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Color color) {
@@ -165,6 +177,7 @@ void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Col
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, r, z, color);
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z) {
@@ -174,6 +187,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH) {
@@ -183,6 +197,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale) {
@@ -192,6 +207,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity) {
@@ -201,6 +217,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
@@ -210,6 +227,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
@@ -219,6 +237,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color color) {
@@ -228,6 +247,7 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z, sf::Color color) {
@@ -237,6 +257,7 @@ void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z,
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, r, z, color);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::addTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color) {
@@ -246,6 +267,7 @@ void SpriteCollection::addTextDraw(int fontIndex, float x, float y, float z, std
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
 	currentDrawIndex++;
+	lastAbsolute = false;
 }
 
 void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color) {
@@ -255,6 +277,7 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 	}
 	spriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
 	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
 }
 
 void SpriteCollection::drawAll() {
@@ -266,10 +289,13 @@ void SpriteCollection::drawAll() {
 	for (int i = 0; i < currentDrawIndex; i++) {
 
 		if (spriteDraws[i]->type < 2) {
+			spriteDraws[i]->pImage->addShader(shaders[0]->shader);
+			for (int j = 0; j < spriteDraws[i]->numShaders; j++) {
+				spriteDraws[i]->pImage->addShader(spriteDraws[i]->shaders[j]);
+			}
 			if (spriteDraws[i]->pImage->getName() == "decoration_rover_tracks_1") {
 				int r = 6;
 			}
-			spriteDraws[i]->pImage->setShader(spriteDraws[i]->getShader());
 			spriteDraws[i]->pImage->setRotation(spriteDraws[i]->rotation);
 			if (spriteDraws[i]->rotationPoint) {
 				spriteDraws[i]->pImage->setRPoint(spriteDraws[i]->rx, spriteDraws[i]->ry);
@@ -372,6 +398,15 @@ void SpriteCollection::setShader(sf::Shader *shader) {
 	lightingShader = shader;
 }
 
+void SpriteCollection::addShader(std::string name, sf::Shader* shader){
+	if (nextShaderIndex >= maxShaders) {
+		std::cout << "MAX SHADERS REACHED\n";
+		return;
+	}
+	shaders[nextShaderIndex] = new shaderWrapper(name, shader);
+	nextShaderIndex++;
+}
+
 void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
 	lightColours[numLights] = sf::Glsl::Vec3(colour.r, colour.g, colour.b);
 	lightPositions[numLights] = sf::Glsl::Vec2(position.x, position.y);
@@ -398,11 +433,11 @@ void SpriteCollection::sendLightDataToShader(){
 	for (int i = 0; i < numLights; i++) {
 		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + windowW / 2, -lightPositions[i].y + pCamera->getPosition().y + windowH / 2);
 	}
-	lightingShader->setUniform("numLights", (float)numLights);
-	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
-	lightingShader->setUniformArray("lightColours", lightColours, 100);
-	lightingShader->setUniformArray("lightIntensities", lightIntensities, 100);
-	lightingShader->setUniformArray("lightTypes", lightTypes, 100);
+	shaders[0]->shader->setUniform("numLights", (float)numLights);
+	shaders[0]->shader->setUniformArray("lightPositions", lightPositions, 100);
+	shaders[0]->shader->setUniformArray("lightColours", lightColours, 100);
+	shaders[0]->shader->setUniformArray("lightIntensities", lightIntensities, 100);
+	shaders[0]->shader->setUniformArray("lightTypes", lightTypes, 100);
 	numLights = 0;
 }
 
@@ -422,4 +457,31 @@ void SpriteCollection::orderByZ() {
 void SpriteCollection::setWindowDimensions(int w, int h){
 	windowW = w;
 	windowH = h;
+}
+
+void SpriteCollection::addShaderToLast(std::string shader){
+
+	if (!lastAbsolute) {
+		if (currentDrawIndex == 0) {
+			return;
+		}
+		for (int i = 0; i < nextShaderIndex; i++) {
+			if (shaders[i]->name.compare(shader) == 0) {
+				spriteDraws[currentDrawIndex - 1]->addShader(shaders[i]->shader);
+				return;
+			}
+		}
+	}
+	else {
+		if (currentAbsoluteDrawIndex == 0) {
+			return;
+		}
+		for (int i = 0; i < nextShaderIndex; i++) {
+			if (shaders[i]->name.compare(shader) == 0) {
+				spriteDraws[currentDrawIndex - 1]->addShader(shaders[i]->shader);
+				return;
+			}
+		}
+	}
+	std::cout << "shader not found\n";
 }

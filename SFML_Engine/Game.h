@@ -47,4 +47,5 @@ private:
 	float snowOpacity = 0.5;
 	float shaderNoiseIntensity = 1;
 	float daylightPhase = 0;
+	sf::Shader* shaders[10];
 };

@@ -11,7 +11,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
 	maxVel = 2;
 
 	pSpriteCollection = _pSpriteCollection;
-	type = 2;
+	type = objectEnemy;
 	mainAnimation = SpriteSheet(pSpriteCollection, "enemyDrone1", 9, 19, 4, 2);
 	mainAnimation.setChangeTimer(3);
 	mainAnimation.setOpacity(1);

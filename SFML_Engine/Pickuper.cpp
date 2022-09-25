@@ -26,3 +26,11 @@ void Pickuper::drop(){
 bool Pickuper::getHolding() {
 	return holding;
 }
+
+void Pickuper::setTypeHeld(ObjectType _typeHeld){
+	typeHeld = _typeHeld;
+}
+
+float Pickuper::getDropRotation(){
+	return dropRotation;
+}

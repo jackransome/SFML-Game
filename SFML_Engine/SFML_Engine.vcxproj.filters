@@ -114,6 +114,9 @@
     <ClCompile Include="RoverTracks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Relay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -218,9 +221,15 @@
     <ClInclude Include="RoverTracks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Relay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader1.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\test.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
