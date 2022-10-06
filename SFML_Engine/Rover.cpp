@@ -56,7 +56,6 @@ void Rover::update(){
 			
 			soundPlaying = true;
 		}
-		std::cout << pSoundPlayer->getPlayingOffset(soundId) << "\n";
 		pConsole->addCommand(commandShakeScreen, 0.2f);
 		if (trackTimer == 5) {
 			pConsole->addCommand(commandAddObject, objectRoverTracks, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2, (direction / (2 * 3.1415)) * 360);
