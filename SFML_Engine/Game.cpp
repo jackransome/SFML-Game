@@ -15,12 +15,15 @@ Game::Game(sf::RenderWindow* pwindow) {
 	shaders[0] = new sf::Shader();
 	shaders[0]->loadFromFile("shaders/test.frag", sf::Shader::Fragment);
 	spriteCollection.addShader("test", shaders[0]);
+	shaders[1] = new sf::Shader();
+	shaders[1]->loadFromFile("shaders/test2.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("test2", shaders[1]);
 	soundPlayer = SoundPlayer();
 	console = Console();
 	timer = Timer(250, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager);
-	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
+	
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
 	spriteCollection.loadImage("pic3", "resources/pic3.png");
@@ -79,7 +82,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_1.wav");
 	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
-
+	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(0.1);
 	camera.setScreenshakeDecay(0.9);
@@ -141,12 +144,12 @@ void Game::HandleInput() {
 	if (inputManager.isKeyDown(y)) {
 		snowSystem.setSpeed(10);
 		snowSystem.setFallAngle(0.5);
-		snowSystem.setSize(100);
+		snowSystem.setSize(50);
 	}
 	if (inputManager.isKeyDown(u)) {
 		snowSystem.setSpeed(1);
 		snowSystem.setFallAngle(1.6);
-		snowSystem.setSize(50);
+		snowSystem.setSize(30);
 	}
 
 	if (inputManager.isKeyDown(upArrow)) {

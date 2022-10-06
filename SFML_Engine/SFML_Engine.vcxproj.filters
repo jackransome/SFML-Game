@@ -232,5 +232,8 @@
     <None Include="shaders\test.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\test2.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

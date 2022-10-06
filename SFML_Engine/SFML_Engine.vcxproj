@@ -223,6 +223,7 @@
   <ItemGroup>
     <None Include="shaders\shader1.frag" />
     <None Include="shaders\test.frag" />
+    <None Include="shaders\test2.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -52,6 +52,7 @@ void Enemy::draw() {
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), glm::vec3(255, 0, 0), 0.04, 0, false);
 	mainAnimation.run();
 	mainAnimation.draw(boundingBox.x, boundingBox.y-18, boundingBox.y + boundingBox.h);
+	pSpriteCollection->addShaderToLast("test2");
 }
 
 void Enemy::setTarget(int x, int y) {

@@ -11,6 +11,7 @@ struct SnowPart {
 	float sh;
 	float opacity;
 	float maxOpacity;
+	float rotation;
 };
 
 class SnowSystem {
@@ -26,6 +27,7 @@ public:
 private:
 	SpriteCollection* pSpriteCollection;
 	SnowPart getNewSnowPart(glm::vec2 cameraPos);
+	SnowPart getNewSnowPartInit(glm::vec2 cameraPos);
 	SnowPart snowParts[150];
 	float fallAngle = 1.6;
 	float fallSpeed = 1;
@@ -36,4 +38,5 @@ private:
 	int borderSize = 800;
 	int time;
 	float opacity = 0;
+	Image* image;
 };

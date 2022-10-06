@@ -9,4 +9,7 @@ public:
 	virtual void draw() override;
 private:
 	SpriteCollection* pSpriteCollection;
+	Image* topImage;
+	Image* sideImage;
+	Image* edgeImage;
 };

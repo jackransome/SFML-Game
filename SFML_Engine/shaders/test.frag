@@ -2,9 +2,12 @@ uniform sampler2D texture;
 
 void main()
 {
-	vec4 pixel = vec4(1,1,1,1);
-	if (mod(gl_FragCoord.x, 4) <= 3 || mod(gl_FragCoord.y, 4) <= 3){
-		pixel *= 0.3;
+	vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+	if ((mod(gl_FragCoord.x, 4) <= 3 || mod(gl_FragCoord.y, 4) <= 3)){
+		pixel.r *= 0.3;
+		pixel.g *= 0.3;
+		pixel.b *= 0.3;
+		pixel.a *= 0.3;
 	}
 
     // multiply it by the color
