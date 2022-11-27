@@ -88,8 +88,6 @@ void MainCharacter::update() {
 			direction = right;
 		}
 	}
-
-
 	
 	//pConsole->addCommand(commandSetCameraPos, boundingBox.x, boundingBox.y);
 	boundingBox.x += boundingBox.xv;
@@ -97,7 +95,6 @@ void MainCharacter::update() {
 	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
 
 	}
-
 }
 
 void MainCharacter::draw() {

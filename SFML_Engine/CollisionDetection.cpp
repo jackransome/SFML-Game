@@ -211,124 +211,73 @@ void CollisionDetection::correctPosition(glm::vec4* _rect1, glm::vec4* _rect2) {
 	}
 }
 bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
-	if (!isCheckRequired(bb1, bb2)) return false;
-	BoundingBox temp1 = *bb1;
-	collisionResult result;
-	if (bb1->x + bb1->w > bb2->x && bb1->x < bb2->x + bb2->w) {
-		if (bb1->y < bb2->y && bb1->y + bb1->h + bb1->yv > bb2->y) {
-			result.top = true;
+	if (!CheckRectangleIntersect(bb1, bb2)) return false;
+	float bb1Xold = bb1->x - bb1->xv;
+	float bb1Yold = bb1->y - bb1->yv;
+	bool xOverlap = (bb1Xold < bb2->x + bb2->w) && (bb1Xold + bb1->w > bb2->x);
+	bool yOverlap = (bb1Yold < bb2->y + bb2->h) && (bb1Yold + bb1->h > bb2->y);
+	if (xOverlap) {
+		if (yOverlap) {
+			std::cout << "THIS SHOULD BE IMPOSSIBLE!!\n"; //impossible?
 		}
-		else if (bb1->y + bb1->h > bb2->y + bb2->h && bb1->y + bb1->yv < bb2->y + bb2->h) {
-			result.bottom = true;
-		}
-	}
-	if (bb1->y + bb1->h > bb2->y && bb1->y < bb2->y + bb2->h) {
-		if (bb1->x < bb2->x && bb1->x + bb1->w + bb1->xv > bb2->x) {
-			result.left = true;
-		}
-		else if (bb1->x + bb1->w > bb2->x + bb2->w && bb1->x + bb1->xv < bb2->x + bb2->w) {
-			result.right = true;
-		}
-	}
-	if (result.top) {
-		if (result.left) {
-			if ((bb1->y + bb1->h + bb1->yv) - (bb2->y) > (bb1->x + bb1->w + bb1->xv) - (bb2->x)) {
-				bb1->x = bb2->x - bb1->w;
-				if (bb1->xv > 0) { bb1->xv = 0; }
+		else { //correct the y
+			if (bb1Yold < bb2->y) { //coming from above
+				bb1->y = bb2->y - bb1->h; return true;
 			}
-			else {
-				bb1->y = bb2->y - bb1->h;
-				if (bb1->yv > 0) { bb1->yv = 0; }
+			else { //coming from below
+				bb1->y = bb2->y + bb2->h; return true;
 			}
 		}
-		else if (result.right) {
-			if ((bb1->y + bb1->h + bb1->yv) - (bb2->y) > -(bb1->x + bb1->xv) + (bb2->x + bb2->w)) {
-				bb1->x = bb2->x + bb2->w;
-				if (bb1->xv < 0) { bb1->xv = 0; }
-			}
-			else {
-				bb1->y = bb2->y - bb1->h;
-				if (bb1->yv > 0) { bb1->yv = 0; }
-			}
-		}
-		else {
-			bb1->y = bb2->y - bb1->h;
-			bb1->yv = 0;
-		}
-	}
-	else if (result.bottom) {
-		if (result.left) {
-			if (bb2->y + bb2->h - (bb1->y + bb1->yv) > bb1->x + bb1->w + bb1->xv - bb2->x) {
-				bb1->x = bb2->x - bb1->w;
-				if (bb1->xv > 0) { bb1->xv = 0; }
-			}
-			else {
-				bb1->y = bb2->y + bb2->h;
-				if (bb1->yv < 0) { bb1->yv = 0; }
-				bb1->onGround = true;
-				//fullyOnGroundTest
-				if (bb1->x > bb2->x && bb2->x + bb2->w > bb1->x + bb1->w) {
-					bb1->fullyOnGround = true;
-				}
-				else if (bb1->x < bb2->x) {
-					bb1->halfSideLeft = true;
-				}
-				else if (bb1->x + bb1->w > bb2->x + bb2->w) {
-					bb1->halfSideLeft = false;
-				}
-			}
-			}
-		else if (result.right) {
-			if (-(bb1->y + bb1->yv) + (bb2->y + bb2->h) > - (bb1->x + bb1->xv) + (bb2->x + bb2->w)) {
-				bb1->x = bb2->x + bb2->w;
-				if (bb1->xv < 0) { bb1->xv = 0; }
-			}
-			else {
-				bb1->y = bb2->y + bb2->h;
-				if (bb1->yv > 0) { bb1->yv = 0; }
-
-				//fullyOnGroundTest
-				//bb1->onGround = true;
-				//if (bb1->x > bb2->x && bb2->x + bb2->w > bb1->x + bb1->w) {
-				//	bb1->fullyOnGround = true;
-				//}
-				//else if (bb1->x < bb2->x) {
-				//	bb1->halfSideLeft = true;
-				//}
-				//else if (bb1->x + bb1->w > bb2->x + bb2->w) {
-				//	bb1->halfSideLeft = false;
-				//}
-			}
-		}
-		else {
-			bb1->y = bb2->y + bb2->h;
-			bb1->yv = 0;
-			bb1->onGround = true;
-			if (bb1->x > bb2->x && bb2->x + bb2->w > bb1->x + bb1->w) {
-				bb1->fullyOnGround = true;
-			}
-			else if (bb1->x < bb2->x) {
-				bb1->halfSideLeft = true;
-			}
-			else if (bb1->x + bb1->w > bb2->x + bb2->w) {
-				bb1->halfSideLeft = false;
-			}
-		}
-	}
-	else if (result.left) {
-		bb1->x = bb2->x - bb1->w;
-		bb1->xv = 0;
-	}
-	else if (result.right) {
-		bb1->x = bb2->x + bb2->w;
-		bb1->xv = 0;
-	}
-	if (!(temp1.x == bb1->x && temp1.y == bb1->y)) {
-		return true;
 	}
 	else {
-		return false;
+		if (yOverlap) { //correct the x
+			if (bb1Xold < bb2->x) { //coming from the left
+				bb1->x = bb2->x - bb1->w; return true;
+			}
+			else { //coming from the right
+				bb1->x = bb2->x + bb2->w; return true;
+			}
+		}
+		else { //corners
+			if (bb1Xold < bb2->x) {
+				if (bb1Yold < bb2->y) { //top left
+					if (bb1->x + bb1->w - bb2->x > bb1->y + bb1->h - bb2->y) { 
+						bb1->y = bb2->y - bb1->h; return true; //correct y
+					}
+					else { 
+						bb1->x = bb2->x - bb1->w; return true; //correct x
+					}
+				}
+				else { //bottom left
+					if (bb1->x + bb1->w - bb2->x > bb2->y + bb2->h - bb1->y) {
+						bb1->y = bb2->y + bb2->h; return true; //correct y
+					}
+					else {
+						bb1->x = bb2->x - bb1->w; return true; //correct x
+					}
+				}
+			}
+			else {
+				if (bb1Yold < bb2->y) { //top right
+					if (bb2->x + bb2->w - bb1->x > bb1->y + bb1->h - bb2->y) {
+						bb1->y = bb2->y - bb1->h; return true; //correct y
+					}
+					else {
+						bb1->x = bb2->x + bb2->w; return true; //correct x
+					}
+				}
+				else { //bottom right
+					if (bb2->x + bb2->w - bb1->x > bb2->y + bb2->h - bb1->y) {
+						bb1->y = bb2->y + bb2->h; return true; //correct y
+					}
+					else {
+						bb1->x = bb2->x + bb2->w; return true; //correct x
+					}
+				}
+			}
+		}
 	}
+	return false;
 }
 bool CollisionDetection::isCheckRequired(BoundingBox* bb1, BoundingBox* bb2) {
 	bool check;
