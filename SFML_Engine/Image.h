@@ -12,11 +12,13 @@ public:
 	void drawSection(float x, float y, int sX, int sY, int sW, int sH, float scale);
 	void drawSection(float x, float y, int sX, int sY, int sW, int sH, float scale, float opacity);
 	void addShader(sf::Shader *_shader);
+	void setFullBright();
 	void executeDraw();
 	void setRotation(float _rotation);
 	void setRPoint(float _rx, float _ry);
 	std::string getName();
 private:
+	bool fullBright = false;;
 	int rotationPointx = 0;
 	int rotationPointy = 0;
 	int height;

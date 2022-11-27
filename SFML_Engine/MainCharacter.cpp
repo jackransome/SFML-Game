@@ -303,8 +303,6 @@ void MainCharacter::draw() {
 		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1, 1, false);
 		
 	}
-	
-	
 	//miniAnimation.run();
 	//miniAnimation.draw(boundingBox.x-100, boundingBox.y-100, boundingBox.y + boundingBox.h);
 }

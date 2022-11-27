@@ -39,6 +39,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z){
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -49,6 +52,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -59,6 +65,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, fl
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -69,6 +78,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, fl
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -80,6 +92,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -91,6 +106,9 @@ void SpriteCollection::addImageDraw(Image* pImage, float x, float y, float z, in
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -102,6 +120,9 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
@@ -114,6 +135,9 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
@@ -126,6 +150,9 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
@@ -139,6 +166,9 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	currentDrawIndex++;
@@ -151,6 +181,9 @@ void SpriteCollection::addRotatedImageDraw(Image* pImage, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
@@ -164,6 +197,9 @@ void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, 
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++; 
 	lastAbsolute = false;
@@ -175,6 +211,9 @@ void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Col
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(x, y, r, z, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -186,6 +225,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -196,6 +238,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -206,6 +251,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -216,6 +264,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -226,6 +277,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -236,6 +290,9 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -246,6 +303,9 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -256,6 +316,9 @@ void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z,
 		return;
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, r, z, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -266,6 +329,9 @@ void SpriteCollection::addTextDraw(int fontIndex, float x, float y, float z, std
 		return;
 	}
 	spriteDraws[currentDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
@@ -276,6 +342,9 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 		return;
 	}
 	spriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -484,4 +553,8 @@ void SpriteCollection::addShaderToLast(std::string shader){
 		}
 	}
 	std::cout << "shader not found\n";
+}
+
+void SpriteCollection::setFullBrightMode(bool _mode){
+	fullBrightMode = _mode;
 }

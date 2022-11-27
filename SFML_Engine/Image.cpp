@@ -108,9 +108,16 @@ void Image::addShader(sf::Shader *_shader) {
 	numShaders++;
 }
 
+void Image::setFullBright() {
+	fullBright = true;
+}
+
 void Image::executeDraw() {
 	renderStates = sf::RenderStates::Default;// sf::RenderStates(sf::BlendNone, transform, NULL, shader);
 	renderStates.shader = shaders[0];
+	if (fullBright) {
+		renderStates.shader = shaders[1];
+	}
 	renderStates.transform = transform;
 
 
