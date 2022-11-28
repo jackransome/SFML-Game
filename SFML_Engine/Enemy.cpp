@@ -22,8 +22,7 @@ void Enemy::update() {
 	position.x = boundingBox.x;
 	position.y = boundingBox.y;
 
-	boundingBox.x = boundingBox.x + boundingBox.xv;
-	boundingBox.y = boundingBox.y + boundingBox.yv;
+
 
 	glm::vec2 newDirection;
 	newDirection = target - position;
@@ -41,7 +40,8 @@ void Enemy::update() {
 	//boundingBox.x = position.x;
 	//boundingBox.y = position.y;
 
-
+	boundingBox.x = boundingBox.x + boundingBox.xv;
+	boundingBox.y = boundingBox.y + boundingBox.yv;
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)
@@ -52,7 +52,9 @@ void Enemy::draw() {
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), glm::vec3(255, 0, 0), 0.04, 0, false);
 	mainAnimation.run();
 	mainAnimation.draw(boundingBox.x, boundingBox.y-18, boundingBox.y + boundingBox.h);
-	pSpriteCollection->addShaderToLast("test2");
+	//pSpriteCollection->addShaderToLast("blur_h");
+	//pSpriteCollection->addShaderToLast("blur_v");
+	//pSpriteCollection->addShaderToLast("blend");
 }
 
 void Enemy::setTarget(int x, int y) {

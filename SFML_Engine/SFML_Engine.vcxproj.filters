@@ -235,5 +235,14 @@
     <None Include="shaders\test2.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\blur_h.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\blur_v.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\blend.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

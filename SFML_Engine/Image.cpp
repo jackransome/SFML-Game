@@ -114,25 +114,51 @@ void Image::setFullBright() {
 
 void Image::executeDraw() {
 	renderStates = sf::RenderStates::Default;// sf::RenderStates(sf::BlendNone, transform, NULL, shader);
-	renderStates.shader = shaders[0];
-	if (fullBright) {
-		renderStates.shader = shaders[1];
+	if (!fullBright) {
+		renderStates.shader = shaders[0];
 	}
 	renderStates.transform = transform;
 
 
 	//BS
 	if (numShaders > 1) {
-		sf::RenderTexture test; //CHANGE THIS STUFF TO GET RID OF THE POS THING, THEN ADD A LOOP FOR APPLYING MULTIPLE SHADERS, THINK ABOUT SHADER ORDER TOO, HAVE LESS ALLOCATION EVERY DRAW
-		test.create(1920, 1080);
-		//sf::Vector2f pos = sprite.getPosition();
-		//sprite.setPosition(sf::Vector2f(0, 0));
-		//test.clear(sf::Color(0,0,0,0));
-		test.draw(sprite, shaders[1]);
-		test.display();
-		sf::Sprite s = sf::Sprite(test.getTexture());
-		//s.setPosition(pos);
-		pWindow->draw(s, renderStates);
+		sf::RenderTexture rt1; //CHANGE THIS STUFF TO GET RID OF THE POS THING, THEN ADD A LOOP FOR APPLYING MULTIPLE SHADERS, THINK ABOUT SHADER ORDER TOO, HAVE LESS ALLOCATION EVERY DRAW
+		sf::RenderTexture rt2;
+		sf::Sprite s1;
+		sf::Sprite s2;
+		rt1.create(1920, 1080);
+		rt2.create(1920, 1080);
+		sf::RectangleShape rect(sf::Vector2f(40, 40));
+		rect.setPosition(200,200);
+		rect.setFillColor(sf::Color(0,255,0,255));
+		rt1.draw(rect);
+		rt1.draw(sprite);
+		rt1.display();
+		s1 = sf::Sprite(rt1.getTexture());
+
+		bool r2 = 1;
+		for (int i = 0; i < numShaders-1; i++) {
+			if (r2) {
+				rt2.clear(sf::Color::Transparent);
+				rt2.draw(s1, shaders[i]);
+				rt2.display();
+				s2 = sf::Sprite(rt2.getTexture());
+			}
+			else {
+				rt1.clear(sf::Color::Transparent);
+				rt1.draw(s2, shaders[i]);
+				rt1.display();
+				s1 = sf::Sprite(rt1.getTexture());
+			}
+			r2 = !r2;
+		}
+
+		if (r2) {
+			pWindow->draw(s1, shaders[numShaders - 1]);
+		}
+		else {
+			pWindow->draw(s2, shaders[numShaders - 1]);
+		}
 		numShaders = 0;
 		nextShaderIndex = 0;
 		return;

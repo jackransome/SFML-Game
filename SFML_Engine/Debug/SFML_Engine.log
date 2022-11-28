@@ -1,11 +1,14 @@
-﻿  CollisionDetection.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(419,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(473,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(479,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(485,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(491,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(526,17): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(530,50): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(534,21): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\CollisionDetection.cpp(536): warning C4715: 'CollisionDetection::getAngle': not all control paths return a value
+﻿  Enemy.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(10,20): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(52,124): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(61,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(62,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

@@ -18,6 +18,15 @@ Game::Game(sf::RenderWindow* pwindow) {
 	shaders[1] = new sf::Shader();
 	shaders[1]->loadFromFile("shaders/test2.frag", sf::Shader::Fragment);
 	spriteCollection.addShader("test2", shaders[1]);
+	shaders[2] = new sf::Shader();
+	shaders[2]->loadFromFile("shaders/blur_h.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("blur_h", shaders[2]);
+	shaders[3] = new sf::Shader();
+	shaders[3]->loadFromFile("shaders/blur_v.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("blur_v", shaders[3]);
+	shaders[4] = new sf::Shader();
+	shaders[4]->loadFromFile("shaders/blend.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("blend", shaders[4]);
 	soundPlayer = SoundPlayer();
 	console = Console();
 	timer = Timer(250, &console);

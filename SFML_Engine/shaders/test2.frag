@@ -1,15 +1,34 @@
 uniform sampler2D texture;
 
+uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
+
 void main()
 {
 	vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
-	if ((mod(gl_FragCoord.x, 4) <= 3 || mod(gl_FragCoord.y, 4) <= 3)){
-		pixel.r *= 0.3;
-		pixel.g *= 0.3;
-		pixel.b *= 0.3;
-		pixel.a *= 0.3;
+	//if ((mod(gl_FragCoord.x, 4) <= 3 || mod(gl_FragCoord.y, 4) <= 3)){
+		//pixel.r *= 0.3;
+		//pixel.g *= 0.3;
+		//pixel.b *= 0.3;
+		//pixel.a *= 0.3;
+	//}
+
+	vec2 tex_offset = 1.0 / textureSize(texture, 0);
+	for(int i = 1; i < 5; ++i)
+    {
+		vec2 thing = gl_TexCoord[0].xy + vec2(tex_offset.x * i, 0.0);
+		pixel += texture2D(texture, gl_TexCoord[0].xy + vec2(tex_offset.x * i, 0.0)) * weight[i];
+        pixel += texture2D(texture, gl_TexCoord[0].xy - vec2(tex_offset.x * i, 0.0)) * weight[i];
 	}
 
+	//pixel += texture2D(texture, gl_TexCoord[0].xy + vec2(1.0/1920.0,0))*0.2;
+	//pixel += texture2D(texture, gl_TexCoord[0].xy + vec2(-1.0/1920.0,0))*0.2;
+	//pixel += texture2D(texture, gl_TexCoord[0].xy + vec2(0,1.0/1080.0))*0.2;
+	//pixel += texture2D(texture, gl_TexCoord[0].xy + vec2(0,-1.0/1080.0))*0.2;
+
+
+
     // multiply it by the color
-    gl_FragColor = gl_Color * pixel;
+    gl_FragColor = pixel;
+	//18*38
+
 }

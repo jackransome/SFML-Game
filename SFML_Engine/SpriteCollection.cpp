@@ -358,9 +358,13 @@ void SpriteCollection::drawAll() {
 	for (int i = 0; i < currentDrawIndex; i++) {
 
 		if (spriteDraws[i]->type < 2) {
-			spriteDraws[i]->pImage->addShader(shaders[0]->shader);
-			for (int j = 0; j < spriteDraws[i]->numShaders; j++) {
-				spriteDraws[i]->pImage->addShader(spriteDraws[i]->shaders[j]);
+			if (spriteDraws[i]->numShaders == 0) {
+				spriteDraws[i]->pImage->addShader(shaders[0]->shader);
+			}
+			else {
+				for (int j = 0; j < spriteDraws[i]->numShaders; j++) {
+					spriteDraws[i]->pImage->addShader(spriteDraws[i]->shaders[j]);
+				}
 			}
 			if (spriteDraws[i]->pImage->getName() == "decoration_rover_tracks_1") {
 				int r = 6;

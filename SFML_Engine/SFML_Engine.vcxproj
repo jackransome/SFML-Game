@@ -221,6 +221,9 @@
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\blend.frag" />
+    <None Include="shaders\blur_h.frag" />
+    <None Include="shaders\blur_v.frag" />
     <None Include="shaders\shader1.frag" />
     <None Include="shaders\test.frag" />
     <None Include="shaders\test2.frag" />
