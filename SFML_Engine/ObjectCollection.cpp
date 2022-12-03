@@ -254,16 +254,18 @@ int ObjectCollection::getClosestControllable(int currentID){
 	}
 	int range = controllable->getRange();
 	int closestDistance = 100000;
-	int distance = 0;
+	int distanceFromCurrent = 0;
+	int distanceFromMouse = 0;
 	int closestID = -1;
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getId() != currentID && (controllable = dynamic_cast<Controllable*>(objects[i]))) {
 			//if another object is found that is controllable and not the current object
 			//get distance, see if its within range
-			distance = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
-			if (distance < range && distance < closestDistance) {
+			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			distanceFromMouse = CollisionDetection::getDistance(glm::vec2(mouseX, mouseY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			if (distanceFromCurrent < range && distanceFromMouse < closestDistance) {
 				//if closest so far, record distance and the id of that object
-				closestDistance = distance;
+				closestDistance = distanceFromMouse;
 				closestID = objects[i]->getId();
 			}
 		}

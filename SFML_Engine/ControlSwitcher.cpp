@@ -18,6 +18,8 @@ void ControlSwitcher::drawOverlay(){
 	//draw on current object
 	temp = pObjectCollection->getObjectById(currentID)->getCenter();
 	pSpriteCollection->addCircleDraw(temp.x, temp.y, 5, 10000, sf::Color(100, 255, 100, 100));
+	int range = dynamic_cast<Controllable*>(pObjectCollection->getObjectById(currentID))->getRange();
+	pSpriteCollection->addCircleDraw(temp.x - range, temp.y - range, range, 10000, sf::Color(100, 100, 255, 20));
 }
 
 void ControlSwitcher::setCurrentControlled(int ID){
