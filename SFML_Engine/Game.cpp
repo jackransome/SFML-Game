@@ -32,6 +32,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	timer = Timer(250, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager);
+	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection);
 	
 	spriteCollection.loadImage("pic1", "resources/pic1.png");
 	spriteCollection.loadImage("pic2", "resources/pic2.png");
@@ -131,6 +132,7 @@ void Game::HandleInput() {
 	if (inputManager.onKeyDown(space)) {
 		console.addCommand(commandPlaySound, "hh");
 		console.addCommand(commandShakeScreen, 15.0f);	
+		controlSwitcher.switchControl();
 	}
 	if (inputManager.isKeyDown(f)) {
 		console.addCommand(commandEnableDebug, 1);
@@ -139,10 +141,11 @@ void Game::HandleInput() {
 		console.addCommand(commandEnableDebug, 0);
 	}
 	if (inputManager.isKeyDown(r)) {
-		if (snowOpacity <= 0.99) {
+		/*if (snowOpacity <= 0.99) {
 			snowOpacity += 0.01;
 			snowSystem.setOpacity(snowOpacity);
-		}
+		}*/
+		controlSwitcher.drawOverlay();
 	}
 	if (inputManager.isKeyDown(t)) {
 		if (snowOpacity >= 0.01) {

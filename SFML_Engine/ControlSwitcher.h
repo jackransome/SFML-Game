@@ -1,0 +1,20 @@
+#pragma once
+
+#include "Console.h"
+#include "ObjectCollection.h"
+#include "SpriteCollection.h"
+
+class ControlSwitcher {
+public:
+	ControlSwitcher() {}
+	ControlSwitcher(ObjectCollection* _pObjectCollection, Console* _pConsole, SpriteCollection* _pSpriteCollection);
+	void drawOverlay();
+	void setCurrentControlled(int ID);
+	void switchControl();
+private:
+	int currentID = 0;
+	int prospectiveID = -1;
+	ObjectCollection* pObjectCollection;
+	Console* pConsole;
+	SpriteCollection* pSpriteCollection;
+};

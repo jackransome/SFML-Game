@@ -3,7 +3,8 @@
 Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(x, y, 24, 24, 0, movable, true),
 	Living(100, 2),
-	Pickuper() {
+	Pickuper(),
+	Controllable(200) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;

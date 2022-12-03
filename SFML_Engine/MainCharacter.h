@@ -3,10 +3,11 @@
 #include "SpriteSheet.h"
 #include "InputManager.h"
 #include "Living.h"
+#include "Controllable.h"
 
 enum Direction {up, down, left, right};
 
-class MainCharacter : public Object, public Living {
+class MainCharacter : public Object, public Living, public Controllable {
 public:
 	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y);
 	virtual void update() override;

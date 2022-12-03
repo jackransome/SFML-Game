@@ -4,6 +4,7 @@
 #include "Console.h"
 #include "Timer.h"
 #include "SnowSystem.h"
+#include "ControlSwitcher.h"
 
 
 class Game {
@@ -37,6 +38,7 @@ private:
 	SpriteSheet spriteSheet6;
 	SpriteSheet spriteSheet7;
 	ObjectCollection objectCollection;
+	ControlSwitcher controlSwitcher;
 	Console console;
 	CommandExecuter commandExecuter;
 	Timer timer;

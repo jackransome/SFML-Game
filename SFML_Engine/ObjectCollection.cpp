@@ -242,6 +242,35 @@ void ObjectCollection::runDrop(int id) {
 	pickuper->drop();
 }
 
+int ObjectCollection::getClosestControllable(int currentID){
+	int mouseX = pInputManager->translatedMouseX;
+	int mouseY = pInputManager->translatedMouseY;
+	Object* current = getObjectById(currentID);
+	int currentX = current->getBoundingBox().x;
+	int currentY = current->getBoundingBox().y;
+	Controllable* controllable;
+	if (!(controllable = dynamic_cast<Controllable*>(current))) {
+		std::cout << "current object given is not controllable\n";
+	}
+	int range = controllable->getRange();
+	int closestDistance = 100000;
+	int distance = 0;
+	int closestID = -1;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getId() != currentID && (controllable = dynamic_cast<Controllable*>(objects[i]))) {
+			//if another object is found that is controllable and not the current object
+			//get distance, see if its within range
+			distance = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			if (distance < range && distance < closestDistance) {
+				//if closest so far, record distance and the id of that object
+				closestDistance = distance;
+				closestID = objects[i]->getId();
+			}
+		}
+	}
+	return closestID;
+}
+
 Object* ObjectCollection::getObjectById(int id)
 {
 	for (int i = 0; i < objects.size(); i++) {

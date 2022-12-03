@@ -40,8 +40,10 @@ public:
 	void resetAllControls();
 	void runPickUp(int id);
 	void runDrop(int id);
-private:
+	int getClosestControllable(int currentID);
 	Object* getObjectById(int id);
+
+private:
 	bool debug = false;
 	Console* pConsole;
 	InputManager *pInputManager;

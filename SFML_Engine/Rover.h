@@ -5,8 +5,9 @@
 #include "Living.h"
 #include "Pickuper.h"
 #include "SoundPlayer.h"
+#include "Controllable.h"
 
-class Rover : public Object, public Living, public Pickuper {
+class Rover : public Object, public Living, public Pickuper, public Controllable {
 public:
 	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
 	virtual void update() override;
