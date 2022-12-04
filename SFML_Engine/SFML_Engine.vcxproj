@@ -176,6 +176,7 @@
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="Rover.cpp" />
     <ClCompile Include="RoverTracks.cpp" />
+    <ClCompile Include="ScrapMetalPile.cpp" />
     <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Relay.h" />
     <ClInclude Include="Rover.h" />
     <ClInclude Include="RoverTracks.h" />
+    <ClInclude Include="ScrapMetalPile.h" />
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />

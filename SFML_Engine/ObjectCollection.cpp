@@ -107,6 +107,12 @@ void ObjectCollection::addRelay(int x, int y){
 	setLatestConsole();
 }
 
+void ObjectCollection::addScapMetalPile(int x, int y){
+	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::setLatestId() {
 	objects[objects.size() - 1]->setId(nextId);
 	nextId++; //when is this gonna overflow

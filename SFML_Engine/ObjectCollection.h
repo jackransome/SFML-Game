@@ -12,6 +12,7 @@
 #include "Crate.h"
 #include "RoverTracks.h"
 #include "Relay.h"
+#include "ScrapMetalPile.h"
 
 class ObjectCollection {
 public:
@@ -28,6 +29,7 @@ public:
 	void addRover(int x, int y);
 	void addCrate(int x, int y);
 	void addRelay(int x, int y);
+	void addScapMetalPile(int x, int y);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();

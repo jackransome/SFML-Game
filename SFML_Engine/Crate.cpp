@@ -1,8 +1,7 @@
 #include "Crate.h"
 
 Crate::Crate(SpriteCollection* _pSpriteCollection, int _x, int _y) :
-	Object(x, y, 20, 20, 0, immovable, true),
-	Living(100, 2) {
+	Object(_x, _y, 20, 20, 0, immovable, true) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
