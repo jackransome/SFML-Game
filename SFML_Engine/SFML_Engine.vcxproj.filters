@@ -126,6 +126,9 @@
     <ClCompile Include="ScrapMetalPile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScrapMetalDrop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -240,6 +243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ScrapMetalPile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrapMetalDrop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

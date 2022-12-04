@@ -68,7 +68,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("decoration_rover_tracks_1", "resources/decoration_rover_tracks_1.png");
 	spriteCollection.loadImage("relay_stack_1", "resources/relay_stack_1.png");
 	spriteCollection.loadImage("rover_stack_relay", "resources/rover_stack_relay.png");
-	spriteCollection.loadImage("scrap_stack_1", "resources/scrap_stack_1.png");
+	spriteCollection.loadImage("scrap_stack_1", "resources/scrap_stack_1.png"); 
+	spriteCollection.loadImage("scrap_drop_stack_1", "resources/scrap_drop_stack_2.png"); 
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -110,6 +111,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addRover(-100, -100);
 	objectCollection.addRelay(-200, -500);
 	objectCollection.addScapMetalPile(-120, -450);
+	objectCollection.addScapMetalDrop(-50, -450);
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
