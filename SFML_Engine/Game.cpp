@@ -196,32 +196,32 @@ void Game::HandleInput() {
 		}
 	}
 	if (inputManager.isKeyDown(n0)) {
-		console.addCommand(commandSetCameraFocusId, 0);
-		console.addCommand(commandEnableObjectControls, 0);
+		//console.addCommand(commandSetCameraFocusId, 0);
+		//console.addCommand(commandEnableObjectControls, 0);
 	}
 	if (inputManager.isKeyDown(n1)) {
-		console.addCommand(commandSetCameraFocusId, 0);
-		console.addCommand(commandEnableObjectControls, 0);
+		//console.addCommand(commandSetCameraFocusId, 0);
+		//console.addCommand(commandEnableObjectControls, 0);
 	}
 	if (inputManager.isKeyDown(n2)) {
-		console.addCommand(commandSetCameraFocusId, 5);
-		console.addCommand(commandEnableObjectControls, 5);
+		//console.addCommand(commandSetCameraFocusId, 5);
+		//console.addCommand(commandEnableObjectControls, 5);
 	}
 	if (inputManager.isKeyDown(n3)) {
-		console.addCommand(commandSetCameraFocusId, 4);
-		console.addCommand(commandEnableObjectControls, 4);
+		//console.addCommand(commandSetCameraFocusId, 4);
+		//console.addCommand(commandEnableObjectControls, 4);
 	}
 	if (inputManager.isKeyDown(n4)) {
 		console.addCommand(commandSetCameraFocusId, 4);
 		console.addCommand(commandEnableObjectControls, 4);
 	}
 	if (inputManager.isKeyDown(n5)) {
-		console.addCommand(commandSetCameraFocusId, 5);
-		console.addCommand(commandEnableObjectControls, 5);
+		//console.addCommand(commandSetCameraFocusId, 5);
+		//console.addCommand(commandEnableObjectControls, 5);
 	}
 	if (inputManager.isKeyDown(n6)) {
-		console.addCommand(commandSetCameraFocusId, 6);
-		console.addCommand(commandEnableObjectControls, 6);
+		//console.addCommand(commandSetCameraFocusId, 6);
+		//console.addCommand(commandEnableObjectControls, 6);
 	}
 
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
