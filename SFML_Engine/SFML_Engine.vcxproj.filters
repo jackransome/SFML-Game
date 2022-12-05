@@ -248,6 +248,12 @@
     <ClInclude Include="ScrapMetalDrop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Miner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mineable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader1.frag">

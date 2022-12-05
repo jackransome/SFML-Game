@@ -92,8 +92,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("wind", "resources/wind_better2.wav");
 	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
 	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_1.wav");
+	soundPlayer.loadSound("rover_mine_1", "resources/sound_rover_mine_1.wav");
 	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
+	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_1.wav");
 	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(0.1);
@@ -110,8 +112,14 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addEnemy(200, 200);
 	objectCollection.addRover(-100, -100);
 	objectCollection.addRelay(-200, -500);
-	objectCollection.addScapMetalPile(-120, -450);
+	
 	objectCollection.addScapMetalDrop(-50, -450);
+	for (int i = 0; i < 30; i++) {
+		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
+	}
+
+
+	
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);

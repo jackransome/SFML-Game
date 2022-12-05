@@ -4,7 +4,8 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	Object(x, y, 24, 24, 0, movable, true),
 	Living(100, 2),
 	Pickuper(),
-	Controllable(200) {
+	Controllable(200),
+	Miner() {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
@@ -13,6 +14,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	spriteStackCrate = SpriteStack(pSpriteCollection, "rover_stack_crate", 14, 30, 10, 2);
 	spriteStackRelay = SpriteStack(pSpriteCollection, "rover_stack_relay", 14, 33, 35, 2);
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
+	isMining = false;
 }
 
 void Rover::update(){
@@ -42,20 +44,39 @@ void Rover::update(){
 				pConsole->addCommand(commandPickUp, id);
 			}
 		}
+		if (pInputManager->isKeyDown(e)) {
+			isMining = true;
+			if (!mineSoundPlaying) {
+				mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.045);
+				pSoundPlayer->loopSoundBetween(mineSoundId, 1, 2);
+				mineSoundPlaying = true;
+			}
+
+		}
+		else {
+			pSoundPlayer->stopSound(mineSoundId);
+			isMining = false;
+			mineSoundPlaying = false;
+		}
 	}
-	
+	else {
+		pSoundPlayer->stopSound(mineSoundId);
+		isMining = false;
+		mineSoundPlaying = false;
+	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
-	setPickupPos(glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction)));
+	minePoint = glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction));
+	setPickupPos(minePoint);
 	if (trackTimer < 5) {
 		trackTimer++;
 	}
 	if ((boundingBox.yv != 0 || boundingBox.xv != 0) ) {
-		if (!soundPlaying) {
-			soundId = pSoundPlayer->playSoundByName("rover_move_1", 0.045);
-			pSoundPlayer->loopSoundBetween(soundId, 1, 2);
+		if (!moveSoundPlaying) {
+			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.045);
+			pSoundPlayer->loopSoundBetween(moveSoundId, 1, 2);
 			
-			soundPlaying = true;
+			moveSoundPlaying = true;
 		}
 		pConsole->addCommand(commandShakeScreen, 0.2f);
 		if (trackTimer == 5) {
@@ -63,9 +84,9 @@ void Rover::update(){
 			trackTimer = 0;
 		}
 	}
-	else if (soundPlaying) {
-		pSoundPlayer->stopSound(soundId);
-		soundPlaying = false;
+	else if (moveSoundPlaying) {
+		pSoundPlayer->stopSound(moveSoundId);
+		moveSoundPlaying = false;
 	}
 	if (holding && !lastHolding) {
 		pSoundPlayer->playSoundByName("pickup", 0.2);
@@ -79,19 +100,7 @@ void Rover::draw(){
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1, false);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
-	//pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction)), glm::vec3(0, 255, 0), 2, 1, false);
-	/*if (holding) {
-		if (typeHeld == objectCrate) {
-			spriteStackCrate.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 40, 6, (direction / (2 * 3.1415)) * 360, 14, 40);
-		}
-		else if (typeHeld == objectRelay) {
-			spriteStackRelay.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 46, 6, (direction / (2 * 3.1415)) * 360, 14, 46);
-		}
-		
-	}
-	else {*/
-		spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, 6, (direction / (2 * 3.1415)) * 360);
-	//}
+	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, 6, (direction / (2 * 3.1415)) * 360);
 }
 	
 	

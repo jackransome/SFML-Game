@@ -210,6 +210,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Living.h" />
     <ClInclude Include="MainCharacter.h" />
+    <ClInclude Include="Mineable.h" />
+    <ClInclude Include="Miner.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Pickuper.h" />

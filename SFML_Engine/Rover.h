@@ -6,8 +6,9 @@
 #include "Pickuper.h"
 #include "SoundPlayer.h"
 #include "Controllable.h"
+#include "Miner.h"
 
-class Rover : public Object, public Living, public Pickuper, public Controllable {
+class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner {
 public:
 	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
 	virtual void update() override;
@@ -23,7 +24,9 @@ private:
 	InputManager* pInputManager;
 	SpriteCollection* pSpriteCollection;
 	int trackTimer = 0;
-	int soundId;
-	bool soundPlaying = false;
+	int moveSoundId;
+	int mineSoundId;
+	bool moveSoundPlaying = false;
+	bool mineSoundPlaying = false;
 	bool lastHolding;
 };

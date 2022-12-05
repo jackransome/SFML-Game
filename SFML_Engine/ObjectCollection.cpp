@@ -15,39 +15,55 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
-			//if (!objects[i]->getPickedUp()) {
-				objects[i]->draw();
-				if (objects[i]->getId() == cameraFocusId) {
-					pCamera->setPosition(objects[i]->getCenter());
-				}
-			//}
+			objects[i]->draw();
+			if (objects[i]->getId() == cameraFocusId) {
+				pCamera->setPosition(objects[i]->getCenter());
+			}
 		}
 	}
 	else {
 		for (int i = 0; i < objects.size(); i++) {
-			//if (!objects[i]->getPickedUp()) {
-				objects[i]->draw();
-				pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
-				pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
-				if (objects[i]->getId() == cameraFocusId) {
-					pCamera->setPosition(objects[i]->getCenter());
-				}
-			//}
+			objects[i]->draw();
+			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y, objects[i]->getBoundingBox().w, objects[i]->getBoundingBox().h, 10000, sf::Color(0, 255, 0, 100));
+			pSpriteCollection->addCircleDraw(objects[i]->getCenter().x - 3, objects[i]->getCenter().y - 3, 3, 100000, sf::Color(255, 255, 255, 2000));
+			if (objects[i]->getId() == cameraFocusId) {
+				pCamera->setPosition(objects[i]->getCenter());
+			}
 		}
 	}
 }
 
 void ObjectCollection::update() {
+	Miner* tempM;
+	Mineable* tempM2;
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
-			Pickuper* temp = dynamic_cast<Pickuper*>(getObjectById(objects[i]->getPickedUpById()));
-			objects[i]->setCenter(temp->getPickupPos());
-			objects[i]->setRotation(temp->getDropRotation());
+			Pickuper* tempP = dynamic_cast<Pickuper*>(getObjectById(objects[i]->getPickedUpById()));
+			objects[i]->setCenter(tempP->getPickupPos());
+			objects[i]->setRotation(tempP->getDropRotation());
 		}
 		if (objects[i]->getToDestroy()) {
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
+		}
+		//if can mine and is mining, get the mining point and check other objects for mineable and then if the point overlaps with them, 
+		if ((tempM = dynamic_cast<Miner*>(objects[i]))) {
+			if (tempM->getIsMining()) {
+				for (int j = 0; j < objects.size(); j++) {
+					if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
+						tempM2->mine(tempM->getStrength());
+						if (rand() % 100 > 95) {
+							pSoundPlayer->playSoundByName("mine_hit_1", 0.045);
+						}
+						if (tempM2->getFullyMined()) {
+							objects[j]->setToDestroy(true);
+							addScapMetalDrop(objects[j]->getBoundingBox().x, objects[j]->getBoundingBox().y);
+							pSoundPlayer->playSoundByName("mine_hit_1", 0.2);
+						}
+					}
+				}
+			}
 		}
 		objects[i]->update();
 	}
@@ -109,6 +125,7 @@ void ObjectCollection::addRelay(int x, int y){
 
 void ObjectCollection::addScapMetalPile(int x, int y){
 	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y));
+	objects[objects.size() - 1]->setRotation((rand() % 360));
 	setLatestId();
 	setLatestConsole();
 }

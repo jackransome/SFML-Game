@@ -1,7 +1,8 @@
 #include "ScrapMetalPile.h"
 
 ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int _y) :
-	Object(_x, _y, 32, 32, 0, immovable, true) {
+	Object(_x, _y, 32, 32, 0, immovable, true),
+	Mineable(10) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
@@ -11,6 +12,5 @@ ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int
 }
 
 void ScrapMetalPile::draw() {
-	rotation += 1;
 	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.h, rotation);
 }
