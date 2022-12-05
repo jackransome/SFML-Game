@@ -129,6 +129,9 @@
     <ClCompile Include="ScrapMetalDrop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MarketRelay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mineable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketRelay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

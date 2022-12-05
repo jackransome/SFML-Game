@@ -1,7 +1,6 @@
 #pragma once
 #include "Object.h"
 #include "SpriteStack.h"
-#include "Living.h"
 
 class Crate : public Object {
 public:

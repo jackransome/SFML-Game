@@ -32,8 +32,8 @@ InputManager::InputManager(sf::RenderWindow* pwindow){
 	keyStruct.n8 = false;
 	keyStruct.n9 = false;
 	keyStruct.n0 = false;
-	mouseL = false;
-	mouseR = false;
+	keyStruct.mouseL = false;
+	keyStruct.mouseR = false;
 	lastKeyStruct = keyStruct;
 }
 
@@ -125,11 +125,11 @@ void InputManager::update(){
 		//if (keyStruct.downArrow > 0) {
 		//	keyStruct.downArrow++;
 		//}
-		if (mouseL > 0) {
-			mouseL++;
+		if (keyStruct.mouseL > 0) {
+			keyStruct.mouseL++;
 		}
-		if (mouseR > 0) {
-			mouseR++;
+		if (keyStruct.mouseR > 0) {
+			keyStruct.mouseR++;
 		}
 		if (ev.type == sf::Event::Closed) pWindow->close();
 
@@ -307,18 +307,18 @@ void InputManager::update(){
 		}
 		if (ev.type == sf::Event::MouseButtonPressed) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
-				mouseL = 1;
+				keyStruct.mouseL = 1;
 			}
 			if (ev.mouseButton.button == sf::Mouse::Right) {
-				mouseR = 1;
+				keyStruct.mouseR = 1;
 			}
 		}
 		if (ev.type == sf::Event::MouseButtonReleased) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
-				mouseL = 0;
+				keyStruct.mouseL = 0;
 			}
 			if (ev.mouseButton.button == sf::Mouse::Right) {
-				mouseR = 0;
+				keyStruct.mouseR = 0;
 			}
 		}
 	}
@@ -385,6 +385,10 @@ int InputManager::isKeyDown(keys key){
 		return keyStruct.upArrow;
 	case downArrow:
 		return keyStruct.downArrow;
+	case mouseL:
+		return keyStruct.mouseL;
+	case mouseR:
+		return keyStruct.mouseR;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -448,6 +452,10 @@ bool InputManager::onKeyDown(keys key) {
 		return !lastKeyStruct.upArrow && keyStruct.upArrow;
 	case downArrow:
 		return !lastKeyStruct.downArrow && keyStruct.downArrow;
+	case mouseL:
+		return !lastKeyStruct.mouseL && keyStruct.mouseL;
+	case mouseR:
+		return !lastKeyStruct.mouseR && keyStruct.mouseR;
 	}
 	std::cout << "key not implemented!\n";
 	return false;

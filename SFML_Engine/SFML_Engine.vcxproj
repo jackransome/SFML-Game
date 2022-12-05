@@ -170,6 +170,7 @@
     <ClCompile Include="Living.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
+    <ClCompile Include="MarketRelay.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
     <ClCompile Include="Pickuper.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Living.h" />
     <ClInclude Include="MainCharacter.h" />
+    <ClInclude Include="MarketRelay.h" />
     <ClInclude Include="Mineable.h" />
     <ClInclude Include="Miner.h" />
     <ClInclude Include="Object.h" />

@@ -31,7 +31,9 @@ public:
 	void setCenter(glm::vec2 _center);
 	void setRotation(float _rotation);
 	float getRotation(float _rotation);
+	bool getSellable();
 protected:
+	bool sellable = false;
 	bool controlled = false;
 	Console* pConsole;
 	int id;

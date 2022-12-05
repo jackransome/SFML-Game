@@ -54,7 +54,7 @@ void ObjectCollection::update() {
 					if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
 						tempM2->mine(tempM->getStrength());
 						if (rand() % 100 > 95) {
-							pSoundPlayer->playSoundByName("mine_hit_1", 0.045);
+							pSoundPlayer->playSoundByName("mine_hit_1", 0.08);
 						}
 						if (tempM2->getFullyMined()) {
 							objects[j]->setToDestroy(true);
@@ -132,6 +132,12 @@ void ObjectCollection::addScapMetalPile(int x, int y){
 
 void ObjectCollection::addScapMetalDrop(int x, int y) {
 	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addMarketRelay(int x, int y){
+	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -300,6 +306,22 @@ int ObjectCollection::getClosestControllable(int currentID){
 		}
 	}
 	return closestID;
+}
+
+void ObjectCollection::sellObjects(float startX, float startY, float w, float h, int marketRelayID){
+	BoundingBox temp;
+	temp.x = startX;
+	temp.y = startY;
+	temp.w = w;
+	temp.h = h;
+	int credits = 0;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getSellable() && CollisionDetection::pointRectangleIntersect(objects[i]->getCenter(), &temp)){
+			objects[i]->setToDestroy(true);
+			credits += 1;
+		}
+	}
+	dynamic_cast<MarketRelay*>(getObjectById(marketRelayID))->addCredit(credits);
 }
 
 Object* ObjectCollection::getObjectById(int id)

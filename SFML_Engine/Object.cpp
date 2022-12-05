@@ -95,3 +95,7 @@ void Object::setRotation(float _rotation){
 float Object::getRotation(float _rotation){
 	return rotation;
 }
+
+bool Object::getSellable(){
+	return sellable;
+}

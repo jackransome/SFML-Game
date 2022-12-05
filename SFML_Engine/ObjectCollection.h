@@ -14,6 +14,7 @@
 #include "Relay.h"
 #include "ScrapMetalPile.h"
 #include "ScrapMetalDrop.h"
+#include "MarketRelay.h"
 
 class ObjectCollection {
 public:
@@ -32,6 +33,7 @@ public:
 	void addRelay(int x, int y);
 	void addScapMetalPile(int x, int y);
 	void addScapMetalDrop(int x, int y);
+	void addMarketRelay(int x, int y);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
@@ -45,6 +47,7 @@ public:
 	void runPickUp(int id);
 	void runDrop(int id);
 	int getClosestControllable(int currentID);
+	void sellObjects(float startX, float startY, float endX, float endY, int marketRelayID);
 	Object* getObjectById(int id);
 
 private:

@@ -69,7 +69,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("relay_stack_1", "resources/relay_stack_1.png");
 	spriteCollection.loadImage("rover_stack_relay", "resources/rover_stack_relay.png");
 	spriteCollection.loadImage("scrap_stack_1", "resources/scrap_stack_1.png"); 
-	spriteCollection.loadImage("scrap_drop_stack_1", "resources/scrap_drop_stack_2.png"); 
+	spriteCollection.loadImage("scrap_drop_stack_1", "resources/scrap_drop_stack_2.png");
+	spriteCollection.loadImage("market_relay", "resources/market_relay.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -104,6 +105,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
+	spriteCollection.addFont("resources/fonts/LLDOT2__.TTF");
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addWall(300, 300, 100, 100);
 	objectCollection.addWall(500, 300, 100, 100);
@@ -112,6 +114,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addEnemy(200, 200);
 	objectCollection.addRover(-100, -100);
 	objectCollection.addRelay(-200, -500);
+	objectCollection.addMarketRelay(-100, -500);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
 	for (int i = 0; i < 30; i++) {
@@ -220,8 +223,6 @@ void Game::HandleInput() {
 		console.addCommand(commandSetCameraFocusId, 6);
 		console.addCommand(commandEnableObjectControls, 6);
 	}
-	
-
 
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
 	shader1.setUniform("ambientLightColour", ambientLightColour);

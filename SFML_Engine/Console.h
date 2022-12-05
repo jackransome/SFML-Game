@@ -5,7 +5,7 @@
 enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug,
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
-	commandDisableObjectControls, commandPickUp, commandDrop
+	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy};
 
@@ -61,6 +61,15 @@ struct Command {
 		f4 = _f4;
 	}
 
+	Command(CommandType _type, float _f1, float _f2, float _f3, float _f4, int _a) {
+		type = _type;
+		f1 = _f1;
+		f2 = _f2;
+		f3 = _f3;
+		f4 = _f4;
+		a = _a;
+	}
+
 	Command(CommandType _type, ObjectType _objectType, float _f1, float _f2) {
 		type = _type;
 		objectType = _objectType;
@@ -101,6 +110,7 @@ public:
 	void addCommand(CommandType _type, float _f1);
 	void addCommand(CommandType _type, int _a);
 	void addCommand(CommandType _type, float _f1, float _f2, float _f3, float _f4);
+	void addCommand(CommandType _type, float _f1, float _f2, float _f3, float _f4, int _a);
 	void addCommand(CommandType _type, std::string _string);
 	void addCommand(CommandType _type, std::string _string, float _f1);
 	void addCommand(CommandType _type, std::string _string, float _f1, float _f2);

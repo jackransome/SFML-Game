@@ -226,7 +226,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, 1);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -239,7 +239,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, 1);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -252,7 +252,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -265,7 +265,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, scale, opacity);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -278,7 +278,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -291,7 +291,7 @@ void SpriteCollection::addAbsoluteImageDraw(Image* pImage, float x, float y, flo
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(pImage, x, y, z, sX, sY, sW, sH, scale, opacity);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -304,7 +304,7 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, w, h, z, color);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -317,7 +317,7 @@ void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z,
 	}
 	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, r, z, color);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
@@ -341,9 +341,9 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
 	}
-	spriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(fontIndex, x, y, z, string, fontSize, color);
 	if (fullBrightMode) {
-		spriteDraws[currentDrawIndex]->pImage->setFullBright();
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->pImage->setFullBright();
 	}
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;

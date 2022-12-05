@@ -47,20 +47,24 @@ void Rover::update(){
 		if (pInputManager->isKeyDown(e)) {
 			isMining = true;
 			if (!mineSoundPlaying) {
-				mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.045);
+				mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.1);
 				pSoundPlayer->loopSoundBetween(mineSoundId, 1, 2);
 				mineSoundPlaying = true;
 			}
 
 		}
 		else {
-			pSoundPlayer->stopSound(mineSoundId);
+			if (mineSoundPlaying) {
+				pSoundPlayer->stopSound(mineSoundId);
+			}
 			isMining = false;
 			mineSoundPlaying = false;
 		}
 	}
 	else {
-		pSoundPlayer->stopSound(mineSoundId);
+		if (mineSoundPlaying) {
+			pSoundPlayer->stopSound(mineSoundId);
+		}
 		isMining = false;
 		mineSoundPlaying = false;
 	}
