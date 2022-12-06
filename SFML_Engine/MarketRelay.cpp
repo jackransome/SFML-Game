@@ -56,24 +56,24 @@ void MarketRelay::addCredit(int _credit){
 
 void MarketRelay::draw() {
 	if (controlled) {
-		pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 100000, std::to_string(credits), 20, sf::Color(255, 255, 255, 255));
+		pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(credits), 20, sf::Color(255, 255, 255, 255));
 		//draw menu
 	}
 	if (startPointValid) {
 		if (startPoint.x < pInputManager->translatedMouseX) {
 			if (startPoint.y < pInputManager->translatedMouseY) {
-				pSpriteCollection->addRectDraw(startPoint.x, startPoint.y, pInputManager->translatedMouseX - startPoint.x, pInputManager->translatedMouseY - startPoint.y, 10000, sf::Color(255, 255, 255, 50));
+				pSpriteCollection->addRectDraw(startPoint.x, startPoint.y, pInputManager->translatedMouseX - startPoint.x, pInputManager->translatedMouseY - startPoint.y, 1000000, sf::Color(255, 255, 255, 50));
 			}
 			else {
-				pSpriteCollection->addRectDraw(startPoint.x, pInputManager->translatedMouseY, pInputManager->translatedMouseX - startPoint.x, startPoint.y - pInputManager->translatedMouseY, 10000, sf::Color(255, 255, 255, 50));
+				pSpriteCollection->addRectDraw(startPoint.x, pInputManager->translatedMouseY, pInputManager->translatedMouseX - startPoint.x, startPoint.y - pInputManager->translatedMouseY, 1000000, sf::Color(255, 255, 255, 50));
 			}
 		}
 		else {
 			if (startPoint.y < pInputManager->translatedMouseY) {
-				pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, startPoint.y, startPoint.x - pInputManager->translatedMouseX, pInputManager->translatedMouseY - startPoint.y, 10000, sf::Color(255, 255, 255, 50));
+				pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, startPoint.y, startPoint.x - pInputManager->translatedMouseX, pInputManager->translatedMouseY - startPoint.y, 1000000, sf::Color(255, 255, 255, 50));
 			}
 			else {
-				pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, pInputManager->translatedMouseY, startPoint.x - pInputManager->translatedMouseX, startPoint.y - pInputManager->translatedMouseY, 10000, sf::Color(255, 255, 255, 50));
+				pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, pInputManager->translatedMouseY, startPoint.x - pInputManager->translatedMouseX, startPoint.y - pInputManager->translatedMouseY, 1000000, sf::Color(255, 255, 255, 50));
 			}
 		}
 	}

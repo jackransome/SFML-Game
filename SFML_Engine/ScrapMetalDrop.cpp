@@ -1,7 +1,7 @@
 #include "ScrapMetalDrop.h"
 
 ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int _y) :
-	Object(_x, _y, 32, 32, 0, immovable, true) {
+	Object(_x, _y, 24, 24, 0, immovable, true) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;

@@ -60,4 +60,5 @@ private:
 	std::vector<Object*> objects;
 	int cameraFocusId;
 	int nextId = 0;
+	int frame = 0;
 };

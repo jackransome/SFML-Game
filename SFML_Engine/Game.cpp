@@ -195,59 +195,11 @@ void Game::HandleInput() {
 			daylightPhase -= 0.01;
 		}
 	}
-	if (inputManager.isKeyDown(n0)) {
-		//console.addCommand(commandSetCameraFocusId, 0);
-		//console.addCommand(commandEnableObjectControls, 0);
-	}
-	if (inputManager.isKeyDown(n1)) {
-		//console.addCommand(commandSetCameraFocusId, 0);
-		//console.addCommand(commandEnableObjectControls, 0);
-	}
-	if (inputManager.isKeyDown(n2)) {
-		//console.addCommand(commandSetCameraFocusId, 5);
-		//console.addCommand(commandEnableObjectControls, 5);
-	}
-	if (inputManager.isKeyDown(n3)) {
-		//console.addCommand(commandSetCameraFocusId, 4);
-		//console.addCommand(commandEnableObjectControls, 4);
-	}
-	if (inputManager.isKeyDown(n4)) {
-		console.addCommand(commandSetCameraFocusId, 4);
-		console.addCommand(commandEnableObjectControls, 4);
-	}
-	if (inputManager.isKeyDown(n5)) {
-		//console.addCommand(commandSetCameraFocusId, 5);
-		//console.addCommand(commandEnableObjectControls, 5);
-	}
-	if (inputManager.isKeyDown(n6)) {
-		//console.addCommand(commandSetCameraFocusId, 6);
-		//console.addCommand(commandEnableObjectControls, 6);
-	}
 
 	shader1.setUniform("ambientLightLevel", ambientLightLevel);
 	shader1.setUniform("ambientLightColour", ambientLightColour);
 	shader1.setUniform("time", (float)(frame % 30)); 
 	shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
-	//if (inputManager.onKeyDown(e)) {
-	//	console.addCommand(commandPlaySound, "thk");
-	//	timer.addEvent(0, eventA, 0, 20, false);
-	//}
-	//if (inputManager.onKeyDown(r)) {
-	//	console.addCommand(commandPlaySound, "thk");
-	//	timer.addEvent(0, eventB, 0, 1, false);
-	//}
-	/*if (inputManager.onKeyDown(t)) {
-		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(2, test3, 0, 1, true);
-	}
-	if (inputManager.onKeyDown(y)) {s
-		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(1, test4, 0, 1, false);
-	}
-	if (inputManager.onKeyDown(u)) {
-		console.addCommand(commandPlaySound, "thk");
-		timer.addEvent(0, test1, 0, 1, false);
-	}*/
 }
 
 void Game::Run() {

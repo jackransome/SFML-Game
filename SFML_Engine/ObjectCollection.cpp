@@ -53,13 +53,15 @@ void ObjectCollection::update() {
 				for (int j = 0; j < objects.size(); j++) {
 					if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
 						tempM2->mine(tempM->getStrength());
-						if (rand() % 100 > 95) {
+						if (rand() % 100 > 95 || frame % 20 == 0) {
 							pSoundPlayer->playSoundByName("mine_hit_1", 0.08);
+							pConsole->addCommand(commandShakeScreen, 1.5f);
 						}
 						if (tempM2->getFullyMined()) {
 							objects[j]->setToDestroy(true);
 							addScapMetalDrop(objects[j]->getBoundingBox().x, objects[j]->getBoundingBox().y);
 							pSoundPlayer->playSoundByName("mine_hit_1", 0.2);
+							pConsole->addCommand(commandShakeScreen, 10.0f);
 						}
 					}
 				}
@@ -67,6 +69,7 @@ void ObjectCollection::update() {
 		}
 		objects[i]->update();
 	}
+	frame++;
 }
 
 void ObjectCollection::addMainCharacter(float x, float y) {

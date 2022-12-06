@@ -15,7 +15,8 @@ public:
 	virtual void draw() override;
 private:
 	float direction = 0;
-	float speed = 5;
+	float speed = 0;
+	float maxSpeed = 5;
 	bool hasCrate = false;
 	SoundPlayer* pSoundPlayer;
 	SpriteStack spriteStackNormal;

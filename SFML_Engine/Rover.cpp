@@ -17,7 +17,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	isMining = false;
 }
 
-void Rover::update(){
+void Rover::update() {
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {
@@ -28,13 +28,29 @@ void Rover::update(){
 			direction += 0.1;
 		}
 		if (pInputManager->isKeyDown(w)) {
-			boundingBox.xv = -speed * sin(-direction);
-			boundingBox.yv = -speed * cos(-direction);
+			if (pInputManager->isKeyDown(s)) {
+				speed /= 2;
+			}
+			else {
+				if (speed < maxSpeed) {
+					speed += 1;
+				}
+			}
+
 		}
-		if (pInputManager->isKeyDown(s)) {
-			boundingBox.xv = speed * sin(-direction);
-			boundingBox.yv = speed * cos(-direction);
+		else if (pInputManager->isKeyDown(s)) {
+			if (speed > -maxSpeed) {
+				speed -= 1;
+			}
 		}
+		else {
+			speed /= 2;
+		}
+		if (abs(speed) < 0.8) {
+			speed = 0;
+		}
+		boundingBox.xv = -speed * sin(-direction);
+		boundingBox.yv = -speed * cos(-direction);
 		if (pInputManager->onKeyDown(e)) {
 			if (holding) {
 				pConsole->addCommand(commandDrop, id);
