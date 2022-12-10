@@ -15,6 +15,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
 	mainAnimation = SpriteSheet(pSpriteCollection, "enemyDrone1", 9, 19, 4, 2);
 	mainAnimation.setChangeTimer(3);
 	mainAnimation.setOpacity(1);
+	hostile = true;
 }
 
 void Enemy::update() {

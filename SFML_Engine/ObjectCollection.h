@@ -15,6 +15,7 @@
 #include "ScrapMetalPile.h"
 #include "ScrapMetalDrop.h"
 #include "MarketRelay.h"
+#include "AutoTurret.h"
 
 class ObjectCollection {
 public:
@@ -34,6 +35,7 @@ public:
 	void addScapMetalPile(int x, int y);
 	void addScapMetalDrop(int x, int y);
 	void addMarketRelay(int x, int y);
+	void addAutoTurret(int x, int y);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();

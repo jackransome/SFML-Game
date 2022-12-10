@@ -11,5 +11,5 @@ Crate::Crate(SpriteCollection* _pSpriteCollection, int _x, int _y) :
 }
 
 void Crate::draw() {
-	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.h, rotation);
+	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 }

@@ -35,6 +35,7 @@ void ObjectCollection::draw() {
 
 void ObjectCollection::update() {
 	Miner* tempM;
+	AutoTurret* tempA;
 	Mineable* tempM2;
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
@@ -65,6 +66,22 @@ void ObjectCollection::update() {
 						}
 					}
 				}
+			}
+		}
+		//if is an autoturret
+		if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
+			glm::vec2 tempPos = tempA->getCenter();
+			int range = tempA->getTargetingRange();
+			int minDistance = range;
+			int minIndex = -1;
+			for (int j = 0; j < objects.size(); j++) {
+				if (objects[j]->getHostile() && CollisionDetection::getDistance(tempPos, objects[j]->getCenter()) < minDistance) {
+					minDistance = CollisionDetection::getDistance(tempPos, objects[j]->getCenter());
+					minIndex = j;
+				}
+			}
+			if (minIndex != -1) {
+				tempA->setTarget(objects[minIndex]->getCenter().x, objects[minIndex]->getCenter().y);
 			}
 		}
 		objects[i]->update();
@@ -141,6 +158,12 @@ void ObjectCollection::addScapMetalDrop(int x, int y) {
 
 void ObjectCollection::addMarketRelay(int x, int y){
 	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addAutoTurret(int x, int y){
+	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
 }

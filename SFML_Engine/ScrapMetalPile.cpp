@@ -12,5 +12,5 @@ ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int
 }
 
 void ScrapMetalPile::draw() {
-	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.h, rotation);
+	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 }

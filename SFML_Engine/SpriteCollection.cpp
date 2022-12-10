@@ -356,7 +356,7 @@ void SpriteCollection::drawAll() {
 	}
 	glm::vec2 temp;
 	for (int i = 0; i < currentDrawIndex; i++) {
-
+		// type 0 = image, 1 = image section, 2 = rectangle, 3 = circle, 4 = text
 		if (spriteDraws[i]->type < 2) {
 			if (spriteDraws[i]->numShaders == 0) {
 				spriteDraws[i]->pImage->addShader(shaders[0]->shader);

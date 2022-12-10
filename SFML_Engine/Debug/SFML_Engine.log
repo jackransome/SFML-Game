@@ -1,20 +1,2 @@
-﻿  MarketRelay.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MarketRelay.cpp(4,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MarketRelay.cpp(4,9): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MarketRelay.cpp(6,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MarketRelay.cpp(7,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\MarketRelay.cpp(82,127): warning C4305: 'argument': truncation from 'double' to 'float'
-  SnowSystem.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.h(32,18): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(17,121): warning C4244: '=': conversion from '_Rep' to 'int', possible loss of data
-          with
-          [
-              _Rep=__int64
-          ]
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(24,32): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(26,45): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(27,45): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(70,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.cpp(72,56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  SpriteStack.cpp
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

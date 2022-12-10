@@ -99,3 +99,7 @@ float Object::getRotation(float _rotation){
 bool Object::getSellable(){
 	return sellable;
 }
+
+bool Object::getHostile(){
+	return hostile;
+}

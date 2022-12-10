@@ -122,7 +122,7 @@ void Image::executeDraw() {
 
 	//BS
 	if (numShaders > 1) {
-		sf::RenderTexture rt1; //CHANGE THIS STUFF TO GET RID OF THE POS THING, THEN ADD A LOOP FOR APPLYING MULTIPLE SHADERS, THINK ABOUT SHADER ORDER TOO, HAVE LESS ALLOCATION EVERY DRAW
+		sf::RenderTexture rt1;
 		sf::RenderTexture rt2;
 		sf::Sprite s1;
 		sf::Sprite s2;

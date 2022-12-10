@@ -32,6 +32,7 @@ public:
 	void setRotation(float _rotation);
 	float getRotation(float _rotation);
 	bool getSellable();
+	bool getHostile();
 protected:
 	bool sellable = false;
 	bool controlled = false;
@@ -46,6 +47,7 @@ protected:
 	float z;
 	Collidability collidability;
 	ObjectType type;
+	bool hostile = false;
 	
 	bool hasGravity;
 };

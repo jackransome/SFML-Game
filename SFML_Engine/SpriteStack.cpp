@@ -13,7 +13,7 @@ SpriteStack::SpriteStack(SpriteCollection* _pSpriteCollection, std::string _name
 
 void SpriteStack::draw(float x, float y, float z, float rotation){
 	for (int i = 0; i < frames; i++) {
-		pSpriteCollection->addRotatedImageDraw(pImage, x, y - i*scale, y + scale * height, i * width, 0, width, height, scale, rotation);
+		pSpriteCollection->addRotatedImageDraw(pImage, x, y - i*scale, z + scale * height, i * width, 0, width, height, scale, rotation);
 	}
 }
 

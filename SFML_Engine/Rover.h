@@ -20,8 +20,6 @@ private:
 	bool hasCrate = false;
 	SoundPlayer* pSoundPlayer;
 	SpriteStack spriteStackNormal;
-	SpriteStack spriteStackRelay;
-	SpriteStack spriteStackCrate;
 	InputManager* pInputManager;
 	SpriteCollection* pSpriteCollection;
 	int trackTimer = 0;

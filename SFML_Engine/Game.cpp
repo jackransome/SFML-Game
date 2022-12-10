@@ -71,6 +71,8 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("scrap_stack_1", "resources/scrap_stack_1.png"); 
 	spriteCollection.loadImage("scrap_drop_stack_1", "resources/scrap_drop_stack_2.png");
 	spriteCollection.loadImage("market_relay", "resources/market_relay.png");
+	spriteCollection.loadImage("autoturret_base_stack", "resources/autoturret_base_stack.png");
+	spriteCollection.loadImage("autoturret_barrel_stack", "resources/autoturret_barrel_stack.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -115,6 +117,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addRover(-100, -100);
 	objectCollection.addRelay(-200, -500);
 	objectCollection.addMarketRelay(-100, -500);
+	objectCollection.addAutoTurret(-75, -350);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
 	for (int i = 0; i < 30; i++) {
@@ -133,13 +136,21 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//blizzard conditions
 	snowSystem.setSpeed(5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(20);
-	snowOpacity = 0.25;
+	snowSystem.setSize(50);
+	snowOpacity = 0.5;
 	snowSystem.setOpacity(snowOpacity);
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
 	objectCollection.addCrate(-30, 30);
-
+	glm::vec2 a = glm::vec2(200, 200);
+	glm::vec2 b = glm::vec2(300, 210);
+	std::cout << 180.0f*atan2(a.y - b.y, a.x - b.x)/3.1415 << "\n";
+	b = glm::vec2(210, 400);
+	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
+	b = glm::vec2(-250, 400);
+	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
+	b = glm::vec2(-250, -400);
+	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
 }
 
 void Game::HandleInput() {
@@ -163,20 +174,20 @@ void Game::HandleInput() {
 		controlSwitcher.drawOverlay();
 	}
 	if (inputManager.isKeyDown(t)) {
-		if (snowOpacity >= 0.01) {
-			snowOpacity -= 0.01;
-			snowSystem.setOpacity(snowOpacity);
-		}
+		//if (snowOpacity >= 0.01) {
+		//	snowOpacity -= 0.01;
+		//	snowSystem.setOpacity(snowOpacity);
+		//}
 	}
 	if (inputManager.isKeyDown(y)) {
-		snowSystem.setSpeed(10);
-		snowSystem.setFallAngle(0.5);
-		snowSystem.setSize(50);
+		//snowSystem.setSpeed(10);
+		//snowSystem.setFallAngle(0.5);
+		//snowSystem.setSize(50);
 	}
 	if (inputManager.isKeyDown(u)) {
-		snowSystem.setSpeed(1);
-		snowSystem.setFallAngle(1.6);
-		snowSystem.setSize(30);
+		//snowSystem.setSpeed(1);
+		//snowSystem.setFallAngle(1.6);
+		//snowSystem.setSize(30);
 	}
 
 	if (inputManager.isKeyDown(upArrow)) {

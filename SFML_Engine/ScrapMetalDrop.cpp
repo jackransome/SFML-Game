@@ -13,5 +13,5 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 
 void ScrapMetalDrop::draw() {
 	rotation += 2;
-	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.h, rotation);
+	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 }

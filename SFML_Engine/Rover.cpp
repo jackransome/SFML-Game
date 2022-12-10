@@ -11,8 +11,6 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	pSoundPlayer = _pSoundPlayer;
 	boundingBox.x = _x;
 	boundingBox.y = _y;
-	spriteStackCrate = SpriteStack(pSpriteCollection, "rover_stack_crate", 14, 30, 10, 2);
-	spriteStackRelay = SpriteStack(pSpriteCollection, "rover_stack_relay", 14, 33, 35, 2);
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
 	isMining = false;
 }
@@ -120,7 +118,7 @@ void Rover::draw(){
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1, false);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
-	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, 6, (direction / (2 * 3.1415)) * 360);
+	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
 }
 	
 	
