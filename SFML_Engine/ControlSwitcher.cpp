@@ -17,9 +17,9 @@ void ControlSwitcher::drawOverlay(){
 
 	//draw on current object
 	temp = pObjectCollection->getObjectById(currentID)->getCenter();
-	pSpriteCollection->addCircleDraw(temp.x, temp.y, 5, 10000, sf::Color(100, 255, 100, 100));
+	pSpriteCollection->addCircleDraw(temp.x, temp.y, 5, 1000000, sf::Color(100, 255, 100, 100));
 	int range = dynamic_cast<Controllable*>(pObjectCollection->getObjectById(currentID))->getRange();
-	pSpriteCollection->addCircleDraw(temp.x - range, temp.y - range, range, 10000, sf::Color(100, 100, 255, 20));
+	pSpriteCollection->addCircleDraw(temp.x - range, temp.y - range, range, 1000000, sf::Color(100, 100, 255, 20));
 }
 
 void ControlSwitcher::setCurrentControlled(int ID){
@@ -32,6 +32,9 @@ void ControlSwitcher::switchControl(){
 		pConsole->addCommand(commandSetCameraFocusId, prospectiveID);
 		pConsole->addCommand(commandEnableObjectControls, prospectiveID);
 		currentID = prospectiveID;
+		pConsole->addCommand(commandPlaySound, "transfer", 0.05);
+		pConsole->addCommand(commandShakeScreen, 10.0f);
+		pConsole->addCommand(commandBlink);
 	}
 	else {
 		std::cout << "Prospective ID is -1\n";

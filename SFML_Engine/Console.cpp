@@ -59,6 +59,22 @@ void Console::addCommand(Command command) {
 	commands.push(command);
 }
 
+void Console::addTime(std::string label){
+	timeStamps.push(TimeStamp());
+	timeStamps.back().label = label;
+	timeStamps.back().time = getTime();
+}
+
+TimeStamp Console::getTimeStamp(){
+	TimeStamp temp = timeStamps.front();
+	timeStamps.pop();
+	return temp;
+}
+
+bool Console::hasTimeStamps(){
+	return timeStamps.size() > 0;
+}
+
 int Console::getSize() {
 	return commands.size();
 }

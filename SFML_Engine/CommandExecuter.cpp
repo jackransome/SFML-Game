@@ -81,6 +81,9 @@ void CommandExecuter::execute(Command command) {
 	case commandSellObjects:
 		pObjectCollection->sellObjects(command.f1, command.f2, command.f3, command.f4, command.a);
 		break;
+	case commandBlink:
+		pSpriteCollection->blink();
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

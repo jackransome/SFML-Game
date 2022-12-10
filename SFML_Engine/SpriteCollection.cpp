@@ -350,6 +350,12 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 }
 
 void SpriteCollection::drawAll() {
+	if (toBlink) {
+		pGraphics->drawRect(0, 0, 3000, 3000, sf::Color::Black);
+		toBlink = false;
+		clearSpriteDraws();
+		return;
+	}
 	sendLightDataToShader();
 	if (orderZ) {
 		orderByZ();
@@ -561,4 +567,8 @@ void SpriteCollection::addShaderToLast(std::string shader){
 
 void SpriteCollection::setFullBrightMode(bool _mode){
 	fullBrightMode = _mode;
+}
+
+void SpriteCollection::blink(){
+	toBlink = true;
 }

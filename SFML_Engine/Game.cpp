@@ -99,6 +99,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
 	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_1.wav");
+	soundPlayer.loadSound("transfer", "resources/sound_transfer.wav");
 	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(0.1);
@@ -120,7 +121,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addAutoTurret(-75, -350);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
-	for (int i = 0; i < 30; i++) {
+	for (int i = 0; i < 40; i++) {
 		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
 	}
 
@@ -136,28 +137,20 @@ Game::Game(sf::RenderWindow* pwindow) {
 	//blizzard conditions
 	snowSystem.setSpeed(5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(50);
-	snowOpacity = 0.5;
+	snowSystem.setSize(60);
+	snowOpacity = 0.6;
 	snowSystem.setOpacity(snowOpacity);
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
 	objectCollection.addCrate(-30, 30);
-	glm::vec2 a = glm::vec2(200, 200);
-	glm::vec2 b = glm::vec2(300, 210);
-	std::cout << 180.0f*atan2(a.y - b.y, a.x - b.x)/3.1415 << "\n";
-	b = glm::vec2(210, 400);
-	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
-	b = glm::vec2(-250, 400);
-	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
-	b = glm::vec2(-250, -400);
-	std::cout << 180.0f * atan2(a.y - b.y, a.x - b.x) / 3.1415 << "\n";
 }
 
 void Game::HandleInput() {
+	console.addTime("Start of handleinput");
 	inputManager.update();
 	if (inputManager.onKeyDown(space)) {
-		console.addCommand(commandPlaySound, "hh");
-		console.addCommand(commandShakeScreen, 15.0f);	
+		//console.addCommand(commandPlaySound, "hh");
+		//console.addCommand(commandShakeScreen, 15.0f);	
 		controlSwitcher.switchControl();
 	}
 	if (inputManager.isKeyDown(f)) {
@@ -214,6 +207,7 @@ void Game::HandleInput() {
 }
 
 void Game::Run() {
+	console.addTime("Start of run");
 	objectCollection.update();
 	objectCollection.runCollisionDetection();
 	objectCollection.setEnemyTarget(inputManager.translatedMouseX, inputManager.translatedMouseY);
@@ -231,10 +225,10 @@ void Game::Run() {
 	else {
 		ambientLightColour = sf::Glsl::Vec3(255 - 33 * (daylightPhase-0.5)*2, 240 - 2 * (daylightPhase - 0.5) * 2, 190 + 65 * (daylightPhase - 0.5) * 2);
 	}
-	
 }
 
 void Game::Draw() {
+	console.addTime("Start of draw");
 	spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 0.75, 0, false);
 	// inside the main loop, between window.clear() and window.display()
 
@@ -267,12 +261,31 @@ void Game::Draw() {
 	
 
 	//objectCollection.drawHealthBars();
-
 	spriteCollection.drawAll();
 
 	
 
 	frame++;
+
+	console.addTime("End of draw");
+	if (console.hasTimeStamps()) {
+		TimeStamp ts1 = console.getTimeStamp();
+		if (console.hasTimeStamps()) {
+			TimeStamp ts2 = console.getTimeStamp();
+			int offset = 0;
+			
+			spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+			while (console.hasTimeStamps()) {
+				ts1 = ts2;
+				ts2 = console.getTimeStamp();
+				offset += 40;
+				spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+			}
+		}
+	}
+	
+	
+	
 }
 
 void Game::finishAudio(){

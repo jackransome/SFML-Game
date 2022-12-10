@@ -5,7 +5,7 @@
 enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug,
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
-	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects
+	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy};
 
@@ -103,6 +103,11 @@ struct Command {
 	int c = 0;
 };
 
+struct TimeStamp {
+	std::string label;
+	int time;
+};
+
 class Console {
 public:
 	Console();
@@ -119,6 +124,9 @@ public:
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4);
 	void addCommand(CommandType _type, float _f1, float _f2);
 	void addCommand(Command command);
+	void addTime(std::string label);
+	TimeStamp getTimeStamp();
+	bool hasTimeStamps();
 	int getSize();
 	int getTime();
 	void incrementFrame();
@@ -129,4 +137,5 @@ private:
 	bool enableLogging = false;
 	std::queue<Command> commands;
 	std::queue<Command> log;
+	std::queue<TimeStamp> timeStamps;
 };

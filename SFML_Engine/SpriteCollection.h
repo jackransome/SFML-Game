@@ -69,7 +69,9 @@ public:
 	void setWindowDimensions(int w, int h);
 	void addShaderToLast(std::string shader);
 	void setFullBrightMode(bool _mode);
+	void blink();
 private:
+	bool toBlink = false;
 	bool fullBrightMode = false;
 	void clearSpriteDraws();
 	void orderByZ();
