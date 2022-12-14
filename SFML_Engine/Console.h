@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
 #include <queue>
+#include <glm/glm.hpp>
 
 enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug,
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
-	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink
+	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile
 };
-enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy};
+enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop};
 
 struct Command {
 	Command() {}
@@ -125,6 +126,8 @@ public:
 	void addCommand(CommandType _type, float _f1, float _f2);
 	void addCommand(Command command);
 	void addTime(std::string label);
+	void setControlPosition(glm::vec2 _controlPosition);
+	glm::vec2 getControlPosition();
 	TimeStamp getTimeStamp();
 	bool hasTimeStamps();
 	int getSize();
@@ -133,6 +136,7 @@ public:
 	int getFrame();
 	Command getCommand(bool toLog = true);
 private:
+	glm::vec2 controlPositon = glm::vec2(0, 0);
 	long int frame = 0;
 	bool enableLogging = false;
 	std::queue<Command> commands;

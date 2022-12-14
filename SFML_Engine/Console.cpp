@@ -65,6 +65,14 @@ void Console::addTime(std::string label){
 	timeStamps.back().time = getTime();
 }
 
+void Console::setControlPosition(glm::vec2 _controlPosition){
+	controlPositon = _controlPosition;
+}
+
+glm::vec2 Console::getControlPosition(){
+	return controlPositon;
+}
+
 TimeStamp Console::getTimeStamp(){
 	TimeStamp temp = timeStamps.front();
 	timeStamps.pop();

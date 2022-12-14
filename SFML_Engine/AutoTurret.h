@@ -21,4 +21,5 @@ private:
 	SpriteStack barrelStack;
 	bool hasTarget = false;
 	int targetingRange;
+	int reloadTimer = 0;
 };

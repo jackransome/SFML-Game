@@ -1,16 +1,20 @@
 #include "MarketRelay.h"
 
-MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, int _x, int _y) :
+MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(_x, _y, 22, 22, 0, immovable, true),
+	Living(100, 2),
 	Controllable(200) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
 	pConsole = _pConsole;
+	pSoundPlayer = _pSoundPlayer;
 	spriteSheet = SpriteSheet(pSpriteCollection, "market_relay", 11, 26, 1, 2);
 	canBePickedUp = true;
 	type = objectCrate;
+	AmbientSoundId = pSoundPlayer->playSoundByName("relay_ambient_2", 0.1);
+	pSoundPlayer->loopSound(AmbientSoundId);
 }
 
 void MarketRelay::update() {
@@ -48,6 +52,11 @@ void MarketRelay::update() {
 			startPointValid = false;
 		}
 	}
+	pSoundPlayer->setVolume(AmbientSoundId, pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+}
+
+void MarketRelay::onDeath(){
+	pSoundPlayer->stopSound(AmbientSoundId);
 }
 
 void MarketRelay::addCredit(int _credit){

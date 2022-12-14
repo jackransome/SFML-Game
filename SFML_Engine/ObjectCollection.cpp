@@ -31,6 +31,9 @@ void ObjectCollection::draw() {
 			}
 		}
 	}
+	for (int i = 0; i < projectiles.size(); i++) {
+		projectiles[i]->draw();
+	}
 }
 
 void ObjectCollection::update() {
@@ -55,13 +58,13 @@ void ObjectCollection::update() {
 					if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
 						tempM2->mine(tempM->getStrength());
 						if (rand() % 100 > 95 || frame % 20 == 0) {
-							pSoundPlayer->playSoundByName("mine_hit_1", 0.08);
+							pSoundPlayer->playSoundByName("mine_hit_1", 0.12);
 							pConsole->addCommand(commandShakeScreen, 1.5f);
 						}
 						if (tempM2->getFullyMined()) {
 							objects[j]->setToDestroy(true);
 							addScapMetalDrop(objects[j]->getBoundingBox().x, objects[j]->getBoundingBox().y);
-							pSoundPlayer->playSoundByName("mine_hit_1", 0.2);
+							pSoundPlayer->playSoundByName("mine_hit_1", 0.3);
 							pConsole->addCommand(commandShakeScreen, 10.0f);
 						}
 					}
@@ -83,8 +86,35 @@ void ObjectCollection::update() {
 			if (minIndex != -1) {
 				tempA->setTarget(objects[minIndex]->getCenter().x, objects[minIndex]->getCenter().y);
 			}
+			else {
+				tempA->RemoveTarget();
+			}
 		}
 		objects[i]->update();
+	}
+	Living* living;
+	bool hit;
+	for (int i = 0; i < projectiles.size(); i++) {
+		if (projectiles[i]->toDelete) {
+			projectiles.erase(projectiles.begin() + i);
+			i--;
+			continue;
+		}
+		hit = false;
+		projectiles[i]->run();
+		for (int j = 0; j < objects.size(); j++) {
+			if (objects[j]->getId() != projectiles[i]->getFromID()) {
+				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
+					projectiles[i]->setPosition(CollisionDetection::getLineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer()));
+					hit = true;
+				}
+			}
+		}
+		if (hit) {
+			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFromID());
+			projectiles.erase(projectiles.begin() + i);
+			i--;
+		}
 	}
 	frame++;
 }
@@ -120,7 +150,7 @@ void ObjectCollection::addWall(int x, int y, int w, int h) {
 }
 
 void ObjectCollection::addEnemy(int x, int y) {
-	objects.push_back(new Enemy(pSpriteCollection, x, y));
+	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -138,7 +168,7 @@ void ObjectCollection::addCrate(int x, int y){
 }
 
 void ObjectCollection::addRelay(int x, int y){
-	objects.push_back(new Relay(pSpriteCollection, x, y));
+	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -157,7 +187,7 @@ void ObjectCollection::addScapMetalDrop(int x, int y) {
 }
 
 void ObjectCollection::addMarketRelay(int x, int y){
-	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, x, y));
+	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -166,6 +196,10 @@ void ObjectCollection::addAutoTurret(int x, int y){
 	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
+}
+
+void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
+	projectiles.push_back(new Projectile(pSpriteCollection, _x, _y, _rotation, _speed, _fromID));
 }
 
 void ObjectCollection::setLatestId() {
@@ -192,24 +226,24 @@ void ObjectCollection::runCollisionDetection() {
 void ObjectCollection::drawHealthBars() {
 	Living* living;
 	for (int i = 0; i < objects.size(); i++) {
-		//check if object inherits living
+		//check if object inherits livings
 		if (living = dynamic_cast<Living*>(objects[i])) {
 			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y - 30, living->getHealth(), 5, -10000, sf::Color(0, 255, 0));
 		}
 	}
 }
 
-void ObjectCollection::doAEODamage(float x, float y, float range, float damage) {
+void ObjectCollection::doAEODamage(float x, float y, float range, float damage, int id) {
 	Living* living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if ((living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
+		if (objects[i]->getId() != id && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
 			//check if within range
-			if (i == 0) {
+			/*if (i == 0) {
 				std::cout << "obj: " << objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2) << "|" << objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2) << "|\n";
 				std::cout << "mouse: " << x << "|" << y << "|\n";
 				std::cout << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().h / 2)) - y << "|\n";
-			}
+			}*/
 			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do damage
 				living->doDamage(damage);
@@ -307,6 +341,10 @@ int ObjectCollection::getClosestControllable(int currentID){
 	int mouseX = pInputManager->translatedMouseX;
 	int mouseY = pInputManager->translatedMouseY;
 	Object* current = getObjectById(currentID);
+	if (current == nullptr) {
+		std::cout << "current object does not exist\n";
+		return -1;
+	}
 	int currentX = current->getBoundingBox().x;
 	int currentY = current->getBoundingBox().y;
 	Controllable* controllable;

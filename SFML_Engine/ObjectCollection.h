@@ -16,6 +16,7 @@
 #include "ScrapMetalDrop.h"
 #include "MarketRelay.h"
 #include "AutoTurret.h"
+#include "Projectile.h"
 
 class ObjectCollection {
 public:
@@ -36,11 +37,12 @@ public:
 	void addScapMetalDrop(int x, int y);
 	void addMarketRelay(int x, int y);
 	void addAutoTurret(int x, int y);
+	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
 	void drawHealthBars();
-	void doAEODamage(float x, float y, float range, float damage);
+	void doAEODamage(float x, float y, float range, float damage, int id);
 	void setDebug(bool _debug);
 	void setEnemyTarget(int x, int y);
 	void setCameraFocus(int id);
@@ -60,6 +62,7 @@ private:
 	SoundPlayer* pSoundPlayer;
 	Camera* pCamera;
 	std::vector<Object*> objects;
+	std::vector<Projectile*> projectiles;
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;

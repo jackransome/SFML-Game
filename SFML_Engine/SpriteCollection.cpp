@@ -487,6 +487,10 @@ void SpriteCollection::addShader(std::string name, sf::Shader* shader){
 }
 
 void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
+	if (numLights >= maxLights) {
+		std::cout << "MAX LIGHTS REACHED\n";
+		return;
+	}
 	lightColours[numLights] = sf::Glsl::Vec3(colour.r, colour.g, colour.b);
 	lightPositions[numLights] = sf::Glsl::Vec2(position.x, position.y);
 

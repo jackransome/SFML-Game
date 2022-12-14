@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
+Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y) :
 	Object(x, y, 18, 18, 0, movable, true),
 	Living(100, 1)
 {
@@ -9,13 +9,17 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, float x, float y) :
 	velocity = glm::vec2(0, 0);
 	acceleration = 0.6;
 	maxVel = 2;
-
+	pSoundPlayer = _pSoundPlayer;
 	pSpriteCollection = _pSpriteCollection;
 	type = objectEnemy;
 	mainAnimation = SpriteSheet(pSpriteCollection, "enemyDrone1", 9, 19, 4, 2);
 	mainAnimation.setChangeTimer(3);
 	mainAnimation.setOpacity(1);
 	hostile = true;
+	damageRange = 60;
+	maxReload = 15;
+	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
+	pSoundPlayer->loopSound(AmbientSoundId);
 }
 
 void Enemy::update() {
@@ -25,8 +29,29 @@ void Enemy::update() {
 
 
 
-	glm::vec2 newDirection;
-	newDirection = target - position;
+	glm::vec2 newDirection = target - position;
+	if (sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y) < damageRange && reloadTimer <= 0) {
+		//pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
+		switch (rand() % 5) {
+		case 0:
+			pConsole->addCommand(commandPlaySound, "drone_zap_1", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+			break;
+		case 1:
+			pConsole->addCommand(commandPlaySound, "drone_zap_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+			break;
+		case 2:
+			pConsole->addCommand(commandPlaySound, "drone_zap_3", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+			break;
+		case 3:
+			pConsole->addCommand(commandPlaySound, "drone_zap_4", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+			break;
+		case 4:
+			pConsole->addCommand(commandPlaySound, "drone_zap_5", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+			break;
+		}
+		reloadTimer = maxReload;
+	}
+	reloadTimer--;
 	normaliseVec(&newDirection);
 
 	velocity = velocity + newDirection * acceleration;
@@ -46,6 +71,7 @@ void Enemy::update() {
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)
+	pSoundPlayer->setVolume(AmbientSoundId, 0.2*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 }
 
 void Enemy::draw() {
@@ -56,6 +82,12 @@ void Enemy::draw() {
 	//pSpriteCollection->addShaderToLast("blur_h");
 	//pSpriteCollection->addShaderToLast("blur_v");
 	//pSpriteCollection->addShaderToLast("blend");
+}
+
+void Enemy::onDeath(){
+	pSoundPlayer->stopSound(AmbientSoundId);
+	pConsole->addCommand(commandPlaySound, "drone_death_2", 0.2);
+	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 
 void Enemy::setTarget(int x, int y) {

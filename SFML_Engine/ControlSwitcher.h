@@ -11,6 +11,7 @@ public:
 	void drawOverlay();
 	void setCurrentControlled(int ID);
 	void switchControl();
+	glm::vec2 getControlPosition();
 private:
 	int currentID = 0;
 	int prospectiveID = -1;

@@ -23,6 +23,9 @@ void CommandExecuter::execute(Command command) {
 		case objectRoverTracks:
 			pObjectCollection->addRoverTracks(command.f1, command.f2, command.f3);
 			break;
+		case objectScrapMetalDrop:
+			pObjectCollection->addScapMetalDrop(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
@@ -60,10 +63,10 @@ void CommandExecuter::execute(Command command) {
 		pSpriteCollection->addRectDraw(0, 50, 50, 50, 0, sf::Color(255, 0, 0, 255));
 		break;
 	case commandDoAEODamage:
-		pObjectCollection->doAEODamage(command.f1, command.f2, command.f3, command.f4);
+		pObjectCollection->doAEODamage(command.f1, command.f2, command.f3, command.f4, command.a);
 		break;
 	case commandDamageAtMouse:
-		pObjectCollection->doAEODamage(pInputManager->translatedMouseX, pInputManager->translatedMouseY, 30, command.f1);
+		pObjectCollection->doAEODamage(pInputManager->translatedMouseX, pInputManager->translatedMouseY, 30, command.f1, -1);
 		break;
 	case commandEnableObjectControls:
 		pObjectCollection->resetAllControls();
@@ -83,6 +86,9 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandBlink:
 		pSpriteCollection->blink();
+		break;
+	case commandAddProjectile:
+		pObjectCollection->addProjectile(command.f1, command.f2, command.f3, command.f4, command.a);
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

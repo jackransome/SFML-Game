@@ -100,6 +100,16 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
 	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_1.wav");
 	soundPlayer.loadSound("transfer", "resources/sound_transfer.wav");
+	soundPlayer.loadSound("laser_shot", "resources/sound_laser_shot.wav");
+	soundPlayer.loadSound("drone_death_2", "resources/sound_drone_death_2.wav");
+	soundPlayer.loadSound("drone_zap_1", "resources/sound_drone_zap_1.wav");
+	soundPlayer.loadSound("drone_zap_2", "resources/sound_drone_zap_2.wav");
+	soundPlayer.loadSound("drone_zap_3", "resources/sound_drone_zap_3.wav");
+	soundPlayer.loadSound("drone_zap_4", "resources/sound_drone_zap_4.wav");
+	soundPlayer.loadSound("drone_zap_5", "resources/sound_drone_zap_5.wav");
+	soundPlayer.loadSound("relay_ambient_2", "resources/sound_relay_ambient_2.wav"); 
+	soundPlayer.loadSound("drone_ambient_1", "resources/sound_drone_ambient_1.wav");
+	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_3.wav");
 	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(0.1);
@@ -124,8 +134,6 @@ Game::Game(sf::RenderWindow* pwindow) {
 	for (int i = 0; i < 40; i++) {
 		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
 	}
-
-
 	
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
@@ -148,6 +156,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 void Game::HandleInput() {
 	console.addTime("Start of handleinput");
 	inputManager.update();
+	console.addTime("Start of handleinput1");
 	if (inputManager.onKeyDown(space)) {
 		//console.addCommand(commandPlaySound, "hh");
 		//console.addCommand(commandShakeScreen, 15.0f);	
@@ -199,15 +208,20 @@ void Game::HandleInput() {
 			daylightPhase -= 0.01;
 		}
 	}
-
-	shader1.setUniform("ambientLightLevel", ambientLightLevel);
-	shader1.setUniform("ambientLightColour", ambientLightColour);
-	shader1.setUniform("time", (float)(frame % 30)); 
-	shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
+	console.addTime("Start of handleinput2");
+	if (inputManager.isKeyDown(t)) {
+		shader1.setUniform("ambientLightLevel", ambientLightLevel);
+		shader1.setUniform("ambientLightColour", ambientLightColour);
+		shader1.setUniform("time", (float)(frame % 30));
+		shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
+	}
+;
+	console.addTime("Start of handleinput3");
 }
 
 void Game::Run() {
 	console.addTime("Start of run");
+	console.setControlPosition(controlSwitcher.getControlPosition());
 	objectCollection.update();
 	objectCollection.runCollisionDetection();
 	objectCollection.setEnemyTarget(inputManager.translatedMouseX, inputManager.translatedMouseY);
@@ -283,7 +297,7 @@ void Game::Draw() {
 			}
 		}
 	}
-	
+	console.addTime("Pre draw");
 	
 	
 }

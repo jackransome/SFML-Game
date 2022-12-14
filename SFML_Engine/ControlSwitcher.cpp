@@ -41,3 +41,7 @@ void ControlSwitcher::switchControl(){
 	}
 }
 
+glm::vec2 ControlSwitcher::getControlPosition(){
+	return pObjectCollection->getObjectById(currentID)->getCenter();
+}
+
