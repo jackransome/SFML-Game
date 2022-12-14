@@ -45,6 +45,7 @@ public:
 	void doAEODamage(float x, float y, float range, float damage, int id);
 	void setDebug(bool _debug);
 	void setEnemyTarget(int x, int y);
+	glm::vec2 getTarget(glm::vec2 position, FactionIdentifier faction);
 	void setCameraFocus(int id);
 	void setControls(int id, bool controlled);
 	void resetAllControls();
@@ -53,8 +54,10 @@ public:
 	int getClosestControllable(int currentID);
 	void sellObjects(float startX, float startY, float endX, float endY, int marketRelayID);
 	Object* getObjectById(int id);
+	bool getControlledDead();
 
 private:
+	bool controlledDead = false;
 	bool debug = false;
 	Console* pConsole;
 	InputManager *pInputManager;

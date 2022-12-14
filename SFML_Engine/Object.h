@@ -23,6 +23,7 @@ public:
 	Collidability getCollidability();
 	ObjectType getType();
 	void setControlled(bool _controlled);
+	bool getControlled();
 	bool getCanBePickedUp();
 	bool getPickedUp();
 	void setPickedUp(bool _pickedUp);

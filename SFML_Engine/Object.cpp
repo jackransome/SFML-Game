@@ -20,7 +20,7 @@ BoundingBox* Object::getBoundingBoxPointer() {
 }
 glm::vec2 Object::getCenter()
 {
-	return glm::vec2(boundingBox.x + boundingBox.w/2, boundingBox.y + boundingBox.h / 2);
+	return glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2);
 }
 void Object::update() {
 	
@@ -59,6 +59,10 @@ ObjectType Object::getType(){
 
 void Object::setControlled(bool _controlled){
 	controlled = _controlled;
+}
+
+bool Object::getControlled(){
+	return controlled;
 }
 
 bool Object::getCanBePickedUp()

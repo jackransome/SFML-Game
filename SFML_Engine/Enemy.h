@@ -12,10 +12,14 @@ public:
 	virtual void draw() override;
 	virtual void onDeath() override;
 	void setTarget(int x, int y);
+	int getTargetingRange();
+	void RemoveTarget();
 private:
 	SpriteCollection* pSpriteCollection;
 	float maxVel;
 	float acceleration;
+	bool hasTarget = false;
+	int targetingRange;
 	glm::vec2 target;
 	glm::vec2 velocity;
 	glm::vec2 position;

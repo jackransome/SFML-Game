@@ -22,4 +22,5 @@ private:
 	bool hasTarget = false;
 	int targetingRange;
 	int reloadTimer = 0;
+	int maxReload;
 };

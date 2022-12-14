@@ -15,6 +15,7 @@ public:
 	void Draw();
 	void finishAudio();
 private:
+	bool debugMode = false;
 	int screenW;
 	int screenH;
 	bool lastSpace = false;

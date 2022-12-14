@@ -2,7 +2,7 @@
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float x, float y) :
 	Object(x, y, 16, 16, 0, movable, true),
-	Living(100, 2),
+	Living(100, 2, factionFriendly),
 	Controllable(200) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
@@ -101,9 +101,6 @@ void MainCharacter::update() {
 void MainCharacter::draw() {
 	eyeVisible1 = false;
 	eyeVisible2 = false;
-	if (pInputManager->isKeyDown(y)) {
-		pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x, boundingBox.y), glm::vec3(255, 255, 255), 0.5, 0, false);
-	}
 	if (sprinting) {
 		if (boundingBox.xv < 0) {
 			animationRunLeft.run();
@@ -123,7 +120,7 @@ void MainCharacter::draw() {
 			eyeVisible1 = true;
 			if (animationRunLeft.getChangedFrame() && animationRunLeft.getFrame() == 1) {
 				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 - 10, boundingBox.y + boundingBox.h / 2 + 6);
-				pConsole->addCommand(commandPlaySound, "footstep_snow");
+				pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 			}
 		}
 		else if (boundingBox.xv > 0) {
@@ -144,7 +141,7 @@ void MainCharacter::draw() {
 			eyeVisible1 = true;
 			if (animationRunRight.getChangedFrame() && animationRunRight.getFrame() == 1) {
 				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 + 10, boundingBox.y + boundingBox.h / 2 + 6);
-				pConsole->addCommand(commandPlaySound, "footstep_snow");
+				pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 			}
 		}
 	}
@@ -167,7 +164,7 @@ void MainCharacter::draw() {
 			eyeVisible1 = true;
 			if (animationWalkLeft.getChangedFrame() && animationWalkLeft.getFrame() == 1) {
 				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 - 6, boundingBox.y + boundingBox.h / 2+6);
-				pConsole->addCommand(commandPlaySound, "footstep_snow");
+				pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 			}
 		}
 		else if (boundingBox.xv > 0) {
@@ -188,7 +185,7 @@ void MainCharacter::draw() {
 			eyeVisible1 = true;
 			if (animationWalkRight.getChangedFrame() && animationWalkRight.getFrame() == 1) {
 				pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2 +6, boundingBox.y + boundingBox.h / 2 + 6);
-				pConsole->addCommand(commandPlaySound, "footstep_snow");
+				pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 			}
 		}
 	}
@@ -250,7 +247,7 @@ void MainCharacter::draw() {
 				eyeVisible2 = true;
 				if (animationRunDown.getChangedFrame() && (animationRunDown.getFrame() == 0 || animationRunDown.getFrame() == 6)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 + 6);
-					pConsole->addCommand(commandPlaySound, "footstep_snow");
+					pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 				}
 			}
 			else if (boundingBox.yv < 0) {
@@ -266,7 +263,7 @@ void MainCharacter::draw() {
 				}
 				if (animationRunUp.getChangedFrame() && (animationRunUp.getFrame() == 4 || animationRunUp.getFrame() == 10)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
-					pConsole->addCommand(commandPlaySound, "footstep_snow");
+					pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 				}
 			}
 		} else{
@@ -279,7 +276,7 @@ void MainCharacter::draw() {
 				eyeVisible2 = true;
 				if (animationWalkDown.getChangedFrame() && (animationWalkDown.getFrame() == 0 || animationWalkDown.getFrame() == 4)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 + 6);
-					pConsole->addCommand(commandPlaySound, "footstep_snow");
+					pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 				}
 			}
 			else if (boundingBox.yv < 0) {
@@ -289,7 +286,7 @@ void MainCharacter::draw() {
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 				if (animationWalkUp.getChangedFrame() && (animationWalkUp.getFrame() == 1 || animationWalkUp.getFrame() == 5)) {
 					pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
-					pConsole->addCommand(commandPlaySound, "footstep_snow");
+					pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
 				}
 			}
 		}

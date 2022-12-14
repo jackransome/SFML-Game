@@ -7,6 +7,7 @@ ControlSwitcher::ControlSwitcher(ObjectCollection* _pObjectCollection, Console* 
 }
 
 void ControlSwitcher::drawOverlay(){
+	if (!controlling) { return; }
 	prospectiveID = pObjectCollection->getClosestControllable(currentID);
 	glm::vec2 temp;
 	if (prospectiveID != -1) {
@@ -24,6 +25,7 @@ void ControlSwitcher::drawOverlay(){
 
 void ControlSwitcher::setCurrentControlled(int ID){
 	currentID = ID;
+	controlling = true;
 }
 
 void ControlSwitcher::switchControl(){
@@ -43,5 +45,13 @@ void ControlSwitcher::switchControl(){
 
 glm::vec2 ControlSwitcher::getControlPosition(){
 	return pObjectCollection->getObjectById(currentID)->getCenter();
+}
+
+bool ControlSwitcher::getControlling(){
+	return controlling;
+}
+
+void ControlSwitcher::setControlling(bool _controlling){
+	controlling = _controlling;
 }
 

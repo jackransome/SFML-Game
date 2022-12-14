@@ -39,6 +39,7 @@ void ObjectCollection::draw() {
 void ObjectCollection::update() {
 	Miner* tempM;
 	AutoTurret* tempA;
+	Enemy* tempE;
 	Mineable* tempM2;
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
@@ -47,6 +48,9 @@ void ObjectCollection::update() {
 			objects[i]->setRotation(tempP->getDropRotation());
 		}
 		if (objects[i]->getToDestroy()) {
+			if (objects[i]->getControlled()) {
+				controlledDead = true;
+			}
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
@@ -71,23 +75,26 @@ void ObjectCollection::update() {
 				}
 			}
 		}
-		//if is an autoturret
+		//if autoturret
 		if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
-			glm::vec2 tempPos = tempA->getCenter();
-			int range = tempA->getTargetingRange();
-			int minDistance = range;
-			int minIndex = -1;
-			for (int j = 0; j < objects.size(); j++) {
-				if (objects[j]->getHostile() && CollisionDetection::getDistance(tempPos, objects[j]->getCenter()) < minDistance) {
-					minDistance = CollisionDetection::getDistance(tempPos, objects[j]->getCenter());
-					minIndex = j;
-				}
-			}
-			if (minIndex != -1) {
-				tempA->setTarget(objects[minIndex]->getCenter().x, objects[minIndex]->getCenter().y);
+
+			glm::vec2 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
+				tempA->setTarget(target.x, target.y);
 			}
 			else {
 				tempA->RemoveTarget();
+			}
+		}
+		//if enemy
+		if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
+
+			glm::vec2 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
+				tempE->setTarget(target.x, target.y);
+			}
+			else {
+				tempE->RemoveTarget();
 			}
 		}
 		objects[i]->update();
@@ -248,8 +255,7 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage, 
 				//do damage
 				living->doDamage(damage);
 				if (living->getHealth() <= 0) {
-					objects.erase(objects.begin() + i);
-					i--;
+					objects[i]->setToDestroy(true);
 				}
 			}
 		}
@@ -267,6 +273,28 @@ void ObjectCollection::setEnemyTarget(int x, int y){
 			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y);
 		}
 	}
+}
+
+glm::vec2 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction){
+	FactionIdentifier targetFaction;
+	if (faction == factionFriendly) {
+		targetFaction = factionHostile;
+	} else if (faction == factionHostile) {
+		targetFaction = factionFriendly;
+	}
+	int minDistance = 10000;
+	int minIndex = -1;
+	for (int j = 0; j < objects.size(); j++) {
+		if (dynamic_cast<Living*>(objects[j]) && dynamic_cast<Living*>(objects[j])->getFaction() == targetFaction && CollisionDetection::getDistance(position, objects[j]->getCenter()) < minDistance) {
+			minDistance = CollisionDetection::getDistance(position, objects[j]->getCenter());
+			minIndex = j;
+		}
+	}
+	if (minIndex == -1) {
+		//std::cout << "NOTHING TO TARGET\n";
+		return glm::vec2(100000,100000);
+	}
+	return objects[minIndex]->getCenter() + glm::vec2(objects[minIndex]->getBoundingBox().xv*5, objects[minIndex]->getBoundingBox().yv*5);
 }
 
 void ObjectCollection::setCameraFocus(int id){
@@ -397,4 +425,8 @@ Object* ObjectCollection::getObjectById(int id)
 	}
 	std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
 	return nullptr;
+}
+
+bool ObjectCollection::getControlledDead(){
+	return controlledDead;
 }

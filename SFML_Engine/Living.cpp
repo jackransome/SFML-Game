@@ -1,8 +1,9 @@
 #include "Living.h"
 
-Living::Living(float _maxHealth, float _regenRate) {
+Living::Living(float _maxHealth, float _regenRate, FactionIdentifier _faction) {
 	maxHealth = health = _maxHealth;
 	regenRate = _regenRate;
+	faction = _faction;
 }
 
 float Living::getHealth() {
@@ -14,4 +15,8 @@ void Living::doDamage(float damage) {
 	if (health <= 0) {
 		onDeath();
 	}
+}
+
+FactionIdentifier Living::getFaction(){
+	return faction;
 }

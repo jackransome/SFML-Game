@@ -1,76 +1,40 @@
-﻿  Enemy.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(10,20): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(21,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(37,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(40,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(43,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(46,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(49,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(74,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(79,124): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(89,61): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(94,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(95,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  ObjectCollection.cpp
+﻿  ControlSwitcher.cpp
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.h(11,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Miner.h(10,17): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(17,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(25,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(28,139): warning C4305: 'argument': truncation from 'int' to 'sf::Uint8'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(28,135): warning C4309: 'argument': truncation of constant value
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(34,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(43,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(57,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(61,56): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(66,85): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(66,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(67,55): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(80,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(82,51): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(87,86): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ControlSwitcher.cpp(23,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ControlSwitcher.cpp(37,58): warning C4305: 'argument': truncation from 'double' to 'float'
+  Game.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.h(11,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Miner.h(10,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SnowSystem.h(32,18): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(120,33): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(121,32): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(146,69): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(87,52): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(154,19): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(202,25): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(205,29): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(210,29): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(213,25): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(250,114): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(97,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(105,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(95,10): warning C4101: 'living': unreferenced local variable
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(153,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(153,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(159,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(159,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(178,51): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(196,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(196,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(215,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(217,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(228,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(238,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(264,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(277,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(286,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(306,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(341,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(342,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(348,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(349,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(359,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(363,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(364,55): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(382,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(393,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(250,77): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(250,43): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(301,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Game.cpp(306,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating Code...
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

@@ -26,6 +26,12 @@ void CommandExecuter::execute(Command command) {
 		case objectScrapMetalDrop:
 			pObjectCollection->addScapMetalDrop(command.f1, command.f2);
 			break;
+		case objectAutoTurret:
+			pObjectCollection->addAutoTurret(command.f1, command.f2);
+			break;
+		case objectEnemy:
+			pObjectCollection->addEnemy(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}

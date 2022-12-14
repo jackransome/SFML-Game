@@ -2,7 +2,7 @@
 
 Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 20, 20, 0, immovable, true),
-	Living(100, 2),
+	Living(100, 2, factionFriendly),
 	Controllable(500) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
@@ -25,6 +25,7 @@ void Relay::draw() {
 
 void Relay::onDeath(){
 	pSoundPlayer->stopSound(AmbientSoundId);
+	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 
 void Relay::update(){

@@ -2,7 +2,7 @@
 
 Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y) :
 	Object(x, y, 18, 18, 0, movable, true),
-	Living(100, 1)
+	Living(100, 1, factionHostile)
 {
 	position = glm::vec2(x, y);
 	target = glm::vec2(0, 0);
@@ -18,6 +18,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	hostile = true;
 	damageRange = 60;
 	maxReload = 15;
+	targetingRange = 500;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
 }
@@ -28,39 +29,45 @@ void Enemy::update() {
 	position.y = boundingBox.y;
 
 
-
-	glm::vec2 newDirection = target - position;
-	if (sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y) < damageRange && reloadTimer <= 0) {
-		//pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
-		switch (rand() % 5) {
-		case 0:
-			pConsole->addCommand(commandPlaySound, "drone_zap_1", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-			break;
-		case 1:
-			pConsole->addCommand(commandPlaySound, "drone_zap_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-			break;
-		case 2:
-			pConsole->addCommand(commandPlaySound, "drone_zap_3", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-			break;
-		case 3:
-			pConsole->addCommand(commandPlaySound, "drone_zap_4", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-			break;
-		case 4:
-			pConsole->addCommand(commandPlaySound, "drone_zap_5", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-			break;
+	if (hasTarget) {
+		glm::vec2 newDirection = target - position;
+		if (sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y) < damageRange && reloadTimer <= 0) {
+			pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
+			switch (rand() % 4) {
+			case 0:
+				pConsole->addCommand(commandPlaySound, "drone_hit_1", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+				break;
+			case 1:
+				pConsole->addCommand(commandPlaySound, "drone_hit_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+				break;
+			case 2:
+				pConsole->addCommand(commandPlaySound, "drone_hit_3", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+				break;
+			case 3:
+				pConsole->addCommand(commandPlaySound, "drone_hit_4", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+				break;
+			}
+			pConsole->addCommand(commandShakeScreen, 2.0f);
+			reloadTimer = maxReload;
 		}
-		reloadTimer = maxReload;
+		normaliseVec(&newDirection);
+		velocity = velocity + newDirection * acceleration;
+		if (sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > maxVel) {
+			normaliseVec(&velocity);
+			velocity *= maxVel;
+		}
+		position = position + velocity;
 	}
+	else {
+		velocity - glm::vec2(0, 0);
+	}
+	
 	reloadTimer--;
-	normaliseVec(&newDirection);
+	
 
-	velocity = velocity + newDirection * acceleration;
+	
 
-	if (sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > maxVel) {
-		normaliseVec(&velocity);
-		velocity *= maxVel;
-	}
-	position = position + velocity;
+	
 	boundingBox.xv = velocity.x;
 	boundingBox.yv = velocity.y;
 	//boundingBox.x = position.x;
@@ -93,6 +100,15 @@ void Enemy::onDeath(){
 void Enemy::setTarget(int x, int y) {
 	target.x = x;
 	target.y = y;
+	hasTarget = true;
+}
+
+int Enemy::getTargetingRange(){
+	return targetingRange;
+}
+
+void Enemy::RemoveTarget(){
+	hasTarget = false;
 }
 
 void Enemy::normaliseVec(glm::vec2* vec) {

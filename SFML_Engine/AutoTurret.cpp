@@ -2,7 +2,7 @@
 
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float x, float y) :
 	Object(x, y, 24, 24, 0, immovable, true),
-	Living(100, 1)
+	Living(100, 1, factionFriendly)
 {
 	target = glm::vec2(0, 0);
 	pSpriteCollection = _pSpriteCollection;
@@ -10,8 +10,9 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	type = objectNull;
 	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2); //CHANGE
 	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 8, 2); //CHANGE
-	targetingRange = 500;
+	targetingRange = 600;
 	canBePickedUp = true;
+	maxReload = 15;
 }
 
 void AutoTurret::update() {
@@ -25,12 +26,13 @@ void AutoTurret::update() {
 		if (reloadTimer <= 0) {
 			glm::vec2 distVector = pConsole->getControlPosition() - getCenter();
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
+
 			pConsole->addCommand(commandPlaySound, "laser_shot", 0.2 / (1 + distance / 100));
 
 			glm::vec2 shootPos = getCenter() + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 10, id);
-			reloadTimer = 30;
+			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 25, id);
+			reloadTimer = maxReload;
 		}
 	}
 	reloadTimer--;

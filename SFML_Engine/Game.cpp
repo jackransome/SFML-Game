@@ -73,6 +73,7 @@ Game::Game(sf::RenderWindow* pwindow) {
 	spriteCollection.loadImage("market_relay", "resources/market_relay.png");
 	spriteCollection.loadImage("autoturret_base_stack", "resources/autoturret_base_stack.png");
 	spriteCollection.loadImage("autoturret_barrel_stack", "resources/autoturret_barrel_stack.png");
+	spriteCollection.loadImage("white_rect", "resources/white_rect.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");
@@ -110,6 +111,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	soundPlayer.loadSound("relay_ambient_2", "resources/sound_relay_ambient_2.wav"); 
 	soundPlayer.loadSound("drone_ambient_1", "resources/sound_drone_ambient_1.wav");
 	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_3.wav");
+	soundPlayer.loadSound("drone_hit_1", "resources/sound_drone_hit_1.wav");
+	soundPlayer.loadSound("drone_hit_2", "resources/sound_drone_hit_2.wav");
+	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
+	soundPlayer.loadSound("drone_hit_4", "resources/sound_drone_hit_4.wav");
 	snowSystem = SnowSystem(&spriteCollection, screenW, screenH, camera.getPosition());
 	camera.setScreenDimensions(screenW, screenH);
 	camera.setScreenshakeCutoff(0.1);
@@ -124,17 +129,17 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addWall(500, 300, 100, 100);
 	objectCollection.addWall(300, -100, 100, 100);
 	objectCollection.setDebug(false);
-	objectCollection.addEnemy(200, 200);
+	//objectCollection.addEnemy(200, 200);
 	objectCollection.addRover(-100, -100);
-	objectCollection.addRelay(-200, -500);
-	objectCollection.addMarketRelay(-100, -500);
+	objectCollection.addRelay(-250, -650);
+	objectCollection.addMarketRelay(100, -400);
 	objectCollection.addAutoTurret(-75, -350);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
 	for (int i = 0; i < 40; i++) {
 		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
 	}
-	
+	controlSwitcher.setCurrentControlled(0);
 	//objectCollection.addEnemy(400, 200);
 	//objectCollection.addEnemy(300, 450);
 	spriteCollection.setWindowDimensions(screenW, screenH);
@@ -164,9 +169,11 @@ void Game::HandleInput() {
 	}
 	if (inputManager.isKeyDown(f)) {
 		console.addCommand(commandEnableDebug, 1);
+		debugMode = true;
 	}
 	if (inputManager.isKeyDown(g)) {
 		console.addCommand(commandEnableDebug, 0);
+		debugMode = false;
 	}
 	if (inputManager.isKeyDown(r)) {
 		/*if (snowOpacity <= 0.99) {
@@ -175,7 +182,8 @@ void Game::HandleInput() {
 		}*/
 		controlSwitcher.drawOverlay();
 	}
-	if (inputManager.isKeyDown(t)) {
+	if (inputManager.onKeyDown(t)) {
+		console.addCommand(commandAddObject, objectEnemy, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		//if (snowOpacity >= 0.01) {
 		//	snowOpacity -= 0.01;
 		//	snowSystem.setOpacity(snowOpacity);
@@ -208,23 +216,24 @@ void Game::HandleInput() {
 			daylightPhase -= 0.01;
 		}
 	}
-	console.addTime("Start of handleinput2");
-	if (inputManager.isKeyDown(t)) {
-		shader1.setUniform("ambientLightLevel", ambientLightLevel);
-		shader1.setUniform("ambientLightColour", ambientLightColour);
-		shader1.setUniform("time", (float)(frame % 30));
-		shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
-	}
-;
-	console.addTime("Start of handleinput3");
+	shader1.setUniform("ambientLightLevel", ambientLightLevel);
+	shader1.setUniform("ambientLightColour", ambientLightColour);
+	shader1.setUniform("time", (float)(frame % 30));
+	shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
+
+
 }
 
 void Game::Run() {
 	console.addTime("Start of run");
-	console.setControlPosition(controlSwitcher.getControlPosition());
+	if (controlSwitcher.getControlling()) {
+		console.setControlPosition(controlSwitcher.getControlPosition());
+	}
 	objectCollection.update();
+	if (objectCollection.getControlledDead()) {
+		controlSwitcher.setControlling(false);
+	}
 	objectCollection.runCollisionDetection();
-	objectCollection.setEnemyTarget(inputManager.translatedMouseX, inputManager.translatedMouseY);
 	//timer.update();
 	while (console.getSize() > 0) {
 		commandExecuter.execute(console.getCommand());
@@ -243,7 +252,7 @@ void Game::Run() {
 
 void Game::Draw() {
 	console.addTime("Start of draw");
-	spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 0.75, 0, false);
+	//spriteCollection.drawLightSource(glm::vec2(0, 200), glm::vec3(255, 255, 255), 0.75, 0, false);
 	// inside the main loop, between window.clear() and window.display()
 
 	camera.runscreenShake();
@@ -257,11 +266,11 @@ void Game::Draw() {
 
 	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - 1920 / 2, camera.getPosition().y - 1080 / 2, -100000, 1, 1);
 	
-	spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
+	//spriteCollection.addTextDraw(0, 20, 20, 20, "Test Text hello world TEST", 40, sf::Color::Black);
 
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), 300, 300, 300+88*4, 4, 1);
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, 300, 300 + 88 * 4, 4, 1);
-	spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, -300, -300 + 88 * 4, 4, 1);
+	//spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), 300, 300, 300+88*4, 4, 1);
+	//spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, 300, 300 + 88 * 4, 4, 1);
+	//spriteCollection.addImageDraw(spriteCollection.getPointerFromName("XFrame"), -300, -300, -300 + 88 * 4, 4, 1);
 
 
 	//spriteCollection.addCircleDraw(inputManager.translatedMouseX - 15, inputManager.translatedMouseY - 15, 15, inputManager.mouseY, sf::Color(255, 0, 0, 255));
@@ -287,13 +296,16 @@ void Game::Draw() {
 		if (console.hasTimeStamps()) {
 			TimeStamp ts2 = console.getTimeStamp();
 			int offset = 0;
-			
-			spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+			if (debugMode) {
+				spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+			}
 			while (console.hasTimeStamps()) {
 				ts1 = ts2;
 				ts2 = console.getTimeStamp();
 				offset += 40;
-				spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+				if (debugMode) {
+					spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "Living.h"
 #include "SoundPlayer.h"
+#include <algorithm>
 
 class MarketRelay : public Object, public Living, public Controllable {
 public:
@@ -23,4 +24,6 @@ private:
 	bool startPointValid = false;
 	int credits = 0;
 	int AmbientSoundId;
+	int sellSpaceWidth, sellSpaceHeight;
+	Image* selectionBox;
 };
