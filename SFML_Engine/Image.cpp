@@ -128,10 +128,10 @@ void Image::executeDraw() {
 		sf::Sprite s2;
 		rt1.create(1920, 1080);
 		rt2.create(1920, 1080);
-		sf::RectangleShape rect(sf::Vector2f(40, 40));
-		rect.setPosition(200,200);
-		rect.setFillColor(sf::Color(0,255,0,255));
-		rt1.draw(rect);
+		//sf::RectangleShape rect(sf::Vector2f(40, 40));
+		//rect.setPosition(200,200);
+		//rect.setFillColor(sf::Color(0,255,0,255));
+		//rt1.draw(rect);
 		rt1.draw(sprite);
 		rt1.display();
 		s1 = sf::Sprite(rt1.getTexture());
@@ -183,4 +183,9 @@ void Image::setRPoint(float _rx, float _ry){
 
 std::string Image::getName() {
 	return name;
+}
+
+void Image::finishWithoutDraw(){
+	numShaders = 0;
+	nextShaderIndex = 0;
 }

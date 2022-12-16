@@ -3,7 +3,7 @@
 #include "Console.h"
 #include "glm/glm.hpp"
 
-enum Collidability { none, immovable, movable };
+enum Collidability { immovable, controllable, movable, none };
 
 //enum ObjectType { none, player, enemy };
 
@@ -34,6 +34,7 @@ public:
 	float getRotation(float _rotation);
 	bool getSellable();
 	bool getHostile();
+	void push(float x, float y);
 protected:
 	bool sellable = false;
 	bool controlled = false;

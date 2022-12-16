@@ -201,6 +201,7 @@ void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, 
 		spriteDraws[currentDrawIndex]->pImage->setFullBright();
 	}
 	spriteDraws[currentDrawIndex]->setShader(lightingShader);
+	spriteDraws[currentDrawIndex]->pImage = getPointerFromName("white_rect");
 	currentDrawIndex++; 
 	lastAbsolute = false;
 }
@@ -402,7 +403,14 @@ void SpriteCollection::drawAll() {
 			}
 		}
 		else if (spriteDraws[i]->type == 2) {
-			pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
+			spriteDraws[i]->pImage->addShader(getShaderByName("colour"));
+			
+			//spriteDraws[i]->pImage->addShader(shaders[0]->shader);
+			getShaderByName("colour")->setUniform("colour", sf::Glsl::Vec4(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
+			
+			spriteDraws[i]->pImage->drawSection(temp.x, temp.y, 0, 0, spriteDraws[i]->w, spriteDraws[i]->h, 1, 0.5);
+			//spriteDraws[i]->pImage->finishWithoutDraw();
+			//pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
 		}
 		else if (spriteDraws[i]->type == 3) {
 			pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
@@ -567,6 +575,16 @@ void SpriteCollection::addShaderToLast(std::string shader){
 		}
 	}
 	std::cout << "shader not found\n";
+}
+
+sf::Shader* SpriteCollection::getShaderByName(std::string shader){
+	for (int i = 0; i < nextShaderIndex; i++) {
+		if (shaders[i]->name.compare(shader) == 0) {
+			return shaders[i]->shader;
+		}
+	}
+	std::cout << "shader " << shader << " not found\n";
+	return nullptr;
 }
 
 void SpriteCollection::setFullBrightMode(bool _mode){

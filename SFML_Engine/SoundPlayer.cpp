@@ -8,44 +8,24 @@ void SoundPlayer::loadSound(std::string name, std::string path) {
 }
 
 int SoundPlayer::playSoundByName(std::string name){
-	for (int i = 0; i < sounds.size(); i++) {
-		if (name.compare(sounds[i]->getName()) == 0) {
-			soundPlayers.emplace_back(new sf::Sound());
-			soundIDs.emplace_back(nextID);
-			nextID++;
-			soundPlayers.back()->setBuffer(*sounds[i]->getBuffer());
-			soundPlayers.back()->play();
-			return nextID - 1;
-		}
-	}
-	std::cout << name << " not found\n";
+	return playSoundByName(name, 1, 1);
 }
 
 int SoundPlayer::playSoundByName(std::string name, float volume) {
-	for (int i = 0; i < sounds.size(); i++) {
-		if (name.compare(sounds[i]->getName()) == 0) {
-			soundPlayers.emplace_back(new sf::Sound());
-			soundIDs.emplace_back(nextID);
-			nextID++;
-			soundPlayers.back()->setBuffer(*sounds[i]->getBuffer());
-			soundPlayers.back()->setVolume(volume * 100);
-			soundPlayers.back()->play();
-			return nextID - 1;
-		}
-	}
-	std::cout << name << " not found\n";
+	return playSoundByName(name, volume, 1);
 }
 
 int SoundPlayer::playSoundByName(std::string name, float volume, float pitch) {
 	for (int i = 0; i < sounds.size(); i++) {
 		if (name.compare(sounds[i]->getName()) == 0) {
-			soundPlayers.push_back(new sf::Sound());
-			soundIDs.push_back(nextID);
+			soundInstances.emplace_back(new SoundInstance);
+			soundInstances.back()->sfSound = new sf::Sound();
+			soundInstances.back()->sfSound->setBuffer(*sounds[i]->getBuffer());
+			soundInstances.back()->sfSound->setVolume(volume * 100 * globalVolume);
+			soundInstances.back()->sfSound->setPitch(pitch);
+			soundInstances.back()->sfSound->play();
+			soundInstances.back()->id = nextID;
 			nextID++;
-			soundPlayers[soundPlayers.size() - 1]->setBuffer(*sounds[i]->getBuffer());
-			soundPlayers[soundPlayers.size() - 1]->setVolume(volume * 100);
-			soundPlayers[soundPlayers.size() - 1]->setPitch(pitch);
-			soundPlayers[soundPlayers.size() - 1]->play();
 			return nextID - 1;
 		}
 	}
@@ -53,25 +33,25 @@ int SoundPlayer::playSoundByName(std::string name, float volume, float pitch) {
 }
 
 void SoundPlayer::loopSound(int id){
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundIDs[i] == id) {
-			soundPlayers[i]->setLoop(true);
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->id == id) {
+			soundInstances[i]->loop();
 		}
 	}
 }
 
 void SoundPlayer::loopSoundBetween(int id, float start, float end){
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundIDs[i] == id) {
-			sounds[i]->setLoopsBetween(start, end);
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->id == id) {
+			soundInstances[i]->loopBetween(start, end);
 		}
 	}
 }
 
 void SoundPlayer::stopSound(int id){
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundIDs[i] == id) {
-			soundPlayers[i]->stop();
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->id == id) {
+			soundInstances[i]->stop();
 			return;
 		}
 	}
@@ -80,9 +60,9 @@ void SoundPlayer::stopSound(int id){
 
 float SoundPlayer::getPlayingOffset(int id)
 {
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundIDs[i] == id) {
-			return soundPlayers[i]->getPlayingOffset().asSeconds();
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->id == id) {
+			return soundInstances[i]->getPlayingOffset();
 		}
 	}
 	std::cout << "SOUND ID " << id << " DOES NOT EXIST\n";
@@ -90,11 +70,9 @@ float SoundPlayer::getPlayingOffset(int id)
 }
 
 void SoundPlayer::setVolume(int id, float volume){
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundIDs[i] == id) {
-			//soundPlayers[i]->pause();
-			soundPlayers[i]->setVolume(volume*100);
-			//soundPlayers[i]->play();
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->id == id) {
+			soundInstances[i]->setVolume(volume*100 * globalVolume);
 			return;
 		}
 	}
@@ -107,25 +85,32 @@ float SoundPlayer::getSpatialVolume(glm::vec2 pos1, glm::vec2 pos2)
 }
 
 void SoundPlayer::update() {
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		if (soundPlayers[i]->getStatus() == sf::SoundSource::Status::Stopped) {
-			delete soundPlayers[i];
-			soundPlayers.erase(soundPlayers.begin() + i);
-			soundIDs.erase(soundIDs.begin() + i);
+	for (int i = 0; i < soundInstances.size(); i++) {
+		if (soundInstances[i]->getStatus() == sf::SoundSource::Status::Stopped) {
+			soundInstances[i]->end();
+			delete soundInstances[i];
+			soundInstances.erase(soundInstances.begin() + i);
 		}
 		else {
-			if (sounds[i]->getLoopsBetween()) {
-				if (soundPlayers[i]->getPlayingOffset().asSeconds() > sounds[i]->getLoopEnd()) {
-					soundPlayers[i]->setPlayingOffset(sf::seconds( sounds[i]->getLoopStart()));
+			if (soundInstances[i]->getLoopsBetween()) {
+				if (soundInstances[i]->getPlayingOffset() > soundInstances[i]->getLoopEnd()) {
+					soundInstances[i]->setPlayingOffset(soundInstances[i]->getLoopStart());
 				}
 			}
 		}
 	}
 }
 
-
 void SoundPlayer::finish(){
-	for (int i = 0; i < soundPlayers.size(); i++) {
-		soundPlayers[i]->stop();
+	for (int i = 0; i < soundInstances.size(); i++) {
+		soundInstances[i]->stop();
 	}
+}
+
+void SoundPlayer::setGlobalVolume(float volume){
+	globalVolume = volume;
+}
+
+float SoundPlayer::getGlobalVolume(){
+	return globalVolume;
 }

@@ -27,7 +27,11 @@ Game::Game(sf::RenderWindow* pwindow) {
 	shaders[4] = new sf::Shader();
 	shaders[4]->loadFromFile("shaders/blend.frag", sf::Shader::Fragment);
 	spriteCollection.addShader("blend", shaders[4]);
+	shaders[5] = new sf::Shader();
+	shaders[5]->loadFromFile("shaders/colour.frag", sf::Shader::Fragment);
+	spriteCollection.addShader("colour", shaders[5]);
 	soundPlayer = SoundPlayer();
+	soundPlayer.setGlobalVolume(1);
 	console = Console();
 	timer = Timer(250, &console);
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
@@ -133,11 +137,13 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addRover(-100, -100);
 	objectCollection.addRelay(-250, -650);
 	objectCollection.addMarketRelay(100, -400);
-	objectCollection.addAutoTurret(-75, -350);
+	objectCollection.addAutoTurret(0, -350);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
+	objectCollection.addScapMetalDrop(-50, -500);
+	objectCollection.addScapMetalDrop(0, -450);
 	for (int i = 0; i < 40; i++) {
-		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
+		//objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
 	}
 	controlSwitcher.setCurrentControlled(0);
 	//objectCollection.addEnemy(400, 200);
@@ -278,6 +284,7 @@ void Game::Draw() {
 	//spriteCollection.addRectDraw(200 + timer.getPhase() * 50, 200, 5, 20, 5, sf::Color(0, 0, 255, 255));
 
 	objectCollection.draw();
+	objectCollection.drawHealthBars();
 
 	snowSystem.draw();
 

@@ -68,6 +68,7 @@ public:
 	void sendLightDataToShader();
 	void setWindowDimensions(int w, int h);
 	void addShaderToLast(std::string shader);
+	sf::Shader* getShaderByName(std::string shader);
 	void setFullBrightMode(bool _mode);
 	void blink();
 private:

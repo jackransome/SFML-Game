@@ -1,7 +1,7 @@
 #include "Rover.h"
 
 Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
-	Object(x, y, 24, 24, 0, movable, true),
+	Object(x, y, 24, 24, 0, controllable, true),
 	Living(100, 2, factionFriendly),
 	Pickuper(),
 	Controllable(200),
@@ -34,7 +34,6 @@ void Rover::update() {
 					speed += 1;
 				}
 			}
-
 		}
 		else if (pInputManager->isKeyDown(s)) {
 			if (speed > -maxSpeed) {
@@ -52,7 +51,7 @@ void Rover::update() {
 		if (pInputManager->onKeyDown(e)) {
 			if (holding) {
 				pConsole->addCommand(commandDrop, id);
-				pSoundPlayer->playSoundByName("drop", 0.2);
+				pSoundPlayer->playSoundByName("drop", 0.4);
 			}
 			else {
 				pConsole->addCommand(commandPickUp, id);
@@ -91,7 +90,7 @@ void Rover::update() {
 	}
 	if ((boundingBox.yv != 0 || boundingBox.xv != 0) ) {
 		if (!moveSoundPlaying) {
-			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.045);
+			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.08);
 			pSoundPlayer->loopSoundBetween(moveSoundId, 1, 2);
 			
 			moveSoundPlaying = true;
@@ -107,7 +106,7 @@ void Rover::update() {
 		moveSoundPlaying = false;
 	}
 	if (holding && !lastHolding) {
-		pSoundPlayer->playSoundByName("pickup", 0.2);
+		pSoundPlayer->playSoundByName("pickup", 0.4);
 	}
 	lastHolding = holding;
 	dropRotation = (direction / (2 * 3.1415)) * 360;

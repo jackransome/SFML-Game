@@ -17,6 +17,7 @@ public:
 	void setRotation(float _rotation);
 	void setRPoint(float _rx, float _ry);
 	std::string getName();
+	void finishWithoutDraw();
 private:
 	bool fullBright = false;;
 	int rotationPointx = 0;

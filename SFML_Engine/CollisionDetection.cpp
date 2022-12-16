@@ -211,59 +211,66 @@ void CollisionDetection::correctPosition(glm::vec4* _rect1, glm::vec4* _rect2) {
 	}
 }
 bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
+	//bb1 is corrected based on its collision with bb2
+	
+	//making sure they are colliding at all in the current frame
 	if (!CheckRectangleIntersect(bb1, bb2)) return false;
+	//getting the previous position of bb1 ad bb2
 	float bb1Xold = bb1->x - bb1->xv;
 	float bb1Yold = bb1->y - bb1->yv;
-	bool xOverlap = (bb1Xold < bb2->x + bb2->w) && (bb1Xold + bb1->w > bb2->x);
-	bool yOverlap = (bb1Yold < bb2->y + bb2->h) && (bb1Yold + bb1->h > bb2->y);
+	float bb2Xold = bb2->x - bb2->xv;
+	float bb2Yold = bb2->y - bb2->yv;
+	//seeing what sort of overlap on x and y axis' are happening
+	bool xOverlap = (bb1Xold < bb2Xold + bb2->w) && (bb1Xold + bb1->w > bb2Xold);
+	bool yOverlap = (bb1Yold < bb2Yold + bb2->h) && (bb1Yold + bb1->h > bb2Yold);
 	if (xOverlap) {
 		if (yOverlap) {
 			std::cout << "THIS SHOULD BE IMPOSSIBLE!!\n"; //impossible?
 		}
 		else { //correct the y
-			if (bb1Yold < bb2->y) { //coming from above
-				bb1->y = bb2->y - bb1->h; return true;
+			if (bb1Yold < bb2Yold) { //coming from above
+				bb1->y = bb2->y - bb1->h - 0.01; return true;
 			}
 			else { //coming from below
-				bb1->y = bb2->y + bb2->h; return true;
+				bb1->y = bb2->y + bb2->h + 0.01; return true;
 			}
 		}
 	}
 	else {
 		if (yOverlap) { //correct the x
-			if (bb1Xold < bb2->x) { //coming from the left
-				bb1->x = bb2->x - bb1->w; return true;
+			if (bb1Xold < bb2Xold) { //coming from the left
+				bb1->x = bb2->x - bb1->w - 0.01; return true;
 			}
 			else { //coming from the right
-				bb1->x = bb2->x + bb2->w; return true;
+				bb1->x = bb2->x + bb2->w + 0.01; return true;
 			}
 		}
 		else { //corners
-			if (bb1Xold < bb2->x) {
+			if (bb1Xold < bb2Xold) {
 				if (bb1Yold < bb2->y) { //top left
 					if (bb1->x + bb1->w - bb2->x > bb1->y + bb1->h - bb2->y) { 
-						bb1->y = bb2->y - bb1->h; return true; //correct y
+						bb1->y = bb2->y - bb1->h - 0.01; return true; //correct y
 					}
 					else { 
-						bb1->x = bb2->x - bb1->w; return true; //correct x
+						bb1->x = bb2->x - bb1->w - 0.01; return true; //correct x
 					}
 				}
 				else { //bottom left
 					if (bb1->x + bb1->w - bb2->x > bb2->y + bb2->h - bb1->y) {
-						bb1->y = bb2->y + bb2->h; return true; //correct y
+						bb1->y = bb2->y + bb2->h + 0.01; return true; //correct y
 					}
 					else {
-						bb1->x = bb2->x - bb1->w; return true; //correct x
+						bb1->x = bb2->x - bb1->w - 0.01; return true; //correct x
 					}
 				}
 			}
 			else {
-				if (bb1Yold < bb2->y) { //top right
+				if (bb1Yold < bb2Yold) { //top right
 					if (bb2->x + bb2->w - bb1->x > bb1->y + bb1->h - bb2->y) {
-						bb1->y = bb2->y - bb1->h; return true; //correct y
+						bb1->y = bb2->y - bb1->h - 0.01; return true; //correct y
 					}
 					else {
-						bb1->x = bb2->x + bb2->w; return true; //correct x
+						bb1->x = bb2->x + bb2->w + 0.01; return true; //correct x
 					}
 				}
 				else { //bottom right
@@ -271,7 +278,123 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 						bb1->y = bb2->y + bb2->h; return true; //correct y
 					}
 					else {
-						bb1->x = bb2->x + bb2->w; return true; //correct x
+						bb1->x = bb2->x + bb2->w + 0.01; return true; //correct x
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+bool CollisionDetection::correctPositionBoth(BoundingBox* bb1, BoundingBox* bb2) {
+	//bb1 and bb2 are corrected 
+
+	//making sure they are colliding at all in the current frame
+	if (!CheckRectangleIntersect(bb1, bb2)) return false;
+	//getting the previous position of bb1 ad bb2
+	float bb1Xold = bb1->x - bb1->xv;
+	float bb1Yold = bb1->y - bb1->yv;
+	float bb2Xold = bb2->x - bb2->xv;
+	float bb2Yold = bb2->y - bb2->yv;
+	//seeing what sort of overlap on x and y axis' are happening
+	bool xOverlap = (bb1Xold < bb2Xold + bb2->w) && (bb1Xold + bb1->w > bb2Xold);
+	bool yOverlap = (bb1Yold < bb2Yold + bb2->h) && (bb1Yold + bb1->h > bb2Yold);
+	if (xOverlap && yOverlap) {
+		xOverlap = false;
+		yOverlap = false;
+	}
+	if (xOverlap) {
+		if (yOverlap) {
+			std::cout << "THIS SHOULD BE IMPOSSIBLE!!\n"; //impossible?
+		}
+		else { //correct the y
+			if (bb1Yold < bb2Yold) { //coming from above
+				float difference = bb1->y + bb1->h - bb2->y + 0.01;
+				bb1->y -= difference / 2;
+				bb2->y += difference / 2;
+				return true;
+			}
+			else { //coming from below
+				float difference = bb2->y + bb2->h - bb1->y + 0.01;
+				bb1->y += difference / 2;
+				bb2->y -= difference / 2;
+				return true;
+			}
+		}
+	}
+	else {
+		if (yOverlap) { //correct the x
+			if (bb1Xold < bb2Xold) { //coming from the left
+				float difference = bb1->x + bb1->w - bb2->x + 0.01;
+				bb1->x -= difference / 2;
+				bb2->x += difference / 2;
+				return true;
+			}
+			else { //coming from the right
+				float difference = bb2->x + bb2->w - bb1->x + 0.01;
+				bb1->x += difference / 2;
+				bb2->x -= difference / 2;
+				return true;
+			}
+		}
+		else { //corners
+			if (bb1Xold < bb2Xold) {
+				if (bb1Yold < bb2Yold) { //top left
+					if (bb1->x + bb1->w - bb2->x > bb1->y + bb1->h - bb2->y) {
+						float difference = bb1->y + bb1->h - bb2->y + 0.01;
+						bb1->y -= difference / 2;
+						bb2->y += difference / 2;
+						return true; //correct y
+					}
+					else {
+						float difference = bb1->x + bb1->w - bb2->x + 0.01;
+						bb1->x -= difference / 2;
+						bb2->x += difference / 2;
+						return true; //correct x
+					}
+				}
+				else { //bottom left
+					if (bb1->x + bb1->w - bb2->x > bb2->y + bb2->h - bb1->y) {
+						float difference = bb2->y + bb2->h - bb1->y + 0.01;
+						bb1->y += difference / 2;
+						bb2->y -= difference / 2; 
+						return true; //correct y
+					}
+					else {
+						float difference = bb1->x + bb1->w - bb2->x + 0.01;
+						bb1->x -= difference / 2;
+						bb2->x += difference / 2;
+						return true; //correct x
+					}
+				}
+			}
+			else {
+				if (bb1Yold < bb2Yold) { //top right
+					if (bb2->x + bb2->w - bb1->x > bb1->y + bb1->h - bb2->y) {
+						float difference = bb1->y + bb1->h - bb2->y + 0.01;
+						bb1->y -= difference / 2;
+						bb2->y += difference / 2; 
+						return true; //correct y
+					}
+					else {
+						float difference = bb2->x + bb2->w - bb1->x + 0.01;
+						bb1->x += difference / 2;
+						bb2->x -= difference / 2;
+						return true; //correct x
+					}
+				}
+				else { //bottom right
+					if (bb2->x + bb2->w - bb1->x > bb2->y + bb2->h - bb1->y) {
+						float difference = bb2->y + bb2->h - bb1->y + 0.01;
+						bb1->y += difference / 2;
+						bb2->y -= difference / 2; 
+						return true; //correct y
+					}
+					else {
+						float difference = bb2->x + bb2->w - bb1->x + 0.01;
+						bb1->x += difference / 2;
+						bb2->x += difference / 2; 
+						return true; //correct x
 					}
 				}
 			}

@@ -10,6 +10,10 @@ float Living::getHealth() {
 	return health;
 }
 
+float Living::getMaxHealth(){
+	return maxHealth;
+}
+
 void Living::doDamage(float damage) {
 	health -= damage;
 	if (health <= 0) {

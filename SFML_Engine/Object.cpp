@@ -107,3 +107,8 @@ bool Object::getSellable(){
 bool Object::getHostile(){
 	return hostile;
 }
+
+void Object::push(float x, float y){
+	boundingBox.xv += x;
+	boundingBox.yv += y;
+}

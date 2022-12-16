@@ -1,7 +1,7 @@
 #include "MainCharacter.h"
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float x, float y) :
-	Object(x, y, 16, 16, 0, movable, true),
+	Object(x, y, 16, 16, 0, controllable, true),
 	Living(100, 2, factionFriendly),
 	Controllable(200) {
 	pInputManager = _pInputManager;

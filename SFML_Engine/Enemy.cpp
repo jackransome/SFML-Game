@@ -59,7 +59,7 @@ void Enemy::update() {
 		position = position + velocity;
 	}
 	else {
-		velocity - glm::vec2(0, 0);
+		velocity = glm::vec2(0, 0);
 	}
 	
 	reloadTimer--;

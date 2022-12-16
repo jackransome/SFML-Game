@@ -4,6 +4,52 @@
 #include "Sound.h"
 #include <glm/glm.hpp>
 
+struct SoundInstance {
+	sf::Sound* sfSound;
+	bool loops = false;
+	bool loopsBetween = false;
+	float loopStart = 0;
+	float loopEnd = 0;
+	std::string soundName;
+	int id;
+	void loop() {
+		loops = true;
+		sfSound->setLoop(true);
+	}
+	void loopBetween(float _start, float _end) {
+		loopsBetween = true;
+		loopStart = _start;
+		loopEnd = _end;
+	}
+	void stop() {
+		sfSound->stop();
+	}
+	float getPlayingOffset() {
+		return sfSound->getPlayingOffset().asSeconds();
+	}
+	void setVolume(int volume) {
+		sfSound->setVolume(volume);
+	}
+	sf::SoundSource::Status getStatus() {
+		return sfSound->getStatus();
+	}
+	void end() {
+		delete sfSound;
+	}
+	bool getLoopsBetween() {
+		return loopsBetween;
+	}
+	float getLoopEnd() {
+		return loopEnd;
+	}
+	float getLoopStart() {
+		return loopStart;
+	}
+	void setPlayingOffset(float offset) {
+		sfSound->setPlayingOffset(sf::seconds(offset));
+	}
+};
+
 class SoundPlayer {
 public:
 	SoundPlayer();
@@ -19,9 +65,11 @@ public:
 	float getSpatialVolume(glm::vec2 pos1, glm::vec2 pos2);
 	void update();
 	void finish();
+	void setGlobalVolume(float volume);
+	float getGlobalVolume();
 private:
+	float globalVolume = 1;
 	std::vector<Sound*> sounds;
-	std::vector<sf::Sound*> soundPlayers;
-	std::vector<int> soundIDs;
+	std::vector<SoundInstance*> soundInstances;
 	int nextID = 0;
 };

@@ -15,6 +15,7 @@ public:
 	static bool CheckRectangleIntersect(BoundingBox* _rect1, BoundingBox* _rect2);
 	static void correctPosition(glm::vec4* _rect1, glm::vec4* _rect2);
 	static bool correctPosition(BoundingBox* bb1, BoundingBox* bb2);
+	static bool correctPositionBoth(BoundingBox* bb1, BoundingBox* bb2);
 	static bool isCheckRequired(BoundingBox* bb1, BoundingBox* bb2);
 	static bool checkParallel(glm::vec2 _p1, glm::vec2 _p2, glm::vec2 _p3, glm::vec2 _p4);
 	static glm::vec2 getLineIntersect(glm::vec2 _p1, glm::vec2 _p2, glm::vec2 _p3, glm::vec2 _p4);

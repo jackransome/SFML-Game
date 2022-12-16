@@ -292,5 +292,8 @@
     <None Include="shaders\blend.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\colour.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

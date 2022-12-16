@@ -41,6 +41,13 @@ void ObjectCollection::update() {
 	AutoTurret* tempA;
 	Enemy* tempE;
 	Mineable* tempM2;
+
+	for (int i = 0; i < objects.size(); i++){
+		//if rover
+		if ((dynamic_cast<Rover*>(objects[i]))) {
+			pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 100);
+		}
+	}
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
 			Pickuper* tempP = dynamic_cast<Pickuper*>(getObjectById(objects[i]->getPickedUpById()));
@@ -220,9 +227,18 @@ void ObjectCollection::setLatestConsole() {
 
 void ObjectCollection::runCollisionDetection() {
 	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getCollidability() == immovable && !objects[i]->getPickedUp()) {
+		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
 			for (int j = 0; j < objects.size(); j++) {
-				if (objects[j]->getCollidability() == movable) {
+				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable && objects[j]->getCollidability() > objects[i]->getCollidability()) {
+					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+				}
+			}
+		}
+	}
+	for (int i = 0; i < objects.size(); i++) {
+		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() < movable) {
+			for (int j = 0; j < objects.size(); j++) {
+				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
 					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
@@ -235,7 +251,7 @@ void ObjectCollection::drawHealthBars() {
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits livings
 		if (living = dynamic_cast<Living*>(objects[i])) {
-			pSpriteCollection->addRectDraw(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y - 30, living->getHealth(), 5, -10000, sf::Color(0, 255, 0));
+			pSpriteCollection->addRectDraw(objects[i]->getCenter().x - 30, objects[i]->getBoundingBox().y - 30, 60*(living->getHealth()/living->getMaxHealth()), 5, 1000000, sf::Color(0, 255, 0, 10));
 		}
 	}
 }
@@ -398,6 +414,24 @@ int ObjectCollection::getClosestControllable(int currentID){
 		}
 	}
 	return closestID;
+}
+
+void ObjectCollection::pullToPoint(float x, float y, int range){
+	glm::vec2 direction;
+	float distance;
+	for (int i = 0; i < objects.size(); i++) {
+		if (dynamic_cast<ScrapMetalDrop*>(objects[i])) {
+			direction.x = x - objects[i]->getBoundingBox().x;
+			direction.y = y - objects[i]->getBoundingBox().y;
+			distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+			if (distance < range) {
+				direction /= (distance * distance);
+				direction *= range;
+				objects[i]->push(direction.x, direction.y);
+			}
+
+		}
+	}
 }
 
 void ObjectCollection::sellObjects(float startX, float startY, float w, float h, int marketRelayID){

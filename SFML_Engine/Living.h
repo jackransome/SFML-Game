@@ -7,6 +7,7 @@ public:
 	Living(float _maxHealth, float _regenRate, FactionIdentifier _faction);
 	virtual void onDeath() {};
 	float getHealth();
+	float getMaxHealth();
 	void doDamage(float damage);
 	FactionIdentifier getFaction();
 
