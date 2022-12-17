@@ -13,6 +13,7 @@ public:
 	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
 	virtual void update() override;
 	virtual void draw() override;
+	virtual void onDeath() override;
 private:
 	float direction = 0;
 	float speed = 0;

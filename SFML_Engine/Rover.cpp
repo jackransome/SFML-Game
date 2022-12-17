@@ -119,5 +119,14 @@ void Rover::draw(){
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
 	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
 }
+
+void Rover::onDeath(){
+	if (mineSoundPlaying) {
+		pSoundPlayer->stopSound(mineSoundId);
+	}
+	if (moveSoundPlaying) {
+		pSoundPlayer->stopSound(moveSoundId);
+	}
+}
 	
 	

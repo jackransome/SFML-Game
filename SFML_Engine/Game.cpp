@@ -140,10 +140,10 @@ Game::Game(sf::RenderWindow* pwindow) {
 	objectCollection.addAutoTurret(0, -350);
 	
 	objectCollection.addScapMetalDrop(-50, -450);
-	objectCollection.addScapMetalDrop(-50, -500);
-	objectCollection.addScapMetalDrop(0, -450);
+	//objectCollection.addScapMetalDrop(-50, -500);
+	//objectCollection.addScapMetalDrop(0, -450);
 	for (int i = 0; i < 40; i++) {
-		//objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
+		objectCollection.addScapMetalPile(-1000 + (rand() % 2000), -1000 + (rand() % 2000));
 	}
 	controlSwitcher.setCurrentControlled(0);
 	//objectCollection.addEnemy(400, 200);
