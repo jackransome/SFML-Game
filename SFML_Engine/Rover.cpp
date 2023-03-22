@@ -1,7 +1,7 @@
 #include "Rover.h"
 
-Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
-	Object(x, y, 24, 24, 0, controllable, true),
+Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y, b2World* _pPhysicsWorld) :
+	Object(x, y, 24, 24, 0, controllable, true, _pPhysicsWorld),
 	Living(100, 2, factionFriendly),
 	Pickuper(),
 	Controllable(200),
@@ -13,9 +13,29 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	boundingBox.y = _y;
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
 	isMining = false;
+
+	// Create a dynamic body
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(_x, _y);
+	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
+
+	// Attach a shape to the dynamic body
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 1000.0f;
+	fixtureDef.friction = 0.3f;
+	physicsBody->CreateFixture(&fixtureDef);
+
+	physicsBodyType = 2;
 }
 
 void Rover::update() {
+	b2Vec2 position = physicsBody->GetPosition();
+	boundingBox.x = position.x;
+	boundingBox.y = position.y;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {
@@ -83,6 +103,8 @@ void Rover::update() {
 	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
+	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
+	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv, boundingBox.yv));
 	minePoint = glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction));
 	setPickupPos(minePoint);
 	if (trackTimer < 5) {
@@ -117,7 +139,7 @@ void Rover::draw(){
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1, false);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
-	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
+	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360, "bloom");
 }
 
 void Rover::onDeath(){

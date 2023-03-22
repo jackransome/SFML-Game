@@ -1,13 +1,13 @@
 #pragma once
 #include "Image.h"
 #include <SFML\Graphics.hpp>
-
+#include "Shader_Pipeline_Classes.h"
 struct SpriteDraw {
 	SpriteDraw() {}
 	// Image constructor
-	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, float _scale) {
+	SpriteDraw(TextureWrapper* _pTexture, float _x, float _y, float _z, float _scale) {
 		scale = _scale;
-		pImage = _pSprite;
+		pTexture = _pTexture;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -18,9 +18,9 @@ struct SpriteDraw {
 		color = sf::Color(0, 0, 0, 0);
 	}
 
-	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, float _scale, float _opacity) {
+	SpriteDraw(TextureWrapper* _pTexture, float _x, float _y, float _z, float _scale, float _opacity) {
 		scale = _scale;
-		pImage = _pSprite;
+		pTexture = _pTexture;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -33,9 +33,9 @@ struct SpriteDraw {
 	}
 
 	// Image constructor with draw section
-	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale) {
+	SpriteDraw(TextureWrapper* _pTexture, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale) {
 		scale = _scale;
-		pImage = _pSprite;
+		pTexture = _pTexture;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -50,9 +50,9 @@ struct SpriteDraw {
 		sH = _sH;
 	}
 	// Image constructor with draw section
-	SpriteDraw(Image* _pSprite, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale, float _opacity) {
+	SpriteDraw(TextureWrapper* _pTexture, float _x, float _y, float _z, int _sX, int _sY, int _sW, int _sH, float _scale, float _opacity) {
 		scale = _scale;
-		pImage = _pSprite;
+		pTexture = _pTexture;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -69,7 +69,7 @@ struct SpriteDraw {
 	}
 	// Rectangle constructor
 	SpriteDraw(float _x, float _y, float _w, float _h, float _z, sf::Color _color) {
-		pImage = nullptr;
+		pTexture = nullptr;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -81,7 +81,7 @@ struct SpriteDraw {
 	}
 	// Circle constructor
 	SpriteDraw(float _x, float _y, float _r, float _z, sf::Color _color) {
-		pImage = nullptr;
+		pTexture = nullptr;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -93,7 +93,7 @@ struct SpriteDraw {
 	}
 	// Text constructor
 	SpriteDraw(int _fontIndex, float _x, float _y, float _z, std::string _string, int _fontSize, sf::Color _color) {
-		pImage = nullptr;
+		pTexture = nullptr;
 		x = _x;
 		y = _y;
 		z = _z;
@@ -103,12 +103,6 @@ struct SpriteDraw {
 		type = 4;
 		fontIndex = _fontIndex;
 	}
-	void setShader(sf::Shader* _shader) {
-		shader = _shader;
-	}
-	sf::Shader* getShader() {
-		return shader;
-	}
 	void setRotation(float _rotation) {
 		rotation = _rotation;
 	}
@@ -117,17 +111,15 @@ struct SpriteDraw {
 		ry = _ry;
 		rotationPoint = true;
 	}
-	void addShader(sf::Shader* _shader) {
-		if (nextShaderIndex >= maxShaders) {
-			std::cout << "max number of shaders reached for this image\n";
-			return;
-		}
-		shaders[nextShaderIndex] = _shader;
-		nextShaderIndex++;
-		numShaders++;
+	void setFullBright() {
+		fullBright = true;
 	}
-	sf::Shader *shader = nullptr;
-	Image* pImage;
+	void setPipeline(int index) {
+		pipelineIndex = index;
+	}
+
+	int pipelineIndex = 0;
+	TextureWrapper* pTexture;
 	float x;
 	float y;
 	float z;
@@ -149,8 +141,5 @@ struct SpriteDraw {
 	float scale;
 	float opacity = 1;
 	float rotation = 0;
-	sf::Shader* shaders[10];
-	const int maxShaders = 10;
-	int nextShaderIndex = 0;
-	int numShaders = 0;
+	bool fullBright = false;
 };

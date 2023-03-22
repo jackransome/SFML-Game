@@ -1,7 +1,7 @@
 #include "Relay.h"
 
-Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
-	Object(x, y, 20, 20, 0, immovable, true),
+Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y, b2World* _pPhysicsWorld) :
+	Object(x, y, 20, 20, 0, immovable, true, _pPhysicsWorld),
 	Living(100, 2, factionFriendly),
 	Controllable(500) {
 	boundingBox.x = _x;
@@ -14,6 +14,19 @@ Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlay
 	pSoundPlayer->loopSound(AmbientSoundId);
 	canBePickedUp = true;
 	type = objectRelay;
+
+	// Create a kinematic body
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_kinematicBody;
+	bodyDef.position.Set(_x, _y);
+	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
+
+	// Attach a shape to the kinematic body
+	b2PolygonShape kinematicBox;
+	kinematicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	physicsBody->CreateFixture(&kinematicBox, 0.0f);
+
+	physicsBodyType = 1;
 }
 
 void Relay::draw() {
@@ -30,4 +43,5 @@ void Relay::onDeath(){
 
 void Relay::update(){
 	pSoundPlayer->setVolume(AmbientSoundId, pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
 }

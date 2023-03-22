@@ -1,10 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y) :
-	Object(x, y, 18, 18, 0, movable, true),
+Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y, b2World* _pPhysicsWorld) :
+	Object(_x, _y, 18, 18, 0, movable, true, _pPhysicsWorld),
 	Living(100, 1, factionHostile)
 {
-	position = glm::vec2(x, y);
+	position = glm::vec2(_x, _y);
 	target = glm::vec2(0, 0);
 	velocity = glm::vec2(0, 0);
 	acceleration = 0.6;
@@ -21,13 +21,32 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	targetingRange = 500;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
+
+	// Create a dynamic body
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(_x, _y);
+	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
+
+	// Attach a shape to the dynamic body
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+	physicsBody->CreateFixture(&fixtureDef);
+
+	physicsBodyType = 2;
 }
 
 void Enemy::update() {
+	b2Vec2 p = physicsBody->GetPosition();
+	boundingBox.x = p.x;
+	boundingBox.y = p.y;
 
 	position.x = boundingBox.x;
 	position.y = boundingBox.y;
-
 
 	if (hasTarget) {
 		glm::vec2 newDirection = target - position;
@@ -70,11 +89,13 @@ void Enemy::update() {
 	
 	boundingBox.xv = velocity.x;
 	boundingBox.yv = velocity.y;
-	//boundingBox.x = position.x;
-	//boundingBox.y = position.y;
+	
 
 	boundingBox.x = boundingBox.x + boundingBox.xv;
 	boundingBox.y = boundingBox.y + boundingBox.yv;
+	
+	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
+	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv, boundingBox.yv));
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)

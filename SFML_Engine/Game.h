@@ -5,7 +5,7 @@
 #include "Timer.h"
 #include "SnowSystem.h"
 #include "ControlSwitcher.h"
-
+#include "ShaderManager.h"
 
 class Game {
 public:
@@ -51,4 +51,7 @@ private:
 	float shaderNoiseIntensity = 1;
 	float daylightPhase = 0;
 	sf::Shader* shaders[10];
+	b2World physicsWorld;
+	MultiPipelineManager multiPipelineManager;
+	ShaderManager shaderManager;
 };

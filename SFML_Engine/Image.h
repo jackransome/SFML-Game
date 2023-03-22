@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Image {
+class pTexture {
 public:
 	Image();
 	Image(sf::RenderWindow* pwindow, std::string name, std::string path);

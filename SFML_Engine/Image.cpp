@@ -119,46 +119,81 @@ void Image::executeDraw() {
 	}
 	renderStates.transform = transform;
 
-
 	//BS
 	if (numShaders > 1) {
-		sf::RenderTexture rt1;
-		sf::RenderTexture rt2;
-		sf::Sprite s1;
-		sf::Sprite s2;
-		rt1.create(1920, 1080);
-		rt2.create(1920, 1080);
-		//sf::RectangleShape rect(sf::Vector2f(40, 40));
-		//rect.setPosition(200,200);
-		//rect.setFillColor(sf::Color(0,255,0,255));
-		//rt1.draw(rect);
-		rt1.draw(sprite);
-		rt1.display();
-		s1 = sf::Sprite(rt1.getTexture());
 
-		bool r2 = 1;
-		for (int i = 0; i < numShaders-1; i++) {
-			if (r2) {
-				rt2.clear(sf::Color::Transparent);
-				rt2.draw(s1, shaders[i]);
-				rt2.display();
-				s2 = sf::Sprite(rt2.getTexture());
-			}
-			else {
-				rt1.clear(sf::Color::Transparent);
-				rt1.draw(s2, shaders[i]);
-				rt1.display();
-				s1 = sf::Sprite(rt1.getTexture());
-			}
-			r2 = !r2;
-		}
+		sf::RenderTexture sceneTexture;
+		sf::RenderTexture horizontalBlurTexture;
+		sf::RenderTexture verticalBlurTexture;
 
-		if (r2) {
-			pWindow->draw(s1, shaders[numShaders - 1]);
-		}
-		else {
-			pWindow->draw(s2, shaders[numShaders - 1]);
-		}
+		sceneTexture.create(pWindow->getSize().x, pWindow->getSize().y);
+		horizontalBlurTexture.create(pWindow->getSize().x, pWindow->getSize().y);
+		verticalBlurTexture.create(pWindow->getSize().x, pWindow->getSize().y);
+
+		sceneTexture.clear();
+		// Draw your game objects to sceneTexture
+		sceneTexture.display();
+		sceneTexture.draw(sprite, renderStates.transform);
+
+		// Horizontal blur
+		horizontalBlurTexture.clear();
+		shaders[1]->setUniform("horizontal", true);
+		sf::Sprite sceneSprite(sceneTexture.getTexture());
+		horizontalBlurTexture.draw(sceneSprite, shaders[1]);
+		horizontalBlurTexture.display();
+
+		// Vertical blur
+		verticalBlurTexture.clear();
+		shaders[1]->setUniform("horizontal", false);
+		sf::Sprite horizontalBlurSprite(horizontalBlurTexture.getTexture());
+		verticalBlurTexture.draw(horizontalBlurSprite, shaders[1]);
+		verticalBlurTexture.display();
+
+		pWindow->draw(sprite, renderStates); // Draw original scene
+
+		sf::BlendMode additiveBlend(sf::BlendMode::One, sf::BlendMode::One);
+		sf::Sprite verticalBlurSprite(verticalBlurTexture.getTexture());
+		pWindow->draw(verticalBlurSprite, additiveBlend); // Draw bloom effect
+		
+		//sf::RenderTexture rt1;
+		//sf::RenderTexture rt2;
+		//sf::Sprite s1;
+		//sf::Sprite s2;
+		//rt1.create(1920, 1080);
+		//rt2.create(1920, 1080);
+		////sf::RectangleShape rect(sf::Vector2f(40, 40));
+		////rect.setPosition(200,200);
+		////rect.setFillColor(sf::Color(0,255,0,255));
+		////rt1.draw(rect);
+		//rt1.draw(sprite);
+		//rt1.display();
+		//s1 = sf::Sprite(rt1.getTexture());
+
+		//bool r2 = 1;
+		//for (int i = 0; i < numShaders-1; i++) {
+		//	if (r2) {
+		//		rt2.clear(sf::Color::Transparent);
+		//		rt2.draw(s1, shaders[i]);
+		//		rt2.display();
+		//		s2 = sf::Sprite(rt2.getTexture());
+		//	}
+		//	else {
+		//		rt1.clear(sf::Color::Transparent);
+		//		rt1.draw(s2, shaders[i]);
+		//		rt1.display();
+		//		s1 = sf::Sprite(rt1.getTexture());
+		//	}
+		//	r2 = !r2;
+		//}
+
+		//if (r2) {
+		//	pWindow->draw(s1, shaders[numShaders - 1]);
+		//}
+		//else {
+		//	pWindow->draw(s2, shaders[numShaders - 1]);
+		//}
+		//numShaders = 0;
+		//nextShaderIndex = 0;
 		numShaders = 0;
 		nextShaderIndex = 0;
 		return;

@@ -10,7 +10,7 @@
 
 class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner {
 public:
-	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
+	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y, b2World* _pPhysicsWorld);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;

@@ -2,6 +2,7 @@
 #include "BoundingBox.h"
 #include "Console.h"
 #include "glm/glm.hpp"
+#include <box2d/box2d.h>
 
 enum Collidability { immovable, controllable, movable, none };
 
@@ -9,7 +10,8 @@ enum Collidability { immovable, controllable, movable, none };
 
 class Object {
 public:
-	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity);
+	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity, b2World* _pPhysicsWorld);
+	~Object();
 	BoundingBox getBoundingBox();
 	BoundingBox *getBoundingBoxPointer();
 	glm::vec2 getCenter();
@@ -35,6 +37,9 @@ public:
 	bool getSellable();
 	bool getHostile();
 	void push(float x, float y);
+	b2Body* getPhysicsBody();
+	bool hasBody();
+	int getPhysicsBodyType();
 protected:
 	bool sellable = false;
 	bool controlled = false;
@@ -50,6 +55,8 @@ protected:
 	Collidability collidability;
 	ObjectType type;
 	bool hostile = false;
-	
+	b2Body* physicsBody;
 	bool hasGravity;
+	b2World* pPhysicsWorld;
+	int physicsBodyType = 0;
 };

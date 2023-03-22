@@ -5,7 +5,7 @@
 
 class ScrapMetalDrop : public Object {
 public:
-	ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int x, int y);
+	ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int x, int y, b2World* _pPhysicsWorld);
 	virtual void draw() override;
 	virtual void update() override;
 private:

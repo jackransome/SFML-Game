@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include <iostream>
 #include "SpriteDraw.h"
+#include "Shader_Pipeline_Classes.h"
 
 struct LightSource {
 	LightSource() {}
@@ -30,31 +31,31 @@ struct shaderWrapper {
 class SpriteCollection {
 public:
 	SpriteCollection();
-	SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphics);
-	void loadImage(std::string name, std::string path);
-	Image* getPointerFromName(std::string name);
+	SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphics, MultiPipelineManager* _multiPipelineManager);
+	void loadTexture(std::string name, std::string path);
+	TextureWrapper* getPointerFromName(std::string name);
 	void setUseCamera(bool _useCamera);
 	void setPCamera(Camera *_pCamera);
 	void setOrderZ(bool _orderZ);
-	void addImageDraw(Image* pImage, float x, float y, float z);
-	void addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH);
-	void addImageDraw(Image* pImage, float x, float y, float z, float scale);
-	void addImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity);
-	void addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
-	void addImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
-	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float rotation);
-	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation);
-	void addRotatedImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry);
-	void addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation);
-	void addRotatedImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
+	void addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
+	void addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float rotation);
+	void addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation);
+	void addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry);
+	void addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation);
+	void addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry);
 	void addRectDraw(float x, float y, float w, float h, float z, sf::Color);
 	void addCircleDraw(float x, float y, float r, float z, sf::Color);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z, float scale, float opacity);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
-	void addAbsoluteImageDraw(Image* pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
+	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
 	void addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color);
 	void addAbsoluteCircleDraw(float x, float y, float r, float z, sf::Color);
 	void addTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color);
@@ -71,14 +72,17 @@ public:
 	sf::Shader* getShaderByName(std::string shader);
 	void setFullBrightMode(bool _mode);
 	void blink();
+	void setPipelineIndex(int index);
 private:
+	MultiPipelineManager* multiPipelineManager;
+	int pipelineIndex = 0;
 	bool toBlink = false;
 	bool fullBrightMode = false;
 	void clearSpriteDraws();
 	void orderByZ();
 	sf::RenderWindow *pWindow;
 	Graphics *pGraphics;
-	std::vector<Image*> images;
+	std::vector<TextureWrapper*> textureWrappers;
 	int maxSpriteDraws = 1000;
 	int maxAbsoluteSpriteDraws = 1000;
 	SpriteDraw *spriteDraws[1000];

@@ -3,19 +3,22 @@
 
 ObjectCollection::ObjectCollection() {}
 
-ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera) {
+ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, b2World* _pPhysicsWorld) {
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
+	pPhysicsWorld = _pPhysicsWorld;
 	debug = false;
 }
 
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
-			objects[i]->draw();
+			if (CollisionDetection::getDistance(pCamera->getPosition(), objects[i]->getCenter()) < 2000) {
+				objects[i]->draw();
+			}
 			if (objects[i]->getId() == cameraFocusId) {
 				pCamera->setPosition(objects[i]->getCenter());
 			}
@@ -42,10 +45,10 @@ void ObjectCollection::update() {
 	Enemy* tempE;
 	Mineable* tempM2;
 
-	for (int i = 0; i < objects.size(); i++){
+	for (int i = 0; i < objects.size(); i++) {
 		//if rover
 		if ((dynamic_cast<Rover*>(objects[i]))) {
-			pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 100);
+			pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 300);
 		}
 	}
 	for (int i = 0; i < objects.size(); i++) {
@@ -58,6 +61,7 @@ void ObjectCollection::update() {
 			if (objects[i]->getControlled()) {
 				controlledDead = true;
 			}
+			delete objects[i];
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
@@ -134,7 +138,7 @@ void ObjectCollection::update() {
 }
 
 void ObjectCollection::addMainCharacter(float x, float y) {
-	objects.push_back(new MainCharacter(pInputManager, pSpriteCollection, x, y));
+	objects.push_back(new MainCharacter(pInputManager, pSpriteCollection, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
@@ -158,56 +162,56 @@ void ObjectCollection::addAction1Animation(float x, float y) {
 }
 
 void ObjectCollection::addWall(int x, int y, int w, int h) {
-	objects.push_back(new Wall(pSpriteCollection, x, y, w, h));
+	objects.push_back(new Wall(pSpriteCollection, x, y, w, h, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addEnemy(int x, int y) {
-	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRover(int x, int y){
-	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addCrate(int x, int y){
-	objects.push_back(new Crate(pSpriteCollection, x, y));
+	objects.push_back(new Crate(pSpriteCollection, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRelay(int x, int y){
-	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalPile(int x, int y){
-	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y));
+	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y, pPhysicsWorld));
 	objects[objects.size() - 1]->setRotation((rand() % 360));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalDrop(int x, int y) {
-	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y));
+	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addMarketRelay(int x, int y){
-	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y));
+	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addAutoTurret(int x, int y){
-	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y));
+	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y, pPhysicsWorld));
 	setLatestId();
 	setLatestConsole();
 }
@@ -226,11 +230,12 @@ void ObjectCollection::setLatestConsole() {
 }
 
 void ObjectCollection::runCollisionDetection() {
+	pPhysicsWorld->Step(1.0f / 60.0f , 100, 50);
 	for (int i = 0; i < objects.size(); i++) {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					//CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
 		}
@@ -239,7 +244,7 @@ void ObjectCollection::runCollisionDetection() {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() < movable) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					//CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
 		}
@@ -375,6 +380,9 @@ void ObjectCollection::runDrop(int id) {
 		return;
 	}
 	object = getObjectById(pickuper->getIdHeld());
+	if (object == nullptr) {
+		return;
+	}
 	object->setPickedUp(false);
 	object->setCenter(pickuper->getPickupPos());
 	object->setRotation(pickuper->getDropRotation());
@@ -427,7 +435,8 @@ void ObjectCollection::pullToPoint(float x, float y, int range){
 			if (distance < range) {
 				direction /= (distance * distance);
 				direction *= range;
-				objects[i]->push(direction.x, direction.y);
+				objects[i]->getPhysicsBody()->ApplyForceToCenter(b2Vec2(direction.x*10000, direction.y*10000), true);
+				//objects[i]->push(direction.x, direction.y);
 			}
 
 		}

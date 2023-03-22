@@ -72,9 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Jack\Documents\GitHub\vcpkg\installed\x86-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jack\Documents\GitHub\vcpkg\installed\x86-windows\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Jack\Documents\GitHub\vcpkg\installed\x86-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jack\Documents\GitHub\vcpkg\installed\x86-windows\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -226,6 +230,8 @@
     <ClInclude Include="RoverTracks.h" />
     <ClInclude Include="ScrapMetalDrop.h" />
     <ClInclude Include="ScrapMetalPile.h" />
+    <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="Shader_Pipeline_Classes.h" />
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
@@ -238,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\blend.frag" />
+    <None Include="shaders\bloom.frag" />
     <None Include="shaders\blur_h.frag" />
     <None Include="shaders\blur_v.frag" />
     <None Include="shaders\colour.frag" />

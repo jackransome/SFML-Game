@@ -1,7 +1,7 @@
 #include "MarketRelay.h"
 
-MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
-	Object(_x, _y, 22, 22, 0, immovable, true),
+MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y, b2World* _pPhysicsWorld) :
+	Object(_x, _y, 22, 22, 0, immovable, true, _pPhysicsWorld),
 	Living(100, 2, factionFriendly),
 	Controllable(200) {
 	boundingBox.x = _x;
@@ -18,6 +18,19 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	pSoundPlayer->loopSound(AmbientSoundId);
 	sellSpaceWidth = 200;
 	sellSpaceHeight = 200;
+
+	// Create a kinematic body
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_kinematicBody;
+	bodyDef.position.Set(_x, _y);
+	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
+
+	// Attach a shape to the kinematic body
+	b2PolygonShape kinematicBox;
+	kinematicBox.SetAsBox(boundingBox.w/2, boundingBox.h/2);
+	physicsBody->CreateFixture(&kinematicBox, 0.0f);
+
+	physicsBodyType = 1;
 }
 
 void MarketRelay::update() {
