@@ -1,4 +1,8 @@
-﻿  Image.cpp
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Image.cpp(49,51): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Image.cpp(96,50): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+﻿  SpriteCollection.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(230,68): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(261,40): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(261,33): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(16,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(479,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\SpriteCollection.cpp(22): warning C4715: 'SpriteCollection::getPointerFromName': not all control paths return a value
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\Debug\SFML_Engine.exe

@@ -117,9 +117,6 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Living.cpp">
       <Filter>Source Files\Object inheritables</Filter>
     </ClCompile>
@@ -222,9 +219,6 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="SpriteCollection.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="SnowSystem.h">

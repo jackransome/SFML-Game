@@ -10,7 +10,7 @@ SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int _screenW, int _
 	for (int i = 0; i < maxSize; i++) {
 		snowParts[i] = getNewSnowPart(cameraPos);
 	}
-	image = pSpriteCollection->getPointerFromName("snow1");
+	pTexture = pSpriteCollection->getPointerFromName("snow1");
 }
 
 void SnowSystem::run(glm::vec2 cameraPos) {
@@ -36,7 +36,7 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 
 void SnowSystem::draw(){
 	for (int i = 0; i < size; i++) {
-		pSpriteCollection->addImageDraw(image, snowParts[i].x - 800, snowParts[i].y - 800, 100000, 2, snowParts[i].opacity * opacity);
+		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x - 800, snowParts[i].y - 800, 100000, 2, snowParts[i].opacity * opacity);
 		
 		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
 

@@ -38,5 +38,5 @@ private:
 	int borderSize = 800;
 	int time;
 	float opacity = 0;
-	Image* image;
+	TextureWrapper* pTexture;
 };

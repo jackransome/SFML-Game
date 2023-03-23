@@ -170,7 +170,6 @@
     <ClCompile Include="FootPrint.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Living.cpp" />
     <ClCompile Include="main.cpp" />
@@ -214,7 +213,6 @@
     <ClInclude Include="FootPrint.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Living.h" />
     <ClInclude Include="MainCharacter.h" />

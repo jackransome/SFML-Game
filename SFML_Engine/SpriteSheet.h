@@ -27,7 +27,7 @@ private:
 	int changeTimer = 1;
 	std::string name;
 	sf::RenderWindow* pWindow;
-	Image *pImage;
+	TextureWrapper *pTexture;
 	SpriteCollection *pSpriteCollection;
 	int timer = 0;
 	float opacity = 1;

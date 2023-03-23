@@ -1,5 +1,4 @@
 #pragma once
-#include "Image.h"
 #include <SFML\Graphics.hpp>
 #include "Shader_Pipeline_Classes.h"
 struct SpriteDraw {

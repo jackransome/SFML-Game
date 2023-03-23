@@ -9,7 +9,6 @@ uniform float ambientLightLevel;
 uniform vec3 ambientLightColour;
 uniform float time;
 uniform float noiseIntensity;
-uniform float virtual;
 
 float noise(vec2 seed)
 {

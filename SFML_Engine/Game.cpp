@@ -7,15 +7,14 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	graphics = Graphics(pwindow);
 	camera = Camera();
 	inputManager = InputManager(pwindow);
-	
-	shader1.loadFromFile("shaders/shader1.frag", sf::Shader::Fragment);
-	shader1.setUniform("texture", sf::Shader::CurrentTexture);
 
-	auto pipeline = std::make_shared<RenderingPipeline>();
+	auto pipelineL = std::make_shared<RenderingPipeline>(false);
+	auto pipelineN = std::make_shared<RenderingPipeline>(false);
 
 	shaderManager = ShaderManager();
 
 	// Loading shaders with ShaderManager
+	shaderManager.loadShader("lighting", "shaders/shader1.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("test", "shaders/test.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("test2", "shaders/test2.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("blur_h", "shaders/blur_h.frag", sf::Shader::Fragment);
@@ -24,10 +23,24 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	shaderManager.loadShader("colour", "shaders/colour.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("bloom", "shaders/bloom.frag", sf::Shader::Fragment);
 
-	pipeline->addStage(*shaderManager.getShader("test"));
-	auto multiPipeline = std::make_shared<MultiPipeline>();
-	multiPipeline->addPipeline(pipeline);
+	pipelineL->addStage(shaderManager.getShader("lighting"));
+	pipelineN->addStage(shaderManager.getShader("test"));
+	
+	auto multiPipelineL = std::make_shared<MultiPipeline>();
+	multiPipelineL->addPipeline(pipelineL);
 
+	auto multiPipelineN = std::make_shared<MultiPipeline>();
+	multiPipelineN->addPipeline(pipelineN);
+
+	multiPipelineManager = MultiPipelineManager();
+	multiPipelineManager.addMultiPipeline(multiPipelineL);
+	multiPipelineManager.addMultiPipeline(multiPipelineN);
+	
+
+	spriteCollection = SpriteCollection(pWindow, &graphics, &multiPipelineManager);
+	spriteCollection.setPipelineIndex(1);
+
+	spriteCollection.setLightShader(shaderManager.getShader("lighting"));
 
 	soundPlayer = SoundPlayer();
 	soundPlayer.setGlobalVolume(1);
@@ -138,7 +151,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	objectCollection.addMarketRelay(150, 0);
 	objectCollection.addAutoTurret(0, -150);
 	
-	objectCollection.addScapMetalDrop(-50, -450);
+	//objectCollection.addScapMetalDrop(-50, -450);
 	//objectCollection.addScapMetalDrop(-50, -500);
 	//objectCollection.addScapMetalDrop(0, -450);
 	for (int i = 0; i < 100; i++) {
@@ -148,7 +161,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	for (int i = 0; i < 40; i++) {
 		temp = glm::vec2(-3000 + (rand() % 6000), -3000 + (rand() % 6000));
 		if (sqrt(temp.x * temp.x + temp.y * temp.y) > 800) {
-			objectCollection.addEnemy(temp.x, temp.y);
+			//objectCollection.addEnemy(temp.x, temp.y);
 		} else {
 			i--;
 		}
@@ -169,7 +182,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	snowSystem.setOpacity(snowOpacity);
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
-	objectCollection.addCrate(-30, 30);
+	//objectCollection.addCrate(-30, 30);
 }
 
 void Game::HandleInput() {
@@ -230,12 +243,7 @@ void Game::HandleInput() {
 			daylightPhase -= 0.01;
 		}
 	}
-	shader1.setUniform("ambientLightLevel", ambientLightLevel);
-	shader1.setUniform("ambientLightColour", ambientLightColour);
-	shader1.setUniform("time", (float)(frame % 30));
-	shader1.setUniform("noiseIntensity", shaderNoiseIntensity);
-
-
+	spriteCollection.setFrame(frame);
 }
 
 void Game::Run() {

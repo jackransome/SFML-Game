@@ -372,7 +372,20 @@ void SpriteCollection::drawAll() {
 		orderByZ();
 	}
 	glm::vec2 temp;
+
+	sf::RenderTexture lit;
+	lit.create(pWindow->getSize().x, pWindow->getSize().y);
+	sf::RenderTexture unlit;
+	unlit.create(pWindow->getSize().x, pWindow->getSize().y);
+	sf::RenderTexture* RTSel = &unlit;
+
 	for (int i = 0; i < currentDrawIndex; i++) {
+		if (spriteDraws[i]->fullBright) {
+			RTSel = &unlit;
+		}
+		else {
+			RTSel = &lit;
+		}
 		// type 0 = image, 1 = image section, 2 = rectangle, 3 = circle, 4 = text
 		if (useCamera) {
 			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
@@ -381,29 +394,13 @@ void SpriteCollection::drawAll() {
 			temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y);
 		}
 		if (spriteDraws[i]->type == 0) {
-			if (spriteDraws[i]->opacity < 1) {
-				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity);
-			} else {
-				spriteDraws[i]->pImage->draw(temp.x, temp.y, spriteDraws[i]->scale);
-			}
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
 		}
 		else if (spriteDraws[i]->type == 1) {
-			if (spriteDraws[i]->opacity < 1) {
-				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale, spriteDraws[i]->opacity);
-			} else {
-				
-				spriteDraws[i]->pImage->drawSection(temp.x, temp.y, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH, spriteDraws[i]->scale);
-			}
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 		}
 		else if (spriteDraws[i]->type == 2) {
-			spriteDraws[i]->pImage->addShader(getShaderByName("colour"));
-			
-			//spriteDraws[i]->pImage->addShader(shaders[0]->shader);
-			getShaderByName("colour")->setUniform("colour", sf::Glsl::Vec4(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
-			
-			spriteDraws[i]->pImage->drawSection(temp.x, temp.y, 0, 0, spriteDraws[i]->w, spriteDraws[i]->h, 1, 0.5);
-			//spriteDraws[i]->pImage->finishWithoutDraw();
-			//pGraphics->drawRect(temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->color);
+			multiPipelineManager->executeWithRectangle(spriteDraws[i]->pipelineIndex, RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, sf::Color(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
 		}
 		else if (spriteDraws[i]->type == 3) {
 			pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
@@ -415,23 +412,13 @@ void SpriteCollection::drawAll() {
 	}
 	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
 		if (absoluteSpriteDraws[i]->type == 0) {
-			if (absoluteSpriteDraws[i]->opacity < 1) {
-				absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, spriteDraws[i]->opacity);
-			}
-			else {
-				absoluteSpriteDraws[i]->pImage->draw(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale);
-			}
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
 		}
 		else if (absoluteSpriteDraws[i]->type == 1) {
-			if (absoluteSpriteDraws[i]->opacity < 1) {
-				absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale, spriteDraws[i]->opacity);
-			}
-			else {
-				absoluteSpriteDraws[i]->pImage->drawSection(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH, spriteDraws[i]->scale);
-			}
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 		}
 		else if (absoluteSpriteDraws[i]->type == 2) {
-			pGraphics->drawRect(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->w, absoluteSpriteDraws[i]->h, absoluteSpriteDraws[i]->color);
+			multiPipelineManager->executeWithRectangle(spriteDraws[i]->pipelineIndex, RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, sf::Color(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
 		}
 		else if (absoluteSpriteDraws[i]->type == 3) {
 			pGraphics->drawCircle(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->r, absoluteSpriteDraws[i]->color);
@@ -440,6 +427,8 @@ void SpriteCollection::drawAll() {
 			drawText(absoluteSpriteDraws[i]->fontIndex, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->string, absoluteSpriteDraws[i]->fontSize, absoluteSpriteDraws[i]->color);
 		}
 	}
+	lit.display();
+	multiPipelineManager->executeWithTransform(0, &lit.getTexture(), pWindow, 0, 0, 1);
 	clearSpriteDraws();
 }
 
@@ -474,17 +463,8 @@ void SpriteCollection::addFont(std::string path) {
 	fonts.push_back(temp);
 }
 
-void SpriteCollection::setShader(sf::Shader *shader) {
+void SpriteCollection::setLightShader(sf::Shader *shader) {
 	lightingShader = shader;
-}
-
-void SpriteCollection::addShader(std::string name, sf::Shader* shader){
-	if (nextShaderIndex >= maxShaders) {
-		std::cout << "MAX SHADERS REACHED\n";
-		return;
-	}
-	shaders[nextShaderIndex] = new shaderWrapper(name, shader);
-	nextShaderIndex++;
 }
 
 void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
@@ -517,12 +497,17 @@ void SpriteCollection::sendLightDataToShader(){
 	for (int i = 0; i < numLights; i++) {
 		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + windowW / 2, -lightPositions[i].y + pCamera->getPosition().y + windowH / 2);
 	}
-	shaders[0]->shader->setUniform("numLights", (float)numLights);
-	shaders[0]->shader->setUniformArray("lightPositions", lightPositions, 100);
-	shaders[0]->shader->setUniformArray("lightColours", lightColours, 100);
-	shaders[0]->shader->setUniformArray("lightIntensities", lightIntensities, 100);
-	shaders[0]->shader->setUniformArray("lightTypes", lightTypes, 100);
+	lightingShader->setUniform("numLights", (float)numLights);
+	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
+	lightingShader->setUniformArray("lightColours", lightColours, 100);
+	lightingShader->setUniformArray("lightIntensities", lightIntensities, 100);
+	lightingShader->setUniformArray("lightTypes", lightTypes, 100);
 	numLights = 0;
+	lightingShader->setUniform("ambientLightLevel", 0.05f);
+	lightingShader->setUniform("ambientLightColour", sf::Glsl::Vec3(255,255,255));
+	lightingShader->setUniform("time", (float)(frame % 30));
+	lightingShader->setUniform("noiseIntensity", 0.5f);
+
 }
 
 void SpriteCollection::orderByZ() {
@@ -543,43 +528,6 @@ void SpriteCollection::setWindowDimensions(int w, int h){
 	windowH = h;
 }
 
-void SpriteCollection::addShaderToLast(std::string shader){
-
-	if (!lastAbsolute) {
-		if (currentDrawIndex == 0) {
-			return;
-		}
-		for (int i = 0; i < nextShaderIndex; i++) {
-			if (shaders[i]->name.compare(shader) == 0) {
-				spriteDraws[currentDrawIndex - 1]->addShader(shaders[i]->shader);
-				return;
-			}
-		}
-	}
-	else {
-		if (currentAbsoluteDrawIndex == 0) {
-			return;
-		}
-		for (int i = 0; i < nextShaderIndex; i++) {
-			if (shaders[i]->name.compare(shader) == 0) {
-				spriteDraws[currentDrawIndex - 1]->addShader(shaders[i]->shader);
-				return;
-			}
-		}
-	}
-	std::cout << "shader not found\n";
-}
-
-sf::Shader* SpriteCollection::getShaderByName(std::string shader){
-	for (int i = 0; i < nextShaderIndex; i++) {
-		if (shaders[i]->name.compare(shader) == 0) {
-			return shaders[i]->shader;
-		}
-	}
-	std::cout << "shader " << shader << " not found\n";
-	return nullptr;
-}
-
 void SpriteCollection::setFullBrightMode(bool _mode){
 	fullBrightMode = _mode;
 }
@@ -590,4 +538,8 @@ void SpriteCollection::blink(){
 
 void SpriteCollection::setPipelineIndex(int index){
 	pipelineIndex = index;
+}
+
+void SpriteCollection::setFrame(int _frame){
+	frame = _frame;
 }

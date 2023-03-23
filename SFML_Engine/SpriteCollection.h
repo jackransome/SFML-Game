@@ -19,15 +19,6 @@ struct LightSource {
 	float intensity;
 };
 
-struct shaderWrapper {
-	shaderWrapper(std::string _name, sf::Shader* _shader) {
-		name = _name;
-		shader = _shader;
-	}
-	std::string name;
-	sf::Shader* shader;
-};
-
 class SpriteCollection {
 public:
 	SpriteCollection();
@@ -63,17 +54,16 @@ public:
 	void drawAll();
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color);
 	void addFont(std::string name);
-	void setShader(sf::Shader *shader);
-	void addShader(std::string name, sf::Shader* shader);
 	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute);
 	void sendLightDataToShader();
 	void setWindowDimensions(int w, int h);
-	void addShaderToLast(std::string shader);
-	sf::Shader* getShaderByName(std::string shader);
 	void setFullBrightMode(bool _mode);
 	void blink();
 	void setPipelineIndex(int index);
+	void setLightShader(sf::Shader* shader);
+	void setFrame(int _frame);
 private:
+	int frame = 0;
 	MultiPipelineManager* multiPipelineManager;
 	int pipelineIndex = 0;
 	bool toBlink = false;
@@ -102,9 +92,6 @@ private:
 	float lightTypes[200];
 	int windowW;
 	int windowH;
-	shaderWrapper* shaders[10];
-	int nextShaderIndex = 0;
-	int maxShaders = 10;
 	int numLights = 0;
 	bool lastAbsolute = false;
 };

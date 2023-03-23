@@ -19,10 +19,10 @@ private:
 	int screenW;
 	int screenH;
 	bool lastSpace = false;
-	Image *sprite1;
-	Image* sprite2;
-	Image* sprite3;
-	Image* animation1;
+	TextureWrapper *sprite1;
+	TextureWrapper* sprite2;
+	TextureWrapper* sprite3;
+	TextureWrapper* animation1;
 	unsigned long frame = 0;
 	glm::vec2 tranformedMousePos;
 	sf::RenderWindow* pWindow;

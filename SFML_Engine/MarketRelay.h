@@ -25,5 +25,5 @@ private:
 	int credits = 0;
 	int AmbientSoundId;
 	int sellSpaceWidth, sellSpaceHeight;
-	Image* selectionBox;
+	TextureWrapper* selectionBox;
 };

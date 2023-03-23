@@ -9,7 +9,7 @@ SpriteSheet::SpriteSheet(SpriteCollection* _pSpriteCollection, std::string _name
 	height = _height;
 	frames = _frames;
 	pSpriteCollection = _pSpriteCollection;
-	pImage = pSpriteCollection->getPointerFromName(_name);
+	pTexture = pSpriteCollection->getPointerFromName(_name);
 }
 
 void SpriteSheet::run(){
@@ -35,15 +35,15 @@ void SpriteSheet::run(){
 
 void SpriteSheet::draw(float x, float y, float z){
 	if (opacity < 1) {
-		pSpriteCollection->addImageDraw(pImage, x, y, z, frame * width, 0, width, height, scale, opacity);
+		pSpriteCollection->addImageDraw(pTexture, x, y, z, frame * width, 0, width, height, scale, opacity);
 	}
 	else {
-		pSpriteCollection->addImageDraw(pImage, x, y, z, frame * width, 0, width, height, scale);
+		pSpriteCollection->addImageDraw(pTexture, x, y, z, frame * width, 0, width, height, scale);
 	}
 }
 
 void SpriteSheet::drawFrame(float x, float y, float z, int _frame) {
-	pSpriteCollection->addImageDraw(pImage, x, y, z, _frame * width, 0, width, height, scale);
+	pSpriteCollection->addImageDraw(pTexture, x, y, z, _frame * width, 0, width, height, scale);
 }
 
 std::string SpriteSheet::getName() {

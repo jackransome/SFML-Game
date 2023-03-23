@@ -146,7 +146,6 @@ void MarketRelay::draw() {
 		//(Image * pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity)
 		//pSpriteCollection->setFullBrightMode(true);
 		pSpriteCollection->addImageDraw(selectionBox, finalStartPoint.x, finalStartPoint.y, 1000000, 0, 0, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 1, 1);
-		pSpriteCollection->addShaderToLast("test2");
 		//pSpriteCollection->setFullBrightMode(false);
 		//pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 1000000, sf::Color(255, 255, 255, 50));
 		/*pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, pInputManager->translatedMouseY, startPoint.x - pInputManager->translatedMouseX, startPoint.y - pInputManager->translatedMouseY, 1000000, sf::Color(255, 255, 255, 50));

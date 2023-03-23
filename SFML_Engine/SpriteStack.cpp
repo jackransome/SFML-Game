@@ -26,16 +26,12 @@ void SpriteStack::draw(float x, float y, float z, float rotation, float rx, floa
 void SpriteStack::draw(float x, float y, float z, float rotation, std::string shader) {
 	for (int i = 0; i < frames; i++) {
 		pSpriteCollection->addRotatedImageDraw(pTexture, x, y - i * scale, z + scale * height, i * width, 0, width, height, scale, rotation);
-		pSpriteCollection->addShaderToLast("shader1");
-		pSpriteCollection->addShaderToLast(shader);
 	}
 }
 
 void SpriteStack::draw(float x, float y, float z, float rotation, float rx, float ry, std::string shader) {
 	for (int i = 0; i < frames; i++) {
 		pSpriteCollection->addRotatedImageDraw(pTexture, x, y - i * scale, y + scale * height, i * width, 0, width, height, scale, rotation, rx, ry);
-		pSpriteCollection->addShaderToLast("shader1");
-		pSpriteCollection->addShaderToLast(shader);
 	}
 	
 }
