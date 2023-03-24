@@ -45,3 +45,6 @@ SFML_Engine/Debug/vc142.pdb
 *.ipch
 *.ipch
 *.opendb
+
+#folders
+/libraries/

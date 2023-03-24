@@ -35,6 +35,7 @@ void ScrapMetalDrop::draw() {
 
 void ScrapMetalDrop::update(){
 	b2Vec2 position = physicsBody->GetPosition();
+	rotation = physicsBody->GetAngle();
 	boundingBox.x = position.x;
 	boundingBox.y = position.y;
 	/*float speed = sqrt(boundingBox.xv * boundingBox.xv + boundingBox.yv * boundingBox.yv);

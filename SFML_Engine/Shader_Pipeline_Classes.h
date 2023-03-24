@@ -147,28 +147,6 @@ public:
         for (const auto& pipeline : pipelines) {
             pipeline->execute(inputSprite, finalOutputTarget, transform);
             return;
-            //if (pipeline->applyBefore) {
-            //    sf::RenderTexture intermediateTexture;
-            //    intermediateTexture.create(finalOutputTarget->getSize().x, finalOutputTarget->getSize().y);
-            //    intermediateTexture.clear(sf::Color(0, 0, 0, 0));
-            //    intermediateTexture.draw(inputSprite, transform);
-            //    intermediateTexture.display();
-
-            //    pipeline->execute(&intermediateTexture, finalOutputTarget);
-            //}
-            //else {
-            //    //sf::RenderStates renderStates = sf::RenderStates::Default;
-            //    //renderStates.transform = transform;
-            //    //renderStates.shader = pipeline->stages[0];
-            //    //finalOutputTarget->draw(sf::Sprite(inputRenderTexture.getTexture()), renderStates);
-
-            //    sf::RenderTexture intermediateTexture;
-            //    intermediateTexture.create(finalOutputTarget->getSize().x, finalOutputTarget->getSize().y);
-            //    //pipeline->execute(&inputRenderTexture, &intermediateTexture);
-            //    intermediateTexture.display();
-
-            //    finalOutputTarget->draw(sf::Sprite(intermediateTexture.getTexture()), transform);
-            //}
         }
     }
     //void executeAll(const sf::RenderTexture* input, sf::RenderTarget* finalOutputTarget, const sf::Transform& transform, const sf::Shape& shape) {
@@ -217,6 +195,9 @@ public:
     void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float scale, float transparency, int rectLeft, int rectTop, int rectWidth, int rectHeight) {
         executeWithTransform(index, inputTexture, finalOutputTarget, posX, posY, scale, 0, 0, 0, transparency, true, rectLeft, rectTop, rectWidth, rectHeight);
     }
+    void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float scale, float transparency, float rotation, int rectLeft, int rectTop, int rectWidth, int rectHeight) {
+        executeWithTransform(index, inputTexture, finalOutputTarget, posX, posY, scale, rotation, (rectWidth * scale) / 2, (rectHeight * scale) / 2, transparency, true, rectLeft, rectTop, rectWidth, rectHeight);
+    }
     void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float scale, float rotation, float rotationCenterX, float rotationCenterY, float transparency, bool useTextureRect, int rectLeft, int rectTop, int rectWidth, int rectHeight) {
         if (index >= multiPipelines.size()) {
             return;
@@ -232,14 +213,12 @@ public:
         if (useTextureRect) {
             inputSprite.setTextureRect(sf::IntRect(rectLeft, rectTop, rectWidth, rectHeight));
         }
+        inputSprite.setPosition(posX, posY);
+        inputSprite.setScale(scale, scale);
 
         // Create a transform that rotates, scales and translates the image around a specific point
         sf::Transform transform;
-        transform.translate(rotationCenterX, rotationCenterY);
-        transform.rotate(rotation);
-        transform.translate(-rotationCenterX, -rotationCenterY);
-        transform.translate(posX, posY);
-        transform.scale(scale, scale);
+        transform.rotate(rotation, sf::Vector2f(posX + rotationCenterX, posY + rotationCenterY));
         if (index == 1) {
             finalOutputTarget->draw(inputSprite, transform);
             return;

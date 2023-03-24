@@ -1,5 +1,7 @@
 #include "Sound.h"
 #include <iostream>
+#include <juce_audio_basics/juce_audio_basics.h>
+
 Sound::Sound() {}
 
 Sound::Sound(std::string _name, std::string path){

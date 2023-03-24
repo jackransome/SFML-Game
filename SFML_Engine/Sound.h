@@ -17,5 +17,4 @@ private:
 	bool loopsBetween = false;
 	float loopStart;
 	float loopEnd;
-
 };

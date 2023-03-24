@@ -52,7 +52,7 @@ public:
 	void addTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color);
 	void addAbsoluteTextDraw(int fontIndex, float x, float y, float z, std::string string, int _fontSize, sf::Color _color);
 	void drawAll();
-	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color);
+	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color, sf::RenderTexture* target);
 	void addFont(std::string name);
 	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute);
 	void sendLightDataToShader();

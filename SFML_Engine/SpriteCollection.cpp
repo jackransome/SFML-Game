@@ -394,10 +394,21 @@ void SpriteCollection::drawAll() {
 			temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y);
 		}
 		if (spriteDraws[i]->type == 0) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
+			if (spriteDraws[i]->rotationPoint) {
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, false, 0, 0, 0, 0);
+			}
+			else {
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
+			}
 		}
 		else if (spriteDraws[i]->type == 1) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+			if (spriteDraws[i]->rotationPoint) {
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, true, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+			}
+			else {
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->rotation, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+			}
+			
 		}
 		else if (spriteDraws[i]->type == 2) {
 			multiPipelineManager->executeWithRectangle(spriteDraws[i]->pipelineIndex, RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, sf::Color(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
@@ -406,7 +417,7 @@ void SpriteCollection::drawAll() {
 			pGraphics->drawCircle(temp.x, temp.y, spriteDraws[i]->r, spriteDraws[i]->color);
 		}
 		else if (spriteDraws[i]->type == 4) {
-			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color);
+			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color, RTSel);
 		}
 
 	}
@@ -424,15 +435,19 @@ void SpriteCollection::drawAll() {
 			pGraphics->drawCircle(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->r, absoluteSpriteDraws[i]->color);
 		}
 		else if (absoluteSpriteDraws[i]->type == 4) {
-			drawText(absoluteSpriteDraws[i]->fontIndex, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->string, absoluteSpriteDraws[i]->fontSize, absoluteSpriteDraws[i]->color);
+			drawText(absoluteSpriteDraws[i]->fontIndex, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->string, absoluteSpriteDraws[i]->fontSize, absoluteSpriteDraws[i]->color, &unlit);
 		}
 	}
+
 	lit.display();
 	multiPipelineManager->executeWithTransform(0, &lit.getTexture(), pWindow, 0, 0, 1);
+	unlit.display();
+	multiPipelineManager->executeWithTransform(1, &unlit.getTexture(), pWindow, 0, 0, 1);
+
 	clearSpriteDraws();
 }
 
-void SpriteCollection::drawText(int fontIndex, float x, float y, std::string string, int fontSize, sf::Color color) {
+void SpriteCollection::drawText(int fontIndex, float x, float y, std::string string, int fontSize, sf::Color color, sf::RenderTexture* target) {
 	sf::Text text;
 
 	// select the font
@@ -452,7 +467,7 @@ void SpriteCollection::drawText(int fontIndex, float x, float y, std::string str
 
 	text.setPosition(x, y);
 
-	pWindow->draw(text);
+	target->draw(text);
 }
 
 void SpriteCollection::addFont(std::string path) {
