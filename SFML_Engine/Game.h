@@ -14,6 +14,10 @@ public:
 	void Run();
 	void Draw();
 	void finishAudio();
+	void loadGameplay();
+	void unloadGameplay();
+	void loadMenu();
+	void unloadMenu();
 private:
 	bool debugMode = false;
 	int screenW;
@@ -54,4 +58,6 @@ private:
 	b2World physicsWorld;
 	MultiPipelineManager multiPipelineManager;
 	ShaderManager shaderManager;
+	bool mainMenu = true;
+	int music_id;
 };

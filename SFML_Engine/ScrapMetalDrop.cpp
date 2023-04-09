@@ -7,7 +7,7 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 	pSpriteCollection = _pSpriteCollection;
 	spriteStack = SpriteStack(pSpriteCollection, "scrap_drop_stack_1", 12, 12, 10, 2);
 	canBePickedUp = true;
-	type = objectCrate;
+	type = objectScrapMetalDrop;
 	sellable = true;
 
 	// Create a dynamic body

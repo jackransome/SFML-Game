@@ -29,6 +29,10 @@ Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlay
 	physicsBodyType = 1;
 }
 
+Relay::~Relay(){
+	pSoundPlayer->stopSound(AmbientSoundId);
+}
+
 void Relay::draw() {
 	float lightPhase = 0.7f+sin(pConsole->getFrame()/80.0f)/2.0f;
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(160, 214, 255), 2* lightPhase, 1, false);
@@ -37,7 +41,6 @@ void Relay::draw() {
 }
 
 void Relay::onDeath(){
-	pSoundPlayer->stopSound(AmbientSoundId);
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 

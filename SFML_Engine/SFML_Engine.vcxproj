@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\box2d\include;$(SolutionDir)\Libraries\SFML-2.5.1\include;$(SolutionDir)\Libraries\glm;$(SolutionDir)\Libraries\JUCEx64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Libraries\box2d\include;$(SolutionDir)\Libraries\SFML-2.5.1\include;$(SolutionDir)\Libraries\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -249,9 +249,12 @@
   <ItemGroup>
     <None Include="shaders\blend.frag" />
     <None Include="shaders\bloom.frag" />
+    <None Include="shaders\bloom_v.frag" />
     <None Include="shaders\blur_h.frag" />
     <None Include="shaders\blur_v.frag" />
+    <None Include="shaders\brightness_threshold.frag" />
     <None Include="shaders\colour.frag" />
+    <None Include="shaders\default.frag" />
     <None Include="shaders\shader1.frag" />
     <None Include="shaders\test.frag" />
     <None Include="shaders\test2.frag" />

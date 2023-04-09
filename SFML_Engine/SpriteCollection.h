@@ -56,7 +56,7 @@ public:
 	void addFont(std::string name);
 	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute);
 	void sendLightDataToShader();
-	void setWindowDimensions(int w, int h);
+	void setWindowDimensions(int* w, int* h);
 	void setFullBrightMode(bool _mode);
 	void blink();
 	void setPipelineIndex(int index);
@@ -90,8 +90,8 @@ private:
 	sf::Glsl::Vec3 lightColours[200];
 	float lightIntensities[200];
 	float lightTypes[200];
-	int windowW;
-	int windowH;
+	int* pWindowW;
+	int* pWindowH;
 	int numLights = 0;
 	bool lastAbsolute = false;
 };

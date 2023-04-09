@@ -9,7 +9,7 @@ ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int
 	pSpriteCollection = _pSpriteCollection;
 	spriteStack = SpriteStack(pSpriteCollection, "scrap_stack_1", 16, 16, 16, 2);
 	canBePickedUp = false;
-	type = objectCrate;
+	type = objectScrapMetalPile;
 
 	// Create a kinematic body
 	b2BodyDef bodyDef;

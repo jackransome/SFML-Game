@@ -2,7 +2,7 @@
 
 InputManager::InputManager(){}
 
-InputManager::InputManager(sf::RenderWindow* pwindow){
+InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH){
 	pWindow = pwindow;
 	keyStruct.w = false;
 	keyStruct.a = false;
@@ -35,6 +35,8 @@ InputManager::InputManager(sf::RenderWindow* pwindow){
 	keyStruct.mouseL = false;
 	keyStruct.mouseR = false;
 	lastKeyStruct = keyStruct;
+	pScreenW = screenW;
+	pScreenH = screenH;
 }
 
 void InputManager::update(){
@@ -320,6 +322,14 @@ void InputManager::update(){
 			if (ev.mouseButton.button == sf::Mouse::Right) {
 				keyStruct.mouseR = 0;
 			}
+		}
+		if (ev.type == sf::Event::Resized) {
+			pWindow->setView(sf::View(sf::FloatRect(0, 0, ev.size.width, ev.size.height)));
+			//pWindow->setView(sf::View(sf::FloatRect(0, 0, 1920, 1080)));
+			*pScreenW = ev.size.width;
+			*pScreenH = ev.size.height;
+			//pWindow->setSize(sf::Vector2u(ev.size.height, ev.size.width));
+			//pWindow->setView(sf::View(sf::Vector2f((float)ev.size.height/2,(float)ev.size.width/2), sf::Vector2f(ev.size.height, ev.size.width)));
 		}
 	}
 	sf::Vector2i localPosition = sf::Mouse::getPosition(*pWindow);

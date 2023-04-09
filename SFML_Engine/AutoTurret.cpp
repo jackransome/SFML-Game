@@ -13,6 +13,7 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	targetingRange = 600;
 	canBePickedUp = true;
 	maxReload = 15;
+	type = objectAutoTurret;
 
 	// Create a kinematic body
 	b2BodyDef bodyDef;

@@ -8,6 +8,7 @@
 class Enemy : public Object, public Living {
 public:
 	Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y, b2World* _pPhysicsWorld);
+	~Enemy();
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;

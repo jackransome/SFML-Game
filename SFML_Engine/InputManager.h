@@ -14,7 +14,7 @@ struct KeyStruct {
 class InputManager {
 public:
 	InputManager();
-	InputManager(sf::RenderWindow* pwindow);
+	InputManager(sf::RenderWindow* pwindow, int* screenW, int* screenH);
 	void update();
 	int isKeyDown(keys key);
 	bool onKeyDown(keys key);
@@ -24,6 +24,8 @@ public:
 	float translatedMouseX;
 	float translatedMouseY;
 private:
+	int* pScreenW;
+	int* pScreenH;
 	sf::RenderWindow* pWindow;
 	sf::Event ev;
 	KeyStruct keyStruct;

@@ -5,6 +5,7 @@ RoverTracks::RoverTracks(SpriteCollection* _pSpriteCollection, float x, float y,
 	opacity = 1;
 	decay = 0.97;
 	rotation = _rotation;
+	type = objectRoverTracks;
 }
 
 void RoverTracks::draw() {

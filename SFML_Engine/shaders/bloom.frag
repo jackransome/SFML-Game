@@ -4,22 +4,34 @@ uniform bool horizontal;
 void main() {
     vec2 resolution = vec2(1920,1080);
     vec2 texCoords = gl_TexCoord[0].xy;
-    vec3 color = vec3(0.0);
 
     // Gaussian blur weights and offsets
-    const int blurSize = 9;
-    const float weights[blurSize] = float[](0.140283, 0.115131, 0.082756, 0.052767, 0.029832, 0.014804, 0.006520, 0.002574, 0.000914);
+    const int blurSize = 15;
 
+    // Recalculate Gaussian blur weights for 15 pixels radius
+    const float weights[blurSize] = float[](
+        0.10650697891920052, 0.09132463527510419, 0.07136786967797782,
+        0.050042588506527204, 0.03144854070679338, 0.017906466768683014,
+        0.009233426144012373, 0.004329255996812929, 0.0018473625145993554,
+        0.0007213643851362284, 0.0002549397928465474, 0.00008036896619445638,
+        0.000023453032718264536, 0.000006162950107066107, 0.000001448476242467264
+    );
 
+    bool horizontal = true;
+    float threshold = 0.0;
+    vec3 color = texture2D(texture, texCoords).rgb * weights[0];
+    vec3 temp;
     for (int i = 0; i < blurSize; ++i) {
         float weight = weights[i];
         vec2 offset = (horizontal ? vec2(i, 0.0) : vec2(0.0, i)) / resolution;
 
-        color += texture2D(texture, texCoords + offset).rgb * weight;
         if (i > 0) {
-            color += texture2D(texture, texCoords - offset).rgb * weight;
+            temp = texture2D(texture, texCoords + offset).rgb;
+            color += temp * weight;
+            temp = texture2D(texture, texCoords - offset).rgb;
+            color += temp * weight;
         }
     }
 
-    gl_FragColor = vec4(color*2, 1.0);
+    gl_FragColor = vec4(color*3, 1);
 }

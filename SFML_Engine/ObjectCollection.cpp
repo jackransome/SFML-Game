@@ -473,3 +473,52 @@ Object* ObjectCollection::getObjectById(int id)
 bool ObjectCollection::getControlledDead(){
 	return controlledDead;
 }
+
+void ObjectCollection::clear(){
+	controlledDead = true;
+	for (int i = 0; i < objects.size(); i++) {
+		switch (objects[i]->getType()) {
+		case objectCrate:
+			delete dynamic_cast<Crate*>(objects[i]);
+			break;
+		case objectFootprint:
+			delete dynamic_cast<FootPrint*>(objects[i]);
+			break;
+		case objectRoverTracks:
+			delete dynamic_cast<RoverTracks*>(objects[i]);
+			break;
+		case objectRover:
+			delete dynamic_cast<Rover*>(objects[i]);
+			break;
+		case objectMainCharacter:
+			delete dynamic_cast<MainCharacter*>(objects[i]);
+			break;
+		case objectRelay:
+			delete dynamic_cast<Relay*>(objects[i]);
+			break;
+		case objectWall:
+			delete dynamic_cast<Wall*>(objects[i]);
+			break;
+		case objectEnemy:
+			delete dynamic_cast<Enemy*>(objects[i]);
+			break; 
+		case objectScrapMetalDrop:
+			delete dynamic_cast<ScrapMetalDrop*>(objects[i]);
+			break;
+		case objectScrapMetalPile:
+			delete dynamic_cast<ScrapMetalPile*>(objects[i]);
+			break;
+		case objectAutoTurret:
+			delete dynamic_cast<AutoTurret*>(objects[i]);
+			break;
+		case objectMarketRelay:
+			delete dynamic_cast<MarketRelay*>(objects[i]);
+			break;
+		default:
+			delete objects[i];
+			break;
+		}
+	}
+	objects.clear();
+	nextId = 0;
+}

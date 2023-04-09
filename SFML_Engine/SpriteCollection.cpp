@@ -375,9 +375,12 @@ void SpriteCollection::drawAll() {
 
 	sf::RenderTexture lit;
 	lit.create(pWindow->getSize().x, pWindow->getSize().y);
+	lit.clear(sf::Color(0, 0, 0, 0));
 	sf::RenderTexture unlit;
 	unlit.create(pWindow->getSize().x, pWindow->getSize().y);
+	unlit.clear(sf::Color(0, 0, 0, 0));
 	sf::RenderTexture* RTSel = &unlit;
+
 
 	for (int i = 0; i < currentDrawIndex; i++) {
 		if (spriteDraws[i]->fullBright) {
@@ -440,9 +443,15 @@ void SpriteCollection::drawAll() {
 	}
 
 	lit.display();
-	multiPipelineManager->executeWithTransform(0, &lit.getTexture(), pWindow, 0, 0, 1);
-	unlit.display();
-	multiPipelineManager->executeWithTransform(1, &unlit.getTexture(), pWindow, 0, 0, 1);
+	//multiPipelineManager->executeWithTransform(1, &lit.getTexture(), pWindow, 0, 0, 1);
+	sf::RenderTexture bloom;
+	//bloom.create(pWindow->getSize().x, pWindow->getSize().y);
+	//bloom.clear(sf::Color(0, 0, 0, 1));
+	//multiPipelineManager->executeWithTransform(2, &lit.getTexture(), &bloom, 0, 0, 1);
+	//multiPipelineManager->executeWithTransform(0, &bloom.getTexture(), pWindow, 0, 0, 1);
+	multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), pWindow, 0, 0, 1);
+	//unlit.display();
+	//multiPipelineManager->executeWithTransform(1, &unlit.getTexture(), pWindow, 0, 0, 1);
 
 	clearSpriteDraws();
 }
@@ -508,9 +517,8 @@ void SpriteCollection::clearSpriteDraws() {
 }
 
 void SpriteCollection::sendLightDataToShader(){
-	int temp = windowW;
 	for (int i = 0; i < numLights; i++) {
-		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + windowW / 2, -lightPositions[i].y + pCamera->getPosition().y + windowH / 2);
+		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + *pWindowW / 2, -lightPositions[i].y + pCamera->getPosition().y + *pWindowH / 2);
 	}
 	lightingShader->setUniform("numLights", (float)numLights);
 	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
@@ -538,9 +546,9 @@ void SpriteCollection::orderByZ() {
 	}
 }
 
-void SpriteCollection::setWindowDimensions(int w, int h){
-	windowW = w;
-	windowH = h;
+void SpriteCollection::setWindowDimensions(int* w, int* h){
+	pWindowW = w;
+	pWindowH = h;
 }
 
 void SpriteCollection::setFullBrightMode(bool _mode){

@@ -1,11 +1,11 @@
 #include "SnowSystem.h"
 #include <chrono>
 
-SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int _screenW, int _screenH, glm::vec2 cameraPos){
+SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos){
 	pSpriteCollection = _pSpriteCollection;
 	
-	screenW = _screenW;
-	screenH = _screenH;
+	pScreenW = _pScreenW;
+	pScreenH = _pScreenH;
 	//loop through array and fill
 	for (int i = 0; i < maxSize; i++) {
 		snowParts[i] = getNewSnowPart(cameraPos);
@@ -25,18 +25,18 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 		}
 		snowParts[i].x += direction.x * fallSpeed + sin(0.002 * time + snowParts[i].phase) * normalDirection.x;
 		snowParts[i].y += direction.y * fallSpeed + sin(0.002 * time + snowParts[i].phase) * normalDirection.y;
-		if ((snowParts[i].x < cameraPos.x - screenW / 2 && direction.x < 0) ||
-			(snowParts[i].y < cameraPos.y - screenH / 2 && direction.y < 0) ||
-			(snowParts[i].x > cameraPos.x + screenW / 2 && direction.x > 0) ||
-			(snowParts[i].y > cameraPos.y + screenH / 2 && direction.y > 0)) {
+		if ((snowParts[i].x < cameraPos.x - *pScreenW / 2 && direction.x < 0) ||
+			(snowParts[i].y < cameraPos.y - *pScreenH / 2 && direction.y < 0) ||
+			(snowParts[i].x > cameraPos.x + *pScreenW / 2 && direction.x > 0) ||
+			(snowParts[i].y > cameraPos.y + *pScreenH / 2 && direction.y > 0)) {
 			snowParts[i] = getNewSnowPart(cameraPos);
 		}
 	}
 }
 
-void SnowSystem::draw(){
+void SnowSystem::draw(float z){
 	for (int i = 0; i < size; i++) {
-		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x - 800, snowParts[i].y - 800, 100000, 2, snowParts[i].opacity * opacity);
+		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x - 800, snowParts[i].y - 800, z, 2, snowParts[i].opacity * opacity);
 		
 		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
 
@@ -62,8 +62,8 @@ void SnowSystem::setSize(int _size){
 
 SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){
 	SnowPart temp = SnowPart();
-	temp.x = cameraPos.x - borderSize - screenW/2 +  rand() % (screenW+borderSize*2);
-	temp.y = cameraPos.y - borderSize - screenH/2 + rand() % (screenH + borderSize * 2);
+	temp.x = cameraPos.x - borderSize - *pScreenW/2 + rand() % (*pScreenW + borderSize*2);
+	temp.y = cameraPos.y - borderSize - *pScreenH/2 + rand() % (*pScreenH + borderSize * 2);
 	glm::vec2 direction = glm::vec2(cos(fallAngle), sin(fallAngle));
 	temp.x -= direction.x * 1000;
 	temp.y -= direction.y * 1000;

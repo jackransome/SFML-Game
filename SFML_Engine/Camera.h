@@ -6,7 +6,7 @@ public:
 	Camera();
 	void setPosition(glm::vec2 newPosition);
 	void setPosition(float x, float y);
-	void setScreenDimensions(int w, int h);
+	void setScreenDimensions(int* w, int* h);
 	glm::vec2 getPosition();
 	glm::vec2 transformPosition(glm::vec2 toTransform);
 	void setScreenshakeAmount(float amount);
@@ -18,8 +18,8 @@ private:
 	float screenshake = 0;
 	float screenshakeDecay;
 	float screenshakeCutoff;
-	int screenW;
-	int screenH;
+	int* pScreenW;
+	int* pScreenH;
 	glm::vec2 position;
 	glm::vec2 screenshakePosition;
 };

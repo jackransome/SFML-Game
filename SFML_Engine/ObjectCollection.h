@@ -56,6 +56,7 @@ public:
 	void sellObjects(float startX, float startY, float endX, float endY, int marketRelayID);
 	Object* getObjectById(int id);
 	bool getControlledDead();
+	void clear();
 
 private:
 	bool controlledDead = false;

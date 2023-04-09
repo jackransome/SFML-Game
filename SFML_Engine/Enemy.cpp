@@ -21,7 +21,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	targetingRange = 500;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
-
+	pSoundPlayer->setVolume(AmbientSoundId, 0);
 	// Create a dynamic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -38,6 +38,10 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	physicsBody->CreateFixture(&fixtureDef);
 
 	physicsBodyType = 2;
+}
+
+Enemy::~Enemy(){
+	pSoundPlayer->stopSound(AmbientSoundId);
 }
 
 void Enemy::update() {
@@ -113,7 +117,6 @@ void Enemy::draw() {
 }
 
 void Enemy::onDeath(){
-	pSoundPlayer->stopSound(AmbientSoundId);
 	pConsole->addCommand(commandPlaySound, "drone_death_2", 0.2);
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }

@@ -10,6 +10,7 @@
 class MarketRelay : public Object, public Living, public Controllable {
 public:
 	MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y, b2World* _pPhysicsWorld);
+	~MarketRelay();
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void onDeath() override;

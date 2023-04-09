@@ -12,7 +12,7 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	pSoundPlayer = _pSoundPlayer;
 	spriteSheet = SpriteSheet(pSpriteCollection, "market_relay", 11, 26, 1, 2);
 	canBePickedUp = true;
-	type = objectCrate;
+	type = objectMarketRelay;
 	AmbientSoundId = pSoundPlayer->playSoundByName("relay_ambient_2", 0.1);
 	selectionBox = pSpriteCollection->getPointerFromName("white_rect");
 	pSoundPlayer->loopSound(AmbientSoundId);
@@ -31,6 +31,10 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	physicsBody->CreateFixture(&kinematicBox, 0.0f);
 
 	physicsBodyType = 1;
+}
+
+MarketRelay::~MarketRelay(){
+	pSoundPlayer->stopSound(AmbientSoundId);
 }
 
 void MarketRelay::update() {
@@ -98,7 +102,6 @@ void MarketRelay::update() {
 }
 
 void MarketRelay::onDeath(){
-	pSoundPlayer->stopSound(AmbientSoundId);
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 

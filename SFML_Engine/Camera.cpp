@@ -13,9 +13,9 @@ void Camera::setPosition(float x, float y) {
 	position = glm::vec2(x, y);
 }
 
-void Camera::setScreenDimensions(int w, int h) {
-	screenW = w;
-	screenH = h;
+void Camera::setScreenDimensions(int* w, int* h) {
+	pScreenW = w;
+	pScreenH = h;
 }
 
 glm::vec2 Camera::getPosition() {
@@ -23,7 +23,7 @@ glm::vec2 Camera::getPosition() {
 }
 
 glm::vec2 Camera::transformPosition(glm::vec2 toTransform) {
-	return toTransform - position + glm::vec2(screenW/2, screenH/2) + screenshakePosition;
+	return toTransform - position + glm::vec2(*pScreenW /2, *pScreenH /2) + screenshakePosition;
 }
 
 void Camera::setScreenshakeAmount(float amount){

@@ -334,5 +334,14 @@
     <None Include="shaders\bloom.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\brightness_threshold.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\bloom_v.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\default.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

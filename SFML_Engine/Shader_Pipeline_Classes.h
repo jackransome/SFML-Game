@@ -219,7 +219,7 @@ public:
         // Create a transform that rotates, scales and translates the image around a specific point
         sf::Transform transform;
         transform.rotate(rotation, sf::Vector2f(posX + rotationCenterX, posY + rotationCenterY));
-        if (index == 1) {
+        if (index == 0) {
             finalOutputTarget->draw(inputSprite, transform);
             return;
         }

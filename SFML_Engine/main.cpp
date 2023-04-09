@@ -21,7 +21,8 @@ int main()
     const float FPS = 60.0f;
     sf::RenderWindow window(sf::VideoMode(1920, 1080, 32), "SFML_ENGINE");
     window.setFramerateLimit(FPS);
-
+   
+    window.setView(sf::View(sf::FloatRect(0, 0, 1920, 1080)));
     // Game setup
     Game game(&window);
     

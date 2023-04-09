@@ -1,6 +1,5 @@
 #include "Sound.h"
-#include <iostream>
-#include <juce_audio_basics/juce_audio_basics.h>
+#include <iostream>=
 
 Sound::Sound() {}
 
