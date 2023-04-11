@@ -11,6 +11,7 @@ SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int
 		snowParts[i] = getNewSnowPart(cameraPos);
 	}
 	pTexture = pSpriteCollection->getPointerFromName("snow1");
+	pMenuTexture = pSpriteCollection->getPointerFromName("menu_snow");
 }
 
 void SnowSystem::run(glm::vec2 cameraPos) {
@@ -23,10 +24,10 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 		if (snowParts[i].opacity < snowParts[i].maxOpacity) {
 			snowParts[i].opacity += 0.01;
 		}
-		snowParts[i].x += direction.x * fallSpeed + sin(0.002 * time + snowParts[i].phase) * normalDirection.x;
-		snowParts[i].y += direction.y * fallSpeed + sin(0.002 * time + snowParts[i].phase) * normalDirection.y;
-		if ((snowParts[i].x < cameraPos.x - *pScreenW / 2 && direction.x < 0) ||
-			(snowParts[i].y < cameraPos.y - *pScreenH / 2 && direction.y < 0) ||
+		snowParts[i].x += direction.x * fallSpeed + sinMultiplier*sin(0.002 * time + snowParts[i].phase) * normalDirection.x;
+		snowParts[i].y += direction.y * fallSpeed + sinMultiplier * sin(0.002 * time + snowParts[i].phase) * normalDirection.y;
+		if ((snowParts[i].x < cameraPos.x - *pScreenW / 2 - 2*1000 && direction.x < 0) ||
+			(snowParts[i].y < cameraPos.y - *pScreenH / 2 - 2*1000 && direction.y < 0) ||
 			(snowParts[i].x > cameraPos.x + *pScreenW / 2 && direction.x > 0) ||
 			(snowParts[i].y > cameraPos.y + *pScreenH / 2 && direction.y > 0)) {
 			snowParts[i] = getNewSnowPart(cameraPos);
@@ -36,8 +37,18 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 
 void SnowSystem::draw(float z){
 	for (int i = 0; i < size; i++) {
-		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x - 800, snowParts[i].y - 800, z, 2, snowParts[i].opacity * opacity);
+		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x, snowParts[i].y, z, 2, snowParts[i].opacity * opacity);
 		
+		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
+
+	}
+	//pSpriteCollection->addRectDraw(-19.2/2, -10.8/2, 19.2, 10.8, 1100000, sf::Color(0, 0, 255));
+}
+
+void SnowSystem::drawMenu(float z, float scale) {
+	for (int i = 0; i < size; i++) {
+		pSpriteCollection->addImageDraw(pMenuTexture, snowParts[i].x, snowParts[i].y, z, scale, snowParts[i].opacity * opacity);
+
 		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
 
 	}
@@ -58,6 +69,10 @@ void SnowSystem::setOpacity(float _opacity){
 
 void SnowSystem::setSize(int _size){
 	size = _size;
+}
+
+void SnowSystem::setSinMultiplier(float sM){
+	sinMultiplier = sM;
 }
 
 SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){

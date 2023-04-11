@@ -57,6 +57,7 @@ public:
 	Object* getObjectById(int id);
 	bool getControlledDead();
 	void clear();
+	
 
 private:
 	bool controlledDead = false;
@@ -72,4 +73,7 @@ private:
 	int nextId = 0;
 	int frame = 0;
 	b2World* pPhysicsWorld;
+
+	void freeObjectMemory(int index);
+
 };

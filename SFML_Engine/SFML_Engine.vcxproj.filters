@@ -343,5 +343,8 @@
     <None Include="shaders\default.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\noise.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

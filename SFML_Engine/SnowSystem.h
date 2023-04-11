@@ -20,10 +20,12 @@ public:
 	SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos);
 	void run(glm::vec2 cameraPos);
 	void draw(float z);
+	void drawMenu(float z, float scale);
 	void setFallAngle(float _fallAngle);
 	void setSpeed(float _fallSpeed);
 	void setOpacity(float _opacity);
 	void setSize(int _size);
+	void setSinMultiplier(float sM);
 private:
 	SpriteCollection* pSpriteCollection;
 	SnowPart getNewSnowPart(glm::vec2 cameraPos);
@@ -38,5 +40,7 @@ private:
 	int borderSize = 800;
 	int time;
 	float opacity = 0;
+	float sinMultiplier = 1;;
 	TextureWrapper* pTexture;
+	TextureWrapper* pMenuTexture;
 };

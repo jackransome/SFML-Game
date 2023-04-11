@@ -61,7 +61,7 @@ void ObjectCollection::update() {
 			if (objects[i]->getControlled()) {
 				controlledDead = true;
 			}
-			delete objects[i];
+			freeObjectMemory(i);
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
@@ -477,48 +477,52 @@ bool ObjectCollection::getControlledDead(){
 void ObjectCollection::clear(){
 	controlledDead = true;
 	for (int i = 0; i < objects.size(); i++) {
-		switch (objects[i]->getType()) {
-		case objectCrate:
-			delete dynamic_cast<Crate*>(objects[i]);
-			break;
-		case objectFootprint:
-			delete dynamic_cast<FootPrint*>(objects[i]);
-			break;
-		case objectRoverTracks:
-			delete dynamic_cast<RoverTracks*>(objects[i]);
-			break;
-		case objectRover:
-			delete dynamic_cast<Rover*>(objects[i]);
-			break;
-		case objectMainCharacter:
-			delete dynamic_cast<MainCharacter*>(objects[i]);
-			break;
-		case objectRelay:
-			delete dynamic_cast<Relay*>(objects[i]);
-			break;
-		case objectWall:
-			delete dynamic_cast<Wall*>(objects[i]);
-			break;
-		case objectEnemy:
-			delete dynamic_cast<Enemy*>(objects[i]);
-			break; 
-		case objectScrapMetalDrop:
-			delete dynamic_cast<ScrapMetalDrop*>(objects[i]);
-			break;
-		case objectScrapMetalPile:
-			delete dynamic_cast<ScrapMetalPile*>(objects[i]);
-			break;
-		case objectAutoTurret:
-			delete dynamic_cast<AutoTurret*>(objects[i]);
-			break;
-		case objectMarketRelay:
-			delete dynamic_cast<MarketRelay*>(objects[i]);
-			break;
-		default:
-			delete objects[i];
-			break;
-		}
+		freeObjectMemory(i);
 	}
 	objects.clear();
 	nextId = 0;
+}
+
+void ObjectCollection::freeObjectMemory(int index) {
+	switch (objects[index]->getType()) {
+	case objectCrate:
+		delete dynamic_cast<Crate*>(objects[index]);
+		break;
+	case objectFootprint:
+		delete dynamic_cast<FootPrint*>(objects[index]);
+		break;
+	case objectRoverTracks:
+		delete dynamic_cast<RoverTracks*>(objects[index]);
+		break;
+	case objectRover:
+		delete dynamic_cast<Rover*>(objects[index]);
+		break;
+	case objectMainCharacter:
+		delete dynamic_cast<MainCharacter*>(objects[index]);
+		break;
+	case objectRelay:
+		delete dynamic_cast<Relay*>(objects[index]);
+		break;
+	case objectWall:
+		delete dynamic_cast<Wall*>(objects[index]);
+		break;
+	case objectEnemy:
+		delete dynamic_cast<Enemy*>(objects[index]);
+		break;
+	case objectScrapMetalDrop:
+		delete dynamic_cast<ScrapMetalDrop*>(objects[index]);
+		break;
+	case objectScrapMetalPile:
+		delete dynamic_cast<ScrapMetalPile*>(objects[index]);
+		break;
+	case objectAutoTurret:
+		delete dynamic_cast<AutoTurret*>(objects[index]);
+		break;
+	case objectMarketRelay:
+		delete dynamic_cast<MarketRelay*>(objects[index]);
+		break;
+	default:
+		delete objects[i];
+		break;
+	}
 }

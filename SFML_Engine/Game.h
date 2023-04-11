@@ -48,6 +48,7 @@ private:
 	CommandExecuter commandExecuter;
 	Timer timer;
 	SnowSystem snowSystem;
+	SnowSystem snowSystem2;
 	sf::Shader shader1;
 	float ambientLightLevel = 0;
 	sf::Glsl::Vec3 ambientLightColour;
