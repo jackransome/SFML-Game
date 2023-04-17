@@ -443,15 +443,30 @@ void SpriteCollection::drawAll() {
 	}
 
 	lit.display();
+	unlit.display();
 	//multiPipelineManager->executeWithTransform(1, &lit.getTexture(), pWindow, 0, 0, 1);
+	sf::RenderTexture intermediate;
+	sf::RenderTexture intermediate2;
+	intermediate.create(pWindow->getSize().x, pWindow->getSize().y);
+	intermediate2.create(pWindow->getSize().x, pWindow->getSize().y);
 	sf::RenderTexture bloom;
-	//bloom.create(pWindow->getSize().x, pWindow->getSize().y);
-	//bloom.clear(sf::Color(0, 0, 0, 1));
-	//multiPipelineManager->executeWithTransform(2, &lit.getTexture(), &bloom, 0, 0, 1);
-	//multiPipelineManager->executeWithTransform(0, &bloom.getTexture(), pWindow, 0, 0, 1);
-	multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), pWindow, 0, 0, 1);
+	bloom.create(pWindow->getSize().x, pWindow->getSize().y);
+	bloom.clear(sf::Color(0, 0, 0, 1));
+	
+	
+	multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), &intermediate, 0, 0, 1);
+	intermediate.display();
+	multiPipelineManager->executeWithTransform(2, &intermediate.getTexture(), &bloom, 0, 0, 1);
 	//unlit.display();
-	//multiPipelineManager->executeWithTransform(1, &unlit.getTexture(), pWindow, 0, 0, 1);
+
+	//multiPipelineManager->executeWithTransform(0, &unlit.getTexture(), &intermediate, 0, 0, 1);
+
+	intermediate.display();
+	bloom.display();
+
+	multiPipelineManager->blendTextures(0, intermediate.getTexture(), bloom.getTexture(), &intermediate2);
+	intermediate2.display();
+	multiPipelineManager->blendTextures(0, intermediate2.getTexture(), unlit.getTexture(), pWindow);
 
 	clearSpriteDraws();
 }

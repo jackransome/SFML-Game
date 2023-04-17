@@ -1,11 +1,11 @@
 #pragma once
 #include "Object.h"
-#include "SpriteSheet.h"
 #include "Controllable.h"
 #include "InputManager.h"
 #include "Living.h"
 #include "SoundPlayer.h"
 #include <algorithm>
+#include "SpriteStack.h"
 
 class MarketRelay : public Object, public Living, public Controllable {
 public:
@@ -17,7 +17,7 @@ public:
 	void addCredit(int _credit);
 private:
 	SpriteCollection* pSpriteCollection;
-	SpriteSheet spriteSheet;
+	SpriteStack spriteStack;
 	InputManager* pInputManager;
 	Console* pConsole;
 	SoundPlayer* pSoundPlayer;
@@ -26,5 +26,4 @@ private:
 	int credits = 0;
 	int AmbientSoundId;
 	int sellSpaceWidth, sellSpaceHeight;
-	TextureWrapper* selectionBox;
 };

@@ -12,7 +12,7 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;
-	void setTarget(int x, int y);
+	void setTarget(int x, int y, float xvel, float yvel);
 	int getTargetingRange();
 	void RemoveTarget();
 private:
@@ -22,6 +22,7 @@ private:
 	bool hasTarget = false;
 	int targetingRange;
 	glm::vec2 target;
+	glm::vec2 targetVel;
 	glm::vec2 velocity;
 	glm::vec2 position;
 	int damageRange;

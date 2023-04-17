@@ -13,13 +13,13 @@ Crate::Crate(SpriteCollection* _pSpriteCollection, int _x, int _y, b2World* _pPh
 	// Create a dynamic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x/100, (float)_y/100);
 	bodyDef.linearDamping = 1.0f;
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the dynamic body
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.01f;
@@ -38,6 +38,6 @@ void Crate::draw() {
 void Crate::update(){
 	b2Vec2 position = physicsBody->GetPosition();
 	rotation = physicsBody->GetAngle();
-	boundingBox.x = position.x;
-	boundingBox.y = position.y;
+	boundingBox.x = 100*position.x;
+	boundingBox.y = 100*position.y;
 }

@@ -142,6 +142,7 @@ public:
         pipelines.push_back(pipeline);
     }
 
+
     void executeAll(const sf::Sprite& inputSprite, sf::RenderTarget* finalOutputTarget, const sf::Transform& transform) {
 
         for (const auto& pipeline : pipelines) {
@@ -176,6 +177,21 @@ class MultiPipelineManager {
 public:
     std::vector<std::shared_ptr<MultiPipeline>> multiPipelines;
 
+    std::vector<sf::Shader*> blendShaders;
+
+    void addBlendShader(sf::Shader* blendShader) {
+        blendShaders.push_back(blendShader);
+    }
+
+    void blendTextures(int blendShaderIndex, sf::Texture in1, sf::Texture in2, sf::RenderTarget* target) {
+        blendShaders[blendShaderIndex]->setUniform("texture2", in2);
+        
+        sf::RenderStates renderStates = sf::RenderStates::Default;
+        renderStates.shader = blendShaders[blendShaderIndex];
+        sf::Shader::bind(blendShaders[blendShaderIndex]);
+        target->draw(sf::Sprite(in1), renderStates);
+    }
+
     void addMultiPipeline(const std::shared_ptr<MultiPipeline>& multiPipeline) {
         multiPipelines.push_back(multiPipeline);
     }
@@ -205,8 +221,6 @@ public:
 
         sf::Sprite inputSprite(*inputTexture);
 
- 
-
         // Set the transparency of the sprite
         inputSprite.setColor(sf::Color(255, 255, 255, transparency * 255));
 
@@ -228,6 +242,9 @@ public:
     }
 
     void executeWithRectangle(size_t index, sf::RenderTarget* finalOutputTarget, float posX, float posY, float width, float height, const sf::Color& color) {
+        if (width < 1 || height < 1) {
+            return;
+        }
         executeWithRectangle(index, finalOutputTarget, posX, posY, width, height, color, 0, 0, 0);
     }
 
@@ -236,25 +253,30 @@ public:
             return;
         }
 
-        sf::RenderTexture rectangleTexture;
-        rectangleTexture.create(width, height);
-        rectangleTexture.clear(sf::Color(0, 0, 0, 0));
+        sf::RenderTexture rectangleRenderTexture;
+        rectangleRenderTexture.create(width, height);
+        rectangleRenderTexture.clear(sf::Color(0, 0, 0, 0));
 
         sf::RectangleShape rectangle(sf::Vector2f(width, height));
         rectangle.setFillColor(color);
         rectangle.setOrigin(width / 2.f, height / 2.f);
+        rectangleRenderTexture.draw(rectangle);
+        rectangleRenderTexture.display();
 
-        rectangleTexture.draw(rectangle);
-        rectangleTexture.display();
+        sf::Sprite inputSprite(rectangleRenderTexture.getTexture());
+        inputSprite.setPosition(posX, posY);
+        inputSprite.setScale(2, 2);
 
         // Create a transform that rotates and translates the rectangle around a specific point
         sf::Transform transform;
-        transform.translate(rotationCenterX, rotationCenterY);
+ /*       transform.translate(rotationCenterX, rotationCenterY);
         transform.rotate(rotation);
         transform.translate(-rotationCenterX, -rotationCenterY);
-        transform.translate(posX, posY);
+        transform.translate(posX, posY);*/
+        transform.rotate(rotation, sf::Vector2f(posX + rotationCenterX, posY + rotationCenterY));
+      
 
-        //multiPipelines[index]->executeAll(&rectangleTexture, finalOutputTarget, transform, rectangle);
+        multiPipelines[index]->executeAll(inputSprite, finalOutputTarget, transform);
     }
 };
 

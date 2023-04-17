@@ -44,6 +44,8 @@ void ObjectCollection::update() {
 	AutoTurret* tempA;
 	Enemy* tempE;
 	Mineable* tempM2;
+	Pickuper* tempP;
+	Object* tempOb;
 
 	for (int i = 0; i < objects.size(); i++) {
 		//if rover
@@ -53,9 +55,16 @@ void ObjectCollection::update() {
 	}
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
-			Pickuper* tempP = dynamic_cast<Pickuper*>(getObjectById(objects[i]->getPickedUpById()));
-			objects[i]->setCenter(tempP->getPickupPos());
-			objects[i]->setRotation(tempP->getDropRotation());
+			tempOb = getObjectById(objects[i]->getPickedUpById());
+			if (tempOb == nullptr) {
+				//DROP
+				runDropWithoutPickuper(objects[i]->getId());
+			}
+			else {
+				tempP = dynamic_cast<Pickuper*>(tempOb);
+				objects[i]->setCenter(tempP->getPickupPos());
+				objects[i]->setRotation(tempP->getDropRotation());
+			}
 		}
 		if (objects[i]->getToDestroy()) {
 			if (objects[i]->getControlled()) {
@@ -89,9 +98,9 @@ void ObjectCollection::update() {
 		//if autoturret
 		if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
 
-			glm::vec2 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+			glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
 			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
-				tempA->setTarget(target.x, target.y);
+				tempA->setTarget(target.x, target.y, target.z, target.w);
 			}
 			else {
 				tempA->RemoveTarget();
@@ -100,9 +109,9 @@ void ObjectCollection::update() {
 		//if enemy
 		if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
 
-			glm::vec2 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+			glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
 			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
-				tempE->setTarget(target.x, target.y);
+				tempE->setTarget(target.x, target.y, target.z, target.w);
 			}
 			else {
 				tempE->RemoveTarget();
@@ -216,6 +225,12 @@ void ObjectCollection::addAutoTurret(int x, int y){
 	setLatestConsole();
 }
 
+void ObjectCollection::addJammer(int x, int y){
+	objects.push_back(new Jammer(pSpriteCollection, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
 	projectiles.push_back(new Projectile(pSpriteCollection, _x, _y, _rotation, _speed, _fromID));
 }
@@ -287,16 +302,16 @@ void ObjectCollection::setDebug(bool _debug) {
 	debug = _debug;
 }
 
-void ObjectCollection::setEnemyTarget(int x, int y){
+void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
 		if (objects[i]->getType() == objectEnemy) {
-			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y);
+			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y, xv, yv);
 		}
 	}
 }
 
-glm::vec2 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction){
+glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction){
 	FactionIdentifier targetFaction;
 	if (faction == factionFriendly) {
 		targetFaction = factionHostile;
@@ -313,9 +328,11 @@ glm::vec2 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier fact
 	}
 	if (minIndex == -1) {
 		//std::cout << "NOTHING TO TARGET\n";
-		return glm::vec2(100000,100000);
+		return glm::vec4(100000,100000, 0, 0);
 	}
-	return objects[minIndex]->getCenter() + glm::vec2(objects[minIndex]->getBoundingBox().xv*5, objects[minIndex]->getBoundingBox().yv*5);
+	glm::vec2 tempPos = objects[minIndex]->getCenter() + glm::vec2(objects[minIndex]->getBoundingBox().xv * 5, objects[minIndex]->getBoundingBox().yv * 5);
+	glm::vec4 posAndVel = glm::vec4(tempPos.x, tempPos.y, objects[minIndex]->getBoundingBox().xv, objects[minIndex]->getBoundingBox().yv);
+	return posAndVel;
 }
 
 void ObjectCollection::setCameraFocus(int id){
@@ -389,6 +406,16 @@ void ObjectCollection::runDrop(int id) {
 	pickuper->drop();
 }
 
+void ObjectCollection::runDropWithoutPickuper(int id) {
+	Object* object = getObjectById(id);
+	if (object == nullptr) {
+		std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
+		return;
+	}
+
+	object->setPickedUp(false);
+}
+
 int ObjectCollection::getClosestControllable(int currentID){
 	int mouseX = pInputManager->translatedMouseX;
 	int mouseY = pInputManager->translatedMouseY;
@@ -433,9 +460,14 @@ void ObjectCollection::pullToPoint(float x, float y, int range){
 			direction.y = y - objects[i]->getBoundingBox().y;
 			distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 			if (distance < range) {
-				direction /= (distance * distance);
-				direction *= range;
-				objects[i]->getPhysicsBody()->ApplyForceToCenter(b2Vec2(direction.x*10000, direction.y*10000), true);
+				direction /= (distance);
+				//direction *= range;
+				objects[i]->getPhysicsBody()->ApplyForceToCenter(b2Vec2(direction.x*0.01, direction.y*0.01), true);
+				b2Vec2 vel = objects[i]->getPhysicsBody()->GetLinearVelocity();
+				float speed = sqrt(vel.x * vel.x + vel.y * vel.y);
+				direction *= speed;
+				direction = glm::vec2(vel.x * 0.7 + direction.x * 0.3, vel.y * 0.7 + direction.y * 0.3);
+				objects[i]->getPhysicsBody()->SetLinearVelocity(b2Vec2(direction.x, direction.y));
 				//objects[i]->push(direction.x, direction.y);
 			}
 
@@ -468,6 +500,10 @@ Object* ObjectCollection::getObjectById(int id)
 	}
 	std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
 	return nullptr;
+}
+
+void ObjectCollection::setControlledDead(bool cd){
+	controlledDead = cd;
 }
 
 bool ObjectCollection::getControlledDead(){
@@ -522,7 +558,7 @@ void ObjectCollection::freeObjectMemory(int index) {
 		delete dynamic_cast<MarketRelay*>(objects[index]);
 		break;
 	default:
-		delete objects[i];
+		delete objects[index];
 		break;
 	}
 }

@@ -14,12 +14,12 @@ ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int
 	// Create a kinematic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x / 100, (float)_y / 100);
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the kinematic body
 	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	kinematicBox.SetAsBox((boundingBox.w / 2)/100, (boundingBox.h / 2) / 100);
 	physicsBody->CreateFixture(&kinematicBox, 0.0f);
 
 	physicsBodyType = 1;

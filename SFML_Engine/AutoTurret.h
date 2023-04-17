@@ -9,13 +9,15 @@ public:
 	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, b2World* _pPhysicsWorld);
 	virtual void update() override;
 	virtual void draw() override;
-	void setTarget(int x, int y);
+	void setTarget(int x, int y, float xvel, float yvel);
 	void RemoveTarget();
 	int getTargetingRange();
 private:
 	SpriteCollection* pSpriteCollection;
 	Console* pConsole;
+	float projectileSpeed = 30;
 	glm::vec2 target;
+	glm::vec2 targetVel;
 	float barrelRotation = 0;
 	SpriteStack baseStack;
 	SpriteStack barrelStack;

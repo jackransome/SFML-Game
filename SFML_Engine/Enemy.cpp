@@ -25,12 +25,12 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	// Create a dynamic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x/100, (float)_y/100);
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the dynamic body
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
@@ -46,15 +46,19 @@ Enemy::~Enemy(){
 
 void Enemy::update() {
 	b2Vec2 p = physicsBody->GetPosition();
-	boundingBox.x = p.x;
-	boundingBox.y = p.y;
+	boundingBox.x = p.x*100;
+	boundingBox.y = p.y*100;
 
 	position.x = boundingBox.x;
 	position.y = boundingBox.y;
 
 	if (hasTarget) {
 		glm::vec2 newDirection = target - position;
-		if (sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y) < damageRange && reloadTimer <= 0) {
+		float distance = sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y);
+		if (distance < damageRange && reloadTimer <= 0) {
+			
+
+
 			pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
 			switch (rand() % 4) {
 			case 0:
@@ -98,8 +102,8 @@ void Enemy::update() {
 	boundingBox.x = boundingBox.x + boundingBox.xv;
 	boundingBox.y = boundingBox.y + boundingBox.yv;
 	
-	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
-	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv, boundingBox.yv));
+	physicsBody->SetTransform(b2Vec2(boundingBox.x/100, boundingBox.y/100), 0);
+	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv/100, boundingBox.yv/100));
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)
@@ -121,9 +125,11 @@ void Enemy::onDeath(){
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 
-void Enemy::setTarget(int x, int y) {
+void Enemy::setTarget(int x, int y, float xvel, float yvel) {
 	target.x = x;
 	target.y = y;
+	targetVel.x = xvel;
+	targetVel.y = yvel;
 	hasTarget = true;
 }
 

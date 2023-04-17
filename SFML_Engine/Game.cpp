@@ -1,8 +1,8 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
-	screenW = 1920;
-	screenH = 1080;
+	screenW = pwindow->getSize().x;
+	screenH = pwindow->getSize().y;
 	pWindow = pwindow;
 	graphics = Graphics(pwindow);
 	camera = Camera();
@@ -35,6 +35,11 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	pipelineN->addStage(shaderManager.getShader("brightness_threshold"));
 	pipelineN->addStage(shaderManager.getShader("bloom"));
 	pipelineN->addStage(shaderManager.getShader("bloom_v"));
+	pipelineN->addStage(shaderManager.getShader("bloom"));
+	//pipelineN->addStage(shaderManager.getShader("bloom"));
+	//pipelineN->addStage(shaderManager.getShader("bloom_v"));
+	//pipelineN->addStage(shaderManager.getShader("bloom"));
+	//pipelineN->addStage(shaderManager.getShader("bloom_v"));
 	
 	auto defaultMultiPipeline = std::make_shared<MultiPipeline>();
 	defaultMultiPipeline->addPipeline(defaultPipeline);
@@ -49,6 +54,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	multiPipelineManager.addMultiPipeline(defaultMultiPipeline);
 	multiPipelineManager.addMultiPipeline(multiPipelineL);
 	multiPipelineManager.addMultiPipeline(multiPipelineN);
+	multiPipelineManager.addBlendShader(shaderManager.getShader("blend"));
 	
 
 	spriteCollection = SpriteCollection(pWindow, &graphics, &multiPipelineManager);
@@ -100,7 +106,9 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	spriteCollection.loadTexture("rover_stack_relay", "resources/rover_stack_relay.png");
 	spriteCollection.loadTexture("scrap_stack_1", "resources/scrap_stack_1.png"); 
 	spriteCollection.loadTexture("scrap_drop_stack_1", "resources/scrap_drop_stack_2.png");
+	spriteCollection.loadTexture("jammer_stack_1", "resources/jammer_stack_1.png");
 	spriteCollection.loadTexture("market_relay", "resources/market_relay.png");
+	spriteCollection.loadTexture("market_relay_stack_1", "resources/market_relay_stack_1.png");
 	spriteCollection.loadTexture("autoturret_base_stack", "resources/autoturret_base_stack.png");
 	spriteCollection.loadTexture("autoturret_barrel_stack", "resources/autoturret_barrel_stack.png");
 	spriteCollection.loadTexture("white_rect", "resources/white_rect.png");
@@ -129,11 +137,11 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
 	soundPlayer.loadSound("wind", "resources/wind_better2.wav");
 	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
-	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_1.wav");
+	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_2.wav");
 	soundPlayer.loadSound("rover_mine_1", "resources/sound_rover_mine_1.wav");
 	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
-	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_1.wav");
+	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_2.wav");
 	soundPlayer.loadSound("transfer", "resources/sound_transfer.wav");
 	soundPlayer.loadSound("laser_shot", "resources/sound_laser_shot.wav");
 	soundPlayer.loadSound("drone_death_2", "resources/sound_drone_death_2.wav");
@@ -142,13 +150,14 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	soundPlayer.loadSound("drone_zap_3", "resources/sound_drone_zap_3.wav");
 	soundPlayer.loadSound("drone_zap_4", "resources/sound_drone_zap_4.wav");
 	soundPlayer.loadSound("drone_zap_5", "resources/sound_drone_zap_5.wav");
-	soundPlayer.loadSound("relay_ambient_2", "resources/sound_relay_ambient_2.wav"); 
+	soundPlayer.loadSound("relay_ambient_2", "resources/sound_market_relay_ambient_1.wav"); 
 	soundPlayer.loadSound("drone_ambient_1", "resources/sound_drone_ambient_2.wav");
-	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_3.wav");
+	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_4.wav");
 	soundPlayer.loadSound("drone_hit_1", "resources/sound_drone_hit_1.wav");
 	soundPlayer.loadSound("drone_hit_2", "resources/sound_drone_hit_2.wav");
 	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
 	soundPlayer.loadSound("drone_hit_4", "resources/sound_drone_hit_4.wav");
+	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
 	snowSystem = SnowSystem(&spriteCollection, &screenW, &screenH, camera.getPosition());
@@ -201,6 +210,10 @@ void Game::HandleInput() {
 				snowSystem.setOpacity(snowOpacity);
 			}*/
 			controlSwitcher.drawOverlay();
+		}
+		if (inputManager.onKeyDown(r)) {
+			console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
+
 		}
 		if (inputManager.onKeyDown(t)) {
 			console.addCommand(commandAddObject, objectEnemy, inputManager.translatedMouseX, inputManager.translatedMouseY);
@@ -280,11 +293,15 @@ void Game::Draw() {
 		//in game
 		camera.runscreenShake();
 		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 100, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1);
+		spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0, false);
 		objectCollection.draw();
 		snowSystem.draw(100000);
 		//objectCollection.drawHealthBars();
+		//spriteCollection.setFullBrightMode(true);
+		//spriteCollection.addTextDraw(1, 0, 0, 100, "TEST_TEST_TEST_TEST", 100, sf::Color(60, 255, 100, 255));
+		//spriteCollection.addRectDraw(0, 0, 300, 300, 300, sf::Color(60, 255, 100, 255));
+		//spriteCollection.setFullBrightMode(false);
 		spriteCollection.setPipelineIndex(1);
-		
 	}
 	else {
 		spriteCollection.setPipelineIndex(0);
@@ -340,12 +357,12 @@ void Game::finishAudio(){
 }
 
 void Game::loadGameplay(){
-	snowSystem.setSpeed(5);
+	snowSystem.setSpeed(4.5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(80);
-	snowOpacity = 0.4;
+	snowSystem.setSize(60);
+	snowOpacity = 0.3;
 	snowSystem.setOpacity(snowOpacity);
-	snowSystem.setSinMultiplier(1);
+	snowSystem.setSinMultiplier(2);
 
 	objectCollection.setDebug(false);
 	objectCollection.addMainCharacter(0, 0);
@@ -369,6 +386,7 @@ void Game::loadGameplay(){
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
 	controlSwitcher.setCurrentControlled(0);
+	objectCollection.setControlledDead(false);
 
 	soundPlayer.stopSound(music_id);
 	soundPlayer.update();
@@ -384,12 +402,12 @@ void Game::unloadGameplay(){
 void Game::loadMenu(){
 	snowSystem.setSpeed(3);
 	snowSystem.setFallAngle(1.5);
-	snowSystem.setSize(90);
+	snowSystem.setSize(100 * (float)screenH/1080.0f);
 	snowSystem.setOpacity(0.3);
 	snowSystem.setSinMultiplier(2);
 	snowSystem2.setSpeed(3);
 	snowSystem2.setFallAngle(1.5);
-	snowSystem2.setSize(25);
+	snowSystem2.setSize(25 * (float)screenH / 1080.0f);
 	snowSystem2.setOpacity(0.2);
 	snowSystem2.setSinMultiplier(2);
 

@@ -10,11 +10,11 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	pInputManager = _pInputManager;
 	pConsole = _pConsole;
 	pSoundPlayer = _pSoundPlayer;
-	spriteSheet = SpriteSheet(pSpriteCollection, "market_relay", 11, 26, 1, 2);
+	//spriteSheet = SpriteSheet(pSpriteCollection, "market_relay", 11, 26, 1, 2);
+	spriteStack = SpriteStack(pSpriteCollection, "market_relay_stack_1", 12, 12, 30, 2);
 	canBePickedUp = true;
 	type = objectMarketRelay;
 	AmbientSoundId = pSoundPlayer->playSoundByName("relay_ambient_2", 0.1);
-	selectionBox = pSpriteCollection->getPointerFromName("white_rect");
 	pSoundPlayer->loopSound(AmbientSoundId);
 	sellSpaceWidth = 200;
 	sellSpaceHeight = 200;
@@ -22,12 +22,12 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	// Create a kinematic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x/100, (float)_y/100);
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the kinematic body
 	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox(boundingBox.w/2, boundingBox.h/2);
+	kinematicBox.SetAsBox((boundingBox.w/2) / 100, (boundingBox.h/2)/100);
 	physicsBody->CreateFixture(&kinematicBox, 0.0f);
 
 	physicsBodyType = 1;
@@ -98,7 +98,8 @@ void MarketRelay::update() {
 			startPointValid = false;
 		}
 	}
-	pSoundPlayer->setVolume(AmbientSoundId, pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	pSoundPlayer->setVolume(AmbientSoundId, 0.3*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	physicsBody->SetTransform(b2Vec2(boundingBox.x/100, boundingBox.y/100), rotation);
 }
 
 void MarketRelay::onDeath(){
@@ -111,7 +112,9 @@ void MarketRelay::addCredit(int _credit){
 
 void MarketRelay::draw() {
 	if (controlled) {
-		pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(credits), 20, sf::Color(255, 255, 255, 255));
+		pSpriteCollection->setFullBrightMode(true);
+		pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(credits), 40, sf::Color(255, 255, 255, 255));
+		pSpriteCollection->setFullBrightMode(false);
 		//draw menu
 	}
 	if (startPointValid) {
@@ -148,7 +151,9 @@ void MarketRelay::draw() {
 		finalEndPoint.y = std::min(finalEndPoint.y, center.y + sellSpaceHeight / 2);
 		//(Image * pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity)
 		//pSpriteCollection->setFullBrightMode(true);
-		pSpriteCollection->addImageDraw(selectionBox, finalStartPoint.x, finalStartPoint.y, 1000000, 0, 0, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 1, 1);
+		pSpriteCollection->setFullBrightMode(true);
+		pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 300, sf::Color(255, 255, 255, 100));
+		pSpriteCollection->setFullBrightMode(false);
 		//pSpriteCollection->setFullBrightMode(false);
 		//pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 1000000, sf::Color(255, 255, 255, 50));
 		/*pSpriteCollection->addRectDraw(pInputManager->translatedMouseX, pInputManager->translatedMouseY, startPoint.x - pInputManager->translatedMouseX, startPoint.y - pInputManager->translatedMouseY, 1000000, sf::Color(255, 255, 255, 50));
@@ -169,7 +174,8 @@ void MarketRelay::draw() {
 			}
 		}*/
 	}
-	spriteSheet.draw(boundingBox.x, boundingBox.y-30, boundingBox.y);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y - 30), glm::vec3(160, 214, 255), 2, 1, false);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y - 30), glm::vec3(160, 214, 255), 0.2, 0, false);
+	spriteStack.draw(boundingBox.x - 1, boundingBox.y - 1, boundingBox.y - 1, rotation);
+	//spriteSheet.draw(boundingBox.x, boundingBox.y-30, boundingBox.y);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 2, 1, false);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 0.2, 0, false);
 }

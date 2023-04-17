@@ -17,12 +17,12 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	// Create a dynamic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x/100, (float)_y/100);
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the dynamic body
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(boundingBox.w / 2, boundingBox.h / 2);
+	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1000.0f;
@@ -32,10 +32,19 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	physicsBodyType = 2;
 }
 
+Rover::~Rover(){
+	if (mineSoundPlaying) {
+		pSoundPlayer->stopSound(mineSoundId);
+	}
+	if (moveSoundPlaying) {
+		pSoundPlayer->stopSound(moveSoundId);
+	}
+}
+
 void Rover::update() {
 	b2Vec2 position = physicsBody->GetPosition();
-	boundingBox.x = position.x;
-	boundingBox.y = position.y;
+	boundingBox.x = position.x*100;
+	boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {
@@ -103,8 +112,8 @@ void Rover::update() {
 	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
-	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
-	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv, boundingBox.yv));
+	physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y / 100), rotation);
+	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv/100, boundingBox.yv / 100));
 	minePoint = glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction));
 	setPickupPos(minePoint);
 	if (trackTimer < 5) {
@@ -112,7 +121,7 @@ void Rover::update() {
 	}
 	if ((boundingBox.yv != 0 || boundingBox.xv != 0) ) {
 		if (!moveSoundPlaying) {
-			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.08);
+			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.12);
 			pSoundPlayer->loopSoundBetween(moveSoundId, 1, 2);
 			
 			moveSoundPlaying = true;
@@ -143,12 +152,7 @@ void Rover::draw(){
 }
 
 void Rover::onDeath(){
-	if (mineSoundPlaying) {
-		pSoundPlayer->stopSound(mineSoundId);
-	}
-	if (moveSoundPlaying) {
-		pSoundPlayer->stopSound(moveSoundId);
-	}
+
 }
 	
 	

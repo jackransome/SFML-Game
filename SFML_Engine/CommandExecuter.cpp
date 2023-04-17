@@ -32,6 +32,9 @@ void CommandExecuter::execute(Command command) {
 		case objectEnemy:
 			pObjectCollection->addEnemy(command.f1, command.f2);
 			break;
+		case objectJammer:
+			pObjectCollection->addJammer(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}

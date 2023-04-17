@@ -19,10 +19,10 @@ int main()
 {
     // sfml setup
     const float FPS = 60.0f;
-    sf::RenderWindow window(sf::VideoMode(1920, 1080, 32), "SFML_ENGINE");
+    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width * .75, sf::VideoMode::getDesktopMode().height * .75, 32), "SFML_ENGINE", sf::Style::Default);
     window.setFramerateLimit(FPS);
-   
-    window.setView(sf::View(sf::FloatRect(0, 0, 1920, 1080)));
+    
+    window.setView(sf::View(sf::FloatRect(0, 0, sf::VideoMode::getDesktopMode().width*.75, sf::VideoMode::getDesktopMode().height * .75)));
     // Game setup
     Game game(&window);
     

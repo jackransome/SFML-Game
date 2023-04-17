@@ -8,7 +8,7 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
 	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile
 };
-enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop, objectScrapMetalPile, objectAutoTurret, objectMarketRelay};
+enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover, objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop, objectScrapMetalPile, objectAutoTurret, objectMarketRelay, objectJammer};
 
 struct Command {
 	Command() {}

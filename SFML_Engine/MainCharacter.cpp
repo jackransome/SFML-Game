@@ -36,12 +36,12 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	// Create a dynamic body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(_x, _y);
+	bodyDef.position.Set((float)_x/100, (float)_y/100);
 	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
 	// Attach a shape to the dynamic body
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(boundingBox.w/2, boundingBox.h/2);
+	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
@@ -53,8 +53,8 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 
 void MainCharacter::update() {
 	b2Vec2 position = physicsBody->GetPosition();
-	boundingBox.x = position.x;
-	boundingBox.y = position.y;
+	boundingBox.x = 100*position.x;
+	boundingBox.y = 100*position.y;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {
@@ -114,8 +114,8 @@ void MainCharacter::update() {
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 
-	physicsBody->SetTransform(b2Vec2(boundingBox.x, boundingBox.y), 0);
-	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv, boundingBox.yv));
+	physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y/100), 0);
+	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv / 100, boundingBox.yv / 100));
 	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
 
 	}

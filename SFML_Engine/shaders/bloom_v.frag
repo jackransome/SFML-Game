@@ -27,11 +27,11 @@ void main() {
 
         if (i > 0) {
             temp = texture2D(texture, texCoords + offset).rgb;
-            color += temp * weight*3;
+            color += temp * weight;
             temp = texture2D(texture, texCoords - offset).rgb;
             color += temp * weight;
         }
     }
 
-    gl_FragColor = vec4(color*3, 1);
+    gl_FragColor = vec4(color*1.5, 1);
 }
