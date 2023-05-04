@@ -10,7 +10,7 @@ RoverTracks::RoverTracks(SpriteCollection* _pSpriteCollection, float x, float y,
 
 void RoverTracks::draw() {
 	//pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 16, 16, -10000, sf::Color(0, 0, 0, opacity));
-	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("decoration_rover_tracks_1"), boundingBox.x-14, boundingBox.y-10, -10001, 2, opacity, rotation, 14, 10);
+	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("decoration_rover_tracks_1"), boundingBox.x-14, boundingBox.y-10, -10001, 2, opacity, rotation, 14, 10, 30, 30);
 	//pSpriteCollection->addCircleDraw()
 }
 

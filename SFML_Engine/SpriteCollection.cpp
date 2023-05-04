@@ -33,7 +33,7 @@ void SpriteCollection::setOrderZ(bool _orderZ) {
 	orderZ = _orderZ;
 }
 
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z){
+void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float _w, float _h){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -42,11 +42,13 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH) {
+void SpriteCollection::addImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -55,11 +57,13 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = sW;
+	spriteDraws[currentDrawIndex]->h = sH;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale) {
+void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float _w, float _h) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -68,11 +72,13 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity) {
+void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float _w, float _h) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -81,12 +87,14 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
+void SpriteCollection::addImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -95,12 +103,14 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = sW*scale;
+	spriteDraws[currentDrawIndex]->h = sX*scale;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
+void SpriteCollection::addImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -109,12 +119,14 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = sW*scale;
+	spriteDraws[currentDrawIndex]->h = sH*scale;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float rotation){
+void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float rotation, float _w, float _h){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -123,13 +135,15 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation){
+void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation, float _w, float _h){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -138,13 +152,15 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry){
+void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity, float rotation, float rx, float ry, float _w, float _h){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -153,6 +169,8 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = _w;
+	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
@@ -160,7 +178,7 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation){
+void SpriteCollection::addRotatedImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation){
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -169,13 +187,15 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = sW*scale;
+	spriteDraws[currentDrawIndex]->h = sH * scale;
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
 }
 
-void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry) {
+void SpriteCollection::addRotatedImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry) {
 	if (currentDrawIndex >= maxSpriteDraws) {
 		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
 		return;
@@ -184,6 +204,8 @@ void SpriteCollection::addRotatedImageDraw(TextureWrapper* pTexture, float x, fl
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = sW*scale;
+	spriteDraws[currentDrawIndex]->h = sH*scale;
 	spriteDraws[currentDrawIndex]->setRotation(rotation);
 	spriteDraws[currentDrawIndex]->setRPoint(rx, ry);
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
@@ -215,6 +237,8 @@ void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Col
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
+	spriteDraws[currentDrawIndex]->w = r * 2;
+	spriteDraws[currentDrawIndex]->h = r * 2;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	currentDrawIndex++;
 	lastAbsolute = false;
@@ -234,7 +258,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	lastAbsolute = true;
 }
 
-void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH) {
+void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
@@ -276,7 +300,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	lastAbsolute = true;
 }
 
-void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
+void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
@@ -290,7 +314,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	lastAbsolute = true;
 }
 
-void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
+void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
 		return;
@@ -381,8 +405,13 @@ void SpriteCollection::drawAll() {
 	unlit.clear(sf::Color(0, 0, 0, 0));
 	sf::RenderTexture* RTSel = &unlit;
 
-
+	glm::vec2 cameraPos = pCamera->getPosition() - glm::vec2(*pWindowW/2 + 100, *pWindowH/2 + 100);
+	glm::vec2 viewDim = glm::vec2(*pWindowW + 200, *pWindowH + 200);
 	for (int i = 0; i < currentDrawIndex; i++) {
+		//make sure the sprite is actually on screen at least partially
+		if (spriteDraws[i]->x > cameraPos.x + viewDim.x || spriteDraws[i]->x + spriteDraws[i]->w < cameraPos.x || spriteDraws[i]->y > cameraPos.y + viewDim.y || spriteDraws[i]->y + spriteDraws[i]->h < cameraPos.y) {
+			continue;
+		}
 		if (spriteDraws[i]->fullBright) {
 			RTSel = &unlit;
 		}
@@ -421,6 +450,9 @@ void SpriteCollection::drawAll() {
 		}
 		else if (spriteDraws[i]->type == 4) {
 			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color, RTSel);
+		}
+		else if (spriteDraws[i]->type == 5) {
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 1, 0, spriteDraws[i]->opacity);
 		}
 
 	}
@@ -580,4 +612,40 @@ void SpriteCollection::setPipelineIndex(int index){
 
 void SpriteCollection::setFrame(int _frame){
 	frame = _frame;
+}
+
+sf::Texture SpriteCollection::rasterizeStack(int size, float w, float h){
+	sf::RenderTexture rt;
+	rt.create(w, h);
+	glm::vec2 drawPoint = glm::vec2(spriteDraws[currentDrawIndex - size]->x, spriteDraws[currentDrawIndex - size]->y);
+	glm::vec2 temp;
+	glm::vec2 rPoint;
+
+	for (int i = currentDrawIndex - size; i < currentDrawIndex; i++) {
+		temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y) - drawPoint + glm::vec2(w/2, h/2);
+		rPoint = glm::vec2(spriteDraws[i]->rx, spriteDraws[i]->ry) - drawPoint;
+		if (spriteDraws[i]->rotationPoint) {
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), &rt, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, rPoint.x, rPoint.y, spriteDraws[i]->opacity, true, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+		}
+		else {
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), &rt, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->rotation, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+		}
+	}
+	currentDrawIndex -= size;
+	rt.display();
+	return rt.getTexture();
+}
+
+void SpriteCollection::drawRasterization(sf::Texture* texture, float z, float x, float y, float w, float h){
+	if (currentDrawIndex >= maxSpriteDraws) {
+		std::cout << "MAX NUMBER OF SPRITEDRAWS REACHED!\n";
+		return;
+	}
+	spriteDraws[currentDrawIndex] = new SpriteDraw(texture, x, y, z, w, h);
+	if (fullBrightMode) {
+		spriteDraws[currentDrawIndex]->setFullBright();
+	}
+	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	currentDrawIndex++;
+	lastAbsolute = false;
 }

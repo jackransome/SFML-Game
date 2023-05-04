@@ -121,7 +121,7 @@ void Enemy::draw() {
 }
 
 void Enemy::onDeath(){
-	pConsole->addCommand(commandPlaySound, "drone_death_2", 0.2);
+	pConsole->addCommand(commandPlaySound, "drone_death_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
 }
 

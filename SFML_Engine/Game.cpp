@@ -212,8 +212,7 @@ void Game::HandleInput() {
 			controlSwitcher.drawOverlay();
 		}
 		if (inputManager.onKeyDown(r)) {
-			console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
-
+			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(t)) {
 			console.addCommand(commandAddObject, objectEnemy, inputManager.translatedMouseX, inputManager.translatedMouseY);
@@ -292,7 +291,7 @@ void Game::Draw() {
 		spriteCollection.setPipelineIndex(0);
 		//in game
 		camera.runscreenShake();
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 100, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 100, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1, 4500, 4500);
 		spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0, false);
 		objectCollection.draw();
 		snowSystem.draw(100000);
@@ -316,10 +315,10 @@ void Game::Draw() {
 			scale = (float)screenW / 3000.0f;
 			
 		}
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_bg"), camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2, -100, scale, 1);
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_mc"), camera.getPosition().x - screenW / 2, camera.getPosition().y + screenH / 2 - 5*162, 1, 5, 1);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_bg"), camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2, -100, scale, 1, scale*3000, scale*1638);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_mc"), camera.getPosition().x - screenW / 2, camera.getPosition().y + screenH / 2 - 5*162, 1, 5, 1, 5*139, 5*162);
 		if (frame % 350 < 340) {
-			spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_eyes"), camera.getPosition().x - screenW / 2 - 10, camera.getPosition().y + screenH / 2 - 5  * 162, 2, 5, 1);
+			spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_eyes"), camera.getPosition().x - screenW / 2 - 10, camera.getPosition().y + screenH / 2 - 5  * 162, 2, 5, 1, 5*141, 5*165);
 		}
 		snowSystem.drawMenu(-50, 1);
 		snowSystem2.drawMenu(10, 2);

@@ -35,15 +35,15 @@ void SpriteSheet::run(){
 
 void SpriteSheet::draw(float x, float y, float z){
 	if (opacity < 1) {
-		pSpriteCollection->addImageDraw(pTexture, x, y, z, frame * width, 0, width, height, scale, opacity);
+		pSpriteCollection->addImageDrawCut(pTexture, x, y, z, frame * width, 0, width, height, scale, opacity);
 	}
 	else {
-		pSpriteCollection->addImageDraw(pTexture, x, y, z, frame * width, 0, width, height, scale);
+		pSpriteCollection->addImageDrawCut(pTexture, x, y, z, frame * width, 0, width, height, scale);
 	}
 }
 
 void SpriteSheet::drawFrame(float x, float y, float z, int _frame) {
-	pSpriteCollection->addImageDraw(pTexture, x, y, z, _frame * width, 0, width, height, scale);
+	pSpriteCollection->addImageDrawCut(pTexture, x, y, z, _frame * width, 0, width, height, scale);
 }
 
 std::string SpriteSheet::getName() {

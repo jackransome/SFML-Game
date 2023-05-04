@@ -17,6 +17,17 @@ struct SpriteDraw {
 		color = sf::Color(0, 0, 0, 0);
 	}
 
+	//rasterized texture constructor
+	SpriteDraw(sf::Texture* _pRaster, float _x, float _y, float _z, float _w, float _h) {
+		pRaster = _pRaster;
+		x = _x;
+		y = _y;
+		z = _z;
+		w = _w;
+		h = _h;
+		type = 5;
+	}
+
 	SpriteDraw(TextureWrapper* _pTexture, float _x, float _y, float _z, float _scale, float _opacity) {
 		scale = _scale;
 		pTexture = _pTexture;
@@ -119,6 +130,7 @@ struct SpriteDraw {
 
 	int pipelineIndex = 0;
 	TextureWrapper* pTexture;
+	sf::Texture* pRaster;
 	float x;
 	float y;
 	float z;

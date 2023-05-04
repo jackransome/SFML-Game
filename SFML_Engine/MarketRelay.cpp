@@ -46,6 +46,12 @@ void MarketRelay::update() {
 				credits -= 5;
 			}
 		}
+		if (pInputManager->onKeyDown(u)) {
+			if (credits >= 5) {
+				pConsole->addCommand(commandAddObject, objectJammer, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+				credits -= 5;
+			}
+		}
 
 		//sell
 		if (pInputManager->isKeyDown(e)) {
