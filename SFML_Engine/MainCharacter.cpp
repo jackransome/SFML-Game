@@ -53,8 +53,8 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 
 void MainCharacter::update() {
 	b2Vec2 position = physicsBody->GetPosition();
-	boundingBox.x = 100*position.x;
-	boundingBox.y = 100*position.y;
+	//boundingBox.x = 100*position.x;
+	//boundingBox.y = 100*position.y;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {
@@ -114,8 +114,8 @@ void MainCharacter::update() {
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 
-	physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y/100), 0);
-	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv / 100, boundingBox.yv / 100));
+	//physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y/100), 0);
+	//physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv / 100, boundingBox.yv / 100));
 	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
 
 	}

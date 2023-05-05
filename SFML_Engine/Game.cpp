@@ -226,9 +226,9 @@ void Game::HandleInput() {
 			//snowSystem.setFallAngle(0.5);
 			//snowSystem.setSize(50);
 		}
-		if (inputManager.isKeyDown(u)) {
+		if (inputManager.onKeyDown(u)) {
 
-
+			//console.addCommand(commandAddObject, objectScrapMetalDrop, inputManager.translatedMouseX, inputManager.translatedMouseY);
 			//snowSystem.setSpeed(1);
 			//snowSystem.setFallAngle(1.6);
 			//snowSystem.setSize(30);
@@ -369,12 +369,14 @@ void Game::loadGameplay(){
 	objectCollection.addRelay(-150, 00);
 	objectCollection.addMarketRelay(150, 0);
 	objectCollection.addAutoTurret(0, -150);
-	for (int i = 0; i < 100; i++) {
-		objectCollection.addScapMetalPile(-3000 + (rand() % 6000), -3000 + (rand() % 6000));
-	}
+
 	glm::vec2 temp;
-	for (int i = 0; i < 40; i++) {
-		temp = glm::vec2(-3000 + (rand() % 6000), -3000 + (rand() % 6000));
+	int genRange = 4000;
+	for (int i = 0; i < 320; i++) {
+		objectCollection.addScapMetalPile(-genRange + (rand() % (genRange * 2)), -genRange + (rand() % (genRange * 2)));
+	}
+	for (int i = 0; i < 120; i++) {
+		temp = glm::vec2(-genRange + (rand() % (genRange*2)), -genRange + (rand() % (genRange * 2)));
 		if (sqrt(temp.x * temp.x + temp.y * temp.y) > 800) {
 			objectCollection.addEnemy(temp.x, temp.y);
 		}

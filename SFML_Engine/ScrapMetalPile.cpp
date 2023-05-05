@@ -8,6 +8,7 @@ ScrapMetalPile::ScrapMetalPile(SpriteCollection* _pSpriteCollection, int _x, int
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
 	spriteStack = SpriteStack(pSpriteCollection, "scrap_stack_1", 16, 16, 16, 2);
+	//spriteStack.setRasterizeMode(true);
 	canBePickedUp = false;
 	type = objectScrapMetalPile;
 

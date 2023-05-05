@@ -43,8 +43,8 @@ Rover::~Rover(){
 
 void Rover::update() {
 	b2Vec2 position = physicsBody->GetPosition();
-	boundingBox.x = position.x*100;
-	boundingBox.y = position.y*100;
+	//boundingBox.x = position.x*100;
+	//boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 	if (controlled) {

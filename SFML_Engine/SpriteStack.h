@@ -10,8 +10,11 @@ public:
 	void draw(float x, float y, float z, float rotation, std::string shader);
 	void draw(float x, float y, float z, float rotation, float rx, float ry, std::string shader);
 	void setOpacity(float _opacity);
+	void setRasterizeMode(bool mode);
 private:
 	void rasterize();
+	void drawNormally();
+	bool rasterizeMode = true;
 	int frames = 1;
 	int width = 0;
 	int height = 0;

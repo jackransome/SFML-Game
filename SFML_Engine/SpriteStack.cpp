@@ -14,7 +14,9 @@ SpriteStack::SpriteStack(SpriteCollection* _pSpriteCollection, std::string _name
 
 void SpriteStack::draw(float _x, float _y, float _z, float _rotation){
 	if (firstDraw) {
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 		firstDraw = false;
 	}
 	if (_rotation != rotation) {
@@ -23,19 +25,28 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation){
 		z = _z;
 
 		rotation = _rotation;
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 	}
 	else {
 		x = _x;
 		y = _y;
 		z = _z;
 	}
-	pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	if (rasterizeMode) {
+		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	}
+	else {
+		drawNormally();
+	}
 }
 
 void SpriteStack::draw(float _x, float _y, float _z, float _rotation, float _rx, float _ry) {
 	if (firstDraw) {
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 		firstDraw = false;
 	}
 	if (_rotation != rotation || _rx != rx || _ry != ry) {
@@ -45,19 +56,28 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation, float _rx,
 		rotation = _rotation;
 		rx = _rx;
 		ry = _ry;
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 	}
 	else {
 		x = _x;
 		y = _y;
 		z = _z;
 	}
-	pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	if (rasterizeMode) {
+		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	}
+	else {
+		drawNormally();
+	}
 }
 
 void SpriteStack::draw(float _x, float _y, float _z, float _rotation, std::string shader) {
 	if (firstDraw) {
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 		firstDraw = false;
 	}
 	if (_rotation != rotation) {
@@ -65,19 +85,28 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation, std::strin
 		y = _y;
 		z = _z;
 		rotation = _rotation;
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 	}
 	else {
 		x = _x;
 		y = _y;
 		z = _z;
 	}
-	pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x-size/2, y - size / 2, size, size);
+	if (rasterizeMode) {
+		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	}
+	else {
+		drawNormally();
+	}
 }
 
 void SpriteStack::draw(float _x, float _y, float _z, float _rotation, float _rx, float _ry, std::string shader) {
 	if (firstDraw) {
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 		firstDraw = false;
 	}
 	if (_rotation != rotation || _rx != rx || _ry != ry) {
@@ -87,19 +116,30 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation, float _rx,
 		rotation = _rotation;
 		rx = _rx;
 		ry = _ry;
-		rasterize();
+		if (rasterizeMode) {
+			rasterize();
+		}
 	}
 	else {
 		x = _x;
 		y = _y;
 		z = _z;
 	}
-
-	pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	if (rasterizeMode) {
+		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+	}
+	else {
+		drawNormally();
+	}
 }
 
 void SpriteStack::setOpacity(float _opacity){
 	opacity = _opacity;
+}
+
+void SpriteStack::setRasterizeMode(bool mode){
+	//set to false for things that are constantly rotating
+	rasterizeMode = mode;
 }
 
 void SpriteStack::rasterize() {
@@ -109,4 +149,10 @@ void SpriteStack::rasterize() {
 	size = (width > height + frames ? width : height + frames) * scale * 4;
 
 	rasterization = pSpriteCollection->rasterizeStack(frames, size, size);
+}
+
+void SpriteStack::drawNormally(){
+	for (int i = 0; i < frames; i++) {
+		pSpriteCollection->addRotatedImageDrawCut(pTexture, x, y - i * scale, z + scale * height, i * width, 0, width, height, scale, rotation);
+	}
 }

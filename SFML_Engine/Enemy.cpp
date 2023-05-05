@@ -57,8 +57,6 @@ void Enemy::update() {
 		float distance = sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y);
 		if (distance < damageRange && reloadTimer <= 0) {
 			
-
-
 			pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
 			switch (rand() % 4) {
 			case 0:

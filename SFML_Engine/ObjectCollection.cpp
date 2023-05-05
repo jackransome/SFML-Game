@@ -70,6 +70,11 @@ void ObjectCollection::update() {
 			if (objects[i]->getControlled()) {
 				controlledDead = true;
 			}
+			if (objects[i]->getPickedUp()) {
+				tempOb = getObjectById(objects[i]->getPickedUpById());
+				tempP = dynamic_cast<Pickuper*>(tempOb);
+				tempP->drop();
+			}
 			freeObjectMemory(i);
 			objects.erase(objects.begin() + i);
 			i--;
@@ -245,12 +250,12 @@ void ObjectCollection::setLatestConsole() {
 }
 
 void ObjectCollection::runCollisionDetection() {
-	pPhysicsWorld->Step(1.0f / 60.0f , 100, 50);
+	pPhysicsWorld->Step(1.0f / 60.0f , 1, 1);
 	for (int i = 0; i < objects.size(); i++) {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-					//CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
 		}
@@ -259,7 +264,7 @@ void ObjectCollection::runCollisionDetection() {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() < movable) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-					//CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
 		}
@@ -397,6 +402,7 @@ void ObjectCollection::runDrop(int id) {
 		return;
 	}
 	object = getObjectById(pickuper->getIdHeld());
+	pickuper->drop();
 	if (object == nullptr) {
 		return;
 	}
@@ -498,7 +504,7 @@ Object* ObjectCollection::getObjectById(int id)
 			return objects[i];
 		}
 	}
-	std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
+	//std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
 	return nullptr;
 }
 

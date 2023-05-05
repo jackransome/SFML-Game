@@ -6,6 +6,7 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
 	spriteStack = SpriteStack(pSpriteCollection, "scrap_drop_stack_1", 12, 12, 10, 2);
+	spriteStack.setRasterizeMode(false);
 	canBePickedUp = true;
 	type = objectScrapMetalDrop;
 	sellable = true;
@@ -38,20 +39,10 @@ void ScrapMetalDrop::update(){
 		b2Vec2 position = physicsBody->GetPosition();
 		boundingBox.x = position.x*100;
 		boundingBox.y = position.y*100;
-		rotation = physicsBody->GetAngle();
+		physicsBody->SetTransform(position, rotation);
 	}
 
 	if (pickedUp) {
 		physicsBody->SetTransform(b2Vec2(boundingBox.x/100, boundingBox.y/100), rotation);
 	}
-	/*float speed = sqrt(boundingBox.xv * boundingBox.xv + boundingBox.yv * boundingBox.yv);
-	if (speed > 5) {
-		boundingBox.xv *= 10 / speed;
-		boundingBox.yv *= 10 / speed;
-	}
-	boundingBox.xv *= 0.7;
-	boundingBox.yv *= 0.7;
-	boundingBox.x += boundingBox.xv;
-	boundingBox.y += boundingBox.yv;*/
-
 }
