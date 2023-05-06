@@ -12,7 +12,7 @@ public:
             shaders[name] = std::move(shader);
             return true;
         }
-        std::cout << "SHADER " + name + "unable to be loaded\n";
+        std::cout << "SHADER " + name + " unable to be loaded\n";
         return false;
     }
 

@@ -1,7 +1,20 @@
 #include "soundPlayer.h"
-#include <iostream>
 
-SoundPlayer::SoundPlayer(){}
+SoundPlayer::SoundPlayer(){
+	// Initialization
+	ALCdevice* device = alcOpenDevice(NULL);
+	if (!device) {
+		std::cerr << "Failed to open default device" << std::endl;
+	}
+
+	ALCcontext* context = alcCreateContext(device, NULL);
+	if (!context) {
+		std::cerr << "Failed to create context" << std::endl;
+		alcCloseDevice(device);
+	}
+
+	alcMakeContextCurrent(context);
+}
 
 void SoundPlayer::loadSound(std::string name, std::string path) {
 	sounds.push_back(new Sound(name, path));
@@ -18,13 +31,7 @@ int SoundPlayer::playSoundByName(std::string name, float volume) {
 int SoundPlayer::playSoundByName(std::string name, float volume, float pitch) {
 	for (int i = 0; i < sounds.size(); i++) {
 		if (name.compare(sounds[i]->getName()) == 0) {
-			soundInstances.emplace_back(new SoundInstance);
-			soundInstances.back()->sfSound = new sf::Sound();
-			soundInstances.back()->sfSound->setBuffer(*sounds[i]->getBuffer());
-			soundInstances.back()->sfSound->setVolume(volume * 100 * globalVolume);
-			soundInstances.back()->sfSound->setPitch(pitch);
-			soundInstances.back()->sfSound->play();
-			soundInstances.back()->id = nextID;
+			soundInstances.emplace_back(new SoundInstance(nextID, sounds[i]->getALBuffer(), volume * globalVolume, pitch, false));
 			nextID++;
 			return nextID - 1;
 		}
@@ -34,7 +41,7 @@ int SoundPlayer::playSoundByName(std::string name, float volume, float pitch) {
 
 void SoundPlayer::loopSound(int id){
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->id == id) {
+		if (soundInstances[i]->getID() == id) {
 			soundInstances[i]->loop();
 		}
 	}
@@ -42,7 +49,7 @@ void SoundPlayer::loopSound(int id){
 
 void SoundPlayer::loopSoundBetween(int id, float start, float end){
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->id == id) {
+		if (soundInstances[i]->getID() == id) {
 			soundInstances[i]->loopBetween(start, end);
 		}
 	}
@@ -50,7 +57,7 @@ void SoundPlayer::loopSoundBetween(int id, float start, float end){
 
 void SoundPlayer::stopSound(int id){
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->id == id) {
+		if (soundInstances[i]->getID() == id) {
 			soundInstances[i]->stop();
 			return;
 		}
@@ -61,7 +68,7 @@ void SoundPlayer::stopSound(int id){
 float SoundPlayer::getPlayingOffset(int id)
 {
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->id == id) {
+		if (soundInstances[i]->getID() == id) {
 			return soundInstances[i]->getPlayingOffset();
 		}
 	}
@@ -71,8 +78,8 @@ float SoundPlayer::getPlayingOffset(int id)
 
 void SoundPlayer::setVolume(int id, float volume){
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->id == id) {
-			soundInstances[i]->setVolume(volume*100 * globalVolume);
+		if (soundInstances[i]->getID() == id) {
+			soundInstances[i]->setVolume(volume * globalVolume);
 			return;
 		}
 	}
@@ -86,7 +93,7 @@ float SoundPlayer::getSpatialVolume(glm::vec2 pos1, glm::vec2 pos2)
 
 void SoundPlayer::update() {
 	for (int i = 0; i < soundInstances.size(); i++) {
-		if (soundInstances[i]->getStatus() == sf::SoundSource::Status::Stopped) {
+		if (soundInstances[i]->getStopped()) {
 			soundInstances[i]->end();
 			delete soundInstances[i];
 			soundInstances.erase(soundInstances.begin() + i);

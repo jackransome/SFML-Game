@@ -1,38 +1,51 @@
 #include "Sound.h"
-#include <iostream>=
+#include <iostream>
+
 
 Sound::Sound() {}
 
-Sound::Sound(std::string _name, std::string path){
-	name = _name;
-	buffer = sf::SoundBuffer();
-	if (!buffer.loadFromFile(path)) {
-		std::cout << "failed to load " << path << "\n";
-	}
+Sound::~Sound() {
+    alDeleteBuffers(1, &ALBuffer);
 }
 
-sf::SoundBuffer* Sound::getBuffer() {
-	return &buffer;
+Sound::Sound(std::string _name, std::string path){
+	name = _name;
+	loadSound(path);
+}
+
+ALuint Sound::getALBuffer(){
+    return ALBuffer;
 }
 
 std::string Sound::getName() {
 	return name;
 }
 
-bool Sound::getLoopsBetween(){
-	return loopsBetween;
-}
+void Sound::loadSound(const std::string& fileName) {
+    SF_INFO sfinfo;
+    SNDFILE* sndfile = sf_open(fileName.c_str(), SFM_READ, &sfinfo);
+    if (!sndfile) {
+        std::cerr << "Error loading sound file: " << fileName << std::endl;
+        ALBuffer = 0;
+        return;
+    }
 
-void Sound::setLoopsBetween(float start, float end){
-	loopsBetween = true;
-	loopStart = start;
-	loopEnd = end;
-}
+    std::vector<short> samples(sfinfo.channels * sfinfo.frames);
+    sf_count_t numSamples = sf_read_short(sndfile, samples.data(), samples.size());
+    sf_close(sndfile);
 
-float Sound::getLoopStart(){
-	return loopStart;
-}
+    if (numSamples <= 0) {
+        std::cerr << "Error reading sound samples from file: " << fileName << std::endl;
+        ALBuffer = 0;
+        return;
+    }
 
-float Sound::getLoopEnd() {
-	return loopEnd;
+    ALenum format = (sfinfo.channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+    ALsizei size = static_cast<ALsizei>(samples.size() * sizeof(short));
+    ALsizei freq = static_cast<ALsizei>(sfinfo.samplerate);
+
+    ALuint tbuffer;
+    alGenBuffers(1, &tbuffer);
+    alBufferData(tbuffer, format, samples.data(), size, freq);
+    ALBuffer = tbuffer;
 }

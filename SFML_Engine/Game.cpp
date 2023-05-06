@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <windows.h>
+#include <iostream>
 
 Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	screenW = pwindow->getSize().x;
@@ -13,6 +15,20 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	auto pipelineN = std::make_shared<RenderingPipeline>(false);
 
 	shaderManager = ShaderManager();
+
+	
+	DWORD bufferSize = MAX_PATH;
+	std::vector<wchar_t> currentPath(bufferSize);
+
+	bufferSize = GetCurrentDirectory(bufferSize, currentPath.data());
+
+	if (bufferSize > 0 && bufferSize < currentPath.size()) {
+		std::wcout << L"Current directory: " << currentPath.data() << std::endl;
+	}
+	else {
+		std::wcerr << L"Error getting current directory." << std::endl;
+	}
+
 
 	// Loading shaders with ShaderManager
 	shaderManager.loadShader("brightness_threshold", "shaders/brightness_threshold.frag", sf::Shader::Fragment);

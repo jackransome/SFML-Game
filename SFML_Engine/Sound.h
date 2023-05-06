@@ -1,20 +1,20 @@
 #pragma once
-#include <SFML/Audio.hpp>
-
+#include <al.h>
+#include <alc.h>
+#include <sndfile.h>
+#include <vector>
+#include <iostream>
 class Sound {
 public:
 	Sound();
+    ~Sound();
 	Sound(std::string name, std::string path);
-	sf::SoundBuffer* getBuffer();
+	ALuint getALBuffer();
 	std::string getName();
-	bool getLoopsBetween();
-	void setLoopsBetween(float start, float end);
-	float getLoopStart();
-	float getLoopEnd();
+
+	void loadSound(const std::string& fileName);
 private:
-	sf::SoundBuffer buffer;
+	
 	std::string name;
-	bool loopsBetween = false;
-	float loopStart;
-	float loopEnd;
+    ALuint ALBuffer;
 };

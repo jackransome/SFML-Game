@@ -4,17 +4,38 @@
 #include "Sound.h"
 #include <glm/glm.hpp>
 
-struct SoundInstance {
-	sf::Sound* sfSound;
-	bool loops = false;
-	bool loopsBetween = false;
-	float loopStart = 0;
-	float loopEnd = 0;
-	std::string soundName;
-	int id;
+class SoundInstance {
+public:
+	SoundInstance(int _id, const ALuint ALBuffer, float _volume, float _pitch, bool _loop) {
+
+		alGenSources(1, &source);
+		alSourcei(source, AL_BUFFER, ALBuffer); // `buffer` is the ALuint returned by loadSound
+
+		alSourcef(source, AL_GAIN, _volume); // Volume level: 0.0f (mute) to 1.0f (full volume)
+		
+		alSourcef(source, AL_PITCH, _pitch); //setting pitch
+
+		alSourcei(source, AL_LOOPING, _loop); //looping options
+
+		id = _id;
+		volume = _volume;
+		pitch = _pitch;
+
+		alSourcePlay(source);
+
+	}
+	bool getStopped() {
+		ALint sourceState;
+		alGetSourcei(source, AL_SOURCE_STATE, &sourceState);
+
+		if (sourceState == AL_STOPPED) {
+			return true;
+		}
+		return false;
+	}
 	void loop() {
 		loops = true;
-		sfSound->setLoop(true);
+		alSourcei(source, AL_LOOPING, true); //looping options
 	}
 	void loopBetween(float _start, float _end) {
 		loopsBetween = true;
@@ -22,19 +43,18 @@ struct SoundInstance {
 		loopEnd = _end;
 	}
 	void stop() {
-		sfSound->stop();
+		alSourceStop(source);
 	}
 	float getPlayingOffset() {
-		return sfSound->getPlayingOffset().asSeconds();
+		ALfloat playbackPosition;
+		alGetSourcef(source, AL_SEC_OFFSET, &playbackPosition);
+		return playbackPosition;
 	}
-	void setVolume(int volume) {
-		sfSound->setVolume(volume);
-	}
-	sf::SoundSource::Status getStatus() {
-		return sfSound->getStatus();
+	void setVolume(float _volume) {
+		alSourcef(source, AL_GAIN, _volume);
 	}
 	void end() {
-		delete sfSound;
+		alDeleteSources(1, &source);
 	}
 	bool getLoopsBetween() {
 		return loopsBetween;
@@ -46,8 +66,22 @@ struct SoundInstance {
 		return loopStart;
 	}
 	void setPlayingOffset(float offset) {
-		sfSound->setPlayingOffset(sf::seconds(offset));
+		alSourcef(source, AL_SEC_OFFSET, offset);
 	}
+	int getID() {
+		return id;
+	}
+private:
+	ALuint source;
+	bool loops = false;
+	bool loopsBetween = false;
+	float loopStart = 0;
+	float loopEnd = 0;
+	float volume;
+	float pitch;
+	std::string soundName;
+	int id;
+
 };
 
 class SoundPlayer {

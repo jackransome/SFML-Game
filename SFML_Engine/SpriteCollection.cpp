@@ -1,5 +1,6 @@
 #include "SpriteCollection.h"
 #include <iostream>
+
 SpriteCollection::SpriteCollection() {}
 
 SpriteCollection::SpriteCollection(sf::RenderWindow* pwindow, Graphics* pgraphics, MultiPipelineManager* _multiPipelineManager) {
