@@ -47,11 +47,41 @@ public:
         //loop through stages
         sf::RenderStates renderStates;
         
+        sf::Sprite tempSprite;
+
+        //if there is only one stage, just write directly to the final target
+        if (stages.size() == 1) {
+            if (wholeScreen) {
+                //no need to transform as that was already done, just use the shader to write to the output
+
+
+                tempSprite.setTexture(inputTexture.getTexture());
+
+                //need to flip the sprite apparently?
+                //tempSprite.setTextureRect(sf::IntRect(0, static_cast<int>(tempOutput.getSize().y), static_cast<int>(tempOutput.getSize().x), -static_cast<int>(tempOutput.getSize().y)));
+
+                //draw to final target
+                finalOutputTarget->draw(tempSprite, stages[0]);
+                delete currentInput;
+                return;
+            }
+            else {
+                //not wholeScreen
+                //need to both transform and apply shader
+
+                renderStates = sf::RenderStates::Default;
+                renderStates.transform = transform;
+                renderStates.shader = stages[0];
+                finalOutputTarget->draw(inputSprite, renderStates);
+                delete currentInput;
+                return;
+            }
+        }
 
         //create tempOutput
         sf::RenderTexture tempOutput;
         tempOutput.create(inputSize.x, inputSize.y);
-        sf::Sprite tempSprite;
+        
         for (size_t i = 0; i < stages.size(); ++i) {
             const auto& stage = stages[i];
             bool isFinalStage = (i == stages.size() - 1);
@@ -61,34 +91,6 @@ public:
 
             if (i == 0) {
                 //if there is only one stage, just write directly to the final target
-                if (stages.size() == 1) {
-                    if (wholeScreen) {
-                        //no need to transform as that was already done, just use the shader to write to the output
-
-                        
-                        tempSprite.setTexture(inputTexture.getTexture());
-
-                        //need to flip the sprite apparently?
-                        //tempSprite.setTextureRect(sf::IntRect(0, static_cast<int>(tempOutput.getSize().y), static_cast<int>(tempOutput.getSize().x), -static_cast<int>(tempOutput.getSize().y)));
-
-                        //draw to final target
-                        finalOutputTarget->draw(tempSprite, stage);
-                        delete currentInput;
-                        return;
-                    }
-                    else {
-                        //not wholeScreen
-                        //need to both transform and apply shader
-                        
-                        renderStates = sf::RenderStates::Default;
-                        renderStates.transform = transform;
-                        renderStates.shader = stage;
-                        finalOutputTarget->draw(inputSprite, renderStates);
-                        delete currentInput;
-                        return;
-                    }
-                }
-                //if its only the first stage of multiple, need to write to a temp texture from the texture or sprite directly depending on wholeScreen
 
                 if (wholeScreen) {
                     tempOutput.draw(sf::Sprite(inputTexture.getTexture()), stage);
@@ -150,27 +152,6 @@ public:
             return;
         }
     }
-    //void executeAll(const sf::RenderTexture* input, sf::RenderTarget* finalOutputTarget, const sf::Transform& transform, const sf::Shape& shape) {
-    //    for (const auto& pipeline : pipelines) {
-    //        if (pipeline->applyBefore) {
-    //            sf::RenderTexture intermediateTexture;
-    //            intermediateTexture.create(finalOutputTarget->getSize().x, finalOutputTarget->getSize().y);
-    //            intermediateTexture.clear(sf::Color(0, 0, 0, 0));
-    //            intermediateTexture.draw(shape, transform);
-    //            intermediateTexture.display();
-
-    //            pipeline->execute(&intermediateTexture, finalOutputTarget);
-    //        }
-    //        else {
-    //            sf::RenderTexture intermediateTexture;
-    //            intermediateTexture.create(finalOutputTarget->getSize().x, finalOutputTarget->getSize().y);
-    //            pipeline->execute(input, &intermediateTexture);
-    //            intermediateTexture.display();
-
-    //            finalOutputTarget->draw(sf::Sprite(intermediateTexture.getTexture()), transform);
-    //        }
-    //    }
-    //}
 };
 
 class MultiPipelineManager {

@@ -1,5 +1,15 @@
 #include "Game.h"
 
+#include <chrono>
+#include <iostream>
+#include <ctime>
+
+using std::cout; using std::endl;
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+using std::chrono::seconds;
+using std::chrono::system_clock;
+
 // Style guide:
 // 
 // Class names: ClassName
@@ -8,12 +18,13 @@
 // 
 // Argument names: argumentName
 // 
-// On stack variable name: stack_variable
+//// On stack variable name: stack_variable
 // 
 // Pointers: int *pPointer
 //
 // Source: https://users.ece.cmu.edu/~eno/coding/CppCodingStandard.html#names
 //
+
 
 int main()
 {
@@ -28,6 +39,8 @@ int main()
     
     while (window.isOpen())
     {
+        int start = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+        
         // Input
         game.HandleInput();
 
@@ -39,6 +52,7 @@ int main()
         
         // sfml display window
         window.display();
+        std::cout << "FPS: " << 1000.0f/(float)((int)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - start) << "\n";
     }
     game.finishAudio();
 

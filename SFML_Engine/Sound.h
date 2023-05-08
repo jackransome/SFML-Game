@@ -4,6 +4,7 @@
 #include <sndfile.h>
 #include <vector>
 #include <iostream>
+
 class Sound {
 public:
 	Sound();

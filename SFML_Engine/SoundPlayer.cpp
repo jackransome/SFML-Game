@@ -2,12 +2,12 @@
 
 SoundPlayer::SoundPlayer(){
 	// Initialization
-	ALCdevice* device = alcOpenDevice(NULL);
+	device = alcOpenDevice(NULL);
 	if (!device) {
 		std::cerr << "Failed to open default device" << std::endl;
 	}
 
-	ALCcontext* context = alcCreateContext(device, NULL);
+	context = alcCreateContext(device, NULL);
 	if (!context) {
 		std::cerr << "Failed to create context" << std::endl;
 		alcCloseDevice(device);
@@ -15,6 +15,13 @@ SoundPlayer::SoundPlayer(){
 
 	alcMakeContextCurrent(context);
 }
+
+SoundPlayer::~SoundPlayer() {
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(context);
+	alcCloseDevice(device);
+}
+
 
 void SoundPlayer::loadSound(std::string name, std::string path) {
 	sounds.push_back(new Sound(name, path));

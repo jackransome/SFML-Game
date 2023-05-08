@@ -24,6 +24,10 @@ public:
 		alSourcePlay(source);
 
 	}
+	~SoundInstance() {
+		stop();
+		end();
+	}
 	bool getStopped() {
 		ALint sourceState;
 		alGetSourcei(source, AL_SOURCE_STATE, &sourceState);
@@ -87,6 +91,7 @@ private:
 class SoundPlayer {
 public:
 	SoundPlayer();
+	~SoundPlayer();
 	void loadSound(std::string name, std::string path);
 	int playSoundByName(std::string name);
 	int playSoundByName(std::string name, float volume);
@@ -102,6 +107,8 @@ public:
 	void setGlobalVolume(float volume);
 	float getGlobalVolume();
 private:
+	ALCcontext* context;
+	ALCdevice* device;
 	float globalVolume = 1;
 	std::vector<Sound*> sounds;
 	std::vector<SoundInstance*> soundInstances;

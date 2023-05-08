@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <windows.h>
 #include <iostream>
+#include <ctime>
 
 Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	screenW = pwindow->getSize().x;
@@ -78,7 +79,6 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 
 	spriteCollection.setLightShader(shaderManager.getShader("lighting"));
 
-	soundPlayer = SoundPlayer();
 	soundPlayer.setGlobalVolume(1);
 	console = Console();
 	timer = Timer(250, &console);
@@ -187,7 +187,6 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 	spriteCollection.addFont("resources/fonts/LLDOT2__.TTF");
 
-	
 	spriteCollection.setWindowDimensions(&screenW, &screenH);
 	ambientLightColour = sf::Glsl::Vec3(255/255.0, 253/255.0, 240/255.0);
 	//console.addCommand(commandPlaySound, "wind");
@@ -270,8 +269,9 @@ void Game::HandleInput() {
 }
 
 void Game::Run() {
-	console.addTime("Start of run");
 
+	console.addTime("Start of run");
+	
 	if (!mainMenu) {
 		//in game
 		if (controlSwitcher.getControlling()) {
@@ -296,6 +296,7 @@ void Game::Run() {
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
 	console.incrementFrame();
+
 }
 
 void Game::Draw() {
@@ -374,8 +375,8 @@ void Game::finishAudio(){
 void Game::loadGameplay(){
 	snowSystem.setSpeed(4.5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(60);
-	snowOpacity = 0.3;
+	snowSystem.setSize(30);
+	snowOpacity = 0.6;
 	snowSystem.setOpacity(snowOpacity);
 	snowSystem.setSinMultiplier(2);
 

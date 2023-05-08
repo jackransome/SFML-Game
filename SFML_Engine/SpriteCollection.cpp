@@ -482,6 +482,16 @@ void SpriteCollection::drawAll() {
 	sf::RenderTexture intermediate2;
 	intermediate.create(pWindow->getSize().x, pWindow->getSize().y);
 	intermediate2.create(pWindow->getSize().x, pWindow->getSize().y);
+	bool bloomMode = false;
+	if (!bloomMode) {
+		multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), pWindow, 0, 0, 1);
+		//multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), &intermediate, 0, 0, 1);
+		//intermediate.display();
+		//multiPipelineManager->blendTextures(0, intermediate.getTexture(), unlit.getTexture(), pWindow);
+		clearSpriteDraws();
+		return;
+	}
+
 	sf::RenderTexture bloom;
 	bloom.create(pWindow->getSize().x, pWindow->getSize().y);
 	bloom.clear(sf::Color(0, 0, 0, 1));

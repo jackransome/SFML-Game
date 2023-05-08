@@ -225,7 +225,7 @@ bool CollisionDetection::correctPosition(BoundingBox* bb1, BoundingBox* bb2) {
 	bool yOverlap = (bb1Yold < bb2Yold + bb2->h) && (bb1Yold + bb1->h > bb2Yold);
 	if (xOverlap) {
 		if (yOverlap) {
-			std::cout << "THIS SHOULD BE IMPOSSIBLE!!\n"; //impossible?
+			//std::cout << "THIS SHOULD BE IMPOSSIBLE!!\n"; //impossible?
 		}
 		else { //correct the y
 			if (bb1Yold < bb2Yold) { //coming from above
