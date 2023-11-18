@@ -65,6 +65,10 @@ public:
 	sf::Texture rasterizeStack(int size, float w, float h);
 	void drawRasterization(sf::Texture* texture, float z, float x, float y, float w, float h);
 private:
+	//settings
+	bool bloomMode = false;
+
+	//other
 	int frame = 0;
 	MultiPipelineManager* multiPipelineManager;
 	int pipelineIndex = 0;

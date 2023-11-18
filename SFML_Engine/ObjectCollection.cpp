@@ -1,5 +1,6 @@
 #include "ObjectCollection.h"
 #include "CollisionDetection.h"
+#include <cstdlib>  // For rand() and RAND_MAX
 
 ObjectCollection::ObjectCollection() {}
 

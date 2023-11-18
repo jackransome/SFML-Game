@@ -6,7 +6,6 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
 	spriteStack = SpriteStack(pSpriteCollection, "scrap_drop_stack_1", 12, 12, 10, 2);
-	spriteStack.setRasterizeMode(false);
 	canBePickedUp = true;
 	type = objectScrapMetalDrop;
 	sellable = true;
@@ -25,13 +24,14 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 	fixtureDef.density = 0.01f;
 	fixtureDef.friction = 20.01f;
 	physicsBody->CreateFixture(&fixtureDef);
-
+	rotation = ((double)rand() / (RAND_MAX)) * 360;
 	physicsBodyType = 2;
 }
 
 void ScrapMetalDrop::draw() {
-	rotation += 2;
-	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
+	//rotation += 2;
+	bob_counter += 0.1;
+	spriteStack.draw(boundingBox.x, boundingBox.y + sin(bob_counter)*5, boundingBox.y, rotation);
 }
 
 void ScrapMetalDrop::update(){

@@ -386,6 +386,7 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 }
 
 void SpriteCollection::drawAll() {
+	std::cout << currentDrawIndex << "\n";
 	if (toBlink) {
 		pGraphics->drawRect(0, 0, 3000, 3000, sf::Color::Black);
 		toBlink = false;
@@ -482,19 +483,18 @@ void SpriteCollection::drawAll() {
 	sf::RenderTexture intermediate2;
 	intermediate.create(pWindow->getSize().x, pWindow->getSize().y);
 	intermediate2.create(pWindow->getSize().x, pWindow->getSize().y);
-	bool bloomMode = false;
 	if (!bloomMode) {
-		multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), pWindow, 0, 0, 1);
-		//multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), &intermediate, 0, 0, 1);
-		//intermediate.display();
-		//multiPipelineManager->blendTextures(0, intermediate.getTexture(), unlit.getTexture(), pWindow);
+		//multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), pWindow, 0, 0, 1);
+		multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), &intermediate, 0, 0, 1);
+		intermediate.display();
+		//multiPipelineManager->executeWithTransform(pipelineIndex, &unlit.getTexture(), pWindow, 0, 0, 1);
+		multiPipelineManager->blendTextures(0, intermediate.getTexture(), unlit.getTexture(), pWindow);
 		clearSpriteDraws();
 		return;
 	}
 
 	sf::RenderTexture bloom;
 	bloom.create(pWindow->getSize().x, pWindow->getSize().y);
-	bloom.clear(sf::Color(0, 0, 0, 1));
 	
 	
 	multiPipelineManager->executeWithTransform(pipelineIndex, &lit.getTexture(), &intermediate, 0, 0, 1);

@@ -9,6 +9,8 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 private:
+	float bob_counter = 0;
+	float bob_height = 0;
 	SpriteStack spriteStack;
 	SpriteCollection* pSpriteCollection;
 };

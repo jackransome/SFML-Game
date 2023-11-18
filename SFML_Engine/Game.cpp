@@ -75,6 +75,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	
 
 	spriteCollection = SpriteCollection(pWindow, &graphics, &multiPipelineManager);
+
 	spriteCollection.setPipelineIndex(0);
 
 	spriteCollection.setLightShader(shaderManager.getShader("lighting"));
