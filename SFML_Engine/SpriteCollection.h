@@ -67,15 +67,13 @@ public:
 private:
 	//settings
 	bool bloomMode = false;
+	bool fullBrightMode = false;
 
 	//other
 	int frame = 0;
 	MultiPipelineManager* multiPipelineManager;
 	int pipelineIndex = 0;
 	bool toBlink = false;
-	bool fullBrightMode = false;
-	void clearSpriteDraws();
-	void orderByZ();
 	sf::RenderWindow *pWindow;
 	Graphics *pGraphics;
 	std::vector<TextureWrapper*> textureWrappers;
@@ -100,4 +98,7 @@ private:
 	int* pWindowH;
 	int numLights = 0;
 	bool lastAbsolute = false;
+
+	void clearSpriteDraws();
+	void orderByZ();
 };

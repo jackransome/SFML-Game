@@ -133,6 +133,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	spriteCollection.loadTexture("menu_mc", "resources/menu_mc_p.png");
 	spriteCollection.loadTexture("menu_eyes", "resources/menu_eyes_p.png");
 	spriteCollection.loadTexture("menu_snow", "resources/menu_snow.png");
+	spriteCollection.loadTexture("decoration_footprint_1", "resources/decoration_footprint_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
 	sprite3 = spriteCollection.getPointerFromName("pic3");

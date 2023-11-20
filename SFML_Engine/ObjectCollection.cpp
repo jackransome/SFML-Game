@@ -17,6 +17,9 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
+			if (objects[i]->getType() == objectFootprint) {
+				int e = 0;
+			}
 			if (CollisionDetection::getDistance(pCamera->getPosition(), objects[i]->getCenter()) < 2000) {
 				objects[i]->draw();
 			}

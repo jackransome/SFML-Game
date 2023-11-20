@@ -2,19 +2,20 @@
 
 FootPrint::FootPrint(SpriteCollection* _pSpriteCollection, float x, float y) :
 	Decoration(_pSpriteCollection, x, y) {
-	opacity = 50;
+	opacity = 0.3;
 	decay = 0.97;
 	type = objectFootprint;
 }
 
 void FootPrint::draw() {
 	//pSpriteCollection->addRectDraw(boundingBox.x, boundingBox.y, 16, 16, -10000, sf::Color(0, 0, 0, opacity));
-	pSpriteCollection->addCircleDraw(boundingBox.x-8, boundingBox.y-8, 8, -10000, sf::Color(0, 0, 0, opacity));
+	//pSpriteCollection->addCircleDraw(boundingBox.x-8, boundingBox.y-8, 8, -10000, sf::Color(0, 0, 0, opacity));
+	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("decoration_footprint_1"), boundingBox.x - 8, boundingBox.y - 8, -10000, 2, opacity, 0, 0, 0, 8, 8);
 }
 
 void FootPrint::update() {
 	opacity *= decay;
-	if (opacity < 3) {
+	if (opacity < 0.03) {
 		toDestroy = true;
 	}
 }
@@ -31,6 +32,7 @@ Action1Animation::Action1Animation(SpriteCollection* _pSpriteCollection, float _
 void Action1Animation::draw() {
 	ss.draw(x, y, 0);
 	ss.run();
+	
 }
 
 void Action1Animation::update() {
