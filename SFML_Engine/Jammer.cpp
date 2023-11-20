@@ -1,7 +1,7 @@
 #include "Jammer.h"
 
-Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y, b2World* _pPhysicsWorld) :
-	Object(_x, _y, 16, 16, 0, immovable, true, _pPhysicsWorld),
+Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
+	Object(_x, _y, 16, 16, 0, immovable, true),
 		Living(100, 2, factionFriendly) {
 		boundingBox.x = _x;
 		boundingBox.y = _y;
@@ -13,19 +13,6 @@ Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPl
 		type = objectMarketRelay;
 		AmbientSoundId = pSoundPlayer->playSoundByName("jammer_ambient_1", 0.1);
 		pSoundPlayer->loopSound(AmbientSoundId);
-
-		// Create a kinematic body
-		b2BodyDef bodyDef;
-		bodyDef.type = b2_kinematicBody;
-		bodyDef.position.Set((float)_x / 100, (float)_y / 100);
-		physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
-
-		// Attach a shape to the kinematic body
-		b2PolygonShape kinematicBox;
-		kinematicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
-		physicsBody->CreateFixture(&kinematicBox, 0.0f);
-
-		physicsBodyType = 1;
 }
 
 Jammer::~Jammer() {
@@ -41,7 +28,6 @@ void Jammer::draw(){
 
 void Jammer::update(){
 	pSoundPlayer->setVolume(AmbientSoundId, 0.05 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-	physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y / 100), rotation);
 }
 
 void Jammer::onDeath(){

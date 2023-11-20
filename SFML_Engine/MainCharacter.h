@@ -9,7 +9,7 @@ enum Direction {up, down, left, right};
 
 class MainCharacter : public Object, public Living, public Controllable {
 public:
-	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y, b2World* _pPhysicsWorld);
+	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y);
 	virtual void update() override;
 	virtual void draw() override;
 private:

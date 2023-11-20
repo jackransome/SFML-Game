@@ -3,7 +3,7 @@
 #include <iostream>
 #include <ctime>
 
-Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
+Game::Game(sf::RenderWindow* pwindow)  {
 	screenW = pwindow->getSize().x;
 	screenH = pwindow->getSize().y;
 	pWindow = pwindow;
@@ -83,7 +83,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	soundPlayer.setGlobalVolume(1);
 	console = Console();
 	timer = Timer(250, &console);
-	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera, &physicsWorld);
+	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager);
 	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection);
 	

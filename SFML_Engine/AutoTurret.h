@@ -6,7 +6,7 @@
 
 class AutoTurret : public Object, public Living {
 public:
-	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, b2World* _pPhysicsWorld);
+	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y);
 	virtual void update() override;
 	virtual void draw() override;
 	void setTarget(int x, int y, float xvel, float yvel);

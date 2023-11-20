@@ -1,7 +1,7 @@
 #include "MarketRelay.h"
 
-MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y, b2World* _pPhysicsWorld) :
-	Object(_x, _y, 22, 22, 0, immovable, true, _pPhysicsWorld),
+MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
+	Object(_x, _y, 22, 22, 0, immovable, true),
 	Living(100, 2, factionFriendly),
 	Controllable(200) {
 	boundingBox.x = _x;
@@ -19,18 +19,6 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	sellSpaceWidth = 200;
 	sellSpaceHeight = 200;
 
-	// Create a kinematic body
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set((float)_x/100, (float)_y/100);
-	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
-
-	// Attach a shape to the kinematic body
-	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox((boundingBox.w/2) / 100, (boundingBox.h/2)/100);
-	physicsBody->CreateFixture(&kinematicBox, 0.0f);
-
-	physicsBodyType = 1;
 }
 
 MarketRelay::~MarketRelay(){
@@ -57,13 +45,13 @@ void MarketRelay::update() {
 		if (pInputManager->isKeyDown(e)) {
 			glm::vec2 center = getCenter();
 			// sell command with start point and w and h, and marketrelay id to add credits to
-			if (pInputManager->onKeyDown(mouseL) && pInputManager->translatedMouseX > center.x - sellSpaceWidth/2 && pInputManager->translatedMouseX < center.x + sellSpaceWidth / 2 && pInputManager->translatedMouseY > center.y - sellSpaceHeight / 2 && pInputManager->translatedMouseY < center.y + sellSpaceHeight / 2) {
+			if (pInputManager->onKeyDown(mouseL) && pInputManager->translatedMouseX > center.x - sellSpaceWidth / 2 && pInputManager->translatedMouseX < center.x + sellSpaceWidth / 2 && pInputManager->translatedMouseY > center.y - sellSpaceHeight / 2 && pInputManager->translatedMouseY < center.y + sellSpaceHeight / 2) {
 				startPoint = glm::vec2(pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 				startPointValid = true;
 			}
 			if (!pInputManager->isKeyDown(mouseL) && startPointValid) {
 				if (startPointValid) {
-					
+
 					glm::vec2 finalStartPoint;
 					glm::vec2 finalEndPoint;
 					if (startPoint.x < pInputManager->translatedMouseX) {
@@ -104,8 +92,7 @@ void MarketRelay::update() {
 			startPointValid = false;
 		}
 	}
-	pSoundPlayer->setVolume(AmbientSoundId, 0.3*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-	physicsBody->SetTransform(b2Vec2(boundingBox.x/100, boundingBox.y/100), rotation);
+	pSoundPlayer->setVolume(AmbientSoundId, 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 }
 
 void MarketRelay::onDeath(){

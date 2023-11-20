@@ -58,17 +58,13 @@ void main()
 			newBloomIntensity = 0;
 			d = distance(pointLightPositions[j], gl_FragCoord.xy);
 			if (pointLightTypes[j] == 0.0){
-					newLightIntensity = pointLightIntensities[j] / (d*d*0.00005 + 1.0);//+ 0.8 * cos(d/pointLightIntensities[j]);
+					newLightIntensity = pointLightIntensities[j] / (d*d*0.00005 + 1.0);
 			} else {
-				newBloomIntensity += pointLightIntensities[j] / (d*d);
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
 			}
 			
-			//newLightIntensity += (1 - newLightIntensity) * 200.0/(d);
-			//100/(d);//(((d/lightIntensities[j]))*((d/lightIntensities[j])));
 			bloomColour += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newBloomIntensity);
 			newLightColor += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newLightIntensity);
-
-
 		}
 
 		for(int j = 0; j < numBeamLights; j++)
@@ -76,16 +72,26 @@ void main()
 			newLightIntensity = 0.0;
 			newBloomIntensity = 0.0;
 			d = distanceToLineSegment(gl_FragCoord.xy, beamLightPositions1[j], beamLightPositions2[j]);
-			if (beamLightTypes[j] == 0.0){
-					newLightIntensity = beamLightIntensities[j] / (d*d*0.00005 + 1.0);//+ 0.8 * cos(d/pointLightIntensities[j]);
-			} else {
-				newBloomIntensity += beamLightIntensities[j] / (d*d);
+			if (beamLightTypes[j] <= 0.01){
+				newLightIntensity = beamLightIntensities[j] / (d*d*0.00005 + 1.0);
+			} else if (beamLightTypes[j] <= 1.0) {
+				newBloomIntensity = beamLightIntensities[j] / (d*d);
+			} else if (beamLightTypes[j] <= 2.0){
+				newLightIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
+				newBloomIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
 			}
-			
+			//newLightIntensity = max(0.0, (5 - d)/5);
+			//newBloomIntensity = max(0.0, (5 - d)/5);
 			bloomColour += (vec4(beamLightColours[j].r/255.0, beamLightColours[j].g/255.0, beamLightColours[j].b/255.0, 1.0)*newBloomIntensity);
 			newLightColor += (vec4(beamLightColours[j].r/255.0, beamLightColours[j].g/255.0, beamLightColours[j].b/255.0, 1.0)*newLightIntensity);
 			
-
+			/*if (d < 10){
+				newLightColor = vec4(0,1,0,1);
+				bloomColour = vec4(0,1,0,1);
+			}
+			if (d < 3) {
+				newLightColor += vec4(0,0,1,1);
+			}*/
 		}
 			if (newLightColor.r > 1){
 				newLightColor.r = 1;

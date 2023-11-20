@@ -1,7 +1,7 @@
 #include "Rover.h"
 
-Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y, b2World* _pPhysicsWorld) :
-	Object(x, y, 24, 24, 0, controllable, true, _pPhysicsWorld),
+Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
+	Object(x, y, 24, 24, 0, controllable, true),
 	Living(100, 2, factionFriendly),
 	Pickuper(),
 	Controllable(200),
@@ -14,22 +14,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
 	isMining = false;
 	type = objectRover;
-	// Create a dynamic body
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((float)_x/100, (float)_y/100);
-	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
 
-	// Attach a shape to the dynamic body
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1000.0f;
-	fixtureDef.friction = 0.3f;
-	physicsBody->CreateFixture(&fixtureDef);
-
-	physicsBodyType = 2;
 }
 
 Rover::~Rover(){
@@ -42,7 +27,6 @@ Rover::~Rover(){
 }
 
 void Rover::update() {
-	b2Vec2 position = physicsBody->GetPosition();
 	//boundingBox.x = position.x*100;
 	//boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
@@ -112,8 +96,6 @@ void Rover::update() {
 	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
-	physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y / 100), rotation);
-	physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv/100, boundingBox.yv / 100));
 	minePoint = glm::vec2(boundingBox.x + boundingBox.w / 2 - 30 * sin(-direction), boundingBox.y + boundingBox.h / 2 - 30 * cos(-direction));
 	setPickupPos(minePoint);
 	if (trackTimer < 5) {

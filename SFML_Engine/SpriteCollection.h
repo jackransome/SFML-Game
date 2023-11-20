@@ -43,8 +43,8 @@ public:
 	void drawAll();
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color, sf::RenderTexture* target);
 	void addFont(std::string name);
-	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type);
-	void drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, int type);
+	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, float type);
+	void drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, float type);
 	void sendLightDataToShader();
 	void setWindowDimensions(int* w, int* h);
 	void setFullBrightMode(bool _mode);

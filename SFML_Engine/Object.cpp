@@ -1,6 +1,6 @@
 #include "Object.h"
 
-Object::Object(float x, float y, float w, float h, float _z, Collidability _collidability, bool _hasGravity, b2World* _pPhysicsWorld) {
+Object::Object(float x, float y, float w, float h, float _z, Collidability _collidability, bool _hasGravity) {
 	boundingBox.x = x;
 	boundingBox.y = y;
 	boundingBox.w = w;
@@ -10,13 +10,9 @@ Object::Object(float x, float y, float w, float h, float _z, Collidability _coll
 	z = _z;
 	collidability = _collidability;
 	hasGravity = _hasGravity;
-	pPhysicsWorld = _pPhysicsWorld;
 }
 
 Object::~Object(){
-	if (physicsBodyType > 0) {
-		pPhysicsWorld->DestroyBody(physicsBody);
-	}
 }
 
 BoundingBox Object::getBoundingBox() {
@@ -118,14 +114,6 @@ bool Object::getHostile(){
 void Object::push(float x, float y){
 	boundingBox.xv += x;
 	boundingBox.yv += y;
-}
-
-b2Body* Object::getPhysicsBody() {
-	return physicsBody;
-}
-
-bool Object::hasBody(){
-	return !(pPhysicsWorld == nullptr);
 }
 
 int Object::getPhysicsBodyType(){

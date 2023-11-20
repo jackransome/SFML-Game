@@ -4,13 +4,12 @@
 
 ObjectCollection::ObjectCollection() {}
 
-ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, b2World* _pPhysicsWorld) {
+ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera) {
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
-	pPhysicsWorld = _pPhysicsWorld;
 	debug = false;
 }
 
@@ -143,24 +142,23 @@ void ObjectCollection::update() {
 				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
 					projectiles[i]->setPosition(CollisionDetection::getLineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer()));
 					hit = true;
-					glm::vec2 distVector = pConsole->getControlPosition() - objects[j]->getCenter();
-					float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
-					pConsole->addCommand(commandPlaySound, "laser_impact", 0.2 / (1 + distance / 100));
+
 				}
 			}
 		}
 		if (hit) {
+			glm::vec2 distVector = pConsole->getControlPosition() - projectiles[i]->getPosition();
+			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
+			pConsole->addCommand(commandPlaySound, "laser_impact", 0.2 / (1 + distance / 100));
 			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFromID());
-			//projectiles[i]->draw();
-			projectiles.erase(projectiles.begin() + i);
-			i--;
+			projectiles[i]->toDelete = true;
 		}
 	}
 	frame++;
 }
 
 void ObjectCollection::addMainCharacter(float x, float y) {
-	objects.push_back(new MainCharacter(pInputManager, pSpriteCollection, x, y, pPhysicsWorld));
+	objects.push_back(new MainCharacter(pInputManager, pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -184,62 +182,62 @@ void ObjectCollection::addAction1Animation(float x, float y) {
 }
 
 void ObjectCollection::addWall(int x, int y, int w, int h) {
-	objects.push_back(new Wall(pSpriteCollection, x, y, w, h, pPhysicsWorld));
+	objects.push_back(new Wall(pSpriteCollection, x, y, w, h));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addEnemy(int x, int y) {
-	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y, pPhysicsWorld));
+	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRover(int x, int y){
-	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y, pPhysicsWorld));
+	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addCrate(int x, int y){
-	objects.push_back(new Crate(pSpriteCollection, x, y, pPhysicsWorld));
+	objects.push_back(new Crate(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRelay(int x, int y){
-	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
+	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalPile(int x, int y){
-	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y, pPhysicsWorld));
+	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y));
 	objects[objects.size() - 1]->setRotation((rand() % 360));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalDrop(int x, int y) {
-	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y, pPhysicsWorld));
+	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addMarketRelay(int x, int y){
-	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
+	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addAutoTurret(int x, int y){
-	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y, pPhysicsWorld));
+	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addJammer(int x, int y){
-	objects.push_back(new Jammer(pSpriteCollection, pConsole, pSoundPlayer, x, y, pPhysicsWorld));
+	objects.push_back(new Jammer(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -258,11 +256,24 @@ void ObjectCollection::setLatestConsole() {
 }
 
 void ObjectCollection::runCollisionDetection() {
-	pPhysicsWorld->Step(1.0f / 60.0f , 1, 1);
 	for (int i = 0; i < objects.size(); i++) {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
 			for (int j = 0; j < objects.size(); j++) {
-				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable && objects[j]->getCollidability() > objects[i]->getCollidability()) {
+				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
+					if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
+						CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					}
+					else {
+						CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					}
+					
+					
+				}
+			}
+		}
+		if (objects[i]->getCollidability() == controllable) {
+			for (int j = i+1; j < objects.size(); j++) {
+				if (objects[j]->getCollidability() == controllable) {
 					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
 			}
@@ -474,15 +485,11 @@ void ObjectCollection::pullToPoint(float x, float y, int range){
 			direction.y = y - objects[i]->getBoundingBox().y;
 			distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 			if (distance < range) {
-				direction /= (distance);
-				//direction *= range;
-				objects[i]->getPhysicsBody()->ApplyForceToCenter(b2Vec2(direction.x*0.01, direction.y*0.01), true);
-				b2Vec2 vel = objects[i]->getPhysicsBody()->GetLinearVelocity();
-				float speed = sqrt(vel.x * vel.x + vel.y * vel.y);
-				direction *= speed;
-				direction = glm::vec2(vel.x * 0.7 + direction.x * 0.3, vel.y * 0.7 + direction.y * 0.3);
-				objects[i]->getPhysicsBody()->SetLinearVelocity(b2Vec2(direction.x, direction.y));
-				//objects[i]->push(direction.x, direction.y);
+				//direction /= (distance);
+				//float speed = sqrt(vel.x * vel.x + vel.y * vel.y);
+				//direction *= speed;
+				//direction = glm::vec2(vel.x * 0.7 + direction.x * 0.3, vel.y * 0.7 + direction.y * 0.3);
+
 			}
 
 		}

@@ -5,7 +5,7 @@
 
 class Wall : public Object {
 public:
-	Wall(SpriteCollection* pSpriteCollection, int x, int y, int width, int height, b2World* _pPhysicsWorld);
+	Wall(SpriteCollection* pSpriteCollection, int x, int y, int width, int height);
 	virtual void draw() override;
 private:
 	SpriteCollection* pSpriteCollection;

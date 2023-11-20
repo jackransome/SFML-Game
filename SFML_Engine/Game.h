@@ -56,7 +56,6 @@ private:
 	float shaderNoiseIntensity = 1;
 	float daylightPhase = 0;
 	sf::Shader* shaders[10];
-	b2World physicsWorld;
 	MultiPipelineManager multiPipelineManager;
 	ShaderManager shaderManager;
 	bool mainMenu = true;

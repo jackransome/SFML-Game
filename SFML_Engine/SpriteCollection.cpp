@@ -386,7 +386,6 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 }
 
 void SpriteCollection::drawAll() {
-	std::cout << currentDrawIndex << "\n";
 	if (toBlink) {
 		//pGraphics->drawRect(0, 0, 3000, 3000, sf::Color::Black);
 		//addAbsoluteRectDraw(0, 0, 4000, 4000, 10000000, sf::Color::Black);
@@ -550,7 +549,7 @@ void SpriteCollection::setLightShader(sf::Shader *shader) {
 	lightingShader = shader;
 }
 
-void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, int type) {
+void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, float type) {
 	if (numPointLights >= maxPointLights) {
 		std::cout << "MAX POINT LIGHTS REACHED\n";
 		//return;
@@ -565,7 +564,7 @@ void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float int
 	numPointLights++;
 }
 
-void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, int type){
+void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, float type){
 	beamLightPositions1[numBeamLights].x = p1.x;
 	beamLightPositions1[numBeamLights].y = p1.y;
 	beamLightPositions2[numBeamLights].x = p2.x;
@@ -574,7 +573,7 @@ void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colou
 	beamLightColours[numBeamLights].y = colour.y;
 	beamLightColours[numBeamLights].z = colour.z;
 	beamLightIntensities[numBeamLights] = intensity;
-	beamLightTypes[numPointLights] = type;
+	beamLightTypes[numBeamLights] = type;
 	numBeamLights++;
 }
 
@@ -611,6 +610,14 @@ void SpriteCollection::sendLightDataToShader(){
 	lightingShader->setUniformArray("beamLightColours", beamLightColours, 50);
 	lightingShader->setUniformArray("beamLightIntensities", beamLightIntensities, 50);
 	lightingShader->setUniformArray("beamLightTypes", beamLightTypes, 50);
+	if (numBeamLights > 0) {
+		std::cout << "NEW LIGHT\n";
+		std::cout << "x: " << beamLightPositions1[0].x << "y: " << beamLightPositions1[0].y << "\n";
+		std::cout << "x: " << beamLightPositions2[0].x << "y: " << beamLightPositions2[0].y << "\n";
+		std::cout << "int: " << beamLightIntensities[0] << "\n";
+		std::cout << "type: " << beamLightTypes[0] << "\n";
+	}
+	
 	numBeamLights = 0;
 
 	lightingShader->setUniform("ambientLightLevel", 0.05f);

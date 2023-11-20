@@ -1,7 +1,7 @@
 #include "MainCharacter.h"
 
-MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float _x, float _y, b2World* _pPhysicsWorld) :
-	Object(_x, _y, 16, 16, 0, controllable, true, _pPhysicsWorld),
+MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float _x, float _y) :
+	Object(_x, _y, 16, 16, 0, controllable, true),
 	Living(100, 2, factionFriendly),
 	Controllable(200) {
 	pInputManager = _pInputManager;
@@ -33,26 +33,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
 	miniAnimation.setChangeTimer(12);
 
-	// Create a dynamic body
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((float)_x/100, (float)_y/100);
-	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
-
-	// Attach a shape to the dynamic body
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox((boundingBox.w / 2) / 100, (boundingBox.h / 2) / 100);
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	physicsBody->CreateFixture(&fixtureDef);
-
-	physicsBodyType = 2;
 }
 
 void MainCharacter::update() {
-	b2Vec2 position = physicsBody->GetPosition();
 	//boundingBox.x = 100*position.x;
 	//boundingBox.y = 100*position.y;
 	boundingBox.xv = 0;

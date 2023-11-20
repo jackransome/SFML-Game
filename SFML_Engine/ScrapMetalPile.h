@@ -6,7 +6,7 @@
 
 class ScrapMetalPile : public Object, public Mineable {
 public:
-	ScrapMetalPile(SpriteCollection* _pSpriteCollection, int x, int y, b2World* _pPhysicsWorld);
+	ScrapMetalPile(SpriteCollection* _pSpriteCollection, int x, int y);
 	virtual void draw() override;
 private:
 	SpriteStack spriteStack;

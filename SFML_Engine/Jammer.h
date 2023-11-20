@@ -9,7 +9,7 @@
 
 class Jammer : public Object, public Living {
 public:
-	Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y, b2World* _pPhysicsWorld);
+	Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Jammer();
 	virtual void draw() override;
 	virtual void update() override;

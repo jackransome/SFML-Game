@@ -8,7 +8,7 @@
 
 class Relay : public Object, public Living, public Controllable {
 public:
-	Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y, b2World* _pPhysicsWorld);
+	Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Relay();
 	virtual void draw() override;
 	virtual void onDeath() override;

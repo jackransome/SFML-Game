@@ -1,7 +1,7 @@
 #include "AutoTurret.h"
 
-AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, b2World* _pPhysicsWorld) :
-	Object(_x, _y, 24, 24, 0, immovable, true, _pPhysicsWorld),
+AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y) :
+	Object(_x, _y, 24, 24, 0, immovable, true),
 	Living(100, 1, factionFriendly)
 {
 	target = glm::vec2(0, 0);
@@ -14,17 +14,6 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	canBePickedUp = true;
 	maxReload = 15;
 	type = objectAutoTurret;
-
-	// Create a kinematic body
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set((float)_x / 100, (float)_y / 100);
-	physicsBody = pPhysicsWorld->CreateBody(&bodyDef);
-
-	// Attach a shape to the kinematic body
-	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox((boundingBox.w / 2)/100, (boundingBox.h/2)/100);
-	physicsBody->CreateFixture(&kinematicBox, 0.0f);
 
 	physicsBodyType = 1;
 }
@@ -51,7 +40,7 @@ void AutoTurret::update() {
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);
 			reloadTimer = maxReload;
-			
+
 
 
 
@@ -72,7 +61,6 @@ void AutoTurret::update() {
 			*/
 		}
 	}
-	physicsBody->SetTransform(b2Vec2(boundingBox.x/100, boundingBox.y/100), 0);
 	reloadTimer--;
 }
 
