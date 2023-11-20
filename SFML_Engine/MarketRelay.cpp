@@ -182,6 +182,6 @@ void MarketRelay::draw() {
 	}
 	spriteStack.draw(boundingBox.x - 1, boundingBox.y - 1, boundingBox.y - 1, rotation);
 	//spriteSheet.draw(boundingBox.x, boundingBox.y-30, boundingBox.y);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 2, 1, false);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 0.2, 0, false);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 2, 1);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 11, boundingBox.y + 11 - 60), glm::vec3(160, 214, 255), 0.2, 0);
 }

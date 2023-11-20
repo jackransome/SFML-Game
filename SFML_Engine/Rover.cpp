@@ -146,8 +146,8 @@ void Rover::update() {
 void Rover::draw(){
 	//5,11 offset for the light
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1, false);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0);
 	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360, "bloom");
 }
 

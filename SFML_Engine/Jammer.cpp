@@ -35,8 +35,8 @@ Jammer::~Jammer() {
 void Jammer::draw(){
 	spriteStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	//spriteSheet.draw(boundingBox.x, boundingBox.y-30, boundingBox.y);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 8, boundingBox.y + 8 - 32), glm::vec3(160, 214, 255), 2, 1, false);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 8, boundingBox.y + 8 - 32), glm::vec3(160, 214, 255), 0.2, 0, false);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 8, boundingBox.y + 8 - 32), glm::vec3(160, 214, 255), 2, 1);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 8, boundingBox.y + 8 - 32), glm::vec3(160, 214, 255), 0.2, 0);
 }
 
 void Jammer::update(){

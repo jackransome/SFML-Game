@@ -143,11 +143,15 @@ void ObjectCollection::update() {
 				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
 					projectiles[i]->setPosition(CollisionDetection::getLineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer()));
 					hit = true;
+					glm::vec2 distVector = pConsole->getControlPosition() - objects[j]->getCenter();
+					float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
+					pConsole->addCommand(commandPlaySound, "laser_impact", 0.2 / (1 + distance / 100));
 				}
 			}
 		}
 		if (hit) {
 			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFromID());
+			//projectiles[i]->draw();
 			projectiles.erase(projectiles.begin() + i);
 			i--;
 		}

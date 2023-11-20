@@ -7,17 +7,6 @@
 #include "SpriteDraw.h"
 #include "Shader_Pipeline_Classes.h"
 
-struct LightSource {
-	LightSource() {}
-	LightSource(glm::vec2 _position, glm::vec3 _colour, float _intensity) {
-		position = _position;
-		colour = _colour;
-		intensity = _intensity;
-	}
-	glm::vec2 position;
-	glm::vec3 colour;
-	float intensity;
-};
 
 class SpriteCollection {
 public:
@@ -54,7 +43,8 @@ public:
 	void drawAll();
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color, sf::RenderTexture* target);
 	void addFont(std::string name);
-	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute);
+	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type);
+	void drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, int type);
 	void sendLightDataToShader();
 	void setWindowDimensions(int* w, int* h);
 	void setFullBrightMode(bool _mode);
@@ -88,15 +78,24 @@ private:
 	std::vector<sf::Font> fonts;
 	bool orderZ = false;
 	sf::Shader *lightingShader;
-	int maxLights = 200;
-	LightSource lightsources[200];
-	sf::Glsl::Vec2 lightPositions[200];
-	sf::Glsl::Vec3 lightColours[200];
-	float lightIntensities[200];
-	float lightTypes[200];
+	int maxPointLights = 100;
+	sf::Glsl::Vec2 pointLightPositions[100];
+	sf::Glsl::Vec3 pointLightColours[100];
+	float pointLightTypes[100];
+	float pointLightIntensities[100];
+	int numPointLights = 0;
+
+	int maxBeamLights = 50;
+	sf::Glsl::Vec2 beamLightPositions1[50];
+	sf::Glsl::Vec2 beamLightPositions2[50];
+	sf::Glsl::Vec3 beamLightColours[50];
+	float beamLightTypes[50];
+	float beamLightIntensities[50];
+	int numBeamLights = 0;
+
 	int* pWindowW;
 	int* pWindowH;
-	int numLights = 0;
+	
 	bool lastAbsolute = false;
 
 	void clearSpriteDraws();

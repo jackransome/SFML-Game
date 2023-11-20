@@ -316,7 +316,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader1.frag">
+    <None Include="shaders\lighting.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\test.frag">

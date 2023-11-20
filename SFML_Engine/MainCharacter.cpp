@@ -315,13 +315,13 @@ void MainCharacter::draw() {
 		}
 	}
 	if (eyeVisible1) {
-		pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 1, 1, false);
+		pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 1, 1);
 		
 	}
-	pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 0.03, 0, false);
-	pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 0.03, 0, false);
+	pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 0.03, 0);
+	pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 0.03, 0);
 	if (eyeVisible2) {
-		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1, 1, false);
+		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1, 1);
 		
 	}
 	//miniAnimation.run();

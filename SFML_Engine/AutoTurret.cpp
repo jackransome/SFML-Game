@@ -44,14 +44,14 @@ void AutoTurret::update() {
 			float timetoTarget = distance / projectileSpeed;
 			target += targetVel * timetoTarget;
 
-			pConsole->addCommand(commandPlaySound, "laser_shot", 0.2 / (1 + distance / 100));
+			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2 / (1 + distance / 100));
 
 			glm::vec2 shootPos = getCenter() + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);
 			reloadTimer = maxReload;
-
+			
 
 
 
@@ -81,8 +81,8 @@ void AutoTurret::draw() {
 	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cos(radians) -1 * sin(radians), 1 * sin(radians) + 1 * cos(radians) - 26);
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x-4, boundingBox.y-14, boundingBox.y+1, barrelRotation-90);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1, false);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0, false);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0);
 }
 
 void AutoTurret::setTarget(int x, int y, float xvel, float yvel) {

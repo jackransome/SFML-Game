@@ -15,7 +15,7 @@ public:
 private:
 	SpriteCollection* pSpriteCollection;
 	Console* pConsole;
-	float projectileSpeed = 30;
+	float projectileSpeed = 60;
 	glm::vec2 target;
 	glm::vec2 targetVel;
 	float barrelRotation = 0;

@@ -33,7 +33,7 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 
 	// Loading shaders with ShaderManager
 	shaderManager.loadShader("brightness_threshold", "shaders/brightness_threshold.frag", sf::Shader::Fragment);
-	shaderManager.loadShader("lighting", "shaders/shader1.frag", sf::Shader::Fragment);
+	shaderManager.loadShader("lighting", "shaders/lighting.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("test", "shaders/test.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("test2", "shaders/test2.frag", sf::Shader::Fragment);
 	shaderManager.loadShader("blur_h", "shaders/blur_h.frag", sf::Shader::Fragment);
@@ -162,6 +162,8 @@ Game::Game(sf::RenderWindow* pwindow) : physicsWorld(b2Vec2(0, 0)) {
 	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_2.wav");
 	soundPlayer.loadSound("transfer", "resources/sound_transfer.wav");
 	soundPlayer.loadSound("laser_shot", "resources/sound_laser_shot.wav");
+	soundPlayer.loadSound("laser_shot2", "resources/sound_laser_shot2.wav");
+	soundPlayer.loadSound("laser_impact", "resources/sound_laser_impact.wav");
 	soundPlayer.loadSound("drone_death_2", "resources/sound_drone_death_2.wav");
 	soundPlayer.loadSound("drone_zap_1", "resources/sound_drone_zap_1.wav");
 	soundPlayer.loadSound("drone_zap_2", "resources/sound_drone_zap_2.wav");
@@ -310,8 +312,8 @@ void Game::Draw() {
 		spriteCollection.setPipelineIndex(0);
 		//in game
 		camera.runscreenShake();
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 100, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1, 4500, 4500);
-		spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0, false);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1, 4500, 4500);
+		spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
 		objectCollection.draw();
 		snowSystem.draw(100000);
 		//objectCollection.drawHealthBars();

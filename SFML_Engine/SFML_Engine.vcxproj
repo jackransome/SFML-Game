@@ -258,7 +258,7 @@
     <None Include="shaders\colour.frag" />
     <None Include="shaders\default.frag" />
     <None Include="shaders\noise.frag" />
-    <None Include="shaders\shader1.frag" />
+    <None Include="shaders\lighting.frag" />
     <None Include="shaders\test.frag" />
     <None Include="shaders\test2.frag" />
   </ItemGroup>

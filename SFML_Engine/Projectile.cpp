@@ -27,8 +27,9 @@ void Projectile::pull(float _force, glm::vec2 _position){
 }
 
 void Projectile::draw(){
-	pSpriteCollection->drawLightSource(position, glm::vec3(255, 150, 100), 2, 1, false);
-	//pSpriteCollection->drawLightSource(position, glm::vec3(255, 150, 100), 0.04, 0, false);
+	pSpriteCollection->drawBeamLight(lastPosition, position, glm::vec3(255, 150, 100), 2, 1);
+	pSpriteCollection->drawBeamLight(lastPosition, position, glm::vec3(255, 150, 100), 2, 0);
+	
 }
 
 void Projectile::setPosition(glm::vec2 _position){

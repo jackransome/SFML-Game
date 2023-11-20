@@ -388,10 +388,11 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 void SpriteCollection::drawAll() {
 	std::cout << currentDrawIndex << "\n";
 	if (toBlink) {
-		pGraphics->drawRect(0, 0, 3000, 3000, sf::Color::Black);
+		//pGraphics->drawRect(0, 0, 3000, 3000, sf::Color::Black);
+		//addAbsoluteRectDraw(0, 0, 4000, 4000, 10000000, sf::Color::Black);
 		toBlink = false;
-		clearSpriteDraws();
-		return;
+		//clearSpriteDraws();
+		//return;
 	}
 	sendLightDataToShader();
 	if (orderZ) {
@@ -549,17 +550,32 @@ void SpriteCollection::setLightShader(sf::Shader *shader) {
 	lightingShader = shader;
 }
 
-void SpriteCollection::drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, int type, bool absolute) {
-	if (numLights >= maxLights) {
-		std::cout << "MAX LIGHTS REACHED\n";
-		return;
+void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, int type) {
+	if (numPointLights >= maxPointLights) {
+		std::cout << "MAX POINT LIGHTS REACHED\n";
+		//return;
 	}
-	lightColours[numLights] = sf::Glsl::Vec3(colour.r, colour.g, colour.b);
-	lightPositions[numLights] = sf::Glsl::Vec2(position.x, position.y);
+	pointLightPositions[numPointLights].x = p1.x;
+	pointLightPositions[numPointLights].y = p1.y;
+	pointLightColours[numPointLights].x = colour.x;
+	pointLightColours[numPointLights].y = colour.y;
+	pointLightColours[numPointLights].z = colour.z;
+	pointLightIntensities[numPointLights] = intensity;
+	pointLightTypes[numPointLights] = type;
+	numPointLights++;
+}
 
-	lightIntensities[numLights] = intensity;
-	lightTypes[numLights] = type;
-	numLights++;
+void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, int type){
+	beamLightPositions1[numBeamLights].x = p1.x;
+	beamLightPositions1[numBeamLights].y = p1.y;
+	beamLightPositions2[numBeamLights].x = p2.x;
+	beamLightPositions2[numBeamLights].y = p2.y;
+	beamLightColours[numBeamLights].x = colour.x;
+	beamLightColours[numBeamLights].y = colour.y;
+	beamLightColours[numBeamLights].z = colour.z;
+	beamLightIntensities[numBeamLights] = intensity;
+	beamLightTypes[numPointLights] = type;
+	numBeamLights++;
 }
 
 void SpriteCollection::clearSpriteDraws() {
@@ -575,15 +591,28 @@ void SpriteCollection::clearSpriteDraws() {
 }
 
 void SpriteCollection::sendLightDataToShader(){
-	for (int i = 0; i < numLights; i++) {
-		lightPositions[i] = sf::Glsl::Vec2(lightPositions[i].x - pCamera->getPosition().x + *pWindowW / 2, -lightPositions[i].y + pCamera->getPosition().y + *pWindowH / 2);
+	for (int i = 0; i < numPointLights; i++) {
+		pointLightPositions[i] = sf::Glsl::Vec2(pointLightPositions[i].x - pCamera->getPosition().x + *pWindowW / 2, -pointLightPositions[i].y + pCamera->getPosition().y + *pWindowH / 2);
 	}
-	lightingShader->setUniform("numLights", (float)numLights);
-	lightingShader->setUniformArray("lightPositions", lightPositions, 100);
-	lightingShader->setUniformArray("lightColours", lightColours, 100);
-	lightingShader->setUniformArray("lightIntensities", lightIntensities, 100);
-	lightingShader->setUniformArray("lightTypes", lightTypes, 100);
-	numLights = 0;
+	lightingShader->setUniform("numPointLights", (float)numPointLights);
+	lightingShader->setUniformArray("pointLightPositions", pointLightPositions, 100);
+	lightingShader->setUniformArray("pointLightColours", pointLightColours, 100);
+	lightingShader->setUniformArray("pointLightIntensities", pointLightIntensities, 100);
+	lightingShader->setUniformArray("pointLightTypes", pointLightTypes, 100);
+	numPointLights = 0;
+
+	for (int i = 0; i < numBeamLights; i++) {
+		beamLightPositions1[i] = sf::Glsl::Vec2(beamLightPositions1[i].x - pCamera->getPosition().x + *pWindowW / 2, -beamLightPositions1[i].y + pCamera->getPosition().y + *pWindowH / 2);
+		beamLightPositions2[i] = sf::Glsl::Vec2(beamLightPositions2[i].x - pCamera->getPosition().x + *pWindowW / 2, -beamLightPositions2[i].y + pCamera->getPosition().y + *pWindowH / 2);
+	}
+	lightingShader->setUniform("numBeamLights", (float)numBeamLights);
+	lightingShader->setUniformArray("beamLightPositions1", beamLightPositions1, 50);
+	lightingShader->setUniformArray("beamLightPositions2", beamLightPositions2, 50);
+	lightingShader->setUniformArray("beamLightColours", beamLightColours, 50);
+	lightingShader->setUniformArray("beamLightIntensities", beamLightIntensities, 50);
+	lightingShader->setUniformArray("beamLightTypes", beamLightTypes, 50);
+	numBeamLights = 0;
+
 	lightingShader->setUniform("ambientLightLevel", 0.05f);
 	lightingShader->setUniform("ambientLightColour", sf::Glsl::Vec3(255,255,255));
 	lightingShader->setUniform("time", (float)(frame % 30));
