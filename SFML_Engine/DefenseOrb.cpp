@@ -69,12 +69,12 @@ void DefenseOrb::update(){
 			}
 			beamSoundPlaying = false;
 		}
-		if (pInputManager->isKeyDown(mouseR)) {
+		if (pInputManager->onKeyDown(mouseR)) {
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cos(3.1415 * rotation / 180.0f), 12 * sin(3.1415 * rotation / 180.0f) - 8 + sin(bob_counter) * 3);
 			//pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, target.x, target.y, id);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 40, id);
+			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60, id);
 
 			
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2);
@@ -89,8 +89,8 @@ void DefenseOrb::onDeath() {
 
 void DefenseOrb::draw()
 {
-	float bobHeight = sin(bob_counter) * 3;
-	bob_counter += 0.1;
+	float bobHeight = sin(bob_counter) * 4;
+	bob_counter += 0.15;
 	
 	glm::vec2 lightPos = getCenter() + glm::vec2(4 * cos(3.1415 * (rotation + 135) / 180.0f), 4 * sin(3.1415 * (rotation + 135) / 180.0f) - 28 + sin(bob_counter) * 3);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1);

@@ -194,6 +194,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
 	soundPlayer.loadSound("drone_hit_4", "resources/sound_drone_hit_4.wav");
 	soundPlayer.loadSound("explosion", "resources/sound_explosion.wav");
+	soundPlayer.loadSound("explosion1", "resources/sound_explosion1.wav");
+	soundPlayer.loadSound("explosion2", "resources/sound_explosion2.wav");
+	soundPlayer.loadSound("explosion3", "resources/sound_explosion3.wav");
+	soundPlayer.loadSound("explosion4", "resources/sound_explosion4.wav");
 	soundPlayer.loadSound("beam_1", "resources/sound_beam_3.wav");
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
@@ -212,7 +216,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.setWindowDimensions(&screenW, &screenH);
 	ambientLightColour = sf::Glsl::Vec3(255/255.0, 253/255.0, 240/255.0);
 	//console.addCommand(commandPlaySound, "wind");
-	int id = soundPlayer.playSoundByName("wind", 0.20);
+	int id = soundPlayer.playSoundByName("wind", 0.15);
 	soundPlayer.loopSound(id);
 	//blizzard conditions
 
@@ -430,7 +434,7 @@ void Game::loadGameplay(){
 
 	soundPlayer.stopSound(music_id);
 	soundPlayer.update();
-	music_id = soundPlayer.playSoundByName("475", 0.6);
+	music_id = soundPlayer.playSoundByName("475", 0.5);
 	soundPlayer.loopSound(music_id);
 }
 

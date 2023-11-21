@@ -85,7 +85,7 @@ void Enemy::update() {
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)
-	pSoundPlayer->setVolume(AmbientSoundId, 0.2*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	pSoundPlayer->setVolume(AmbientSoundId, 0.15*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 }
 
 void Enemy::draw() {
@@ -103,8 +103,7 @@ void Enemy::draw() {
 }
 
 void Enemy::onDeath(){
-	pConsole->addCommand(commandPlaySound, "drone_death_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-	pConsole->addCommand(commandPlaySound, "explosion", 0.6 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	//pConsole->addCommand(commandPlaySound, "drone_death_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 5 + rand()%10);
 	pConsole->addCommand(commandShakeScreen, 12.5f);

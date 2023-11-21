@@ -15,7 +15,13 @@ ScrapMetalDrop::ScrapMetalDrop(SpriteCollection* _pSpriteCollection, int _x, int
 
 void ScrapMetalDrop::draw() {
 	//rotation += 2;
-	bob_counter += 0.1;
+	if (!pickedUp) {
+		bob_counter += 0.1;
+	}
+	else {
+		bob_counter = 0;
+	}
+	
 	spriteStack.draw(boundingBox.x, boundingBox.y + sin(bob_counter)*5, boundingBox.y, rotation);
 }
 

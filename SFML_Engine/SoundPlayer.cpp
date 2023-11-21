@@ -95,7 +95,7 @@ void SoundPlayer::setVolume(int id, float volume){
 
 float SoundPlayer::getSpatialVolume(glm::vec2 pos1, glm::vec2 pos2)
 {
-	return 1 / (1 + pow(sqrt(pow(pos1.x-pos2.x,2)+ pow(pos1.y - pos2.y, 2)) / 200, 2));
+	return 1 / (1 + pow(sqrt(pow(pos1.x-pos2.x,2)+ pow(pos1.y - pos2.y, 2)) / 200, 2)/1.7);
 }
 
 void SoundPlayer::update() {

@@ -13,7 +13,7 @@ Explosion::Explosion(SpriteCollection* _pSpriteCollection, Console* _pConsole, S
 		pConsole->addCommand(commandAddObject, objectSmoke, getCenter().x + 2 * (-(size*2) / 2 + rand() % (int)(size*2)), getCenter().y + 2 * (-(size * 2) / 2 + rand() % (int)(size * 2)));
 	}
 	pConsole->addCommand(commandShakeScreen, (size/5)*12.5f);
-	pConsole->addCommand(commandPlaySound, "explosion", size/10 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	pConsole->addCommand(commandPlaySound, "explosion" + std::to_string(rand() % 3 + 1), size/4 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 }
 
 void Explosion::draw()
