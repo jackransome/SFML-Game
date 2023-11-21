@@ -29,8 +29,9 @@ void Relay::draw() {
 	spriteStack.draw(boundingBox.x-3, boundingBox.y-3, boundingBox.y-3, rotation);
 }
 
-void Relay::onDeath(){
-	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x, getCenter().y);
+void Relay::onDeath() {
+	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
+	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 15 + rand() % 10);
 }
 
 void Relay::update() {

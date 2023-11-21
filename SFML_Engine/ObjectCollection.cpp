@@ -40,6 +40,11 @@ void ObjectCollection::draw() {
 	for (int i = 0; i < projectiles.size(); i++) {
 		projectiles[i]->draw();
 	}
+	for (int i = 0; i < numBeamsToDraw; i++) {
+		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.075, 0);
+		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.5, 0.5);
+	}
+	numBeamsToDraw = 0;
 }
 
 void ObjectCollection::update() {
@@ -154,6 +159,28 @@ void ObjectCollection::update() {
 			projectiles[i]->toDelete = true;
 		}
 	}
+	for (int i = 0; i < numBeams; i++) {
+		bool hit = false;
+		glm::vec2 start = glm::vec2(beams[i].r, beams[i].g);
+		glm::vec2 end = glm::vec2(beams[i].b, beams[i].a);
+		for (int j = 0; j < objects.size(); j++) {
+			if (objects[j]->getId() != beamsFrom[i] && CollisionDetection::lineRectCollision(start, end, objects[j]->getBoundingBoxPointer())) {
+				end = CollisionDetection::getLineRectCollision(start, end, objects[j]->getBoundingBoxPointer());
+				beams[i].b = end.x;
+				beams[i].a = end.y;
+				hit = true;
+			}
+		}
+		if (hit) {
+			pConsole->addCommand(commandDoAEODamage, end.x, end.y, 30, 2, beamsFrom[i]);
+		}
+	}
+	if (numBeams) {
+		beamsToDraw = beams;
+		numBeamsToDraw = numBeams;
+		numBeams = 0;
+	}
+
 	frame++;
 }
 
@@ -168,6 +195,19 @@ void ObjectCollection::addFootPrint(float x, float y) {
 	setLatestId();
 	setLatestConsole();
 }
+
+void ObjectCollection::addSmoke(float x, float y){
+	objects.push_back(new Smoke(pSpriteCollection, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addExplosion(float x, float y, float size) {
+	objects.push_back(new Explosion(pSpriteCollection, pConsole, pSoundPlayer, x, y, size));
+	setLatestId();
+	setLatestConsole();
+}
+
 
 void ObjectCollection::addRoverTracks(float x, float y, float rotation){
 	objects.push_back(new RoverTracks(pSpriteCollection, x, y, rotation));
@@ -231,7 +271,7 @@ void ObjectCollection::addMarketRelay(int x, int y){
 }
 
 void ObjectCollection::addAutoTurret(int x, int y){
-	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, x, y));
+	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -242,8 +282,23 @@ void ObjectCollection::addJammer(int x, int y){
 	setLatestConsole();
 }
 
+void ObjectCollection::addDefenseOrb(int x, int y){
+	objects.push_back(new DefenseOrb(pInputManager, pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
 	projectiles.push_back(new Projectile(pSpriteCollection, _x, _y, _rotation, _speed, _fromID));
+}
+
+void ObjectCollection::addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID){
+	if (numBeams >= maxBeams) {
+		std::cout << "MAX BEAMS REACHED\n";
+	}
+	beams[numBeams] = glm::vec4(_x1, _y1, _x2, _y2);
+	beamsFrom[numBeams] = _fromID;
+	numBeams++;
 }
 
 void ObjectCollection::setLatestId() {
@@ -577,6 +632,9 @@ void ObjectCollection::freeObjectMemory(int index) {
 		break;
 	case objectMarketRelay:
 		delete dynamic_cast<MarketRelay*>(objects[index]);
+		break;
+	case objectDefenseOrb:
+		delete dynamic_cast<DefenseOrb*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

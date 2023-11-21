@@ -16,12 +16,18 @@ void CommandExecuter::execute(Command command) {
 		switch (command.objectType) {
 		case objectFootprint:
 			pObjectCollection->addFootPrint(command.f1, command.f2);
-				break;
+			break;
+		case objectSmoke:
+			pObjectCollection->addSmoke(command.f1, command.f2);
+			break;
 		case objectAction1animation:
 			pObjectCollection->addAction1Animation(command.f1, command.f2);
 			break;
 		case objectRoverTracks:
 			pObjectCollection->addRoverTracks(command.f1, command.f2, command.f3);
+			break;
+		case objectExplosion:
+			pObjectCollection->addExplosion(command.f1, command.f2, command.f3);
 			break;
 		case objectScrapMetalDrop:
 			pObjectCollection->addScapMetalDrop(command.f1, command.f2);
@@ -34,6 +40,9 @@ void CommandExecuter::execute(Command command) {
 			break;
 		case objectJammer:
 			pObjectCollection->addJammer(command.f1, command.f2);
+			break;
+		case objectDefenseOrb:
+			pObjectCollection->addDefenseOrb(command.f1, command.f2);
 			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
@@ -98,6 +107,9 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandAddProjectile:
 		pObjectCollection->addProjectile(command.f1, command.f2, command.f3, command.f4, command.a);
+		break;
+	case commandAddBeam:
+		pObjectCollection->addBeam(command.f1, command.f2, command.f3, command.f4, command.a);
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

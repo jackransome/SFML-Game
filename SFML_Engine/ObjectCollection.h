@@ -18,6 +18,11 @@
 #include "AutoTurret.h"
 #include "Projectile.h"
 #include "Jammer.h"
+#include "DefenseOrb.h"
+#include "Explosion.h"
+#include "Smoke.h"
+
+#include <array>
 
 class ObjectCollection {
 public:
@@ -27,6 +32,8 @@ public:
 	void update();
 	void addMainCharacter(float x, float y);
 	void addFootPrint(float x, float y);
+	void addSmoke(float x, float y);
+	void addExplosion(float x, float y, float size);
 	void addRoverTracks(float x, float y, float rotation);
 	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
@@ -39,7 +46,9 @@ public:
 	void addMarketRelay(int x, int y);
 	void addAutoTurret(int x, int y);
 	void addJammer(int x, int y);
+	void addDefenseOrb(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
+	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection();
@@ -73,6 +82,12 @@ private:
 	Camera* pCamera;
 	std::vector<Object*> objects;
 	std::vector<Projectile*> projectiles;
+	int maxBeams = 20;
+	int numBeams = 0;
+	std::array<glm::vec4, 20> beams;
+	int beamsFrom[20];
+	int numBeamsToDraw = 0;
+	std::array<glm::vec4, 20> beamsToDraw;
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;

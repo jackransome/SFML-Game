@@ -170,9 +170,11 @@
     <ClCompile Include="ControlSwitcher.cpp" />
     <ClCompile Include="Crate.cpp" />
     <ClCompile Include="Decoration.cpp" />
+    <ClCompile Include="DefenseOrb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventLoader.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FootPrint.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -191,6 +193,7 @@
     <ClCompile Include="RoverTracks.cpp" />
     <ClCompile Include="ScrapMetalDrop.cpp" />
     <ClCompile Include="ScrapMetalPile.cpp" />
+    <ClCompile Include="Smoke.cpp" />
     <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
@@ -213,10 +216,12 @@
     <ClInclude Include="ControlSwitcher.h" />
     <ClInclude Include="Crate.h" />
     <ClInclude Include="Decoration.h" />
+    <ClInclude Include="DefenseOrb.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventLoader.h" />
     <ClInclude Include="EventType.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="FootPrint.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
@@ -238,6 +243,7 @@
     <ClInclude Include="ScrapMetalPile.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Shader_Pipeline_Classes.h" />
+    <ClInclude Include="Smoke.h" />
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />

@@ -11,6 +11,7 @@ class MainCharacter : public Object, public Living, public Controllable {
 public:
 	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y);
 	virtual void update() override;
+	virtual void onDeath() override;
 	virtual void draw() override;
 private:
 	int blinkCounter = 0;

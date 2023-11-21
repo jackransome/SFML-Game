@@ -3,13 +3,15 @@
 #include "SpriteSheet.h"
 #include "Living.h"
 #include "SpriteStack.h"
+#include "SoundPlayer.h"
 
 class AutoTurret : public Object, public Living {
 public:
-	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y);
+	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
 	virtual void update() override;
 	virtual void draw() override;
 	void setTarget(int x, int y, float xvel, float yvel);
+	virtual void onDeath() override;
 	void RemoveTarget();
 	int getTargetingRange();
 private:
@@ -21,6 +23,7 @@ private:
 	float barrelRotation = 0;
 	SpriteStack baseStack;
 	SpriteStack barrelStack;
+	SoundPlayer* pSoundPlayer;
 	bool hasTarget = false;
 	int targetingRange;
 	int reloadTimer = 0;

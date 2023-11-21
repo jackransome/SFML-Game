@@ -552,7 +552,7 @@ void SpriteCollection::setLightShader(sf::Shader *shader) {
 void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, float type) {
 	if (numPointLights >= maxPointLights) {
 		std::cout << "MAX POINT LIGHTS REACHED\n";
-		//return;
+		return;
 	}
 	pointLightPositions[numPointLights].x = p1.x;
 	pointLightPositions[numPointLights].y = p1.y;
@@ -565,6 +565,10 @@ void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float int
 }
 
 void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colour, float intensity, float type){
+	if (numBeamLights >= maxBeamLights) {
+		std::cout << "MAX BEAM LIGHTS REACHED\n";
+		return;
+	}
 	beamLightPositions1[numBeamLights].x = p1.x;
 	beamLightPositions1[numBeamLights].y = p1.y;
 	beamLightPositions2[numBeamLights].x = p2.x;
@@ -610,13 +614,6 @@ void SpriteCollection::sendLightDataToShader(){
 	lightingShader->setUniformArray("beamLightColours", beamLightColours, 50);
 	lightingShader->setUniformArray("beamLightIntensities", beamLightIntensities, 50);
 	lightingShader->setUniformArray("beamLightTypes", beamLightTypes, 50);
-	if (numBeamLights > 0) {
-		std::cout << "NEW LIGHT\n";
-		std::cout << "x: " << beamLightPositions1[0].x << "y: " << beamLightPositions1[0].y << "\n";
-		std::cout << "x: " << beamLightPositions2[0].x << "y: " << beamLightPositions2[0].y << "\n";
-		std::cout << "int: " << beamLightIntensities[0] << "\n";
-		std::cout << "type: " << beamLightTypes[0] << "\n";
-	}
 	
 	numBeamLights = 0;
 

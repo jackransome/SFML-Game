@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <iostream>
 #include <ctime>
+#include "CollisionDetection.h"
 
 Game::Game(sf::RenderWindow* pwindow)  {
 	screenW = pwindow->getSize().x;
@@ -128,11 +129,16 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("market_relay_stack_1", "resources/market_relay_stack_1.png");
 	spriteCollection.loadTexture("autoturret_base_stack", "resources/autoturret_base_stack.png");
 	spriteCollection.loadTexture("autoturret_barrel_stack", "resources/autoturret_barrel_stack.png");
+	spriteCollection.loadTexture("DefenseOrb_stack", "resources/DefenseOrbStack.png");
 	spriteCollection.loadTexture("white_rect", "resources/white_rect.png");
 	spriteCollection.loadTexture("menu_bg", "resources/menu_bg.png");
 	spriteCollection.loadTexture("menu_mc", "resources/menu_mc_p.png");
 	spriteCollection.loadTexture("menu_eyes", "resources/menu_eyes_p.png");
 	spriteCollection.loadTexture("menu_snow", "resources/menu_snow.png");
+	spriteCollection.loadTexture("decoration_smoke_1", "resources/smoke_1.png");
+	spriteCollection.loadTexture("decoration_smoke_2", "resources/smoke_2.png");
+	spriteCollection.loadTexture("decoration_smoke_3", "resources/smoke_3.png");
+	spriteCollection.loadTexture("decoration_smoke_4", "resources/smoke_4.png");
 	spriteCollection.loadTexture("decoration_footprint_1", "resources/decoration_footprint_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");
@@ -140,6 +146,16 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
+	
+	glm::vec2 _p1 = glm::vec2(819.454712,-128.555573);
+	glm::vec2 _p2 = glm::vec2(1366.09082, -680.026733);
+	BoundingBox _boundingBox;
+	_boundingBox.x = 899.000000;
+	_boundingBox.y = -247.000000;
+	_boundingBox.w = 32.0000000;
+	_boundingBox.h = 32;
+	glm::vec2 left = CollisionDetection::getLineIntersect(_p1, _p2, glm::vec2(_boundingBox.x, _boundingBox.y), glm::vec2(_boundingBox.x, _boundingBox.y + _boundingBox.h));
+	glm::vec2 bottom = CollisionDetection::getLineIntersect(_p1, _p2, glm::vec2(_boundingBox.x, _boundingBox.y), glm::vec2(_boundingBox.x + _boundingBox.w, _boundingBox.y));
 	soundPlayer.loadSound("hh", "resources/hh.wav");
 	soundPlayer.loadSound("ohh", "resources/ohh.wav");
 	soundPlayer.loadSound("sh", "resources/sh.wav");
@@ -177,6 +193,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("drone_hit_2", "resources/sound_drone_hit_2.wav");
 	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
 	soundPlayer.loadSound("drone_hit_4", "resources/sound_drone_hit_4.wav");
+	soundPlayer.loadSound("explosion", "resources/sound_explosion.wav");
+	soundPlayer.loadSound("beam_1", "resources/sound_beam_3.wav");
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");

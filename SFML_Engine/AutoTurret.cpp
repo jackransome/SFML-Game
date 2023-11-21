@@ -1,6 +1,6 @@
 #include "AutoTurret.h"
 
-AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y) :
+AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
 	Living(100, 1, factionFriendly)
 {
@@ -8,6 +8,7 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
 	type = objectNull;
+	pSoundPlayer = _pSoundPlayer;
 	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2); //CHANGE
 	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 8, 2); //CHANGE
 	targetingRange = 600;
@@ -16,6 +17,10 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	type = objectAutoTurret;
 
 	physicsBodyType = 1;
+}
+void AutoTurret::onDeath() {
+	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
+	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
 }
 
 void AutoTurret::update() {

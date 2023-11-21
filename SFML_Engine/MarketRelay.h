@@ -12,8 +12,8 @@ public:
 	MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~MarketRelay();
 	virtual void draw() override;
-	virtual void update() override;
 	virtual void onDeath() override;
+	virtual void update() override;
 	void addCredit(int _credit);
 private:
 	SpriteCollection* pSpriteCollection;

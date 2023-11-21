@@ -1,5 +1,7 @@
 #include  "CollisionDetection.h"
 #include <iostream>
+#include <limits>
+
 struct collisionResult { collisionResult() : left(false), right(false), top(false), bottom(false) {} bool left; bool right; bool top; bool bottom; };
 
 CollisionDetection::CollisionDetection() {}
@@ -425,14 +427,34 @@ bool CollisionDetection::checkParallel(glm::vec2 _p1, glm::vec2 _p2, glm::vec2 _
 	}
 	return false;
 }
+//glm::vec2 CollisionDetection::getLineIntersect(glm::vec2 _p1, glm::vec2 _p2, glm::vec2 _p3, glm::vec2 _p4) {
+//	if (((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)) == 0) {
+//		//they're parallel
+//		return glm::vec2(NULL, NULL);
+//	}
+//	else {
+//		return glm::vec2(((_p1.x * _p2.y - _p1.y * _p2.x) * (_p3.x - _p4.x) - (_p1.x - _p2.x) * (_p3.x * _p4.y - _p3.y * _p4.x)) / ((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)), ((_p1.x * _p2.y - _p1.y * _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x * _p4.y - _p3.y * _p4.x)) / ((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)));
+//	}
+//}
+
 glm::vec2 CollisionDetection::getLineIntersect(glm::vec2 _p1, glm::vec2 _p2, glm::vec2 _p3, glm::vec2 _p4) {
-	if (((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)) == 0) {
-		//they're parallel
-		return glm::vec2(NULL, NULL);
+	glm::vec2 r = _p2 - _p1; // Direction vector of first line
+	glm::vec2 s = _p4 - _p3; // Direction vector of second line
+
+	float rxs = glm::cross(glm::vec3(r, 0), glm::vec3(s, 0)).z;
+	glm::vec2 qp = _p3 - _p1;
+	float qpxr = glm::cross(glm::vec3(qp, 0), glm::vec3(r, 0)).z;
+
+	// Check if lines are parallel (cross product is close to zero)
+	if (std::abs(rxs) < std::numeric_limits<float>::epsilon()) {
+		// Lines are parallel, no intersection or are collinear (infinite intersections)
+		return glm::vec2(std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::quiet_NaN());
 	}
-	else {
-		return glm::vec2(((_p1.x * _p2.y - _p1.y * _p2.x) * (_p3.x - _p4.x) - (_p1.x - _p2.x) * (_p3.x * _p4.y - _p3.y * _p4.x)) / ((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)), ((_p1.x * _p2.y - _p1.y * _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x * _p4.y - _p3.y * _p4.x)) / ((_p1.x - _p2.x) * (_p3.y - _p4.y) - (_p1.y - _p2.y) * (_p3.x - _p4.x)));
-	}
+
+	float t = glm::cross(glm::vec3(qp, 0), glm::vec3(s, 0)).z / rxs;
+
+	// The intersection point can then be calculated as:
+	return _p1 + t * r;
 }
 float CollisionDetection::getDistance(glm::vec2 _p1, glm::vec2 _p2)
 {
@@ -460,7 +482,7 @@ bool CollisionDetection::lineRectCollision(glm::vec2 _p1, glm::vec2 _p2, Boundin
 	if (!CheckRectangleIntersect(&line, _boundingBox)) {
 		return false;
 	}
-		//doing the test
+	//doing the test
 	glm::vec2 left = getLineIntersect(_p1, _p2, glm::vec2(_boundingBox->x, _boundingBox->y), glm::vec2(_boundingBox->x, _boundingBox->y + _boundingBox->h));
 	glm::vec2 right = getLineIntersect(_p1, _p2, glm::vec2(_boundingBox->x + _boundingBox->w, _boundingBox->y), glm::vec2(_boundingBox->x + _boundingBox->w, _boundingBox->y + _boundingBox->h));
 	glm::vec2 bottom = getLineIntersect(_p1, _p2, glm::vec2(_boundingBox->x, _boundingBox->y), glm::vec2(_boundingBox->x + _boundingBox->w, _boundingBox->y));
@@ -494,13 +516,13 @@ glm::vec2 CollisionDetection::getLineRectCollision(glm::vec2 _p1, glm::vec2 _p2,
 		}
 	}
 	if (isBetween(_boundingBox->y, _boundingBox->h + _boundingBox->y, right.y) && isBetween(_p1.x, _p2.x, right.x)) {
-		if (getDistance(right, _p2) < distance) {
+		if (getDistance(right, _p1) < distance) {
 			final = right;
 			distance = getDistance(right, _p1);
 		}
 	}
 	if (isBetween(_boundingBox->x, _boundingBox->w + _boundingBox->x, top.x) && isBetween(_p1.y, _p2.y, top.y)) {
-		if (getDistance(top, _p2) < distance) {
+		if (getDistance(top, _p1) < distance) {
 			final = top;
 			distance = getDistance(top, _p1);
 		}

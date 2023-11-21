@@ -35,6 +35,11 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 
 }
 
+void MainCharacter::onDeath() {
+	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
+	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
+}
+
 void MainCharacter::update() {
 	//boundingBox.x = 100*position.x;
 	//boundingBox.y = 100*position.y;
