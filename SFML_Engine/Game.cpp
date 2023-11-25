@@ -135,10 +135,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("menu_mc", "resources/menu_mc_p.png");
 	spriteCollection.loadTexture("menu_eyes", "resources/menu_eyes_p.png");
 	spriteCollection.loadTexture("menu_snow", "resources/menu_snow.png");
-	spriteCollection.loadTexture("decoration_smoke_1", "resources/smoke_1.png");
-	spriteCollection.loadTexture("decoration_smoke_2", "resources/smoke_2.png");
-	spriteCollection.loadTexture("decoration_smoke_3", "resources/smoke_3.png");
-	spriteCollection.loadTexture("decoration_smoke_4", "resources/smoke_4.png");
+	spriteCollection.loadTexture("decoration_smoke_1", "resources/smoke_12.png");
+	spriteCollection.loadTexture("decoration_smoke_2", "resources/smoke_22.png");
+	spriteCollection.loadTexture("decoration_smoke_3", "resources/smoke_32.png");
+	spriteCollection.loadTexture("decoration_smoke_4", "resources/smoke_42.png");
 	spriteCollection.loadTexture("decoration_footprint_1", "resources/decoration_footprint_1.png");
 	sprite1 = spriteCollection.getPointerFromName("pic1");
 	sprite2 = spriteCollection.getPointerFromName("pic2");

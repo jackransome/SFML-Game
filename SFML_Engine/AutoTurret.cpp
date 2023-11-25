@@ -40,7 +40,7 @@ void AutoTurret::update() {
 
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2 / (1 + distance / 100));
 
-			glm::vec2 shootPos = getCenter() + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
+			glm::vec2 shootPos = getCenter() + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f));
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);

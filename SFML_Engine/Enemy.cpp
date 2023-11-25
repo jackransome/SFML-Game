@@ -89,14 +89,14 @@ void Enemy::update() {
 }
 
 void Enemy::draw() {
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y-12), glm::vec3(255, 0, 0), 2, 1);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), glm::vec3(255, 0, 0), 0.04, 0);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y + 6), glm::vec3(255, 0, 0), 2, 1);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y + 6), glm::vec3(255, 0, 0), 0.04, 0);
 	if (hasTarget) {
 		//pSpriteCollection->drawBeamLight(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), target, glm::vec3(255, 0, 0), 0.04, 0);
 		pSpriteCollection->drawBeamLight(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), target, glm::vec3(255, 0, 0), 0.2, 2);
 	}
 	mainAnimation.run();
-	mainAnimation.draw(boundingBox.x, boundingBox.y-18, boundingBox.y + boundingBox.h);
+	mainAnimation.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
 	//pSpriteCollection->addShaderToLast("blur_h");
 	//pSpriteCollection->addShaderToLast("blur_v");
 	//pSpriteCollection->addShaderToLast("blend");

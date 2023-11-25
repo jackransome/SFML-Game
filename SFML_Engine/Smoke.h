@@ -10,5 +10,6 @@ protected:
 	float decay;
 	float opacity;
 	float height;
+	float riseSpeed;
 	std::string image;
 };

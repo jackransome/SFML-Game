@@ -2,20 +2,22 @@
 
 Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y) :
 	Decoration(_pSpriteCollection, x, y) {
-	opacity = 0.3;
-	decay = 0.97;
+	//opacity = 0.3;
+	opacity = 0.25 + 0.5 * (rand() % 10) / 10;
+	decay = 0.975 - float(rand() % 8) * 0.025;
+	riseSpeed = 0.75 + float(rand() % 8) / 8;
 	type = objectFootprint;
 	image = "decoration_smoke_" + std::to_string(rand()%4 + 1);
 	rotation = rand() % 360;
 }
 
 void Smoke::draw() {
-	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName(image), boundingBox.x - 7, boundingBox.y - 7 - height, -10000, 2, opacity, rotation, 8, 8, 14, 14);
+	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName(image), boundingBox.x - 7, boundingBox.y - 7 - height, -10000, 3, opacity, rotation, 8, 8, 14, 14);
 }
 
 void Smoke::update() {
 	opacity *= decay;
-	height++;
+	height += riseSpeed;
 	if (opacity < 0.03) {
 		toDestroy = true;
 	}

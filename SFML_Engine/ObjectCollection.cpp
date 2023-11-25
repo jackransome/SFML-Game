@@ -143,7 +143,7 @@ void ObjectCollection::update() {
 		hit = false;
 		projectiles[i]->run();
 		for (int j = 0; j < objects.size(); j++) {
-			if (objects[j]->getId() != projectiles[i]->getFromID()) {
+			if (objects[j]->getId() != projectiles[i]->getFromID() && objects[j]->getType() != objectScrapMetalDrop) {
 				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
 					projectiles[i]->setPosition(CollisionDetection::getLineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer()));
 					hit = true;
@@ -164,7 +164,7 @@ void ObjectCollection::update() {
 		glm::vec2 start = glm::vec2(beams[i].r, beams[i].g);
 		glm::vec2 end = glm::vec2(beams[i].b, beams[i].a);
 		for (int j = 0; j < objects.size(); j++) {
-			if (objects[j]->getId() != beamsFrom[i] && CollisionDetection::lineRectCollision(start, end, objects[j]->getBoundingBoxPointer())) {
+			if (objects[j]->getId() != beamsFrom[i] && objects[j]->getType() != objectScrapMetalDrop && CollisionDetection::lineRectCollision(start, end, objects[j]->getBoundingBoxPointer())) {
 				end = CollisionDetection::getLineRectCollision(start, end, objects[j]->getBoundingBoxPointer());
 				beams[i].b = end.x;
 				beams[i].a = end.y;

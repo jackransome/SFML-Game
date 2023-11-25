@@ -74,7 +74,7 @@ void DefenseOrb::update(){
 			//pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, target.x, target.y, id);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60, id);
+			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60.0f, id);
 
 			
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2);

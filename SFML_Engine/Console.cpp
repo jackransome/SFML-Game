@@ -27,6 +27,10 @@ void Console::addCommand(CommandType _type, float _f1, float _f2, float _f3, flo
 	commands.push(Command(_type, _f1, _f2, _f3, _f4, _a));
 }
 
+void Console::addCommand(CommandType _type, float _f1, float _f2, float _f3, float _f4, int _a, int _b){
+	commands.push(Command(_type, _f1, _f2, _f3, _f4, _a, _b));
+}
+
 void Console::addCommand(CommandType _type, std::string _string) {
 	commands.push(Command(_type, _string));
 }
