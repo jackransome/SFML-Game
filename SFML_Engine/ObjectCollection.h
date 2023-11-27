@@ -21,6 +21,7 @@
 #include "DefenseOrb.h"
 #include "Explosion.h"
 #include "Smoke.h"
+#include "Inventory.h"
 
 #include <array>
 
@@ -70,6 +71,7 @@ public:
 	void setControlledDead(bool cd);
 	bool getControlledDead();
 	void clear();
+	void AddToInventory(Resource resource, int amount);
 	
 
 private:
@@ -91,7 +93,7 @@ private:
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;
+	Inventory inventory;	
 
 	void freeObjectMemory(int index);
-
 };

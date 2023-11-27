@@ -7,12 +7,16 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
 	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile,
-	commandAddBeam
+	commandAddBeam, commandAddToInventory
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,
 	objectScrapMetalPile, objectAutoTurret, objectMarketRelay, objectJammer, objectDefenseOrb,
 	objectExplosion, objectSmoke
+};
+
+enum class Resource {
+	scrap, component, count
 };
 
 struct Command {
@@ -107,8 +111,14 @@ struct Command {
 		f3 = _f3;
 		f4 = _f4;
 	}
+	Command(CommandType _type, Resource _resource, int _a) {
+		type = _type;
+		resource = _resource;
+		a = _a;
+	}
 	CommandType type = commandNull;
 	ObjectType objectType = objectNull;
+	Resource resource;
 	std::string string;
 	float f1 = 0;
 	float f2 = 0;

@@ -111,6 +111,9 @@ void CommandExecuter::execute(Command command) {
 	case commandAddBeam:
 		pObjectCollection->addBeam(command.f1, command.f2, command.f3, command.f4, command.a);
 		break;
+	case commandAddToInventory:
+		pObjectCollection->AddToInventory(command.resource, command.a);
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

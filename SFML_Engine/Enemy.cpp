@@ -71,10 +71,6 @@ void Enemy::update() {
 	
 	reloadTimer--;
 	
-
-	
-
-	
 	boundingBox.xv = velocity.x;
 	boundingBox.yv = velocity.y;
 	

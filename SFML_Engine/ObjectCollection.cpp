@@ -11,6 +11,7 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
 	debug = false;
+	inventory = Inventory();
 }
 
 void ObjectCollection::draw() {
@@ -44,6 +45,11 @@ void ObjectCollection::draw() {
 		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.075, 0);
 		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.5, 0.5);
 	}
+	//inventory test drawing:
+	pSpriteCollection->setFullBrightMode(true);
+	pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(inventory.getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->setFullBrightMode(false);
+	
 	numBeamsToDraw = 0;
 }
 
@@ -55,12 +61,12 @@ void ObjectCollection::update() {
 	Pickuper* tempP;
 	Object* tempOb;
 
-	for (int i = 0; i < objects.size(); i++) {
-		//if rover
-		if ((dynamic_cast<Rover*>(objects[i]))) {
-			pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 300);
-		}
-	}
+	//for (int i = 0; i < objects.size(); i++) {
+	//	//if rover
+	//	if ((dynamic_cast<Rover*>(objects[i]))) {
+	//		pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 300);
+	//	}
+	//}
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getPickedUp()) {
 			tempOb = getObjectById(objects[i]->getPickedUpById());
@@ -314,20 +320,28 @@ void ObjectCollection::runCollisionDetection() {
 	for (int i = 0; i < objects.size(); i++) {
 		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
 			for (int j = 0; j < objects.size(); j++) {
-				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
-					if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
-						CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+				if (i != j) {
+	
+					if (!objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
+						if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
+							CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+						}
+						else {
+							CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+						}
 					}
-					else {
-						CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-					}
-					
-					
 				}
+
+
 			}
 		}
 		if (objects[i]->getCollidability() == controllable) {
 			for (int j = i+1; j < objects.size(); j++) {
+				if (objects[i]->getId() == cameraFocusId && objects[j]->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), objects[j]->getBoundingBoxPointer())) {
+					inventory.addResources(Resource::scrap, 1);
+					objects[j]->setToDestroy(true);
+					continue;
+				}
 				if (objects[j]->getCollidability() == controllable) {
 					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 				}
@@ -593,6 +607,10 @@ void ObjectCollection::clear(){
 	}
 	objects.clear();
 	nextId = 0;
+}
+
+void ObjectCollection::AddToInventory(Resource resource, int amount){
+	inventory.addResources(resource, amount);
 }
 
 void ObjectCollection::freeObjectMemory(int index) {

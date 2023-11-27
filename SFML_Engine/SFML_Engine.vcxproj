@@ -179,6 +179,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Jammer.cpp" />
     <ClCompile Include="Living.cpp" />
     <ClCompile Include="main.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Jammer.h" />
     <ClInclude Include="Living.h" />
     <ClInclude Include="MainCharacter.h" />

@@ -380,7 +380,7 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	spriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
