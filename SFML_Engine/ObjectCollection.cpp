@@ -42,13 +42,13 @@ void ObjectCollection::draw() {
 		projectiles[i]->draw();
 	}
 	for (int i = 0; i < numBeamsToDraw; i++) {
-		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.075, 0);
-		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.5, 0.5);
+		//pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.075, 0);
+		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 1, 2);
 	}
 	//inventory test drawing:
-	pSpriteCollection->setFullBrightMode(true);
-	pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
-	pSpriteCollection->setFullBrightMode(false);
+	pSpriteCollection->setAbsoluteMode(true);
+	pSpriteCollection->addTextDraw(1, 50, 50, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->setAbsoluteMode(false);
 	
 	numBeamsToDraw = 0;
 }

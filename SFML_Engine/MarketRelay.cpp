@@ -110,9 +110,9 @@ void MarketRelay::addCredit(int _credit){
 
 void MarketRelay::draw() {
 	if (controlled) {
-		pSpriteCollection->setFullBrightMode(true);
-		pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(credits), 40, sf::Color(255, 255, 255, 255));
-		pSpriteCollection->setFullBrightMode(false);
+		pSpriteCollection->setAbsoluteMode(true);
+		pSpriteCollection->addTextDraw(1, 50, 50, 1000000, std::to_string(credits), 40, sf::Color(255, 255, 255, 255));
+		pSpriteCollection->setAbsoluteMode(false);
 		//draw menu
 	}
 	if (startPointValid) {

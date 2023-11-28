@@ -59,8 +59,11 @@ void main()
 			d = distance(pointLightPositions[j], gl_FragCoord.xy);
 			if (pointLightTypes[j] == 0.0){
 					newLightIntensity = pointLightIntensities[j] / (d*d*0.00005 + 1.0);
-			} else {
+			} else if (pointLightTypes[j] == 1.0) {
 				newBloomIntensity = pointLightIntensities[j] / (d*d);
+			} else if (pointLightTypes[j] == 2.0) {
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
+				newLightIntensity = (pointLightIntensities[j]/20.0) / (d*d*0.00005 + 1.0);
 			}
 			
 			bloomColour += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newBloomIntensity);
@@ -76,9 +79,11 @@ void main()
 				newLightIntensity = beamLightIntensities[j] / (d*d*0.00005 + 1.0);
 			} else if (beamLightTypes[j] <= 1.0) {
 				newBloomIntensity = beamLightIntensities[j] / (d*d);
-			} else if (beamLightTypes[j] <= 2.0){
-				newLightIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
-				newBloomIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
+			} else if (beamLightTypes[j] == 2.0){
+				newLightIntensity = (beamLightIntensities[j]/20.0) / (d*d*0.00005 + 1.0) + beamLightIntensities[j] / (d*d);
+				
+				//newLightIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
+				//newBloomIntensity = max(0.0, (beamLightIntensities[j] - beamLightIntensities[j])/beamLightIntensities[j]);
 			}
 			//newLightIntensity = max(0.0, (5 - d)/5);
 			//newBloomIntensity = max(0.0, (5 - d)/5);

@@ -49,6 +49,30 @@ public:
         
         sf::Sprite tempSprite;
 
+        //if (inputSprite.getScale() == sf::Vector2f(1.1, 1.1)) {
+        //    int x = 10;
+        //    int y = 10;
+        //    const sf::Texture* texture = inputSprite.getTexture();
+        //    // Convert the texture to an image
+        //    sf::Image image = texture->copyToImage();
+
+        //    // Get the color of the pixel at the given coordinates
+        //    if (x < image.getSize().x && y < image.getSize().y) {
+        //        sf::Color color = image.getPixel(x, y);
+
+        //        // Print the RGBA values
+        //        std::cout << "RGBA("
+        //            << static_cast<int>(color.r) << ", "
+        //            << static_cast<int>(color.g) << ", "
+        //            << static_cast<int>(color.b) << ", "
+        //            << static_cast<int>(color.a) << ")"
+        //            << std::endl;
+        //    }
+        //    else {
+        //        std::cerr << "Coordinates are out of bounds." << std::endl;
+        //    }
+        //}
+
         //if there is only one stage, just write directly to the final target
         if (stages.size() == 1) {
             if (wholeScreen) {
@@ -62,6 +86,9 @@ public:
 
                 //draw to final target
                 finalOutputTarget->draw(tempSprite, stages[0]);
+
+
+
                 delete currentInput;
                 return;
             }
@@ -241,8 +268,19 @@ public:
         sf::RectangleShape rectangle(sf::Vector2f(width, height));
         rectangle.setFillColor(color);
         rectangle.setOrigin(width / 2.f, height / 2.f);
-        rectangleRenderTexture.draw(rectangle);
+
+        // Define a custom blend mode
+        sf::BlendMode blendMode(sf::BlendMode::One,     // Keep the source RGB values
+            sf::BlendMode::Zero,    // Ignore the destination RGB values
+            sf::BlendMode::Add,     // Add the source and destination RGB values
+            sf::BlendMode::One,     // Keep the source alpha value
+            sf::BlendMode::Zero,    // Ignore the destination alpha value
+            sf::BlendMode::Add);    // Add the source and destination alpha values
+
+    // Draw the rectangle with the custom blend mode
+        rectangleRenderTexture.draw(rectangle, blendMode);
         rectangleRenderTexture.display();
+
 
         sf::Sprite inputSprite(rectangleRenderTexture.getTexture());
         inputSprite.setPosition(posX, posY);
@@ -250,12 +288,11 @@ public:
 
         // Create a transform that rotates and translates the rectangle around a specific point
         sf::Transform transform;
- /*       transform.translate(rotationCenterX, rotationCenterY);
-        transform.rotate(rotation);
-        transform.translate(-rotationCenterX, -rotationCenterY);
-        transform.translate(posX, posY);*/
-        transform.rotate(rotation, sf::Vector2f(posX + rotationCenterX, posY + rotationCenterY));
-      
+
+        if (rotation) transform.rotate(rotation, sf::Vector2f(posX + rotationCenterX, posY + rotationCenterY));
+
+
+
 
         multiPipelines[index]->executeAll(inputSprite, finalOutputTarget, transform);
     }

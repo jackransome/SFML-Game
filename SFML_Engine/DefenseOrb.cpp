@@ -93,8 +93,7 @@ void DefenseOrb::draw()
 	bob_counter += 0.15;
 	
 	glm::vec2 lightPos = getCenter() + glm::vec2(4 * cos(3.1415 * (rotation + 135) / 180.0f), 4 * sin(3.1415 * (rotation + 135) / 180.0f) - 28 + sin(bob_counter) * 3);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
 	mainStack.draw(boundingBox.x - 2, boundingBox.y - 2 + bobHeight, boundingBox.y, rotation + 90);
 }
 

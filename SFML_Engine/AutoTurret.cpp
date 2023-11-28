@@ -45,25 +45,6 @@ void AutoTurret::update() {
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);
 			reloadTimer = maxReload;
-
-
-
-
-			/*
-			
-			
-			targetPos += targetVel every frame
-
-			projpos += projVel every frame
-			
-
-			projePos + x*projVel = targetPos + x*tergetVel
-			(projVel - targetVel) = (targetPos - projPos)/x
-			projVel = (targetPos - projPos)/x + targetVel
-
-
-			
-			*/
 		}
 	}
 	reloadTimer--;
@@ -74,8 +55,7 @@ void AutoTurret::draw() {
 	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cos(radians) -1 * sin(radians), 1 * sin(radians) + 1 * cos(radians) - 26);
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x-4, boundingBox.y-14, boundingBox.y+1, barrelRotation-90);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 1);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 0.2, 0);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
 }
 
 void AutoTurret::setTarget(int x, int y, float xvel, float yvel) {

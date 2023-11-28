@@ -16,13 +16,11 @@ public:
 	bool getActive();
 	void setHover(bool hover);
 	glm::vec4 getBbox();
-private:
-	
+
+protected:
 	glm::vec4 bbox;
 	ButtonType type;
 	SpriteCollection* pSpriteCollection;
-
-protected:
 	bool hoverOver = false;
 	bool active;
 	void drawBox();

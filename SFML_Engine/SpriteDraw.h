@@ -166,4 +166,5 @@ struct SpriteDraw {
 	float opacity = 1;
 	float rotation = 0;
 	bool fullBright = false;
+	bool absolute = false;
 };

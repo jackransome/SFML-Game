@@ -21,16 +21,15 @@ glm::vec4 Button::getBbox(){
 void Button::drawBox(){
 	pSpriteCollection->setFullBrightMode(true);
 	if (!active) {
-		pSpriteCollection->addAbsoluteRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(200,200,200,255));
+		pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(0, 0, 0, 120));
 	}
 	else {
 		if (hoverOver) {
-			pSpriteCollection->addAbsoluteRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color::White, 0.3);
+			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(200, 200, 200, 120));
 		}
 		else {
-			pSpriteCollection->addAbsoluteRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color::Green, 0.3);
+			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(255, 255, 255, 120));
 		}
-		
 	}
 	pSpriteCollection->setFullBrightMode(false);
 }
@@ -47,6 +46,7 @@ void BuildButton::press(){
 
 void BuildButton::draw(){
 	drawBox();
+	
 }
 
 void BuildButton::update(){

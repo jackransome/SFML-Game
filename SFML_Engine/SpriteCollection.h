@@ -30,17 +30,7 @@ public:
 	void addRotatedImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float rotation, float rx, float ry);
 	void addRectDraw(float x, float y, float w, float h, float z, sf::Color);
 	void addCircleDraw(float x, float y, float r, float z, sf::Color);
-	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z);
-	void addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH);
-	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale);
-	void addAbsoluteImageDraw(TextureWrapper* pTexture, float x, float y, float z, float scale, float opacity);
-	void addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
-	void addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
-	void addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color);
-	void addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color, float opacity);
-	void addAbsoluteCircleDraw(float x, float y, float r, float z, sf::Color);
 	void addTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color);
-	void addAbsoluteTextDraw(int fontIndex, float x, float y, float z, std::string string, int _fontSize, sf::Color _color);
 	void drawAll(); 
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color, sf::RenderTexture* target);
 	void addFont(std::string name);
@@ -55,6 +45,7 @@ public:
 	void setFrame(int _frame);
 	sf::Texture rasterizeStack(int size, float w, float h);
 	void drawRasterization(sf::Texture* texture, float z, float x, float y, float w, float h);
+	void setAbsoluteMode(bool mode);
 private:
 	//settings
 	bool bloomMode = false;
@@ -93,6 +84,8 @@ private:
 	float beamLightTypes[100];
 	float beamLightIntensities[100];
 	int numBeamLights = 0;
+
+	bool absoluteMode = false;
 
 	int* pWindowW;
 	int* pWindowH;

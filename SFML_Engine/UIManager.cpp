@@ -48,11 +48,13 @@ void UIManager::setActive(bool _active){
 }
 
 void UIManager::draw(){
+	pSpriteCollection->setAbsoluteMode(true);
 	if (active) {
 		for (int i = 0; i < buttons.size(); i++) {
 			buttons[i]->draw();
 		}
 	}
+	pSpriteCollection->setAbsoluteMode(false);
 }
 
 void UIManager::addButton(ButtonType type, glm::vec4 bbox){

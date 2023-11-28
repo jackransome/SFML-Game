@@ -327,8 +327,8 @@ void Game::Run() {
 	}
 	else {
 		//menu
-		snowSystem.run(camera.getPosition());
-		snowSystem2.run(camera.getPosition());
+		snowSystem.run(glm::vec2(screenW / 2, screenH / 2));// glm::vec2(screenW / 2, screenH / 2));
+		snowSystem2.run(glm::vec2(screenW / 2, screenH / 2));//glm::vec2(screenW/2, screenH/2));
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
@@ -355,6 +355,8 @@ void Game::Draw() {
 		//spriteCollection.addTextDraw(1, 0, 0, 100, "TEST_TEST_TEST_TEST", 100, sf::Color(60, 255, 100, 255));
 		//spriteCollection.addRectDraw(0, 0, 300, 300, 300, sf::Color(60, 255, 100, 255));
 		//spriteCollection.setFullBrightMode(false);
+		uiManager.draw();
+		builder.draw();
 		spriteCollection.setPipelineIndex(1);
 	}
 	else {
@@ -370,16 +372,18 @@ void Game::Draw() {
 			scale = (float)screenW / 3000.0f;
 			
 		}
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_bg"), camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2, -100, scale, 1, scale*3000, scale*1638);
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_mc"), camera.getPosition().x - screenW / 2, camera.getPosition().y + screenH / 2 - 5*162, 1, 5, 1, 5*139, 5*162);
+		spriteCollection.setAbsoluteMode(true);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_bg"), 0, 0, -100, scale, 1, scale*3000, scale*1638);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_mc"), 0, screenH - 5*162, 1, 5, 1, 5*139, 5*162);
 		if (frame % 350 < 340) {
-			spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_eyes"), camera.getPosition().x - screenW / 2 - 10, camera.getPosition().y + screenH / 2 - 5  * 162, 2, 5, 1, 5*141, 5*165);
+			spriteCollection.addImageDraw(spriteCollection.getPointerFromName("menu_eyes"), 0 - 10, screenH - 5  * 162, 2, 5, 1, 5*141, 5*165);
 		}
 		snowSystem.drawMenu(-50, 1);
 		snowSystem2.drawMenu(10, 2);
+		uiManager.draw();
+		spriteCollection.setAbsoluteMode(false);
 	}
-	uiManager.draw();
-	builder.draw();
+
 	spriteCollection.drawAll();
 	
 	frame++;
@@ -392,14 +396,18 @@ void Game::Draw() {
 			TimeStamp ts2 = console.getTimeStamp();
 			int offset = 0;
 			if (debugMode) {
-				spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+				spriteCollection.setAbsoluteMode(true);
+				spriteCollection.addTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+				spriteCollection.setAbsoluteMode(false);
 			}
 			while (console.hasTimeStamps()) {
 				ts1 = ts2;
 				ts2 = console.getTimeStamp();
 				offset += 40;
 				if (debugMode) {
-					spriteCollection.addAbsoluteTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+					spriteCollection.setAbsoluteMode(true);
+					spriteCollection.addTextDraw(1, 10, 100 + offset, 10000000, ts1.label + ": " + std::to_string(ts2.time - ts1.time), 30, sf::Color::White);
+					spriteCollection.setAbsoluteMode(false);
 				}
 			}
 		}
@@ -476,6 +484,7 @@ void Game::loadMenu(){
 	soundPlayer.update();
 	music_id = soundPlayer.playSoundByName("menu_music", 0.6);
 	soundPlayer.loopSound(music_id);
+	camera.setPosition(screenW / 2 + 100, screenH / 2 + 100);
 }
 
 void Game::unloadMenu() {
