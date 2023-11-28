@@ -343,6 +343,20 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 	lastAbsolute = true;
 }
 
+void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color color, float opacity) {
+	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
+		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";
+		return;
+	}
+	absoluteSpriteDraws[currentAbsoluteDrawIndex] = new SpriteDraw(x, y, w, h, z, color, opacity);
+	if (fullBrightMode) {
+		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
+	}
+	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	currentAbsoluteDrawIndex++;
+	lastAbsolute = true;
+}
+
 void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z, sf::Color color) {
 	if (currentAbsoluteDrawIndex >= maxAbsoluteSpriteDraws) {
 		std::cout << "MAX NUMBER OF ABSOLUTESPRITEDRAWS REACHED!\n";

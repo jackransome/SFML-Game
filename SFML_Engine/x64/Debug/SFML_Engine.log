@@ -1,4 +1,8 @@
-﻿  ObjectCollection.cpp
+﻿  Builder.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(206,68): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,46): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,39): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  ObjectCollection.cpp
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(206,68): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,46): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,39): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
@@ -49,4 +53,9 @@ C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(521,15
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(522,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(536,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\ObjectCollection.cpp(537,55): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  UIManager.cpp
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(206,68): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,46): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(238,39): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  Generating Code...
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\x64\Debug\SFML_Engine.exe

@@ -37,10 +37,11 @@ public:
 	void addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale);
 	void addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity);
 	void addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color);
+	void addAbsoluteRectDraw(float x, float y, float w, float h, float z, sf::Color, float opacity);
 	void addAbsoluteCircleDraw(float x, float y, float r, float z, sf::Color);
 	void addTextDraw(int fontIndex, float x, float y, float z, std::string string, int fontSize, sf::Color color);
 	void addAbsoluteTextDraw(int fontIndex, float x, float y, float z, std::string string, int _fontSize, sf::Color _color);
-	void drawAll();
+	void drawAll(); 
 	void drawText(int fontIndex, float x, float y, std::string string, int _fontSize, sf::Color _color, sf::RenderTexture* target);
 	void addFont(std::string name);
 	void drawLightSource(glm::vec2 position, glm::vec3 colour, float intensity, float type);

@@ -89,6 +89,19 @@ struct SpriteDraw {
 		type = 2;
 		color = _color;
 	}
+	// Rectangle constructor
+	SpriteDraw(float _x, float _y, float _w, float _h, float _z, sf::Color _color, float _opacity) {
+		pTexture = nullptr;
+		x = _x;
+		y = _y;
+		z = _z;
+		w = _w;
+		h = _h;
+		r = 0;
+		type = 2;
+		color = _color;
+		opacity = _opacity;
+	}
 	// Circle constructor
 	SpriteDraw(float _x, float _y, float _r, float _z, sf::Color _color) {
 		pTexture = nullptr;

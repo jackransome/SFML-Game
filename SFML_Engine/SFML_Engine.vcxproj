@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="AutoTurret.cpp" />
+    <ClCompile Include="Builder.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="CommandExecuter.cpp" />
@@ -202,12 +203,15 @@
     <ClCompile Include="SpriteCollection.cpp" />
     <ClCompile Include="SpriteStack.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="AutoTurret.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Builder.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="CommandExecuter.h" />
@@ -254,6 +258,7 @@
     <ClInclude Include="SpriteCollection.h" />
     <ClInclude Include="SpriteStack.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
