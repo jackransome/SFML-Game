@@ -3,15 +3,26 @@
 #include "InputManager.h"
 #include "Button.h"
 #include <vector>
+
+enum class MenuType {
+	main, pause, builder
+};
+
 class UIManager {
 public:
-	UIManager(Console _console, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager);
+	UIManager() {};
+	UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder);
 	void update();
-	void loadNewMenu();
+	void loadNewMenu(MenuType menuType);
+	void setActive(bool _active);
+	void draw();
 private:
-	void addButton();
-	Console console;
-	std::vector<Button> buttons;
+	void addButton(ButtonType type, glm::vec4 bbox);
+	void addButton(ButtonType type, BuildType buildType, glm::vec4 bbox);
+	Console* pConsole;
+	std::vector<std::unique_ptr<Button>> buttons;
 	SpriteCollection* pSpriteCollection;
 	InputManager* pInputManager;
+	Builder* pBuilder;
+	bool active = false;
 };

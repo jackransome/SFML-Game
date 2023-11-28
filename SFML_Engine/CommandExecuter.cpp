@@ -2,12 +2,13 @@
 
 CommandExecuter::CommandExecuter() {}
 
-CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager){
+CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, UIManager* _pUIManager){
 	pObjectCollection = _pObjectCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
+	pUIManager = _pUIManager;
 }
 
 void CommandExecuter::execute(Command command) {

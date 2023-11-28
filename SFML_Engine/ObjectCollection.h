@@ -28,7 +28,7 @@
 class ObjectCollection {
 public:
 	ObjectCollection();
-	ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera);
+	ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, Inventory* _pinventory);
 	void draw();
 	void update();
 	void addMainCharacter(float x, float y);
@@ -93,7 +93,7 @@ private:
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;
-	Inventory inventory;	
+	Inventory* pInventory;	
 
 	void freeObjectMemory(int index);
 };

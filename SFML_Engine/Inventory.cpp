@@ -12,7 +12,7 @@ int Inventory::getResources(Resource resource){
 
 bool Inventory::removeResources(Resource resource, int amount)
 {
-	if (amount > getResources(resource)) {
+	if (amount >= getResources(resource)) {
 		resources[static_cast<int>(resource)] -= amount;
 		return false;
 	}

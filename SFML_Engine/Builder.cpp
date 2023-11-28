@@ -29,14 +29,18 @@ void Builder::cancel(){
 }
 
 void Builder::update(){
-	if (pInputManager->onKeyDown(mouseL)) {
-		buy(currentBuildType);
-		switch (currentBuildType) {
-		case BuildType::turret:
-			if (pInventory->getResources(Resource::scrap) >= 2) {
-				pConsole->addCommand(commandAddObject, objectAutoTurret, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+	if (active) {
+		if (pInputManager->onKeyDown(mouseL)) {
+			
+			switch (currentBuildType) {
+			case BuildType::turret:
+				if (pInventory->getResources(Resource::scrap) >= 2) {
+					buy(currentBuildType);
+					pConsole->addCommand(commandAddObject, objectAutoTurret, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+				}
+				break;
 			}
-			break;
+			active = false;
 		}
 	}
 }

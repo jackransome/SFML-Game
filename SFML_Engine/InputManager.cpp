@@ -4,35 +4,38 @@ InputManager::InputManager(){}
 
 InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH){
 	pWindow = pwindow;
-	keyStruct.w = false;
 	keyStruct.a = false;
-	keyStruct.s = false;
+	keyStruct.b = false;
+	keyStruct.c = false;
 	keyStruct.d = false;
-	keyStruct.space = false;
-	keyStruct.escape = false;
-	keyStruct.q = false;
 	keyStruct.e = false;
-	keyStruct.r = false;
 	keyStruct.f = false;
 	keyStruct.g = false;
-	keyStruct.t = false;
-	keyStruct.y = false;
-	keyStruct.u = false;
+	keyStruct.h = false;
 	keyStruct.i = false;
+	keyStruct.j = false;
+	keyStruct.k = false;
+	keyStruct.l = false;
+	keyStruct.m = false;
+	keyStruct.n = false;
+	keyStruct.o = false;
+	keyStruct.p = false;
+	keyStruct.q = false;
+	keyStruct.r = false;
+	keyStruct.s = false;
+	keyStruct.t = false;
+	keyStruct.u = false;
+	keyStruct.v = false;
+	keyStruct.w = false;
+	keyStruct.x = false;
+	keyStruct.y = false;
+	keyStruct.z = false;
+	keyStruct.space = false;
+	keyStruct.escape = false;
 	keyStruct.upArrow = false;
 	keyStruct.downArrow = false;
 	keyStruct.lShift = false;
 	keyStruct.lControl = false;
-	keyStruct.n1 = false;
-	keyStruct.n2 = false;
-	keyStruct.n3 = false;
-	keyStruct.n4 = false;
-	keyStruct.n5 = false;
-	keyStruct.n6 = false;
-	keyStruct.n7 = false;
-	keyStruct.n8 = false;
-	keyStruct.n9 = false;
-	keyStruct.n0 = false;
 	keyStruct.mouseL = false;
 	keyStruct.mouseR = false;
 	lastKeyStruct = keyStruct;
@@ -44,26 +47,17 @@ void InputManager::update(){
 	lastKeyStruct = keyStruct;
 	while (pWindow->pollEvent(ev))
 	{
-		if (keyStruct.w > 0) {
-			keyStruct.w++;
-		}
 		if (keyStruct.a > 0) {
 			keyStruct.a++;
 		}
-		if (keyStruct.s > 0) {
-			keyStruct.s++;
+		if (keyStruct.b > 0) {
+			keyStruct.b++;
+		}
+		if (keyStruct.c > 0) {
+			keyStruct.c++;
 		}
 		if (keyStruct.d > 0) {
 			keyStruct.d++;
-		}
-		if (keyStruct.space > 0) {
-			keyStruct.space++;
-		}
-		if (keyStruct.escape > 0) {
-			keyStruct.escape++;
-		}
-		if (keyStruct.q > 0) {
-			keyStruct.q++;
 		}
 		if (keyStruct.e > 0) {
 			keyStruct.e++;
@@ -74,50 +68,68 @@ void InputManager::update(){
 		if (keyStruct.g > 0) {
 			keyStruct.g++;
 		}
-		if (keyStruct.r > 0) {
-			keyStruct.r++;
-		}
-		if (keyStruct.t > 0) {
-			keyStruct.t++;
-		}
-		if (keyStruct.y > 0) {
-			keyStruct.y++;
-		}
-		if (keyStruct.u > 0) {
-			keyStruct.u++;
+		if (keyStruct.h > 0) {
+			keyStruct.h++;
 		}
 		if (keyStruct.i > 0) {
 			keyStruct.i++;
 		}
-		if (keyStruct.n1 > 0) {
-			keyStruct.n1++;
+		if (keyStruct.j > 0) {
+			keyStruct.j++;
 		}
-		if (keyStruct.n2 > 0) {
-			keyStruct.n2++;
+		if (keyStruct.k > 0) {
+			keyStruct.k++;
 		}
-		if (keyStruct.n3 > 0) {
-			keyStruct.n3++;
+		if (keyStruct.l > 0) {
+			keyStruct.l++;
 		}
-		if (keyStruct.n4 > 0) {
-			keyStruct.n4++;
+		if (keyStruct.m > 0) {
+			keyStruct.m++;
 		}
-		if (keyStruct.n5 > 0) {
-			keyStruct.n5++;
+		if (keyStruct.n > 0) {
+			keyStruct.n++;
 		}
-		if (keyStruct.n6 > 0) {
-			keyStruct.n6++;
+		if (keyStruct.o > 0) {
+			keyStruct.o++;
 		}
-		if (keyStruct.n7 > 0) {
-			keyStruct.n7++;
+		if (keyStruct.p > 0) {
+			keyStruct.p++;
 		}
-		if (keyStruct.n8 > 0) {
-			keyStruct.n8++;
+		if (keyStruct.q > 0) {
+			keyStruct.q++;
 		}
-		if (keyStruct.n9 > 0) {
-			keyStruct.n9++;
+		if (keyStruct.r > 0) {
+			keyStruct.r++;
 		}
-		if (keyStruct.n0 > 0) {
-			keyStruct.n0++;
+		if (keyStruct.s > 0) {
+			keyStruct.s++;
+		}
+		if (keyStruct.t > 0) {
+			keyStruct.t++;
+		}
+		if (keyStruct.u > 0) {
+			keyStruct.u++;
+		}
+		if (keyStruct.v > 0) {
+			keyStruct.v++;
+		}
+		if (keyStruct.w > 0) {
+			keyStruct.w++;
+		}
+		if (keyStruct.x > 0) {
+			keyStruct.x++;
+		}
+		if (keyStruct.y > 0) {
+			keyStruct.y++;
+		}
+		if (keyStruct.z > 0) {
+			keyStruct.z++;
+		}
+		if (keyStruct.space > 0) {
+			keyStruct.space++;
+		}
+		if (keyStruct.escape > 0) {
+			keyStruct.escape++;
 		}
 		if (keyStruct.lShift > 0) {
 			keyStruct.lShift++;
@@ -140,26 +152,17 @@ void InputManager::update(){
 		if (ev.type == sf::Event::Closed) pWindow->close();
 
 		if (ev.type == sf::Event::KeyPressed) {
-			if (ev.key.code == sf::Keyboard::W) {
-				keyStruct.w = 1;
-			}
 			if (ev.key.code == sf::Keyboard::A) {
 				keyStruct.a = 1;
 			}
-			if (ev.key.code == sf::Keyboard::S) {
-				keyStruct.s = 1;
+			if (ev.key.code == sf::Keyboard::B) {
+				keyStruct.b = 1;
+			}
+			if (ev.key.code == sf::Keyboard::C) {
+				keyStruct.c = 1;
 			}
 			if (ev.key.code == sf::Keyboard::D) {
 				keyStruct.d = 1;
-			}
-			if (ev.key.code == sf::Keyboard::Space) {
-				keyStruct.space = 1;
-			}
-			if (ev.key.code == sf::Keyboard::Escape) {
-				keyStruct.escape = 1;
-			}
-			if (ev.key.code == sf::Keyboard::Q) {
-				keyStruct.q = 1;
 			}
 			if (ev.key.code == sf::Keyboard::E) {
 				keyStruct.e = 1;
@@ -170,20 +173,69 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::G) {
 				keyStruct.g = 1;
 			}
+			if (ev.key.code == sf::Keyboard::H) {
+				keyStruct.h = 1;
+			}
+			if (ev.key.code == sf::Keyboard::I) {
+				keyStruct.i = 1;
+			}
+			if (ev.key.code == sf::Keyboard::J) {
+				keyStruct.j = 1;
+			}
+			if (ev.key.code == sf::Keyboard::K) {
+				keyStruct.k = 1;
+			}
+			if (ev.key.code == sf::Keyboard::L) {
+				keyStruct.l = 1;
+			}
+			if (ev.key.code == sf::Keyboard::M) {
+				keyStruct.m = 1;
+			}
+			if (ev.key.code == sf::Keyboard::N) {
+				keyStruct.n = 1;
+			}
+			if (ev.key.code == sf::Keyboard::O) {
+				keyStruct.o = 1;
+			}
+			if (ev.key.code == sf::Keyboard::P) {
+				keyStruct.p = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Q) {
+				keyStruct.q = 1;
+			}
 			if (ev.key.code == sf::Keyboard::R) {
 				keyStruct.r = 1;
+			}
+			if (ev.key.code == sf::Keyboard::S) {
+				keyStruct.s = 1;
 			}
 			if (ev.key.code == sf::Keyboard::T) {
 				keyStruct.t = 1;
 			}
-			if (ev.key.code == sf::Keyboard::Y) {
-				keyStruct.y = 1;
-			}
 			if (ev.key.code == sf::Keyboard::U) {
 				keyStruct.u = 1;
 			}
-			if (ev.key.code == sf::Keyboard::I) {
-				keyStruct.i = 1;
+			if (ev.key.code == sf::Keyboard::V) {
+				keyStruct.v = 1;
+			}
+			if (ev.key.code == sf::Keyboard::W) {
+				keyStruct.w = 1;
+			}
+			if (ev.key.code == sf::Keyboard::X) {
+				keyStruct.x = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Y) {
+				keyStruct.y = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Z) {
+				keyStruct.z = 1;
+			}
+
+			if (ev.key.code == sf::Keyboard::Space) {
+				keyStruct.space = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Escape) {
+				keyStruct.escape = 1;
 			}
 			if (ev.key.code == sf::Keyboard::Up) {
 				keyStruct.upArrow = 1;
@@ -229,26 +281,17 @@ void InputManager::update(){
 			}
 		}
 		if (ev.type == sf::Event::KeyReleased) {
-			if (ev.key.code == sf::Keyboard::W) {
-				keyStruct.w = 0;
-			}
 			if (ev.key.code == sf::Keyboard::A) {
 				keyStruct.a = 0;
 			}
-			if (ev.key.code == sf::Keyboard::S) {
-				keyStruct.s = 0;
+			if (ev.key.code == sf::Keyboard::B) {
+				keyStruct.b = 0;
+			}
+			if (ev.key.code == sf::Keyboard::C) {
+				keyStruct.c = 0;
 			}
 			if (ev.key.code == sf::Keyboard::D) {
 				keyStruct.d = 0;
-			}
-			if (ev.key.code == sf::Keyboard::Space) {
-				keyStruct.space = 0;
-			}
-			if (ev.key.code == sf::Keyboard::Escape) {
-				keyStruct.escape = 0;
-			}
-			if (ev.key.code == sf::Keyboard::Q) {
-				keyStruct.q = 0;
 			}
 			if (ev.key.code == sf::Keyboard::E) {
 				keyStruct.e = 0;
@@ -259,20 +302,69 @@ void InputManager::update(){
 			if (ev.key.code == sf::Keyboard::G) {
 				keyStruct.g = 0;
 			}
+			if (ev.key.code == sf::Keyboard::H) {
+				keyStruct.h = 0;
+			}
+			if (ev.key.code == sf::Keyboard::I) {
+				keyStruct.i = 0;
+			}
+			if (ev.key.code == sf::Keyboard::J) {
+				keyStruct.j = 0;
+			}
+			if (ev.key.code == sf::Keyboard::K) {
+				keyStruct.k = 0;
+			}
+			if (ev.key.code == sf::Keyboard::L) {
+				keyStruct.l = 0;
+			}
+			if (ev.key.code == sf::Keyboard::M) {
+				keyStruct.m = 0;
+			}
+			if (ev.key.code == sf::Keyboard::N) {
+				keyStruct.n = 0;
+			}
+			if (ev.key.code == sf::Keyboard::O) {
+				keyStruct.o = 0;
+			}
+			if (ev.key.code == sf::Keyboard::P) {
+				keyStruct.p = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Q) {
+				keyStruct.q = 0;
+			}
 			if (ev.key.code == sf::Keyboard::R) {
 				keyStruct.r = 0;
+			}
+			if (ev.key.code == sf::Keyboard::S) {
+				keyStruct.s = 0;
 			}
 			if (ev.key.code == sf::Keyboard::T) {
 				keyStruct.t = 0;
 			}
-			if (ev.key.code == sf::Keyboard::Y) {
-				keyStruct.y = 0;
-			}
 			if (ev.key.code == sf::Keyboard::U) {
 				keyStruct.u = 0;
 			}
-			if (ev.key.code == sf::Keyboard::I) {
-				keyStruct.i = 0;
+			if (ev.key.code == sf::Keyboard::V) {
+				keyStruct.v = 0;
+			}
+			if (ev.key.code == sf::Keyboard::W) {
+				keyStruct.w = 0;
+			}
+			if (ev.key.code == sf::Keyboard::X) {
+				keyStruct.x = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Y) {
+				keyStruct.y = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Z) {
+				keyStruct.z = 0;
+			}
+
+			if (ev.key.code == sf::Keyboard::Space) {
+				keyStruct.space = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Escape) {
+				keyStruct.escape = 0;
 			}
 			if (ev.key.code == sf::Keyboard::LShift) {
 				keyStruct.lShift = 0;
@@ -349,36 +441,62 @@ void InputManager::update(){
 
 int InputManager::isKeyDown(keys key){
 	switch (key) {
-	case w:
-		return keyStruct.w;
 	case a:
 		return keyStruct.a;
-	case s:
-		return keyStruct.s;
+	case b:
+		return keyStruct.b;
+	case c:
+		return keyStruct.c;
 	case d:
 		return keyStruct.d;
-	case space:
-		return keyStruct.space;
-	case escape:
-		return keyStruct.escape;
-	case q:
-		return keyStruct.q;
 	case e:
 		return keyStruct.e;
 	case f:
 		return keyStruct.f;
 	case g:
 		return keyStruct.g;
-	case r:
-		return keyStruct.r;
-	case t:
-		return keyStruct.t;
-	case y:
-		return keyStruct.y;
-	case u:
-		return keyStruct.u;
+	case h:
+		return keyStruct.h;
 	case i:
 		return keyStruct.i;
+	case j:
+		return keyStruct.j;
+	case k:
+		return keyStruct.k;
+	case l:
+		return keyStruct.l;
+	case m:
+		return keyStruct.m;
+	case n:
+		return keyStruct.n;
+	case o:
+		return keyStruct.o;
+	case p:
+		return keyStruct.p;
+	case q:
+		return keyStruct.q;
+	case r:
+		return keyStruct.r;
+	case s:
+		return keyStruct.s;
+	case t:
+		return keyStruct.t;
+	case u:
+		return keyStruct.u;
+	case v:
+		return keyStruct.v;
+	case w:
+		return keyStruct.w;
+	case x:
+		return keyStruct.x;
+	case y:
+		return keyStruct.y;
+	case z:
+		return keyStruct.z;
+	case space:
+		return keyStruct.space;
+	case escape:
+		return keyStruct.escape;
 	case n1:
 		return keyStruct.n1;
 	case n2:
@@ -418,36 +536,62 @@ int InputManager::isKeyDown(keys key){
 
 bool InputManager::onKeyDown(keys key) {
 	switch (key) {
-	case w:
-		return !lastKeyStruct.w && keyStruct.w;
 	case a:
 		return !lastKeyStruct.a && keyStruct.a;
-	case s:
-		return !lastKeyStruct.s && keyStruct.s;
+	case b:
+		return !lastKeyStruct.b && keyStruct.b;
+	case c:
+		return !lastKeyStruct.c && keyStruct.c;
 	case d:
 		return !lastKeyStruct.d && keyStruct.d;
-	case space:
-		return !lastKeyStruct.space && keyStruct.space;
-	case escape:
-		return !lastKeyStruct.escape && keyStruct.escape;
-	case q:
-		return !lastKeyStruct.q && keyStruct.q;
 	case e:
 		return !lastKeyStruct.e && keyStruct.e;
 	case f:
 		return !lastKeyStruct.f && keyStruct.f;
 	case g:
 		return !lastKeyStruct.g && keyStruct.g;
-	case r:
-		return !lastKeyStruct.r && keyStruct.r;
-	case t:
-		return !lastKeyStruct.t && keyStruct.t;
-	case y:
-		return !lastKeyStruct.y && keyStruct.y;
-	case u:
-		return !lastKeyStruct.u && keyStruct.u;
+	case h:
+		return !lastKeyStruct.h && keyStruct.h;
 	case i:
 		return !lastKeyStruct.i && keyStruct.i;
+	case j:
+		return !lastKeyStruct.j && keyStruct.j;
+	case k:
+		return !lastKeyStruct.k && keyStruct.k;
+	case l:
+		return !lastKeyStruct.l && keyStruct.l;
+	case m:
+		return !lastKeyStruct.m && keyStruct.m;
+	case n:
+		return !lastKeyStruct.n && keyStruct.n;
+	case o:
+		return !lastKeyStruct.o && keyStruct.o;
+	case p:
+		return !lastKeyStruct.p && keyStruct.p;
+	case q:
+		return !lastKeyStruct.q && keyStruct.q;
+	case r:
+		return !lastKeyStruct.r && keyStruct.r;
+	case s:
+		return !lastKeyStruct.s && keyStruct.s;
+	case t:
+		return !lastKeyStruct.t && keyStruct.t;
+	case u:
+		return !lastKeyStruct.u && keyStruct.u;
+	case v:
+		return !lastKeyStruct.v && keyStruct.v;
+	case w:
+		return !lastKeyStruct.w && keyStruct.w;
+	case x:
+		return !lastKeyStruct.x && keyStruct.x;
+	case y:
+		return !lastKeyStruct.y && keyStruct.y;
+	case z:
+		return !lastKeyStruct.z && keyStruct.z;
+	case space:
+		return !lastKeyStruct.space && keyStruct.space;
+	case escape:
+		return !lastKeyStruct.escape && keyStruct.escape;
 	case n1:
 		return !lastKeyStruct.n1 && keyStruct.n1;
 	case n2:

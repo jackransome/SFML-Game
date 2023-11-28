@@ -12,6 +12,10 @@ public:
 	Button(SpriteCollection* _pSpriteCollection, ButtonType _type, glm::vec4 _bbox);
 	virtual void press() {};
 	virtual void draw() {};
+	virtual void update() {};
+	bool getActive();
+	void setHover(bool hover);
+	glm::vec4 getBbox();
 private:
 	
 	glm::vec4 bbox;
@@ -19,16 +23,18 @@ private:
 	SpriteCollection* pSpriteCollection;
 
 protected:
+	bool hoverOver = false;
 	bool active;
 	void drawBox();
 };
 
-class BuildButton : Button {
+class BuildButton : public Button {
 public:
-	BuildButton(SpriteCollection* _pSpriteCollection, BuildType _buildType, glm::vec4 _bbox);
+	BuildButton(SpriteCollection* _pSpriteCollection, Builder* _pBuilder, BuildType _buildType, glm::vec4 _bbox);
 	virtual void press() override;
 	virtual void draw() override;
+	virtual void update() override;
 private:
-	
+	Builder* pBuilder;
 	BuildType buildType;
 };

@@ -254,7 +254,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -268,7 +268,7 @@ void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -282,7 +282,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -296,7 +296,7 @@ void SpriteCollection::addAbsoluteImageDraw(TextureWrapper* pTexture, float x, f
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -310,7 +310,7 @@ void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -324,7 +324,7 @@ void SpriteCollection::addAbsoluteImageDrawCut(TextureWrapper* pTexture, float x
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -338,7 +338,7 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -352,7 +352,8 @@ void SpriteCollection::addAbsoluteRectDraw(float x, float y, float w, float h, f
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->pTexture = getPointerFromName("white_rect");
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -366,7 +367,7 @@ void SpriteCollection::addAbsoluteCircleDraw(float x, float y, float r, float z,
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -394,7 +395,7 @@ void SpriteCollection::addAbsoluteTextDraw(int fontIndex, float x, float y, floa
 	if (fullBrightMode) {
 		absoluteSpriteDraws[currentAbsoluteDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
+	absoluteSpriteDraws[currentAbsoluteDrawIndex]->setPipeline(pipelineIndex);
 	currentAbsoluteDrawIndex++;
 	lastAbsolute = true;
 }
@@ -473,14 +474,20 @@ void SpriteCollection::drawAll() {
 
 	}
 	for (int i = 0; i < currentAbsoluteDrawIndex; i++) {
+		if (absoluteSpriteDraws[i]->fullBright) {
+			RTSel = &unlit;
+		}
+		else {
+			RTSel = &lit;
+		}
 		if (absoluteSpriteDraws[i]->type == 0) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
+			multiPipelineManager->executeWithTransform(absoluteSpriteDraws[i]->pipelineIndex, absoluteSpriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->scale, 0, absoluteSpriteDraws[i]->opacity);
 		}
 		else if (absoluteSpriteDraws[i]->type == 1) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+			multiPipelineManager->executeWithTransform(absoluteSpriteDraws[i]->pipelineIndex, absoluteSpriteDraws[i]->pTexture->getTexture(), RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->scale, absoluteSpriteDraws[i]->opacity, absoluteSpriteDraws[i]->sX, absoluteSpriteDraws[i]->sY, absoluteSpriteDraws[i]->sW, absoluteSpriteDraws[i]->sH);
 		}
 		else if (absoluteSpriteDraws[i]->type == 2) {
-			multiPipelineManager->executeWithRectangle(spriteDraws[i]->pipelineIndex, RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, spriteDraws[i]->w, spriteDraws[i]->h, sf::Color(spriteDraws[i]->color.r, spriteDraws[i]->color.g, spriteDraws[i]->color.b, spriteDraws[i]->color.a));
+			multiPipelineManager->executeWithRectangle(absoluteSpriteDraws[i]->pipelineIndex, RTSel, absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->w, absoluteSpriteDraws[i]->h, sf::Color(absoluteSpriteDraws[i]->color.r, absoluteSpriteDraws[i]->color.g, absoluteSpriteDraws[i]->color.b, absoluteSpriteDraws[i]->color.a));
 		}
 		else if (absoluteSpriteDraws[i]->type == 3) {
 			pGraphics->drawCircle(absoluteSpriteDraws[i]->x, absoluteSpriteDraws[i]->y, absoluteSpriteDraws[i]->r, absoluteSpriteDraws[i]->color);

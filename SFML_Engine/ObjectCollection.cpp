@@ -4,14 +4,14 @@
 
 ObjectCollection::ObjectCollection() {}
 
-ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera) {
+ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, Inventory* _pinventory) {
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
 	debug = false;
-	inventory = Inventory();
+	pInventory = _pinventory;
 }
 
 void ObjectCollection::draw() {
@@ -47,7 +47,7 @@ void ObjectCollection::draw() {
 	}
 	//inventory test drawing:
 	pSpriteCollection->setFullBrightMode(true);
-	pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(inventory.getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->addAbsoluteTextDraw(1, 50, 50, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
 	pSpriteCollection->setFullBrightMode(false);
 	
 	numBeamsToDraw = 0;
@@ -338,7 +338,7 @@ void ObjectCollection::runCollisionDetection() {
 		if (objects[i]->getCollidability() == controllable) {
 			for (int j = i+1; j < objects.size(); j++) {
 				if (objects[i]->getId() == cameraFocusId && objects[j]->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), objects[j]->getBoundingBoxPointer())) {
-					inventory.addResources(Resource::scrap, 1);
+					pInventory->addResources(Resource::scrap, 1);
 					objects[j]->setToDestroy(true);
 					continue;
 				}
@@ -610,7 +610,7 @@ void ObjectCollection::clear(){
 }
 
 void ObjectCollection::AddToInventory(Resource resource, int amount){
-	inventory.addResources(resource, amount);
+	pInventory->addResources(resource, amount);
 }
 
 void ObjectCollection::freeObjectMemory(int index) {

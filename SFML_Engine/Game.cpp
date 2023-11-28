@@ -84,10 +84,13 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.setGlobalVolume(1);
 	console = Console();
 	timer = Timer(250, &console);
-	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera);
-	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager);
+	inventory = Inventory();
+	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera, &inventory);
 	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection);
-	
+	builder = Builder(&spriteCollection, &inventory, &console, &inputManager);
+	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder);
+	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager);
+
 	spriteCollection.loadTexture("pic1", "resources/pic1.png");
 	spriteCollection.loadTexture("pic2", "resources/pic2.png");
 	spriteCollection.loadTexture("pic3", "resources/pic3.png");
@@ -300,10 +303,18 @@ void Game::Run() {
 	
 	if (!mainMenu) {
 		//in game
+		if (inputManager.onKeyDown(z)) {
+			uiManager.loadNewMenu(MenuType::builder);
+			uiManager.setActive(true);
+		}
+		if (inputManager.onKeyDown(x)) {
+			uiManager.setActive(false);
+		}
 		if (controlSwitcher.getControlling()) {
 			console.setControlPosition(controlSwitcher.getControlPosition());
 		}
 		objectCollection.update();
+		builder.update();
 		if (objectCollection.getControlledDead()) {
 			controlSwitcher.setControlling(false);
 		}
@@ -321,6 +332,7 @@ void Game::Run() {
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
+	uiManager.update();
 	console.incrementFrame();
 
 }
@@ -366,7 +378,10 @@ void Game::Draw() {
 		snowSystem.drawMenu(-50, 1);
 		snowSystem2.drawMenu(10, 2);
 	}
+	uiManager.draw();
+	builder.draw();
 	spriteCollection.drawAll();
+	
 	frame++;
 
 	//debug timing stuff
@@ -412,6 +427,8 @@ void Game::loadGameplay(){
 	objectCollection.addRelay(-150, 00);
 	objectCollection.addMarketRelay(150, 0);
 	objectCollection.addAutoTurret(0, -150);
+
+	
 
 	glm::vec2 temp;
 	int genRange = 4000;

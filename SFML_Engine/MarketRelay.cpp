@@ -150,7 +150,7 @@ void MarketRelay::draw() {
 		//(Image * pImage, float x, float y, float z, int sX, int sY, int sW, int sH, float scale, float opacity)
 		//pSpriteCollection->setFullBrightMode(true);
 		pSpriteCollection->setFullBrightMode(true);
-		pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 300, sf::Color(255, 255, 255, 100));
+		pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 300, sf::Color(255, 255, 0, 100));
 		pSpriteCollection->setFullBrightMode(false);
 		//pSpriteCollection->setFullBrightMode(false);
 		//pSpriteCollection->addRectDraw(finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, 1000000, sf::Color(255, 255, 255, 50));

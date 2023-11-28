@@ -13,6 +13,13 @@ bool CollisionDetection::pointRectangleIntersect(glm::vec2 _point, BoundingBox* 
 	}
 	return false;
 }
+bool CollisionDetection::pointRectangleIntersect(glm::vec2 _point, glm::vec4 _rect)
+{
+	if (_point.x > _rect[0] && _point.x < _rect[0] + _rect[2] && _point.y > _rect[1] && _point.y < _rect[1] + _rect[3]) {
+		return true;
+	}
+	return false;
+}
 bool CollisionDetection::CheckRectangleIntersect(glm::vec4* _rect1, glm::vec4* _rect2)
 {
 	if (_rect1->x + _rect1->z > _rect2->x && _rect1->x < _rect2->x + _rect2->z && _rect1->y + _rect1->w > _rect2->y && _rect1->y < _rect2->y + _rect2->w)

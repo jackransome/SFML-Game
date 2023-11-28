@@ -6,6 +6,7 @@
 #include "SnowSystem.h"
 #include "ControlSwitcher.h"
 #include "ShaderManager.h"
+#include "UIManager.h"
 
 class Game {
 public:
@@ -49,6 +50,9 @@ private:
 	Timer timer;
 	SnowSystem snowSystem;
 	SnowSystem snowSystem2;
+	Builder builder;
+	Inventory inventory;
+	UIManager uiManager;
 	sf::Shader shader1;
 	float ambientLightLevel = 0;
 	sf::Glsl::Vec3 ambientLightColour;

@@ -9,6 +9,7 @@ enum class BuildType {
 
 class Builder {
 public:
+	Builder() {};
 	Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager);
 	bool hasResources(BuildType buildType);
 	void activate(BuildType buildType);

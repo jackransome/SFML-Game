@@ -162,6 +162,7 @@
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="AutoTurret.cpp" />
     <ClCompile Include="Builder.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="CommandExecuter.cpp" />
