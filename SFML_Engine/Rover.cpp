@@ -14,7 +14,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
 	isMining = false;
 	type = objectRover;
-
+	isLiving = true;
 }
 
 Rover::~Rover(){

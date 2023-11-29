@@ -15,6 +15,11 @@ bool Builder::hasResources(BuildType buildType)
 			return true;
 		}
 		break;
+	case BuildType::relay:
+		if (pInventory->getResources(Resource::scrap) >= 4) {
+			return true;
+		}
+		break;
 	}
 	return false;
 }
@@ -39,6 +44,12 @@ void Builder::update(){
 					pConsole->addCommand(commandAddObject, objectAutoTurret, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 				}
 				break;
+			case BuildType::relay:
+				if (pInventory->getResources(Resource::scrap) >= 4) {
+					buy(currentBuildType);
+					pConsole->addCommand(commandAddObject, objectRelay, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+				}
+				break;
 			}
 			active = false;
 		}
@@ -56,5 +67,9 @@ void Builder::buy(BuildType buildType){
 	case BuildType::turret:
 		pInventory->removeResources(Resource::scrap, 2);
 		break;
+	case BuildType::relay:
+		pInventory->removeResources(Resource::scrap, 2);
+		break;
+
 	}
 }

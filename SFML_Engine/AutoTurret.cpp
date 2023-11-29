@@ -22,7 +22,6 @@ void AutoTurret::onDeath() {
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
 }
 
-
 void AutoTurret::update() {
 	//get angle from our center to the target and set barrelRotation
 	

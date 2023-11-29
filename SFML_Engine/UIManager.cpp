@@ -42,7 +42,8 @@ void UIManager::loadNewMenu(MenuType menuType){
 	case MenuType::pause:
 		break;
 	case MenuType::builder:
-		addButton(ButtonType::build, BuildType::turret, glm::vec4(500,500,500,100));
+		addButton(ButtonType::build, BuildType::turret, glm::vec4(50,500,250,50));
+		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 600, 250, 50));
 		break;
 	}
 }

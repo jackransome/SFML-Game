@@ -4,7 +4,7 @@
 #include "InputManager.h"
 
 enum class BuildType {
-	turret, teleporter
+	turret, teleporter, relay
 };
 
 class Builder {

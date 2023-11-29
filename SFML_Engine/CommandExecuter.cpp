@@ -45,6 +45,9 @@ void CommandExecuter::execute(Command command) {
 		case objectDefenseOrb:
 			pObjectCollection->addDefenseOrb(command.f1, command.f2);
 			break;
+		case objectRelay:
+			pObjectCollection->addRelay(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
