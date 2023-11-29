@@ -6,7 +6,7 @@ Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y) :
 	opacity = 0.25 + 0.5 * (rand() % 10) / 10;
 	decay = 0.975 - float(rand() % 8) * 0.025;
 	riseSpeed = 0.75 + float(rand() % 8) / 8;
-	type = objectFootprint;
+	type = objectSmoke;
 	image = "decoration_smoke_" + std::to_string(rand()%4 + 1);
 	rotation = rand() % 360;
 }

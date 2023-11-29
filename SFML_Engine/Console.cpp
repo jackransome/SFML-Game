@@ -1,10 +1,16 @@
-#include "Console.h"
+﻿#include "Console.h"
 #include <chrono>
 
 Console::Console() {
 	commands = std::queue<Command>();
 	int e = commands.size();
 	int r = 4;
+	trigTable.resize(361); // Resize the vector to hold 361 elements
+
+	for (int i = 0; i <= 360; ++i) {
+		float rad = i * 3.14159265358979323846f / 180.0f; // Use a more precise value of π
+		trigTable[i] = glm::vec2(cos(rad), sin(rad));
+	}
 }
 
 void Console::addCommand(CommandType _type) {
@@ -111,4 +117,9 @@ Command Console::getCommand(bool toLog) {
 		log.push(temp);
 	}
 	return temp;
+}
+
+glm::vec2 Console::getTrigValue(int degrees)
+{
+	return trigTable[degrees];
 }

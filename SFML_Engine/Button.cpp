@@ -14,6 +14,10 @@ void Button::setHover(bool hover){
 	hoverOver = hover;
 }
 
+bool Button::getHover(){
+	return hoverOver;
+}
+
 glm::vec4 Button::getBbox(){
 	return bbox;
 }
@@ -41,6 +45,7 @@ BuildButton::BuildButton(SpriteCollection* _pSpriteCollection, Builder* _pBuilde
 }
 
 void BuildButton::press(){
+	
 	pBuilder->activate(buildType);
 }
 

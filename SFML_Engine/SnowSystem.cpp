@@ -1,9 +1,9 @@
 #include "SnowSystem.h"
 #include <chrono>
 
-SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos){
+SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos){
 	pSpriteCollection = _pSpriteCollection;
-	
+	pCamera = _pCamera;
 	pScreenW = _pScreenW;
 	pScreenH = _pScreenH;
 	//loop through array and fill
@@ -14,10 +14,11 @@ SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int
 	pMenuTexture = pSpriteCollection->getPointerFromName("menu_snow");
 }
 
-void SnowSystem::run(glm::vec2 cameraPos) {
+void SnowSystem::run() {
 	time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	//get direction vector
 	glm::vec2 direction = glm::vec2(cos(fallAngle), sin(fallAngle));
+	glm::vec2 cameraPos = pCamera->getPosition();
 	//get normal to direction vector
 	glm::vec2 normalDirection = glm::vec2(direction.y*0.5, direction.x*0.5);
 	for (int i = 0; i < size; i++) {
@@ -38,11 +39,10 @@ void SnowSystem::run(glm::vec2 cameraPos) {
 void SnowSystem::draw(float z){
 	for (int i = 0; i < size; i++) {
 		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x, snowParts[i].y, z, 2, snowParts[i].opacity * opacity, 800*2, 800*2);
-		
-		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
-
 	}
+	glm::vec2 cameraPos = pCamera->getPosition();
 	//pSpriteCollection->addRectDraw(-19.2/2, -10.8/2, 19.2, 10.8, 1100000, sf::Color(0, 0, 255));
+	pSpriteCollection->addRectDraw(cameraPos.x - *pScreenW / 2, cameraPos.x - *pScreenH / 2, *pScreenW, *pScreenH, 100000, sf::Color(255, 255, 255, 150*(size/maxSize)));
 }
 
 void SnowSystem::drawMenu(float z, float scale) {
@@ -69,6 +69,16 @@ void SnowSystem::setOpacity(float _opacity){
 
 void SnowSystem::setSize(int _size){
 	size = _size;
+}
+
+void SnowSystem::changeSize(int change){
+	size += change;
+	if (size > maxSize) {
+		size = maxSize;
+	}
+	else if (size < 0) {
+		size = 0;
+	}
 }
 
 void SnowSystem::setSinMultiplier(float sM){

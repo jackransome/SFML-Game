@@ -9,6 +9,7 @@ Controllable(200) {
 	pConsole = _pConsole;
 	pSoundPlayer = _pSoundPlayer;
 	type = objectDefenseOrb;
+	isLiving = true;
 	mainStack = SpriteStack(pSpriteCollection, "DefenseOrb_stack", 10, 10, 14, 2); //CHANGE
 }
 
@@ -21,7 +22,7 @@ DefenseOrb::~DefenseOrb(){
 void DefenseOrb::update(){
 	glm::vec2 center = getCenter();
 	
-	if (controlled) {
+	if (controlled && !pInputManager->getMenuMode()) {
 		target = glm::vec2(pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 
 		float speed = 0.4;
@@ -52,7 +53,7 @@ void DefenseOrb::update(){
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 	rotation = 180.0f * atan2((target.y - center.y), (target.x - center.x)) / (3.1415);
-	if (controlled) {
+	if (controlled && !pInputManager->getMenuMode()) {
 		if (pInputManager->isKeyDown(mouseL)) {
 			//glm::vec2 center = getCenter();
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cos(3.1415 * rotation / 180.0f), 12 * sin(3.1415 * rotation / 180.0f) - 8 + sin(bob_counter) * 3);

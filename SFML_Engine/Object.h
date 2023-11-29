@@ -36,8 +36,9 @@ public:
 	bool getSellable();
 	bool getHostile();
 	void push(float x, float y);
-	bool hasBody();
 	int getPhysicsBodyType();
+	bool getLiving();
+	bool getIsEnemy();
 protected:
 	bool sellable = false;
 	bool controlled = false;
@@ -53,6 +54,8 @@ protected:
 	Collidability collidability;
 	ObjectType type;
 	bool hostile = false;
+	bool isLiving = false;
 	bool hasGravity;
 	int physicsBodyType = 0;
+	bool isEnemy = false;
 };

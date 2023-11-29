@@ -161,7 +161,9 @@ public:
 	void incrementFrame();
 	int getFrame();
 	Command getCommand(bool toLog = true);
+	glm::vec2 getTrigValue(int degrees);
 private:
+	std::vector<glm::vec2> trigTable; // 0 to 360 degrees
 	glm::vec2 controlPositon = glm::vec2(0, 0);
 	long int frame = 0;
 	bool enableLogging = false;

@@ -31,7 +31,7 @@ void Rover::update() {
 	//boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled) {
+	if (controlled && !pInputManager->getMenuMode()) {
 		if (pInputManager->isKeyDown(a)) {
 			direction -= 0.1;
 		}

@@ -16,12 +16,14 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	mainAnimation.setChangeTimer(3);
 	mainAnimation.setOpacity(1);
 	hostile = true;
+	isLiving = true;
 	damageRange = 60;
 	maxReload = 15;
 	targetingRange = 500;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
 	pSoundPlayer->setVolume(AmbientSoundId, 0);
+	isEnemy = true;
 
 }
 
@@ -85,12 +87,8 @@ void Enemy::update() {
 }
 
 void Enemy::draw() {
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + 12, boundingBox.y + 6), glm::vec3(255, 0, 0), 1.0, 2);
-	//pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y + 6), glm::vec3(255, 0, 0), 0.04, 0);
-	if (hasTarget) {
-		//pSpriteCollection->drawBeamLight(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), target, glm::vec3(255, 0, 0), 0.04, 0);
-		//pSpriteCollection->drawBeamLight(glm::vec2(boundingBox.x + 12, boundingBox.y - 12), target, glm::vec3(255, 0, 0), 0.2, 2);
-	}
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x+12, boundingBox.y + 6), glm::vec3(255, 0, 0), 2, 3);
+	
 	mainAnimation.run();
 	mainAnimation.draw(boundingBox.x, boundingBox.y, boundingBox.y + boundingBox.h);
 	//pSpriteCollection->addShaderToLast("blur_h");

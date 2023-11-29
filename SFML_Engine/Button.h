@@ -15,6 +15,7 @@ public:
 	virtual void update() {};
 	bool getActive();
 	void setHover(bool hover);
+	bool getHover();
 	glm::vec4 getBbox();
 
 protected:

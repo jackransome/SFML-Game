@@ -205,8 +205,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
-	snowSystem = SnowSystem(&spriteCollection, &screenW, &screenH, camera.getPosition());
-	snowSystem2 = SnowSystem(&spriteCollection, &screenW, &screenH, camera.getPosition());
+	soundPlayer.loadSound("menu_hover", "resources/sound_menu_hover.wav");
+	soundPlayer.loadSound("menu_click", "resources/sound_menu_click.wav");
+	snowSystem = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
+	snowSystem2 = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
 	camera.setScreenshakeCutoff(0.1);
 	camera.setScreenshakeDecay(0.9);
@@ -306,9 +308,11 @@ void Game::Run() {
 		if (inputManager.onKeyDown(z)) {
 			uiManager.loadNewMenu(MenuType::builder);
 			uiManager.setActive(true);
+			inputManager.setMenuMode(true);
 		}
 		if (inputManager.onKeyDown(x)) {
 			uiManager.setActive(false);
+			inputManager.setMenuMode(false);
 		}
 		if (controlSwitcher.getControlling()) {
 			console.setControlPosition(controlSwitcher.getControlPosition());
@@ -322,13 +326,19 @@ void Game::Run() {
 		while (console.getSize() > 0) {
 			commandExecuter.execute(console.getCommand());
 		}
-
-		snowSystem.run(camera.getPosition());
+		if (inputManager.isKeyDown(c)) {
+			snowSystem.changeSize(-1);
+		}
+		if (inputManager.isKeyDown(v)) {
+			snowSystem.changeSize(+1);
+		}
+		snowSystem.run();
 	}
 	else {
 		//menu
-		snowSystem.run(glm::vec2(screenW / 2, screenH / 2));// glm::vec2(screenW / 2, screenH / 2));
-		snowSystem2.run(glm::vec2(screenW / 2, screenH / 2));//glm::vec2(screenW/2, screenH/2));
+
+		snowSystem.run();// glm::vec2(screenW / 2, screenH / 2));
+		snowSystem2.run();//glm::vec2(screenW/2, screenH/2));
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
@@ -347,7 +357,7 @@ void Game::Draw() {
 		//in game
 		camera.runscreenShake();
 		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1, 4500, 4500);
-		spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
+		//spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
 		objectCollection.draw();
 		snowSystem.draw(100000);
 		//objectCollection.drawHealthBars();
@@ -424,7 +434,7 @@ void Game::finishAudio(){
 void Game::loadGameplay(){
 	snowSystem.setSpeed(4.5);
 	snowSystem.setFallAngle(0.5);
-	snowSystem.setSize(30);
+	snowSystem.setSize(50);
 	snowOpacity = 0.6;
 	snowSystem.setOpacity(snowOpacity);
 	snowSystem.setSinMultiplier(2);
@@ -484,7 +494,7 @@ void Game::loadMenu(){
 	soundPlayer.update();
 	music_id = soundPlayer.playSoundByName("menu_music", 0.6);
 	soundPlayer.loopSound(music_id);
-	camera.setPosition(screenW / 2 + 100, screenH / 2 + 100);
+	camera.setPosition(screenW / 2, screenH / 2);
 }
 
 void Game::unloadMenu() {

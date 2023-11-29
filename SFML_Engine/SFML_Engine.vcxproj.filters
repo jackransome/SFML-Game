@@ -326,9 +326,6 @@
     <ClInclude Include="EventLoader.h">
       <Filter>Header Files\Timing/Events system</Filter>
     </ClInclude>
-    <ClInclude Include="EventType.h">
-      <Filter>Header Files\Timing/Events system</Filter>
-    </ClInclude>
     <ClInclude Include="Controllable.h">
       <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
@@ -361,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Builder.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

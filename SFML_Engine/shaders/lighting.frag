@@ -63,7 +63,10 @@ void main()
 				newBloomIntensity = pointLightIntensities[j] / (d*d);
 			} else if (pointLightTypes[j] == 2.0) {
 				newBloomIntensity = pointLightIntensities[j] / (d*d);
-				newLightIntensity = (pointLightIntensities[j]/20.0) / (d*d*0.00005 + 1.0);
+				newLightIntensity = (pointLightIntensities[j]/10.0) / (d*d*0.00005 + 1.0);
+		} else if (pointLightTypes[j] == 3.0) {
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
+				newLightIntensity = (pointLightIntensities[j]* 0.02) / (d*d*0.00005 + 1.0);
 			}
 			
 			bloomColour += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newBloomIntensity);

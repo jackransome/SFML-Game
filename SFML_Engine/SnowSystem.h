@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteCollection.h"
 
+
 struct SnowPart {
 	float x;
 	float y;
@@ -17,14 +18,15 @@ struct SnowPart {
 class SnowSystem {
 public:
 	SnowSystem() {}
-	SnowSystem(SpriteCollection* _pSpriteCollection, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos);
-	void run(glm::vec2 cameraPos);
+	SnowSystem(SpriteCollection* _pSpriteCollection, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos);
+	void run();
 	void draw(float z);
 	void drawMenu(float z, float scale);
 	void setFallAngle(float _fallAngle);
 	void setSpeed(float _fallSpeed);
 	void setOpacity(float _opacity);
 	void setSize(int _size);
+	void changeSize(int change);
 	void setSinMultiplier(float sM);
 private:
 	SpriteCollection* pSpriteCollection;
@@ -43,4 +45,5 @@ private:
 	float sinMultiplier = 1;;
 	TextureWrapper* pTexture;
 	TextureWrapper* pMenuTexture;
+	Camera* pCamera;
 };

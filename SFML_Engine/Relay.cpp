@@ -14,7 +14,7 @@ Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlay
 	pSoundPlayer->loopSound(AmbientSoundId);
 	canBePickedUp = true;
 	type = objectRelay;
-
+	isLiving = true;
 
 }
 

@@ -18,7 +18,7 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	pSoundPlayer->loopSound(AmbientSoundId);
 	sellSpaceWidth = 200;
 	sellSpaceHeight = 200;
-
+	isLiving = true;
 }
 
 MarketRelay::~MarketRelay(){
@@ -26,7 +26,7 @@ MarketRelay::~MarketRelay(){
 }
 
 void MarketRelay::update() {
-	if (controlled) {
+	if (controlled && !pInputManager->getMenuMode()) {
 		//buy
 		if (pInputManager->onKeyDown(y)) {
 			if (credits >= 5) {

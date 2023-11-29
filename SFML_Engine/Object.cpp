@@ -122,3 +122,11 @@ int Object::getPhysicsBodyType(){
 	// 2 = dynamic
 	return physicsBodyType;
 }
+
+bool Object::getLiving(){
+	return isLiving;
+}
+
+bool Object::getIsEnemy(){
+	return isEnemy;
+}

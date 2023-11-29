@@ -27,7 +27,7 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	imageStandLeft = SpriteSheet(pSpriteCollection, "mc_stand_left", 16, 32, 1, 2);
 	imageStandRight = SpriteSheet(pSpriteCollection, "mc_stand_right", 16, 32, 1, 2);
 	direction = down;
-
+	isLiving = true;
 	type = objectMainCharacter;
 
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
@@ -45,7 +45,7 @@ void MainCharacter::update() {
 	//boundingBox.y = 100*position.y;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled) {
+	if (controlled && !pInputManager->getMenuMode()) {
 		if (pInputManager->isKeyDown(lShift)) {
 			vel = 4;
 			sprinting = true;

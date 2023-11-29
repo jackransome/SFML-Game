@@ -1,4 +1,4 @@
-#include "AutoTurret.h"
+﻿#include "AutoTurret.h"
 
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
@@ -7,15 +7,14 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	target = glm::vec2(0, 0);
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
-	type = objectNull;
+	type = objectAutoTurret;
 	pSoundPlayer = _pSoundPlayer;
 	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2); //CHANGE
 	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 8, 2); //CHANGE
 	targetingRange = 600;
 	canBePickedUp = true;
 	maxReload = 15;
-	type = objectAutoTurret;
-
+	isLiving = true;
 	physicsBodyType = 1;
 }
 void AutoTurret::onDeath() {
@@ -23,24 +22,30 @@ void AutoTurret::onDeath() {
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
 }
 
+
 void AutoTurret::update() {
 	//get angle from our center to the target and set barrelRotation
-
+	
 	//std::cout << target.x << "|" << target.y << "|" << barrelRotation << "\n";
 	//if ready to fire, fire (via command)
 	if (hasTarget ){
-		glm::vec2 center = getCenter();
-		barrelRotation = 180.0f * atan2((target.y - center.y), (target.x - center.x)) / (3.1415);
 		if (reloadTimer <= 0) {
-			glm::vec2 distVector = pConsole->getControlPosition() - getCenter();
+			glm::vec2 center = getCenter();
+			barrelRotation = 180.0f * atan2((target.y - center.y), (target.x - center.x)) / (3.1415);
+		
+			glm::vec2 distVector = pConsole->getControlPosition() - center;
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
 			float targetVelMagnitude = sqrt(targetVel.x * targetVel.x + targetVel.y * targetVel.y);
 			float timetoTarget = distance / projectileSpeed;
 			target += targetVel * timetoTarget;
 
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2 / (1 + distance / 100));
-
-			glm::vec2 shootPos = getCenter() + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f));
+			if (barrelRotation < 0) {
+				barrelRotation += 360; // Adjust for negative angles
+			}
+			glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
+			glm::vec2 shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 16);
+			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);

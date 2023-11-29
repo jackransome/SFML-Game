@@ -23,7 +23,10 @@ public:
 	float mouseY;
 	float translatedMouseX;
 	float translatedMouseY;
+	bool getMenuMode();
+	void setMenuMode(bool mode);
 private:
+	bool menuMode = false;
 	int* pScreenW;
 	int* pScreenH;
 	sf::RenderWindow* pWindow;

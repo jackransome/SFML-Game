@@ -633,3 +633,11 @@ void InputManager::translateMouseCoords(float cameraX, float cameraY){
 	translatedMouseX = mouseX + cameraX;
 	translatedMouseY = mouseY + cameraY;
 }
+
+bool InputManager::getMenuMode() {
+	return menuMode;
+}
+
+void InputManager::setMenuMode(bool mode){
+	menuMode = mode;
+}

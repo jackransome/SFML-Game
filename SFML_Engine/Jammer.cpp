@@ -10,7 +10,8 @@ Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPl
 		pSoundPlayer = _pSoundPlayer;
 		spriteStack = SpriteStack(pSpriteCollection, "jammer_stack_1", 8, 8, 16, 2);
 		canBePickedUp = true;
-		type = objectMarketRelay;
+		type = objectJammer;
+		isLiving = true;
 		AmbientSoundId = pSoundPlayer->playSoundByName("jammer_ambient_1", 0.1);
 		pSoundPlayer->loopSound(AmbientSoundId);
 }

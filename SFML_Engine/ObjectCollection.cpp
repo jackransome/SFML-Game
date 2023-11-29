@@ -1,6 +1,7 @@
 #include "ObjectCollection.h"
 #include "CollisionDetection.h"
 #include <cstdlib>  // For rand() and RAND_MAX
+#include <chrono>
 
 ObjectCollection::ObjectCollection() {}
 
@@ -127,7 +128,6 @@ void ObjectCollection::update() {
 		}
 		//if enemy
 		if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
-
 			glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
 			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
 				tempE->setTarget(target.x, target.y, target.z, target.w);
@@ -146,8 +146,10 @@ void ObjectCollection::update() {
 			i--;
 			continue;
 		}
-		hit = false;
 		projectiles[i]->run();
+		
+		hit = false;
+		
 		for (int j = 0; j < objects.size(); j++) {
 			if (objects[j]->getId() != projectiles[i]->getFromID() && objects[j]->getType() != objectScrapMetalDrop) {
 				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
@@ -318,41 +320,41 @@ void ObjectCollection::setLatestConsole() {
 
 void ObjectCollection::runCollisionDetection() {
 	for (int i = 0; i < objects.size(); i++) {
-		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() == movable) {
-			for (int j = 0; j < objects.size(); j++) {
-				if (i != j) {
-	
-					if (!objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
-						if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
-							CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+		if (!objects[i]->getPickedUp()){
+			if(objects[i]->getCollidability() == movable) {
+				for (int j = 0; j < objects.size(); j++) {
+					if (i != j) {
+
+						if (!objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
+							if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
+								CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+							}
+							else {
+								CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+							}
 						}
-						else {
+					}
+				}
+			}
+			if (objects[i]->getCollidability() == controllable) {
+				for (int j = 0; j < objects.size(); j++) {
+					if (i != j) {
+						if (objects[i]->getId() == cameraFocusId && objects[j]->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), objects[j]->getBoundingBoxPointer())) {
+							pInventory->addResources(Resource::scrap, 1);
+							objects[j]->setToDestroy(true);
+							continue;
+						}
+						if (objects[j]->getCollidability() == controllable) {
 							CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
 						}
 					}
 				}
-
-
 			}
-		}
-		if (objects[i]->getCollidability() == controllable) {
-			for (int j = i+1; j < objects.size(); j++) {
-				if (objects[i]->getId() == cameraFocusId && objects[j]->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), objects[j]->getBoundingBoxPointer())) {
-					pInventory->addResources(Resource::scrap, 1);
-					objects[j]->setToDestroy(true);
-					continue;
-				}
-				if (objects[j]->getCollidability() == controllable) {
-					CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-				}
-			}
-		}
-	}
-	for (int i = 0; i < objects.size(); i++) {
-		if (!objects[i]->getPickedUp() && objects[i]->getCollidability() < movable) {
-			for (int j = 0; j < objects.size(); j++) {
-				if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-					CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+			if (objects[i]->getCollidability() < movable) {
+				for (int j = 0; j < objects.size(); j++) {
+					if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
+						CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
+					}
 				}
 			}
 		}
@@ -404,7 +406,7 @@ void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
 	}
 }
 
-glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction){
+/*glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction) {
 	FactionIdentifier targetFaction;
 	if (faction == factionFriendly) {
 		targetFaction = factionHostile;
@@ -426,7 +428,38 @@ glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier fact
 	glm::vec2 tempPos = objects[minIndex]->getCenter() + glm::vec2(objects[minIndex]->getBoundingBox().xv * 5, objects[minIndex]->getBoundingBox().yv * 5);
 	glm::vec4 posAndVel = glm::vec4(tempPos.x, tempPos.y, objects[minIndex]->getBoundingBox().xv, objects[minIndex]->getBoundingBox().yv);
 	return posAndVel;
+}*/
+
+glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction) {
+	FactionIdentifier targetFaction = (faction == factionFriendly) ? factionHostile : factionFriendly;
+
+	int minDistance = 10000;
+	int minIndex = -1;
+	int objectsSize = objects.size(); // Store size if not changing in the loop
+	
+	for (int j = 0; j < objectsSize; j++) {
+
+		if (objects[j]->getLiving()) {
+			if ((targetFaction == factionHostile && objects[j]->getIsEnemy()) || (targetFaction == factionFriendly && !objects[j]->getIsEnemy())) {
+
+				int distance = CollisionDetection::getDistance(position, objects[j]->getCenter());
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					minIndex = j;
+				}
+			}
+		}
+	}
+	if (minIndex == -1) {
+		return glm::vec4(100000, 100000, 0, 0);
+	}
+
+	auto& targetObject = objects[minIndex];
+	glm::vec2 tempPos = targetObject->getCenter() + glm::vec2(targetObject->getBoundingBox().xv * 5, targetObject->getBoundingBox().yv * 5);
+	return glm::vec4(tempPos.x, tempPos.y, targetObject->getBoundingBox().xv, targetObject->getBoundingBox().yv);
 }
+
 
 void ObjectCollection::setCameraFocus(int id){
 	cameraFocusId = id;
