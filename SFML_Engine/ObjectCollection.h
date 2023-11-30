@@ -52,7 +52,7 @@ public:
 	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID);
 	void setLatestId();
 	void setLatestConsole();
-	void runCollisionDetection();
+	void runCollisionDetection(Object* o1, Object* o2);
 	void drawHealthBars();
 	void doAEODamage(float x, float y, float range, float damage, int id);
 	void setDebug(bool _debug);

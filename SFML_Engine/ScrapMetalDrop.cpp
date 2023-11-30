@@ -21,8 +21,7 @@ void ScrapMetalDrop::draw() {
 	else {
 		bob_counter = 0;
 	}
-	
-	spriteStack.draw(boundingBox.x, boundingBox.y + sin(bob_counter)*5, boundingBox.y, rotation);
+	spriteStack.draw(boundingBox.x, boundingBox.y + pConsole->getSinValue(bob_counter*58) *5, boundingBox.y, rotation);
 }
 
 void ScrapMetalDrop::update(){

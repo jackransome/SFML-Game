@@ -119,7 +119,23 @@ Command Console::getCommand(bool toLog) {
 	return temp;
 }
 
-glm::vec2 Console::getTrigValue(int degrees)
-{
+float Console::getSinValue(int degrees){
+	if (degrees >= 360 || degrees < 0) {
+		degrees = (degrees % 360 + 360) % 360;
+	}
+	return trigTable[degrees].y;
+}
+
+float Console::getCosValue(int degrees) {
+	if (degrees >= 360 || degrees < 0) {
+		degrees = (degrees % 360 + 360) % 360;
+	}
+	return trigTable[degrees].x;
+}
+
+glm::vec2 Console::getTrigValue(int degrees) {
+	if (degrees >= 360 || degrees < 0) {
+		degrees = (degrees % 360 + 360) % 360;
+	}
 	return trigTable[degrees];
 }

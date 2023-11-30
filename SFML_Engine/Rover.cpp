@@ -31,7 +31,7 @@ void Rover::update() {
 	//boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled && !pInputManager->getMenuMode()) {
+	if (controlled) {
 		if (pInputManager->isKeyDown(a)) {
 			direction -= 0.1;
 		}
@@ -61,23 +61,32 @@ void Rover::update() {
 		}
 		boundingBox.xv = -speed * sin(-direction);
 		boundingBox.yv = -speed * cos(-direction);
-		if (pInputManager->onKeyDown(e)) {
-			if (holding) {
-				pConsole->addCommand(commandDrop, id);
-				pSoundPlayer->playSoundByName("drop", 0.4);
+		if (!pInputManager->getMenuMode()) {
+			if (pInputManager->onKeyDown(e)) {
+				if (holding) {
+					pConsole->addCommand(commandDrop, id);
+					pSoundPlayer->playSoundByName("drop", 0.4);
+				}
+				else {
+					pConsole->addCommand(commandPickUp, id);
+				}
+			}
+			if (pInputManager->isKeyDown(e)) {
+				isMining = true;
+				if (!mineSoundPlaying) {
+					mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.1);
+					pSoundPlayer->loopSoundBetween(mineSoundId, 1, 2);
+					mineSoundPlaying = true;
+				}
+
 			}
 			else {
-				pConsole->addCommand(commandPickUp, id);
+				if (mineSoundPlaying) {
+					pSoundPlayer->stopSound(mineSoundId);
+				}
+				isMining = false;
+				mineSoundPlaying = false;
 			}
-		}
-		if (pInputManager->isKeyDown(e)) {
-			isMining = true;
-			if (!mineSoundPlaying) {
-				mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.1);
-				pSoundPlayer->loopSoundBetween(mineSoundId, 1, 2);
-				mineSoundPlaying = true;
-			}
-
 		}
 		else {
 			if (mineSoundPlaying) {
@@ -86,6 +95,7 @@ void Rover::update() {
 			isMining = false;
 			mineSoundPlaying = false;
 		}
+
 	}
 	else {
 		if (mineSoundPlaying) {

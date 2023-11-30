@@ -45,7 +45,7 @@ void MainCharacter::update() {
 	//boundingBox.y = 100*position.y;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled && !pInputManager->getMenuMode()) {
+	if (controlled) {
 		if (pInputManager->isKeyDown(lShift)) {
 			vel = 4;
 			sprinting = true;

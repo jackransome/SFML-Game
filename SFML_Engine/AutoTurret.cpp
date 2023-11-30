@@ -55,8 +55,11 @@ void AutoTurret::update() {
 }
 
 void AutoTurret::draw() {
-	float radians = 3.1415 * (barrelRotation-180) / 180.0f;
-	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cos(radians) -1 * sin(radians), 1 * sin(radians) + 1 * cos(radians) - 26);
+	if (barrelRotation < 0) {
+		barrelRotation += 360; // Adjust for negative angles
+	}
+	glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
+	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cosSinValues.x -1 * cosSinValues.y, 1 * cosSinValues.y + 1 * cosSinValues.x - 26);
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x-4, boundingBox.y-14, boundingBox.y+1, barrelRotation-90);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);

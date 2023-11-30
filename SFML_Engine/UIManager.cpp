@@ -16,11 +16,11 @@ void UIManager::update(){
 				glm::vec4 bbox = buttons[i]->getBbox();
 				if (CollisionDetection::pointRectangleIntersect(glm::vec2(pInputManager->mouseX, pInputManager->mouseY), bbox)) {
 					if (!buttons[i]->getHover()) {
-						pConsole->addCommand(commandPlaySound, "menu_hover", 0.05);
+						pConsole->addCommand(commandPlaySound, "menu_hover", 0.03);
 					}
 					buttons[i]->setHover(true);
 					if (pInputManager->onKeyDown(mouseL)) {
-						pConsole->addCommand(commandPlaySound, "menu_click", 0.1);
+						pConsole->addCommand(commandPlaySound, "menu_click", 0.6);
 						buttons[i]->press();
 					}
 				}

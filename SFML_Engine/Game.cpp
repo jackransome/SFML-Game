@@ -206,7 +206,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
 	soundPlayer.loadSound("menu_hover", "resources/sound_menu_hover.wav");
-	soundPlayer.loadSound("menu_click", "resources/sound_menu_click.wav");
+	soundPlayer.loadSound("menu_click", "resources/sound_menu_click2.wav");
 	snowSystem = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -306,13 +306,15 @@ void Game::Run() {
 	if (!mainMenu) {
 		//in game
 		if (inputManager.onKeyDown(z)) {
-			uiManager.loadNewMenu(MenuType::builder);
-			uiManager.setActive(true);
-			inputManager.setMenuMode(true);
-		}
-		if (inputManager.onKeyDown(x)) {
-			uiManager.setActive(false);
-			inputManager.setMenuMode(false);
+			if (inputManager.getMenuMode()) {
+				uiManager.setActive(false);
+				inputManager.setMenuMode(false);
+			}
+			else {
+				uiManager.loadNewMenu(MenuType::builder);
+				uiManager.setActive(true);
+				inputManager.setMenuMode(true);
+			}
 		}
 		if (controlSwitcher.getControlling()) {
 			console.setControlPosition(controlSwitcher.getControlPosition());
@@ -322,7 +324,6 @@ void Game::Run() {
 		if (objectCollection.getControlledDead()) {
 			controlSwitcher.setControlling(false);
 		}
-		objectCollection.runCollisionDetection();
 		while (console.getSize() > 0) {
 			commandExecuter.execute(console.getCommand());
 		}

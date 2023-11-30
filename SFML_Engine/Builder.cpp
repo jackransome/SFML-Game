@@ -1,27 +1,17 @@
 #include "Builder.h"
 
+// Define the map
+std::map<BuildType, CostData> costMap = {
+	{ BuildType::turret, {2, 0, 0, objectAutoTurret} },
+	{ BuildType::teleporter, {6, 0, 0, objectAutoTurret} },
+	{ BuildType::relay, {4, 0, 0, objectRelay} }
+};
+
 Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager){
 	pSpriteCollection = _pSpriteCollection;
 	pInventory = _pInventory;
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
-}
-
-bool Builder::hasResources(BuildType buildType)
-{
-	switch (buildType) {
-	case BuildType::turret:
-		if (pInventory->getResources(Resource::scrap) >= 2) {
-			return true;
-		}
-		break;
-	case BuildType::relay:
-		if (pInventory->getResources(Resource::scrap) >= 4) {
-			return true;
-		}
-		break;
-	}
-	return false;
 }
 
 void Builder::activate(BuildType buildType){
@@ -36,20 +26,9 @@ void Builder::cancel(){
 void Builder::update(){
 	if (active) {
 		if (pInputManager->onKeyDown(mouseL)) {
-			
-			switch (currentBuildType) {
-			case BuildType::turret:
-				if (pInventory->getResources(Resource::scrap) >= 2) {
-					buy(currentBuildType);
-					pConsole->addCommand(commandAddObject, objectAutoTurret, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
-				}
-				break;
-			case BuildType::relay:
-				if (pInventory->getResources(Resource::scrap) >= 4) {
-					buy(currentBuildType);
-					pConsole->addCommand(commandAddObject, objectRelay, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
-				}
-				break;
+			if (checkResources(currentBuildType)) {
+				buy(currentBuildType);
+				pConsole->addCommand(commandAddObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 			}
 			active = false;
 		}
@@ -62,14 +41,19 @@ void Builder::draw(){
 	}
 }
 
-void Builder::buy(BuildType buildType){
-	switch (buildType) {
-	case BuildType::turret:
-		pInventory->removeResources(Resource::scrap, 2);
-		break;
-	case BuildType::relay:
-		pInventory->removeResources(Resource::scrap, 2);
-		break;
-
+bool Builder::checkResources(BuildType buildType){
+	if (pInventory->getResources(Resource::scrap) < costMap[buildType].scrap) {
+		return false;
 	}
+	if (pInventory->getResources(Resource::component) < costMap[buildType].components) {
+		return false;
+	}
+	return true;
+}
+
+
+
+void Builder::buy(BuildType buildType){
+	pInventory->removeResources(Resource::scrap, costMap[buildType].scrap);
+	pInventory->removeResources(Resource::component, costMap[buildType].components);
 }

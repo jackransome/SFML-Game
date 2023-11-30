@@ -69,6 +69,12 @@ void ObjectCollection::update() {
 	//	}
 	//}
 	for (int i = 0; i < objects.size(); i++) {
+		for (int j = 0; j < objects.size(); j++) {
+			if (i != j) {
+				runCollisionDetection(objects[i], objects[j]);
+			}
+		}
+			
 		if (objects[i]->getPickedUp()) {
 			tempOb = getObjectById(objects[i]->getPickedUpById());
 			if (tempOb == nullptr) {
@@ -318,47 +324,34 @@ void ObjectCollection::setLatestConsole() {
 	objects[objects.size() - 1]->setConsolePointer(pConsole);
 }
 
-void ObjectCollection::runCollisionDetection() {
-	for (int i = 0; i < objects.size(); i++) {
-		if (!objects[i]->getPickedUp()){
-			if(objects[i]->getCollidability() == movable) {
-				for (int j = 0; j < objects.size(); j++) {
-					if (i != j) {
+void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
 
-						if (!objects[j]->getPickedUp() && objects[j]->getCollidability() == movable) {
-							if (objects[j]->getCollidability() > objects[i]->getCollidability()) {
-								CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-							}
-							else {
-								CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-							}
-						}
-					}
-				}
+	if(o1->getCollidability() == movable) {
+		if (!o2->getPickedUp() && o2->getCollidability() == movable) {
+			if (o2->getCollidability() > o1->getCollidability()) {
+				CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
 			}
-			if (objects[i]->getCollidability() == controllable) {
-				for (int j = 0; j < objects.size(); j++) {
-					if (i != j) {
-						if (objects[i]->getId() == cameraFocusId && objects[j]->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), objects[j]->getBoundingBoxPointer())) {
-							pInventory->addResources(Resource::scrap, 1);
-							objects[j]->setToDestroy(true);
-							continue;
-						}
-						if (objects[j]->getCollidability() == controllable) {
-							CollisionDetection::correctPositionBoth(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-						}
-					}
-				}
-			}
-			if (objects[i]->getCollidability() < movable) {
-				for (int j = 0; j < objects.size(); j++) {
-					if (i != j && !objects[j]->getPickedUp() && objects[j]->getCollidability() < 3 && objects[j]->getCollidability() > objects[i]->getCollidability()) {
-						CollisionDetection::correctPosition(objects[j]->getBoundingBoxPointer(), objects[i]->getBoundingBoxPointer());
-					}
-				}
+			else {
+				CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
 			}
 		}
+
 	}
+	if (o1->getCollidability() == controllable) {
+		if (o1->getId() == cameraFocusId && o2->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(o1->getBoundingBoxPointer(), o2->getBoundingBoxPointer())) {
+			pInventory->addResources(Resource::scrap, 1);
+			o2->setToDestroy(true);
+		}
+		if (o2->getCollidability() == controllable) {
+			CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+		}
+	}
+	if (o1->getCollidability() < movable) {
+		if (!o2->getPickedUp() && o2->getCollidability() < 3 && o2->getCollidability() > o1->getCollidability()) {
+			CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+		}
+	}
+
 }
 
 void ObjectCollection::drawHealthBars() {
@@ -376,12 +369,7 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage, 
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
 		if (objects[i]->getId() != id && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
-			//check if within range
-			/*if (i == 0) {
-				std::cout << "obj: " << objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2) << "|" << objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2) << "|\n";
-				std::cout << "mouse: " << x << "|" << y << "|\n";
-				std::cout << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x << "|" << (objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().h / 2)) - y << "|\n";
-			}*/
+
 			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do damage
 				living->doDamage(damage);
@@ -405,30 +393,6 @@ void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
 		}
 	}
 }
-
-/*glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction) {
-	FactionIdentifier targetFaction;
-	if (faction == factionFriendly) {
-		targetFaction = factionHostile;
-	} else if (faction == factionHostile) {
-		targetFaction = factionFriendly;
-	}
-	int minDistance = 10000;
-	int minIndex = -1;
-	for (int j = 0; j < objects.size(); j++) {
-		if (dynamic_cast<Living*>(objects[j]) && dynamic_cast<Living*>(objects[j])->getFaction() == targetFaction && CollisionDetection::getDistance(position, objects[j]->getCenter()) < minDistance) {
-			minDistance = CollisionDetection::getDistance(position, objects[j]->getCenter());
-			minIndex = j;
-		}
-	}
-	if (minIndex == -1) {
-		//std::cout << "NOTHING TO TARGET\n";
-		return glm::vec4(100000,100000, 0, 0);
-	}
-	glm::vec2 tempPos = objects[minIndex]->getCenter() + glm::vec2(objects[minIndex]->getBoundingBox().xv * 5, objects[minIndex]->getBoundingBox().yv * 5);
-	glm::vec4 posAndVel = glm::vec4(tempPos.x, tempPos.y, objects[minIndex]->getBoundingBox().xv, objects[minIndex]->getBoundingBox().yv);
-	return posAndVel;
-}*/
 
 glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction) {
 	FactionIdentifier targetFaction = (faction == factionFriendly) ? factionHostile : factionFriendly;

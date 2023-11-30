@@ -25,16 +25,20 @@ glm::vec4 Button::getBbox(){
 void Button::drawBox(){
 	pSpriteCollection->setFullBrightMode(true);
 	if (!active) {
-		pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(0, 0, 0, 120));
+		pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(0, 0, 0, 80));
 	}
 	else {
 		if (hoverOver) {
-			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(200, 200, 200, 120));
+			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(200, 200, 200, 80));
 		}
 		else {
-			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(255, 255, 255, 120));
+			pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(255, 255, 255, 80));
 		}
 	}
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0]+bbox[2]-4, bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1]+bbox[3] - 4, bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
 	pSpriteCollection->setFullBrightMode(false);
 }
 
@@ -55,7 +59,7 @@ void BuildButton::draw(){
 }
 
 void BuildButton::update(){
-	if (pBuilder->hasResources(buildType)) {
+	if (pBuilder->checkResources(buildType)) {
 		active = true;
 	} else {
 		active = false;

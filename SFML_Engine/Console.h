@@ -161,6 +161,8 @@ public:
 	void incrementFrame();
 	int getFrame();
 	Command getCommand(bool toLog = true);
+	float getSinValue(int degrees);
+	float getCosValue(int degrees);
 	glm::vec2 getTrigValue(int degrees);
 private:
 	std::vector<glm::vec2> trigTable; // 0 to 360 degrees
