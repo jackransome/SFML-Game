@@ -9,7 +9,7 @@ enum class ButtonType {
 
 class Button {
 public:
-	Button(SpriteCollection* _pSpriteCollection, ButtonType _type, glm::vec4 _bbox);
+	Button(Console* _pConsole, SpriteCollection* _pSpriteCollection, ButtonType _type, glm::vec4 _bbox);
 	virtual void press() {};
 	virtual void draw() {};
 	virtual void update() {};
@@ -19,6 +19,7 @@ public:
 	glm::vec4 getBbox();
 
 protected:
+	Console* pConsole;
 	glm::vec4 bbox;
 	ButtonType type;
 	SpriteCollection* pSpriteCollection;
@@ -29,7 +30,7 @@ protected:
 
 class BuildButton : public Button {
 public:
-	BuildButton(SpriteCollection* _pSpriteCollection, Builder* _pBuilder, BuildType _buildType, glm::vec4 _bbox);
+	BuildButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, Builder* _pBuilder, BuildType _buildType, glm::vec4 _bbox);
 	virtual void press() override;
 	virtual void draw() override;
 	virtual void update() override;

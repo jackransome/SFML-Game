@@ -35,7 +35,7 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation){
 		z = _z;
 	}
 	if (rasterizeMode) {
-		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+		pSpriteCollection->drawRasterization(&rasterization, z, x - size / 2, y - size / 2, size, size);
 	}
 	else {
 		drawNormally();
@@ -66,7 +66,7 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation, float _rx,
 		z = _z;
 	}
 	if (rasterizeMode) {
-		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+		pSpriteCollection->drawRasterization(&rasterization, z, x - size / 2, y - size / 2, size, size);
 	}
 	else {
 		drawNormally();
@@ -95,7 +95,7 @@ void SpriteStack::draw(float _x, float _y, float _z, float _rotation, std::strin
 		z = _z;
 	}
 	if (rasterizeMode) {
-		pSpriteCollection->drawRasterization(&rasterization, y + scale * height, x - size / 2, y - size / 2, size, size);
+		pSpriteCollection->drawRasterization(&rasterization, z, x - size / 2, y - size / 2, size, size);
 	}
 	else {
 		drawNormally();

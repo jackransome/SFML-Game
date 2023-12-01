@@ -118,6 +118,21 @@ void CommandExecuter::execute(Command command) {
 	case commandAddToInventory:
 		pObjectCollection->AddToInventory(command.resource, command.a);
 		break;
+	case commandChangeMenuState:
+		pUIManager->setState(command.a);
+		break;
+	case commandCloseMenu:
+		pUIManager->setActive(false);
+		break;
+	case commandOpenMenu:
+		pUIManager->setActive(true);
+		break;
+	case commandEnableMenuInputMode:
+		pInputManager->setMenuMode(true);
+		break;
+	case commandDisableMenuInputMode:
+		pInputManager->setMenuMode(false);
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

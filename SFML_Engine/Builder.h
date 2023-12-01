@@ -29,10 +29,11 @@ public:
 	void activate(BuildType buildType);
 	void cancel();
 	void update();
+	bool getActive();
 	void draw();
 	bool checkResources(BuildType buildType);
 private:
-	
+	bool mouseLDown = false;
 	void buy(BuildType buildType);
 	bool active = false;;
 	BuildType currentBuildType;

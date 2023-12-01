@@ -1,9 +1,10 @@
 #include "Button.h"
 
-Button::Button(SpriteCollection* _pSpriteCollection, ButtonType _type, glm::vec4 _bbox){
+Button::Button(Console* _pConsole, SpriteCollection* _pSpriteCollection, ButtonType _type, glm::vec4 _bbox){
 	pSpriteCollection = _pSpriteCollection;
 	type = _type;
 	bbox = _bbox;
+	pConsole = _pConsole;
 }
 
 bool Button::getActive(){
@@ -23,7 +24,6 @@ glm::vec4 Button::getBbox(){
 }
 
 void Button::drawBox(){
-	pSpriteCollection->setFullBrightMode(true);
 	if (!active) {
 		pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], bbox[3], 10000, sf::Color(0, 0, 0, 80));
 	}
@@ -37,13 +37,20 @@ void Button::drawBox(){
 	}
 	pSpriteCollection->addRectDraw(bbox[0], bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
 	pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
-	pSpriteCollection->addRectDraw(bbox[0]+bbox[2]-4, bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
-	pSpriteCollection->addRectDraw(bbox[0], bbox[1]+bbox[3] - 4, bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
-	pSpriteCollection->setFullBrightMode(false);
+	pSpriteCollection->addRectDraw(bbox[0] + bbox[2] - 4, bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1] + bbox[3] - 4, bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0] + bbox[2] - 4, bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1] + bbox[3] - 4, bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1], bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0] + bbox[2] - 4, bbox[1], 4, bbox[3], 10000, sf::Color(120, 120, 120, 80));
+	pSpriteCollection->addRectDraw(bbox[0], bbox[1] + bbox[3] - 4, bbox[2], 4, 10000, sf::Color(120, 120, 120, 80));
 }
 
-BuildButton::BuildButton(SpriteCollection* _pSpriteCollection, Builder* _pBuilder, BuildType _buildType, glm::vec4 _bbox) :
-	Button(_pSpriteCollection, ButtonType::build, _bbox) {
+BuildButton::BuildButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, Builder* _pBuilder, BuildType _buildType, glm::vec4 _bbox) :
+	Button(_pConsole, _pSpriteCollection, ButtonType::build, _bbox) {
 	buildType = _buildType;
 	pBuilder = _pBuilder;
 }
@@ -51,11 +58,11 @@ BuildButton::BuildButton(SpriteCollection* _pSpriteCollection, Builder* _pBuilde
 void BuildButton::press(){
 	
 	pBuilder->activate(buildType);
+	pConsole->addCommand(commandCloseMenu);
 }
 
 void BuildButton::draw(){
 	drawBox();
-	
 }
 
 void BuildButton::update(){

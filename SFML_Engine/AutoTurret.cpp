@@ -10,7 +10,7 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	type = objectAutoTurret;
 	pSoundPlayer = _pSoundPlayer;
 	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2); //CHANGE
-	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 8, 2); //CHANGE
+	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 11, 2); //CHANGE
 	targetingRange = 600;
 	canBePickedUp = true;
 	maxReload = 15;
@@ -43,7 +43,7 @@ void AutoTurret::update() {
 				barrelRotation += 360; // Adjust for negative angles
 			}
 			glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
-			glm::vec2 shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 16);
+			glm::vec2 shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
 			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
@@ -58,10 +58,14 @@ void AutoTurret::draw() {
 	if (barrelRotation < 0) {
 		barrelRotation += 360; // Adjust for negative angles
 	}
-	glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
-	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cosSinValues.x -1 * cosSinValues.y, 1 * cosSinValues.y + 1 * cosSinValues.x - 26);
+	glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation-144);
+	//glm::vec2 lightPos = getCenter() + glm::vec2(1 * cosSinValues.x -1 * cosSinValues.y, 1 * cosSinValues.y + 1 * cosSinValues.x - 34);
+	
+	//21, 23
+	glm::vec2 lightPos = getCenter() + glm::vec2(8.6*cosSinValues.x, 8.6 * cosSinValues.y + 7 - 42);
+	
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
-	barrelStack.draw(boundingBox.x-4, boundingBox.y-14, boundingBox.y+1, barrelRotation-90);
+	barrelStack.draw(boundingBox.x-4, boundingBox.y-16, boundingBox.y+1, barrelRotation-90);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
 }
 

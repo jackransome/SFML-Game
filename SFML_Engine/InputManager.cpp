@@ -44,6 +44,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH
 }
 
 void InputManager::update(){
+	disableMB = false;
 	lastKeyStruct = keyStruct;
 	while (pWindow->pollEvent(ev))
 	{
@@ -526,8 +527,10 @@ int InputManager::isKeyDown(keys key){
 	case downArrow:
 		return keyStruct.downArrow;
 	case mouseL:
+		if (disableMB) return 0;
 		return keyStruct.mouseL;
 	case mouseR:
+		if (disableMB) return 0;
 		return keyStruct.mouseR;
 	}
 	std::cout << "key not implemented!\n";
@@ -621,9 +624,108 @@ bool InputManager::onKeyDown(keys key) {
 	case downArrow:
 		return !lastKeyStruct.downArrow && keyStruct.downArrow;
 	case mouseL:
+		if (disableMB) return 0;
 		return !lastKeyStruct.mouseL && keyStruct.mouseL;
 	case mouseR:
+		if (disableMB) return 0;
 		return !lastKeyStruct.mouseR && keyStruct.mouseR;
+	}
+	std::cout << "key not implemented!\n";
+	return false;
+}
+
+bool InputManager::onKeyUp(keys key){
+	switch (key) {
+	case a:
+		return lastKeyStruct.a && !keyStruct.a;
+	case b:
+		return lastKeyStruct.b && !keyStruct.b;
+	case c:
+		return lastKeyStruct.c && !keyStruct.c;
+	case d:
+		return lastKeyStruct.d && !keyStruct.d;
+	case e:
+		return lastKeyStruct.e && !keyStruct.e;
+	case f:
+		return lastKeyStruct.f && !keyStruct.f;
+	case g:
+		return lastKeyStruct.g && !keyStruct.g;
+	case h:
+		return lastKeyStruct.h && !keyStruct.h;
+	case i:
+		return lastKeyStruct.i && !keyStruct.i;
+	case j:
+		return lastKeyStruct.j && !keyStruct.j;
+	case k:
+		return lastKeyStruct.k && !keyStruct.k;
+	case l:
+		return lastKeyStruct.l && !keyStruct.l;
+	case m:
+		return lastKeyStruct.m && !keyStruct.m;
+	case n:
+		return lastKeyStruct.n && !keyStruct.n;
+	case o:
+		return lastKeyStruct.o && !keyStruct.o;
+	case p:
+		return lastKeyStruct.p && !keyStruct.p;
+	case q:
+		return lastKeyStruct.q && !keyStruct.q;
+	case r:
+		return lastKeyStruct.r && !keyStruct.r;
+	case s:
+		return lastKeyStruct.s && !keyStruct.s;
+	case t:
+		return lastKeyStruct.t && !keyStruct.t;
+	case u:
+		return lastKeyStruct.u && !keyStruct.u;
+	case v:
+		return lastKeyStruct.v && !keyStruct.v;
+	case w:
+		return lastKeyStruct.w && !keyStruct.w;
+	case x:
+		return lastKeyStruct.x && !keyStruct.x;
+	case y:
+		return lastKeyStruct.y && !keyStruct.y;
+	case z:
+		return lastKeyStruct.z && !keyStruct.z;
+	case space:
+		return lastKeyStruct.space && !keyStruct.space;
+	case escape:
+		return lastKeyStruct.escape && !keyStruct.escape;
+	case n1:
+		return lastKeyStruct.n1 && !keyStruct.n1;
+	case n2:
+		return lastKeyStruct.n2 && !keyStruct.n2;
+	case n3:
+		return lastKeyStruct.n3 && !keyStruct.n3;
+	case n4:
+		return lastKeyStruct.n4 && !keyStruct.n4;
+	case n5:
+		return lastKeyStruct.n5 && !keyStruct.n5;
+	case n6:
+		return lastKeyStruct.n6 && !keyStruct.n6;
+	case n7:
+		return lastKeyStruct.n7 && !keyStruct.n7;
+	case n8:
+		return lastKeyStruct.n8 && !keyStruct.n8;
+	case n9:
+		return lastKeyStruct.n9 && !keyStruct.n9;
+	case n0:
+		return lastKeyStruct.n0 && !keyStruct.n0;
+	case lShift:
+		return lastKeyStruct.lShift && !keyStruct.lShift;
+	case lControl:
+		return lastKeyStruct.lControl && !keyStruct.lControl;
+	case upArrow:
+		return lastKeyStruct.upArrow && !keyStruct.upArrow;
+	case downArrow:
+		return lastKeyStruct.downArrow && !keyStruct.downArrow;
+	case mouseL:
+		if (disableMB) return 0;
+		return lastKeyStruct.mouseL && !keyStruct.mouseL;
+	case mouseR:
+		if (disableMB) return 0;
+		return lastKeyStruct.mouseR && !keyStruct.mouseR;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -634,10 +736,14 @@ void InputManager::translateMouseCoords(float cameraX, float cameraY){
 	translatedMouseY = mouseY + cameraY;
 }
 
-bool InputManager::getMenuMode() {
+int InputManager::getMenuMode() {
 	return menuMode;
 }
 
-void InputManager::setMenuMode(bool mode){
+void InputManager::setMenuMode(int mode){
 	menuMode = mode;
+}
+
+void InputManager::disableMouseButtons(){
+	disableMB = true;
 }

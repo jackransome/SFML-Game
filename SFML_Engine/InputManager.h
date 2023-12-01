@@ -18,15 +18,18 @@ public:
 	void update();
 	int isKeyDown(keys key);
 	bool onKeyDown(keys key);
+	bool onKeyUp(keys key);
 	void translateMouseCoords(float cameraX, float cameraY);
 	float mouseX;
 	float mouseY;
 	float translatedMouseX;
 	float translatedMouseY;
-	bool getMenuMode();
-	void setMenuMode(bool mode);
+	int getMenuMode();
+	void setMenuMode(int mode);
+	void disableMouseButtons();
 private:
-	bool menuMode = false;
+	bool disableMB = false;
+	int menuMode = 0;
 	int* pScreenW;
 	int* pScreenH;
 	sf::RenderWindow* pWindow;

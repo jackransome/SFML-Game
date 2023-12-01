@@ -130,8 +130,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("jammer_stack_1", "resources/jammer_stack_1.png");
 	spriteCollection.loadTexture("market_relay", "resources/market_relay.png");
 	spriteCollection.loadTexture("market_relay_stack_1", "resources/market_relay_stack_1.png");
-	spriteCollection.loadTexture("autoturret_base_stack", "resources/autoturret_base_stack.png");
-	spriteCollection.loadTexture("autoturret_barrel_stack", "resources/autoturret_barrel_stack.png");
+	spriteCollection.loadTexture("autoturret_base_stack", "resources/autoturret_base_stack2.png");
+	spriteCollection.loadTexture("autoturret_barrel_stack", "resources/autoturret_barrel_stack2.png");
 	spriteCollection.loadTexture("DefenseOrb_stack", "resources/DefenseOrbStack.png");
 	spriteCollection.loadTexture("white_rect", "resources/white_rect.png");
 	spriteCollection.loadTexture("menu_bg", "resources/menu_bg.png");
@@ -306,27 +306,24 @@ void Game::Run() {
 	if (!mainMenu) {
 		//in game
 		if (inputManager.onKeyDown(z)) {
-			if (inputManager.getMenuMode()) {
+			if (uiManager.getActive()) {
 				uiManager.setActive(false);
-				inputManager.setMenuMode(false);
 			}
 			else {
 				uiManager.loadNewMenu(MenuType::builder);
 				uiManager.setActive(true);
-				inputManager.setMenuMode(true);
 			}
 		}
 		if (controlSwitcher.getControlling()) {
 			console.setControlPosition(controlSwitcher.getControlPosition());
 		}
-		objectCollection.update();
+		
 		builder.update();
+		
 		if (objectCollection.getControlledDead()) {
 			controlSwitcher.setControlling(false);
 		}
-		while (console.getSize() > 0) {
-			commandExecuter.execute(console.getCommand());
-		}
+
 		if (inputManager.isKeyDown(c)) {
 			snowSystem.changeSize(-1);
 		}
@@ -334,6 +331,7 @@ void Game::Run() {
 			snowSystem.changeSize(+1);
 		}
 		snowSystem.run();
+		objectCollection.update();
 	}
 	else {
 		//menu
@@ -345,6 +343,20 @@ void Game::Run() {
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
 	uiManager.update();
 	console.incrementFrame();
+	while (console.getSize() > 0) {
+		commandExecuter.execute(console.getCommand());
+	}
+	//if (uiManager.getActive() != builder.getActive()) {
+	//	if (uiManager.getActive()) {
+
+	//	}
+	//	else {
+	//		inputManager.setMenuMode(1);
+	//	}
+	//}
+	//else {
+	//	inputManager.setMenuMode(0);
+	//}
 
 }
 

@@ -268,14 +268,12 @@ void SpriteCollection::addRectDraw(float x, float y, float w, float h, float z, 
 	if (fullBrightMode) {
 		spriteDraws[currentDrawIndex]->setFullBright();
 	}
-	spriteDraws[currentDrawIndex]->pTexture = getPointerFromName("white_rect");
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
 	if (absoluteMode) {
 		spriteDraws[currentDrawIndex]->absolute = true;
 	}
 	currentDrawIndex++; 
 	lastAbsolute = false;
-
 }
 
 void SpriteCollection::addCircleDraw(float x, float y, float r, float z, sf::Color color) {

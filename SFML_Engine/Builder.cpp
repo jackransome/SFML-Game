@@ -14,6 +14,10 @@ Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, C
 	pInputManager = _pInputManager;
 }
 
+bool Builder::getActive() {
+	return active;
+}
+
 void Builder::activate(BuildType buildType){
 	currentBuildType = buildType;
 	active = true;
@@ -26,12 +30,20 @@ void Builder::cancel(){
 void Builder::update(){
 	if (active) {
 		if (pInputManager->onKeyDown(mouseL)) {
+			mouseLDown = true;
+		}
+		if (mouseLDown && pInputManager->onKeyUp(mouseL)) {
 			if (checkResources(currentBuildType)) {
 				buy(currentBuildType);
 				pConsole->addCommand(commandAddObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 			}
 			active = false;
+			mouseLDown = false;
 		}
+		pInputManager->disableMouseButtons();
+	}
+	else {
+		mouseLDown = false;
 	}
 }
 
