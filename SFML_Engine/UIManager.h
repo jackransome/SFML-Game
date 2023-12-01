@@ -14,7 +14,7 @@ public:
 	UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder);
 	void update();
 	void loadNewMenu(MenuType menuType);
-	void loadNewMenu(int _state);
+	
 	void unloadMenu();
 	void setState(int _state);
 	void setActive(bool _active);
@@ -22,6 +22,7 @@ public:
 	void draw();
 	int getState();
 private:
+	void loadNewMenu(int _state);
 	void addButton(ButtonType type, glm::vec4 bbox);
 	void addButton(ButtonType type, BuildType buildType, glm::vec4 bbox);
 	Console* pConsole;
@@ -29,7 +30,7 @@ private:
 	SpriteCollection* pSpriteCollection;
 	InputManager* pInputManager;
 	Builder* pBuilder;
-	bool active = false;
-	int state = 0; //0 = mainmenu, 1 = buildmenu, 2 = pausemenu
+	bool active = true;
+	int state = -1; //0 = mainmenu, 1 = buildmenu, 2 = pausemenu
 	//ADD PANES FOR ORGANIZATION,, AESTHETIC< AND NO CLICK THRU
 };

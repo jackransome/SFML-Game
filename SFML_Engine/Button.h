@@ -2,9 +2,10 @@
 #include "SpriteCollection.h"
 #include "Console.h"
 #include "Builder.h"
+#include "SpriteSheet.h"
 
 enum class ButtonType {
-	build, back, openMenu
+	build, back, openMenu, startGame, goToMain
 };
 
 class Button {
@@ -26,6 +27,9 @@ protected:
 	bool hoverOver = false;
 	bool active;
 	void drawBox();
+	SpriteSheet imgGrey;
+	SpriteSheet imgReady;
+	SpriteSheet imgHover;
 };
 
 class BuildButton : public Button {
@@ -37,4 +41,19 @@ public:
 private:
 	Builder* pBuilder;
 	BuildType buildType;
+
+};
+
+class StartGameButton : public Button {
+public:
+	StartGameButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, glm::vec4 _bbox);
+	virtual void press() override;
+	virtual void draw() override;
+};
+
+class MainMenuButton : public Button {
+public:
+	MainMenuButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, glm::vec4 _bbox);
+	virtual void press() override;
+	virtual void draw() override;
 };

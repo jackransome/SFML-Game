@@ -360,7 +360,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventType.h">
-      <Filter>Header Files\UI</Filter>
+      <Filter>Header Files\Timing/Events system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

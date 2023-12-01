@@ -7,7 +7,8 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
 	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile,
-	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState, commandEnableMenuInputMode, commandDisableMenuInputMode
+	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState,
+	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,

@@ -62,6 +62,7 @@ private:
 	sf::Shader* shaders[10];
 	MultiPipelineManager multiPipelineManager;
 	ShaderManager shaderManager;
-	bool mainMenu = true;
+	int gameState = 0;
 	int music_id;
+	bool gameLive = false;
 };

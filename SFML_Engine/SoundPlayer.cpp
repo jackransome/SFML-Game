@@ -38,7 +38,7 @@ int SoundPlayer::playSoundByName(std::string name, float volume) {
 int SoundPlayer::playSoundByName(std::string name, float volume, float pitch) {
 	for (int i = 0; i < sounds.size(); i++) {
 		if (name.compare(sounds[i]->getName()) == 0) {
-			soundInstances.emplace_back(new SoundInstance(nextID, sounds[i]->getALBuffer(), volume * globalVolume, pitch, false));
+			soundInstances.emplace_back(new SoundInstance(nextID, name, sounds[i]->getALBuffer(), volume * globalVolume, pitch, false));
 			nextID++;
 			return nextID - 1;
 		}
@@ -127,4 +127,16 @@ void SoundPlayer::setGlobalVolume(float volume){
 
 float SoundPlayer::getGlobalVolume(){
 	return globalVolume;
+}
+
+void SoundPlayer::muteAllPlaying(){
+	for (int i = 0; i < soundInstances.size(); i++) {
+		soundInstances[i]->mute();
+	}
+}
+
+void SoundPlayer::unmuteAll() {
+	for (int i = 0; i < soundInstances.size(); i++) {
+		soundInstances[i]->unMute();;
+	}
 }

@@ -6,7 +6,7 @@
 
 class SoundInstance {
 public:
-	SoundInstance(int _id, const ALuint ALBuffer, float _volume, float _pitch, bool _loop) {
+	SoundInstance(int _id, std::string _name, const ALuint ALBuffer, float _volume, float _pitch, bool _loop) {
 
 		alGenSources(1, &source);
 		alSourcei(source, AL_BUFFER, ALBuffer); // `buffer` is the ALuint returned by loadSound
@@ -22,7 +22,9 @@ public:
 		pitch = _pitch;
 
 		alSourcePlay(source);
-
+		setVolume(volume);
+		soundName = _name;
+		muted = false;
 	}
 	~SoundInstance() {
 		stop();
@@ -55,7 +57,10 @@ public:
 		return playbackPosition;
 	}
 	void setVolume(float _volume) {
-		alSourcef(source, AL_GAIN, _volume);
+		if (!muted) {
+			volume = _volume;
+			alSourcef(source, AL_GAIN, _volume);
+		}
 	}
 	void end() {
 		alDeleteSources(1, &source);
@@ -75,7 +80,16 @@ public:
 	int getID() {
 		return id;
 	}
+	void mute() {
+		alSourcef(source, AL_GAIN, 0);
+		muted = true;
+	}
+	void unMute() {
+		alSourcef(source, AL_GAIN, volume);
+		muted = false;
+	}
 private:
+	bool muted;
 	ALuint source;
 	bool loops = false;
 	bool loopsBetween = false;
@@ -106,6 +120,8 @@ public:
 	void finish();
 	void setGlobalVolume(float volume);
 	float getGlobalVolume();
+	void muteAllPlaying();
+	void unmuteAll();
 private:
 	ALCcontext* context;
 	ALCdevice* device;

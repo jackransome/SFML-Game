@@ -40,12 +40,17 @@ void UIManager::loadNewMenu(MenuType menuType){
 	}
 	switch (menuType) {
 	case MenuType::main:
+		addButton(ButtonType::startGame, glm::vec4(50, 500, 250, 50));
+		state = 0;
 		break;
 	case MenuType::pause:
+		addButton(ButtonType::goToMain, glm::vec4(50, 500, 250, 50));
+		state = 1;
 		break;
 	case MenuType::builder:
 		addButton(ButtonType::build, BuildType::turret, glm::vec4(50,500,250,50));
 		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 600, 250, 50));
+		state = 2;
 		break;
 	}
 }
@@ -100,8 +105,14 @@ int UIManager::getState(){
 }
 
 void UIManager::addButton(ButtonType type, glm::vec4 bbox){
-
-	buttons.push_back(std::make_unique<BuildButton>(pConsole, pSpriteCollection, pBuilder, BuildType::teleporter, glm::vec4(0)));
+	if (type == ButtonType::startGame) {
+		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, bbox));
+	} else if (type == ButtonType::goToMain) {
+		buttons.push_back(std::make_unique<MainMenuButton>(pConsole, pSpriteCollection, bbox));
+	}	else if (type == ButtonType::back) {
+		//UNFINISHED
+		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, bbox));
+	}
 }
 
 void UIManager::addButton(ButtonType type, BuildType buildType, glm::vec4 bbox) {

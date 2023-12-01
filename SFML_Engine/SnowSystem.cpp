@@ -1,11 +1,14 @@
 #include "SnowSystem.h"
 #include <chrono>
 
-SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos){
+SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos){
 	pSpriteCollection = _pSpriteCollection;
 	pCamera = _pCamera;
 	pScreenW = _pScreenW;
 	pScreenH = _pScreenH;
+	pSoundPlayer = _pSoundPlayer;
+	windSoundID = pSoundPlayer->playSoundByName("wind", 0.15);
+	pSoundPlayer->loopSound(windSoundID);
 	//loop through array and fill
 	for (int i = 0; i < maxSize; i++) {
 		snowParts[i] = getNewSnowPart(cameraPos);
@@ -34,18 +37,27 @@ void SnowSystem::run() {
 			snowParts[i] = getNewSnowPart(cameraPos);
 		}
 	}
+	if (menuMode) {
+		pSoundPlayer->setVolume(windSoundID, 0);
+	}
+	else {
+		pSoundPlayer->setVolume(windSoundID, float(size) / float(maxSize));
+	}
 }
 
 void SnowSystem::draw(float z){
+	menuMode = false;
 	for (int i = 0; i < size; i++) {
 		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x, snowParts[i].y, z, 2, snowParts[i].opacity * opacity, 800*2, 800*2);
 	}
 	glm::vec2 cameraPos = pCamera->getPosition();
-	//pSpriteCollection->addRectDraw(-19.2/2, -10.8/2, 19.2, 10.8, 1100000, sf::Color(0, 0, 255));
-	pSpriteCollection->addRectDraw(cameraPos.x - *pScreenW / 2, cameraPos.x - *pScreenH / 2, *pScreenW, *pScreenH, 100000, sf::Color(255, 255, 255, 150*(size/maxSize)));
+	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("white_background"), cameraPos.x - *pScreenW / 2, cameraPos.x - *pScreenH / 2, 100000, 0, 0, *pScreenW, *pScreenH, 1, 0.33 * (float(size) / float(maxSize)));
+	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("white_surround"), cameraPos.x - 2000, cameraPos.x - 2000, 100000, 0, 0, 4000, 4000, 1, 0.8 * (float(size) / float(maxSize)));
+
 }
 
 void SnowSystem::drawMenu(float z, float scale) {
+	menuMode = true;
 	for (int i = 0; i < size; i++) {
 		pSpriteCollection->addImageDraw(pMenuTexture, snowParts[i].x, snowParts[i].y, z, scale, snowParts[i].opacity * opacity, 1000 * scale, 1000 * scale);
 

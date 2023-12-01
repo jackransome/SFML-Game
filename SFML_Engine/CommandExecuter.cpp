@@ -133,7 +133,17 @@ void CommandExecuter::execute(Command command) {
 	case commandDisableMenuInputMode:
 		pInputManager->setMenuMode(false);
 		break;
+	case commandGoToGameplay:
+		nextGameState = 1;
+		break;
+	case commandGoToMainMenu:
+		nextGameState = 0;
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}
+}
+
+int CommandExecuter::getNextGameState() {
+	return nextGameState;
 }

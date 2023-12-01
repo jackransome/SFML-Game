@@ -91,9 +91,6 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager);
 
-	spriteCollection.loadTexture("pic1", "resources/pic1.png");
-	spriteCollection.loadTexture("pic2", "resources/pic2.png");
-	spriteCollection.loadTexture("pic3", "resources/pic3.png");
 	spriteCollection.loadTexture("animation1", "resources/animation1.png");
 	spriteCollection.loadTexture("pillar_small_2", "resources/pillar_small_2.png");
 	spriteCollection.loadTexture("mc_walk_back", "resources/main_character/mc_walk_back.png");
@@ -143,9 +140,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("decoration_smoke_3", "resources/smoke_32.png");
 	spriteCollection.loadTexture("decoration_smoke_4", "resources/smoke_42.png");
 	spriteCollection.loadTexture("decoration_footprint_1", "resources/decoration_footprint_1.png");
-	sprite1 = spriteCollection.getPointerFromName("pic1");
-	sprite2 = spriteCollection.getPointerFromName("pic2");
-	sprite3 = spriteCollection.getPointerFromName("pic3");
+	spriteCollection.loadTexture("button_greyed_out", "resources/button_greyed_out.png");
+	spriteCollection.loadTexture("button_ready", "resources/button_ready.png");
+	spriteCollection.loadTexture("button_hover", "resources/button_hover.png");
+	spriteCollection.loadTexture("white_surround", "resources/white_surround.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -207,8 +205,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
 	soundPlayer.loadSound("menu_hover", "resources/sound_menu_hover.wav");
 	soundPlayer.loadSound("menu_click", "resources/sound_menu_click2.wav");
-	snowSystem = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
-	snowSystem2 = SnowSystem(&spriteCollection, &camera, &screenW, &screenH, camera.getPosition());
+	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
+	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
 	camera.setScreenshakeCutoff(0.1);
 	camera.setScreenshakeDecay(0.9);
@@ -216,13 +214,11 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.setPCamera(&camera);
 	spriteCollection.setOrderZ(true);
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
-	spriteCollection.addFont("resources/fonts/LLDOT2__.TTF");
-
+	spriteCollection.addFont("resources/fonts/LLDOT2__.TTF"); 
+	spriteCollection.addFont("resources/fonts/dogica.ttf");
 	spriteCollection.setWindowDimensions(&screenW, &screenH);
 	ambientLightColour = sf::Glsl::Vec3(255/255.0, 253/255.0, 240/255.0);
 	//console.addCommand(commandPlaySound, "wind");
-	int id = soundPlayer.playSoundByName("wind", 0.15);
-	soundPlayer.loopSound(id);
 	//blizzard conditions
 
 	controlSwitcher.setControlling(false);
@@ -236,7 +232,7 @@ void Game::HandleInput() {
 	console.addTime("Start of handleinput");
 	inputManager.update();
 	console.addTime("Start of handleinput1");
-	if (!mainMenu) {
+	if (gameState == 1) {
 		if (inputManager.onKeyDown(space)) {
 			//console.addCommand(commandPlaySound, "hh");
 			//console.addCommand(commandShakeScreen, 15.0f);	
@@ -280,20 +276,22 @@ void Game::HandleInput() {
 			//snowSystem.setSize(30);
 		}
 		if (inputManager.onKeyDown(escape)) {
-			mainMenu = true;
-			spriteCollection.setPipelineIndex(0);
-			unloadGameplay();
-			loadMenu();
+			if (gameState == 1){
+				if (uiManager.getActive() == false || uiManager.getState() != 1) {
+					uiManager.setState(1);
+					uiManager.setActive(true);
+					soundPlayer.muteAllPlaying();
+				}
+				else {
+					uiManager.setActive(false);
+					soundPlayer.unmuteAll();
+				}
+				
+			}
 		}
 	}
 	else {
-		if (inputManager.onKeyDown(space)) {
-			mainMenu = false;
-			spriteCollection.setPipelineIndex(1);
-			unloadMenu();
-			loadGameplay();
 
-		}
 	}
 
 	spriteCollection.setFrame(frame);
@@ -303,41 +301,51 @@ void Game::Run() {
 
 	console.addTime("Start of run");
 	
-	if (!mainMenu) {
+	if (gameState == 1) {
 		//in game
-		if (inputManager.onKeyDown(z)) {
-			if (uiManager.getActive()) {
-				uiManager.setActive(false);
+		if (gameLive) {
+			if (inputManager.onKeyDown(z)) {
+				if (uiManager.getActive()) {
+					uiManager.setActive(false);
+				}
+				else {
+					uiManager.loadNewMenu(MenuType::builder);
+					uiManager.setActive(true);
+				}
 			}
-			else {
-				uiManager.loadNewMenu(MenuType::builder);
-				uiManager.setActive(true);
-			}
-		}
-		if (controlSwitcher.getControlling()) {
-			console.setControlPosition(controlSwitcher.getControlPosition());
-		}
-		
-		builder.update();
-		
-		if (objectCollection.getControlledDead()) {
-			controlSwitcher.setControlling(false);
-		}
 
-		if (inputManager.isKeyDown(c)) {
-			snowSystem.changeSize(-1);
+
+			builder.update();
+
+			if (objectCollection.getControlledDead()) {
+				controlSwitcher.setControlling(false);
+			}
+			if (controlSwitcher.getControlling()) {
+				console.setControlPosition(controlSwitcher.getControlPosition());
+			}
+
+			if (inputManager.isKeyDown(c)) {
+				snowSystem.changeSize(-1);
+			}
+			if (inputManager.isKeyDown(v)) {
+				snowSystem.changeSize(+1);
+			}
+			snowSystem.run();
+			objectCollection.update();
+
 		}
-		if (inputManager.isKeyDown(v)) {
-			snowSystem.changeSize(+1);
-		}
-		snowSystem.run();
-		objectCollection.update();
 	}
-	else {
+	else  {
 		//menu
 
 		snowSystem.run();// glm::vec2(screenW / 2, screenH / 2));
 		snowSystem2.run();//glm::vec2(screenW/2, screenH/2));
+	}
+	if (uiManager.getState() == 1 && uiManager.getActive()) {
+		gameLive = false;
+	}
+	else {
+		gameLive = true;
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
@@ -358,6 +366,24 @@ void Game::Run() {
 	//	inputManager.setMenuMode(0);
 	//}
 
+	if (commandExecuter.getNextGameState() != gameState) {
+		if (gameState = commandExecuter.getNextGameState() == 0) {
+			if (gameState == 1) {
+				unloadGameplay();
+				spriteCollection.setPipelineIndex(0);
+			}
+			loadMenu();
+		}
+		if (gameState = commandExecuter.getNextGameState() == 1) {
+			if (gameState == 0) {
+				unloadMenu();
+				spriteCollection.setPipelineIndex(1);
+			}
+			loadGameplay();
+		}
+		gameState = commandExecuter.getNextGameState();
+	}
+
 }
 
 void Game::Draw() {
@@ -365,7 +391,7 @@ void Game::Draw() {
 	
 	pWindow->clear();
 
-	if (!mainMenu) {
+	if (gameState == 1) {
 		spriteCollection.setPipelineIndex(0);
 		//in game
 		camera.runscreenShake();
@@ -382,7 +408,7 @@ void Game::Draw() {
 		builder.draw();
 		spriteCollection.setPipelineIndex(1);
 	}
-	else {
+	else if (gameState == 0) {
 		spriteCollection.setPipelineIndex(0);
 		//menu 3000x1638
 		float scale;
@@ -437,7 +463,6 @@ void Game::Draw() {
 	}
 	console.addTime("Pre draw");
 	
-	
 }
 
 void Game::finishAudio(){
@@ -484,6 +509,8 @@ void Game::loadGameplay(){
 	soundPlayer.update();
 	music_id = soundPlayer.playSoundByName("475", 0.5);
 	soundPlayer.loopSound(music_id);
+	uiManager.setActive(false);
+	gameLive = true;
 }
 
 void Game::unloadGameplay(){
@@ -508,6 +535,9 @@ void Game::loadMenu(){
 	music_id = soundPlayer.playSoundByName("menu_music", 0.6);
 	soundPlayer.loopSound(music_id);
 	camera.setPosition(screenW / 2, screenH / 2);
+	uiManager.setState(0);
+	uiManager.setActive(true);
+	gameLive = false;
 }
 
 void Game::unloadMenu() {

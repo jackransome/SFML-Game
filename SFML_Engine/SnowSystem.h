@@ -1,6 +1,6 @@
 #pragma once
 #include "SpriteCollection.h"
-
+#include "SoundPlayer.h"
 
 struct SnowPart {
 	float x;
@@ -18,7 +18,7 @@ struct SnowPart {
 class SnowSystem {
 public:
 	SnowSystem() {}
-	SnowSystem(SpriteCollection* _pSpriteCollection, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos);
+	SnowSystem(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, int* _pScreenW, int* _pScreenH, glm::vec2 cameraPos);
 	void run();
 	void draw(float z);
 	void drawMenu(float z, float scale);
@@ -46,4 +46,7 @@ private:
 	TextureWrapper* pTexture;
 	TextureWrapper* pMenuTexture;
 	Camera* pCamera;
+	SoundPlayer* pSoundPlayer;
+	int windSoundID;
+	bool menuMode = false;
 };

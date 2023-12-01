@@ -29,6 +29,10 @@ void Builder::cancel(){
 
 void Builder::update(){
 	if (active) {
+		if (pInputManager->onKeyDown(mouseR)) {
+			active = false;
+			return;
+		}
 		if (pInputManager->onKeyDown(mouseL)) {
 			mouseLDown = true;
 		}

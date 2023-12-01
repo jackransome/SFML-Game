@@ -11,6 +11,7 @@ public:
 	CommandExecuter();
 	CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, UIManager* _pUIManager);
 	void execute(Command command);
+	int getNextGameState();
 private:
 	ObjectCollection* pObjectCollection;
 	InputManager* pInputManager;
@@ -18,4 +19,5 @@ private:
 	Camera* pCamera;
 	SpriteCollection* pSpriteCollection;
 	UIManager* pUIManager;
+	int nextGameState = 0;
 };

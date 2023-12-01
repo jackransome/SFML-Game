@@ -98,6 +98,7 @@ void DefenseOrb::update(){
 			beamSoundPlaying = false;
 		}
 	}
+	bob_counter += 0.15 * 58;
 }
 
 void DefenseOrb::onDeath() {
@@ -108,7 +109,7 @@ void DefenseOrb::onDeath() {
 void DefenseOrb::draw()
 {
 	float bobHeight = pConsole->getSinValue(bob_counter) * 4;
-	bob_counter += 0.15*58;
+	
 	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation + 135);
 	glm::vec2 lightPos = getCenter() + glm::vec2(4 * cosSinValues.x, 4 * cosSinValues.y - 28 + bobHeight);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);

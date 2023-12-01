@@ -12,7 +12,6 @@ public:
 	Sound(std::string name, std::string path);
 	ALuint getALBuffer();
 	std::string getName();
-
 	void loadSound(const std::string& fileName);
 private:
 	
