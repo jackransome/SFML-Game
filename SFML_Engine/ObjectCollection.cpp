@@ -22,7 +22,13 @@ void ObjectCollection::draw() {
 				int e = 0;
 			}
 			if (CollisionDetection::getDistance(pCamera->getPosition(), objects[i]->getCenter()) < 2000) {
-				objects[i]->draw();
+				if (objects[i]->getToBuild()) {
+					objects[i]->drawBuilding();
+				}
+				else {
+					objects[i]->draw();
+				}
+				
 			}
 			if (objects[i]->getId() == cameraFocusId) {
 				pCamera->setPosition(objects[i]->getCenter());
@@ -43,7 +49,6 @@ void ObjectCollection::draw() {
 		projectiles[i]->draw();
 	}
 	for (int i = 0; i < numBeamsToDraw; i++) {
-		//pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 0.075, 0);
 		pSpriteCollection->drawBeamLight(glm::vec2(beamsToDraw[i].r, beamsToDraw[i].g), glm::vec2(beamsToDraw[i].b, beamsToDraw[i].a), glm::vec3(255, 255, 255), 1, 2);
 	}
 	//inventory test drawing:
@@ -74,19 +79,76 @@ void ObjectCollection::update() {
 				runCollisionDetection(objects[i], objects[j]);
 			}
 		}
-			
-		if (objects[i]->getPickedUp()) {
-			tempOb = getObjectById(objects[i]->getPickedUpById());
-			if (tempOb == nullptr) {
-				//DROP
-				runDropWithoutPickuper(objects[i]->getId());
+		if (objects[i]->getToBuild()) {
+			for (int j = 0; j < objects.size(); j++) {
+				if (objects[j]->getType() == objectBuildDrone){
+					BuildDrone* drone = dynamic_cast<BuildDrone*>(objects[j]);
+					if (!drone->getHasTarget()) {
+						drone->setTarget(objects[i]);
+					}
+				}
 			}
-			else {
-				tempP = dynamic_cast<Pickuper*>(tempOb);
-				objects[i]->setCenter(tempP->getPickupPos());
-				objects[i]->setRotation(tempP->getDropRotation());
-			}
+			//objects[i]->incrementBuildProgress(0.01);
 		}
+		else {
+			if (objects[i]->getPickedUp()) {
+				tempOb = getObjectById(objects[i]->getPickedUpById());
+				if (tempOb == nullptr) {
+					//DROP
+					runDropWithoutPickuper(objects[i]->getId());
+				}
+				else {
+					tempP = dynamic_cast<Pickuper*>(tempOb);
+					objects[i]->setCenter(tempP->getPickupPos());
+					objects[i]->setRotation(tempP->getDropRotation());
+				}
+			}
+			//if can mine and is mining, get the mining point and check other objects for mineable and then if the point overlaps with them, 
+			if ((tempM = dynamic_cast<Miner*>(objects[i]))) {
+				if (tempM->getIsMining()) {
+					for (int j = 0; j < objects.size(); j++) {
+						if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
+							tempM2->mine(tempM->getStrength());
+							if (rand() % 100 > 95 || frame % 20 == 0) {
+								pSoundPlayer->playSoundByName("mine_hit_1", 0.12);
+								pConsole->addCommand(commandShakeScreen, 1.5f);
+							}
+							if (tempM2->getFullyMined()) {
+								objects[j]->setToDestroy(true);
+								addScapMetalDrop(objects[j]->getBoundingBox().x, objects[j]->getBoundingBox().y);
+								pSoundPlayer->playSoundByName("mine_hit_1", 0.3);
+								pConsole->addCommand(commandShakeScreen, 10.0f);
+							}
+						}
+					}
+				}
+			}
+			//if autoturret
+			if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
+
+				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
+					tempA->setTarget(target.x, target.y, target.z, target.w);
+				}
+				else {
+					tempA->RemoveTarget();
+				}
+			}
+			//if enemy
+			if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
+				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
+					tempE->setTarget(target.x, target.y, target.z, target.w);
+				}
+				else {
+					tempE->RemoveTarget();
+				}
+			}
+			objects[i]->update();
+		}
+
+	}
+	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getToDestroy()) {
 			if (objects[i]->getControlled()) {
 				controlledDead = true;
@@ -101,48 +163,6 @@ void ObjectCollection::update() {
 			i--;
 			continue;
 		}
-		//if can mine and is mining, get the mining point and check other objects for mineable and then if the point overlaps with them, 
-		if ((tempM = dynamic_cast<Miner*>(objects[i]))) {
-			if (tempM->getIsMining()) {
-				for (int j = 0; j < objects.size(); j++) {
-					if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
-						tempM2->mine(tempM->getStrength());
-						if (rand() % 100 > 95 || frame % 20 == 0) {
-							pSoundPlayer->playSoundByName("mine_hit_1", 0.12);
-							pConsole->addCommand(commandShakeScreen, 1.5f);
-						}
-						if (tempM2->getFullyMined()) {
-							objects[j]->setToDestroy(true);
-							addScapMetalDrop(objects[j]->getBoundingBox().x, objects[j]->getBoundingBox().y);
-							pSoundPlayer->playSoundByName("mine_hit_1", 0.3);
-							pConsole->addCommand(commandShakeScreen, 10.0f);
-						}
-					}
-				}
-			}
-		}
-		//if autoturret
-		if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
-
-			glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
-			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
-				tempA->setTarget(target.x, target.y, target.z, target.w);
-			}
-			else {
-				tempA->RemoveTarget();
-			}
-		}
-		//if enemy
-		if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
-			glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
-			if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
-				tempE->setTarget(target.x, target.y, target.z, target.w);
-			}
-			else {
-				tempE->RemoveTarget();
-			}
-		}
-		objects[i]->update();
 	}
 	Living* living;
 	bool hit;
@@ -157,7 +177,7 @@ void ObjectCollection::update() {
 		hit = false;
 		
 		for (int j = 0; j < objects.size(); j++) {
-			if (objects[j]->getId() != projectiles[i]->getFromID() && objects[j]->getType() != objectScrapMetalDrop) {
+			if (objects[j]->getId() != projectiles[i]->getFromID() && objects[j]->getType() != objectScrapMetalDrop && objects[j]->getType() != objectBuildDrone) {
 				if (CollisionDetection::lineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer())) {
 					projectiles[i]->setPosition(CollisionDetection::getLineRectCollision(projectiles[i]->getLastPosition(), projectiles[i]->getPosition(), objects[j]->getBoundingBoxPointer()));
 					hit = true;
@@ -178,7 +198,7 @@ void ObjectCollection::update() {
 		glm::vec2 start = glm::vec2(beams[i].r, beams[i].g);
 		glm::vec2 end = glm::vec2(beams[i].b, beams[i].a);
 		for (int j = 0; j < objects.size(); j++) {
-			if (objects[j]->getId() != beamsFrom[i] && objects[j]->getType() != objectScrapMetalDrop && CollisionDetection::lineRectCollision(start, end, objects[j]->getBoundingBoxPointer())) {
+			if (objects[j]->getId() != beamsFrom[i] && objects[j]->getType() != objectScrapMetalDrop && objects[j]->getType() != objectBuildDrone && CollisionDetection::lineRectCollision(start, end, objects[j]->getBoundingBoxPointer())) {
 				end = CollisionDetection::getLineRectCollision(start, end, objects[j]->getBoundingBoxPointer());
 				beams[i].b = end.x;
 				beams[i].a = end.y;
@@ -302,6 +322,24 @@ void ObjectCollection::addDefenseOrb(int x, int y){
 	setLatestConsole();
 }
 
+void ObjectCollection::addBuildDrone(int x, int y){
+	objects.push_back(new BuildDrone(pSpriteCollection, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addSpark(int x, int y, int height){
+	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX))*3 - 1.5, ((double)rand() / (RAND_MAX))*1.5, ((double)rand() / (RAND_MAX))*2), ((double)rand() / (RAND_MAX))*3.5 + 0.5));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addGenerator(int x, int y){
+	objects.push_back(new Generator(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
 	projectiles.push_back(new Projectile(pSpriteCollection, _x, _y, _rotation, _speed, _fromID));
 }
@@ -350,6 +388,12 @@ void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
 		if (!o2->getPickedUp() && o2->getCollidability() < 3 && o2->getCollidability() > o1->getCollidability()) {
 			CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
 		}
+	}
+	if (o1->getCollidability() == droneCol && o2->getCollidability() == droneCol) {
+		if (CollisionDetection::CheckRectangleIntersect(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer())) {
+			CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+		}
+		
 	}
 
 }
@@ -608,6 +652,10 @@ void ObjectCollection::clear(){
 
 void ObjectCollection::AddToInventory(Resource resource, int amount){
 	pInventory->addResources(resource, amount);
+}
+
+void ObjectCollection::setLastToBuild(){
+	objects[objects.size() - 1]->setToBuild(true);
 }
 
 void ObjectCollection::freeObjectMemory(int index) {

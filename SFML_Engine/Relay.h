@@ -11,6 +11,7 @@ public:
 	Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Relay();
 	virtual void draw() override;
+	virtual void drawBuilding() override;
 	virtual void onDeath() override;
 	virtual void update() override;
 private:

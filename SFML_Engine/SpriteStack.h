@@ -11,6 +11,8 @@ public:
 	void draw(float x, float y, float z, float rotation, float rx, float ry, std::string shader);
 	void setOpacity(float _opacity);
 	void setRasterizeMode(bool mode);
+	void drawUpTo(float x, float y, float z, float rotation, int frame);
+	void drawUpToPercent(float x, float y, float z, float rotation, float percent);
 private:
 	void rasterize();
 	void drawNormally();

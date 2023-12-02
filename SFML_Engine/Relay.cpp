@@ -15,7 +15,7 @@ Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlay
 	canBePickedUp = true;
 	type = objectRelay;
 	isLiving = true;
-
+	buildTime = 8;
 }
 
 Relay::~Relay(){
@@ -27,6 +27,13 @@ void Relay::draw() {
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(160, 214, 255), 2* lightPhase, 1);
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(160, 214, 255), 0.2* lightPhase, 0);
 	spriteStack.draw(boundingBox.x-3, boundingBox.y-3, boundingBox.y-3, rotation);
+}
+
+void Relay::drawBuilding(){
+	spriteStack.drawUpTo(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, 1);
+	spriteStack.drawUpToPercent(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, buildProgress);
+
+	buildHeight = buildProgress * float(34 * 2);
 }
 
 void Relay::onDeath() {

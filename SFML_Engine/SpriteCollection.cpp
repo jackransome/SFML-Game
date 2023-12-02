@@ -46,10 +46,11 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	spriteDraws[currentDrawIndex]->w = _w;
 	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
-	currentDrawIndex++;
+	
 	if (absoluteMode) {
 		spriteDraws[currentDrawIndex]->absolute = true;
 	}
+	currentDrawIndex++;
 	lastAbsolute = false;
 
 }
@@ -65,10 +66,10 @@ void SpriteCollection::addImageDrawCut(TextureWrapper* pTexture, float x, float 
 	spriteDraws[currentDrawIndex]->w = sW;
 	spriteDraws[currentDrawIndex]->h = sH;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
-	currentDrawIndex++;
 	if (absoluteMode) {
 		spriteDraws[currentDrawIndex]->absolute = true;
 	}
+	currentDrawIndex++;
 	lastAbsolute = false;
 
 }
@@ -84,10 +85,11 @@ void SpriteCollection::addImageDraw(TextureWrapper* pTexture, float x, float y, 
 	spriteDraws[currentDrawIndex]->w = _w;
 	spriteDraws[currentDrawIndex]->h = _h;
 	spriteDraws[currentDrawIndex]->setPipeline(pipelineIndex);
-	currentDrawIndex++;
 	if (absoluteMode) {
 		spriteDraws[currentDrawIndex]->absolute = true;
 	}
+	currentDrawIndex++;
+
 	lastAbsolute = false;
 
 }

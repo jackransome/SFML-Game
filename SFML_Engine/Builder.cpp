@@ -2,9 +2,10 @@
 
 // Define the map
 std::map<BuildType, CostData> costMap = {
-	{ BuildType::turret, {2, 0, 0, objectAutoTurret} },
+	{ BuildType::autoTurret, {2, 0, 0, objectAutoTurret} },
 	{ BuildType::teleporter, {6, 0, 0, objectAutoTurret} },
-	{ BuildType::relay, {4, 0, 0, objectRelay} }
+	{ BuildType::relay, {4, 0, 0, objectRelay} },
+	{ BuildType::generator, {8, 0, 0, objectGenerator} }
 };
 
 Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager){
@@ -39,7 +40,7 @@ void Builder::update(){
 		if (mouseLDown && pInputManager->onKeyUp(mouseL)) {
 			if (checkResources(currentBuildType)) {
 				buy(currentBuildType);
-				pConsole->addCommand(commandAddObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+				pConsole->addCommand(commandAddBuildObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 			}
 			active = false;
 			mouseLDown = false;

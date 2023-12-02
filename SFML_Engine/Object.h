@@ -3,7 +3,7 @@
 #include "Console.h"
 #include "glm/glm.hpp"
 
-enum Collidability { immovable, controllable, movable, none };
+enum Collidability { immovable, controllable, movable, none, droneCol };
 
 //enum ObjectType { none, player, enemy };
 
@@ -16,6 +16,7 @@ public:
 	glm::vec2 getCenter();
 	virtual void update();
 	virtual void draw();
+	virtual void drawBuilding();
 	bool getToDestroy();
 	void setToDestroy(bool _toDestroy);
 	int getId();
@@ -39,7 +40,15 @@ public:
 	int getPhysicsBodyType();
 	bool getLiving();
 	bool getIsEnemy();
+	void setToBuild(bool _toBuild);
+	bool getToBuild();
+	void incrementBuildProgress(float amount);
+	int getBuildHeight();
 protected:
+	bool toBuild = false;
+	float buildTime = 1;
+	float buildProgress = 0;;
+	int buildHeight = 0;
 	bool sellable = false;
 	bool controlled = false;
 	Console* pConsole;

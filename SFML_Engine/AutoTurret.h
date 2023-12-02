@@ -10,6 +10,7 @@ public:
 	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
 	virtual void update() override;
 	virtual void draw() override;
+	virtual void drawBuilding() override;
 	void setTarget(int x, int y, float xvel, float yvel);
 	virtual void onDeath() override;
 	void RemoveTarget();

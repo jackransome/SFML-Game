@@ -22,6 +22,9 @@
 #include "Explosion.h"
 #include "Smoke.h"
 #include "Inventory.h"
+#include "BuildDrone.h"
+#include "Spark.h"
+#include "Generator.h"
 
 #include <array>
 
@@ -48,6 +51,9 @@ public:
 	void addAutoTurret(int x, int y);
 	void addJammer(int x, int y);
 	void addDefenseOrb(int x, int y);
+	void addBuildDrone(int x, int y);
+	void addSpark(int x, int y, int height);
+	void addGenerator(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
 	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID);
 	void setLatestId();
@@ -72,7 +78,7 @@ public:
 	bool getControlledDead();
 	void clear();
 	void AddToInventory(Resource resource, int amount);
-	
+	void setLastToBuild();
 
 private:
 	bool controlledDead = false;

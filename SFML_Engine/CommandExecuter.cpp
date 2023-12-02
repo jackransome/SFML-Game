@@ -48,9 +48,58 @@ void CommandExecuter::execute(Command command) {
 		case objectRelay:
 			pObjectCollection->addRelay(command.f1, command.f2);
 			break;
+		case objectSpark:
+			pObjectCollection->addSpark(command.f1, command.f2, command.f3);
+			break;
+		case objectGenerator:
+			pObjectCollection->addGenerator(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
+		break;
+	case commandAddBuildObject:
+		switch (command.objectType) {
+		case objectFootprint:
+			pObjectCollection->addFootPrint(command.f1, command.f2);
+			break;
+		case objectSmoke:
+			pObjectCollection->addSmoke(command.f1, command.f2);
+			break;
+		case objectAction1animation:
+			pObjectCollection->addAction1Animation(command.f1, command.f2);
+			break;
+		case objectRoverTracks:
+			pObjectCollection->addRoverTracks(command.f1, command.f2, command.f3);
+			break;
+		case objectExplosion:
+			pObjectCollection->addExplosion(command.f1, command.f2, command.f3);
+			break;
+		case objectScrapMetalDrop:
+			pObjectCollection->addScapMetalDrop(command.f1, command.f2);
+			break;
+		case objectAutoTurret:
+			pObjectCollection->addAutoTurret(command.f1, command.f2);
+			break;
+		case objectEnemy:
+			pObjectCollection->addEnemy(command.f1, command.f2);
+			break;
+		case objectJammer:
+			pObjectCollection->addJammer(command.f1, command.f2);
+			break;
+		case objectDefenseOrb:
+			pObjectCollection->addDefenseOrb(command.f1, command.f2);
+			break;
+		case objectRelay:
+			pObjectCollection->addRelay(command.f1, command.f2);
+			break;
+		case objectGenerator:
+			pObjectCollection->addGenerator(command.f1, command.f2);
+			break;
+		default:
+			std::cout << "UNKNOWN OBJECT";
+		}
+		pObjectCollection->setLastToBuild();
 		break;
 	case commandPlaySound:
 		pSoundPlayer->playSoundByName(command.string, command.f1, command.f2);

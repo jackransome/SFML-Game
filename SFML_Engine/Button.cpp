@@ -60,10 +60,13 @@ void BuildButton::press(){
 
 void BuildButton::draw(){
 	drawBox();
-	if (buildType == BuildType::turret) {
+	if (buildType == BuildType::autoTurret) {
 		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Autoturret", 14, sf::Color(255, 255, 255, 255));
 	} else 	if (buildType == BuildType::relay) {
 		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Relay", 14, sf::Color(255, 255, 255, 255));
+	}
+	else if (buildType == BuildType::generator) {
+		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Generator", 14, sf::Color(255, 255, 255, 255));
 	}
 }
 

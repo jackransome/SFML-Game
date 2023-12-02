@@ -16,6 +16,7 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	maxReload = 15;
 	isLiving = true;
 	physicsBodyType = 1;
+	buildTime = 3;
 }
 void AutoTurret::onDeath() {
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
@@ -58,15 +59,23 @@ void AutoTurret::draw() {
 	if (barrelRotation < 0) {
 		barrelRotation += 360; // Adjust for negative angles
 	}
-	glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation-144);
+	glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation - 144);
 	//glm::vec2 lightPos = getCenter() + glm::vec2(1 * cosSinValues.x -1 * cosSinValues.y, 1 * cosSinValues.y + 1 * cosSinValues.x - 34);
-	
+
 	//21, 23
-	glm::vec2 lightPos = getCenter() + glm::vec2(8.6*cosSinValues.x, 8.6 * cosSinValues.y + 7 - 42);
-	
+	glm::vec2 lightPos = getCenter() + glm::vec2(8.6 * cosSinValues.x, 8.6 * cosSinValues.y + 7 - 42);
+
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
-	barrelStack.draw(boundingBox.x-4, boundingBox.y-16, boundingBox.y+1, barrelRotation-90);
+	barrelStack.draw(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
+}
+
+void AutoTurret::drawBuilding(){
+	baseStack.drawUpTo(boundingBox.x, boundingBox.y, boundingBox.y, rotation, 1);
+	baseStack.drawUpToPercent(boundingBox.x, boundingBox.y, boundingBox.y, rotation, buildProgress / 0.3);
+	barrelStack.drawUpToPercent(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90, (buildProgress - 0.3) / 0.7);
+
+	buildHeight = buildProgress * float(15 * 2);
 }
 
 void AutoTurret::setTarget(int x, int y, float xvel, float yvel) {

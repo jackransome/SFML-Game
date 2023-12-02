@@ -31,6 +31,11 @@ void UIManager::update(){
 				buttons[i]->setHover(false);
 			}
 		}
+		for (int i = 0; i < panes.size(); i++) {
+			if (CollisionDetection::pointRectangleIntersect(glm::vec2(pInputManager->mouseX, pInputManager->mouseY), panes[i])) {
+				pInputManager->disableMouseButtons();
+			}
+		}
 	}
 }
 
@@ -48,8 +53,10 @@ void UIManager::loadNewMenu(MenuType menuType){
 		state = 1;
 		break;
 	case MenuType::builder:
-		addButton(ButtonType::build, BuildType::turret, glm::vec4(50,500,250,50));
+		addPane(glm::vec4(25, 475, 300, 300));
+		addButton(ButtonType::build, BuildType::autoTurret, glm::vec4(50,500,250,50));
 		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 600, 250, 50));
+		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 700, 250, 50));
 		state = 2;
 		break;
 	}
@@ -69,6 +76,15 @@ void UIManager::loadNewMenu(int _state) {
 		loadNewMenu(MenuType::builder);
 		break;
 	}
+}
+
+void UIManager::drawPane(glm::vec4 pane){
+	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("menu_pane"), pane.x, pane.y, 500000, 0, 0, pane[2], pane[3], 1, 0.1);
+}
+
+void UIManager::clear(){
+	buttons.clear();
+	panes.clear();
 }
 
 void UIManager::unloadMenu(){
@@ -96,6 +112,9 @@ void UIManager::draw(){
 		for (int i = 0; i < buttons.size(); i++) {
 			buttons[i]->draw();
 		}
+		for (int i = 0; i < panes.size(); i++) {
+			drawPane(panes[i]);
+		}
 	}
 	pSpriteCollection->setAbsoluteMode(false);
 }
@@ -118,4 +137,8 @@ void UIManager::addButton(ButtonType type, glm::vec4 bbox){
 void UIManager::addButton(ButtonType type, BuildType buildType, glm::vec4 bbox) {
 
 	buttons.push_back(std::make_unique<BuildButton>(pConsole, pSpriteCollection, pBuilder, buildType, bbox));
+}
+
+void UIManager::addPane(glm::vec4 bbox){
+	panes.push_back(bbox);
 }

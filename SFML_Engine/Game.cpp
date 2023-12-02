@@ -144,6 +144,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("button_ready", "resources/button_ready.png");
 	spriteCollection.loadTexture("button_hover", "resources/button_hover.png");
 	spriteCollection.loadTexture("white_surround", "resources/white_surround.png");
+	spriteCollection.loadTexture("build_drone_stack_1", "resources/build_drone_stack_1.png");
+	spriteCollection.loadTexture("menu_pane", "resources/menu_pane.png");
+	spriteCollection.loadTexture("generator_stack_1", "resources/generator_stack_1.png");
+
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -203,8 +207,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
-	soundPlayer.loadSound("menu_hover", "resources/sound_menu_hover.wav");
+	soundPlayer.loadSound("menu_hover", "resources/sound_menu_hover.wav"); 
 	soundPlayer.loadSound("menu_click", "resources/sound_menu_click2.wav");
+	soundPlayer.loadSound("build_beam", "resources/sound_build_beam.wav");
+	soundPlayer.loadSound("generator_ambient_1", "resources/sound_generator_ambient_1.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -300,7 +306,7 @@ void Game::HandleInput() {
 void Game::Run() {
 
 	console.addTime("Start of run");
-	
+	uiManager.update();
 	if (gameState == 1) {
 		//in game
 		if (gameLive) {
@@ -349,7 +355,7 @@ void Game::Run() {
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
-	uiManager.update();
+	
 	console.incrementFrame();
 	while (console.getSize() > 0) {
 		commandExecuter.execute(console.getCommand());
@@ -483,7 +489,9 @@ void Game::loadGameplay(){
 	objectCollection.addRelay(-150, 00);
 	objectCollection.addMarketRelay(150, 0);
 	objectCollection.addAutoTurret(0, -150);
-
+	objectCollection.addBuildDrone(-200, -200);
+	objectCollection.addBuildDrone(-100, -200);
+	objectCollection.addBuildDrone(-200, -100);
 	
 
 	glm::vec2 temp;

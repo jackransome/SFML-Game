@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="AutoTurret.cpp" />
+    <ClCompile Include="BuildDrone.cpp" />
     <ClCompile Include="Builder.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FootPrint.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -200,6 +202,7 @@
     <ClCompile Include="SnowSystem.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
+    <ClCompile Include="Spark.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
     <ClCompile Include="SpriteStack.cpp" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="AutoTurret.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="BuildDrone.h" />
     <ClInclude Include="Builder.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -230,6 +234,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="FootPrint.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Generator.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
@@ -254,6 +259,7 @@
     <ClInclude Include="SnowSystem.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
+    <ClInclude Include="Spark.h" />
     <ClInclude Include="SpriteDraw.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />

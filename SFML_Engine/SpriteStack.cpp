@@ -142,6 +142,28 @@ void SpriteStack::setRasterizeMode(bool mode){
 	rasterizeMode = mode;
 }
 
+void SpriteStack::drawUpTo(float x, float y, float z, float rotation, int frame){
+	if (frame > frames) {
+		frame = frames;
+	}
+	for (int i = 0; i < frame; i++) {
+		pSpriteCollection->addRotatedImageDrawCut(pTexture, x, y - i * scale, z + scale * height, i * width, 0, width, height, scale, rotation);
+	}
+}
+
+void SpriteStack::drawUpToPercent(float x, float y, float z, float rotation, float percent){
+	if (percent > 1) {
+		percent = 1;
+	}
+	if (percent < 0) {
+		percent = 0;
+	}
+	int frame = percent * frames;
+	for (int i = 0; i < frame; i++) {
+		pSpriteCollection->addRotatedImageDrawCut(pTexture, x, y - i * scale, z + scale * height, i * width, 0, width, height, scale, rotation);
+	}
+}
+
 void SpriteStack::rasterize() {
 	for (int i = 0; i < frames; i++) {
 		pSpriteCollection->addRotatedImageDrawCut(pTexture, x, y - i * scale, z + scale * height, i * width, 0, width, height, scale, rotation);

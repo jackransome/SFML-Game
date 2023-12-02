@@ -32,6 +32,8 @@ void Object::draw() {
 
 }
 
+void Object::drawBuilding() {}
+
 bool Object::getToDestroy() {
 	return toDestroy;
 }
@@ -129,4 +131,24 @@ bool Object::getLiving(){
 
 bool Object::getIsEnemy(){
 	return isEnemy;
+}
+
+void Object::setToBuild(bool _toBuild){
+	toBuild = _toBuild;
+}
+
+bool Object::getToBuild() {
+	return toBuild;
+}
+
+void Object::incrementBuildProgress(float amount){
+
+	buildProgress += amount*(1.0/buildTime);
+	if (buildProgress >= 1) {
+		toBuild = false;
+	}
+}
+
+int Object::getBuildHeight(){
+	return buildHeight;
 }
