@@ -1,16 +1,16 @@
 uniform sampler2D texture;
 
-uniform vec2 pointLightPositions[120];
-uniform vec3 pointLightColours[120];
-uniform float pointLightIntensities[120];
-uniform float pointLightTypes[120];
+uniform vec2 pointLightPositions[190];
+uniform vec3 pointLightColours[190];
+uniform float pointLightIntensities[190];
+uniform float pointLightTypes[190];
 uniform float numPointLights;
 
-uniform vec2 beamLightPositions1[100];
-uniform vec2 beamLightPositions2[100];
-uniform vec3 beamLightColours[100];
-uniform float beamLightIntensities[100];
-uniform float beamLightTypes[100];
+uniform vec2 beamLightPositions1[50];
+uniform vec2 beamLightPositions2[50];
+uniform vec3 beamLightColours[50];
+uniform float beamLightIntensities[50];
+uniform float beamLightTypes[50];
 uniform float numBeamLights;
 
 uniform float ambientLightLevel;

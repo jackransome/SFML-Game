@@ -38,6 +38,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH
 	keyStruct.lControl = false;
 	keyStruct.mouseL = false;
 	keyStruct.mouseR = false;
+	keyStruct.mouseM = false;
 	lastKeyStruct = keyStruct;
 	pScreenW = screenW;
 	pScreenH = screenH;
@@ -148,6 +149,9 @@ void InputManager::update(){
 			keyStruct.mouseL++;
 		}
 		if (keyStruct.mouseR > 0) {
+			keyStruct.mouseR++;
+		}
+		if (keyStruct.mouseM > 0) {
 			keyStruct.mouseR++;
 		}
 		if (ev.type == sf::Event::Closed) pWindow->close();
@@ -417,6 +421,9 @@ void InputManager::update(){
 			if (ev.mouseButton.button == sf::Mouse::Right) {
 				keyStruct.mouseR = 1;
 			}
+			if (ev.mouseButton.button == sf::Mouse::Middle) {
+				keyStruct.mouseM = 1;
+			}
 		}
 		if (ev.type == sf::Event::MouseButtonReleased) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
@@ -424,6 +431,9 @@ void InputManager::update(){
 			}
 			if (ev.mouseButton.button == sf::Mouse::Right) {
 				keyStruct.mouseR = 0;
+			}
+			if (ev.mouseButton.button == sf::Mouse::Middle) {
+				keyStruct.mouseM = 0;
 			}
 		}
 		if (ev.type == sf::Event::Resized) {
@@ -532,6 +542,9 @@ int InputManager::isKeyDown(keys key){
 	case mouseR:
 		if (disableMB) return 0;
 		return keyStruct.mouseR;
+	case mouseM:
+		if (disableMB) return 0;
+		return keyStruct.mouseM;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -629,6 +642,9 @@ bool InputManager::onKeyDown(keys key) {
 	case mouseR:
 		if (disableMB) return 0;
 		return !lastKeyStruct.mouseR && keyStruct.mouseR;
+	case mouseM:
+		if (disableMB) return 0;
+		return !lastKeyStruct.mouseM && keyStruct.mouseM;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -726,6 +742,9 @@ bool InputManager::onKeyUp(keys key){
 	case mouseR:
 		if (disableMB) return 0;
 		return lastKeyStruct.mouseR && !keyStruct.mouseR;
+	case mouseM:
+		if (disableMB) return 0;
+		return lastKeyStruct.mouseM && !keyStruct.mouseM;
 	}
 	std::cout << "key not implemented!\n";
 	return false;

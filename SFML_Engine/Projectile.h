@@ -1,9 +1,9 @@
 #include "SpriteCollection.h"
-
+#include "Console.h"
 
 class Projectile {
 public:
-	Projectile(SpriteCollection* _pSpriteCollection, float _x, float _y, float rotation, float speed, int fromID);
+	Projectile(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, float rotation, float speed, int fromID);
 	glm::vec2 getPosition() { return position; }
 	glm::vec2 getLastPosition() { return lastPosition; }
 	void run();
@@ -22,4 +22,5 @@ private:
 	glm::vec2 velocity;
 	glm::vec2 lastPosition;
 	SpriteCollection* pSpriteCollection;
+	Console* pConsole;
 };

@@ -1,31 +1,43 @@
 #include "ControlSwitcher.h"
 
-ControlSwitcher::ControlSwitcher(ObjectCollection* _pObjectCollection, Console* _pConsole, SpriteCollection* _pSpriteCollection){
+ControlSwitcher::ControlSwitcher(ObjectCollection* _pObjectCollection, Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Camera* _pCamera){
 	pObjectCollection = _pObjectCollection;
 	pConsole = _pConsole;
 	pSpriteCollection = _pSpriteCollection;
-}
-
-void ControlSwitcher::drawOverlay(){
-	if (!controlling) { return; }
-	prospectiveID = pObjectCollection->getClosestControllable(currentID);
-	glm::vec2 temp;
-	if (prospectiveID != -1) {
-		//draw on prospective object
-		temp = pObjectCollection->getObjectById(prospectiveID)->getCenter();
-		pSpriteCollection->addCircleDraw(temp.x, temp.y, 5, 10000, sf::Color(100, 255, 100, 100));
-	}
-
-	//draw on current object
-	temp = pObjectCollection->getObjectById(currentID)->getCenter();
-	pSpriteCollection->addCircleDraw(temp.x, temp.y, 5, 1000000, sf::Color(100, 255, 100, 100));
-	int range = dynamic_cast<Controllable*>(pObjectCollection->getObjectById(currentID))->getRange();
-	pSpriteCollection->addCircleDraw(temp.x - range, temp.y - range, range, 1000000, sf::Color(100, 100, 255, 20));
+	pInputManager = _pInputManager;
+	pCamera = _pCamera;
 }
 
 void ControlSwitcher::setCurrentControlled(int ID){
 	currentID = ID;
 	controlling = true;
+}
+
+void ControlSwitcher::handleInput()
+{
+	if (active) {
+		if (pInputManager->onKeyUp(mouseM)) {
+			switchControl();
+		}
+	}
+	if (pInputManager->isKeyDown(mouseM)) {
+		active = true;
+	}
+	else {
+		active = false;
+	}
+
+}
+
+void ControlSwitcher::draw(){
+	if (active) {
+		glm::vec2 prosPos = pCamera->transformPosition(pObjectCollection->getClosestControllablePosition(currentID));
+		glm::vec2 curPos = pCamera->transformPosition(pConsole->getControlPosition());
+		pSpriteCollection->setAbsoluteMode(true);
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_current"), curPos.x - 10, curPos.y - 10, 1000000, 10, 10);
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_prospect"), prosPos.x - 10, prosPos.y - 10, 1000000, 10, 10);
+		pSpriteCollection->setAbsoluteMode(false);
+	}
 }
 
 void ControlSwitcher::switchControl(){

@@ -52,7 +52,7 @@ void SnowSystem::draw(float z){
 	}
 	glm::vec2 cameraPos = pCamera->getPosition();
 	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("white_background"), cameraPos.x - *pScreenW / 2, cameraPos.x - *pScreenH / 2, 100000, 0, 0, *pScreenW, *pScreenH, 1, 0.33 * (float(size) / float(maxSize)));
-	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("white_surround"), cameraPos.x - 2000, cameraPos.x - 2000, 100000, 0, 0, 4000, 4000, 1, 0.8 * (float(size) / float(maxSize)));
+	pSpriteCollection->addImageDrawCut(pSpriteCollection->getPointerFromName("white_surround"), cameraPos.x - 2000, cameraPos.y - 2000, 100000, 0, 0, 4000, 4000, 1, 0.8 * (float(size) / float(maxSize)));
 
 }
 

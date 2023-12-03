@@ -11,6 +11,32 @@ Console::Console() {
 		float rad = i * 3.14159265358979323846f / 180.0f; // Use a more precise value of π
 		trigTable[i] = glm::vec2(cos(rad), sin(rad));
 	}
+
+	atan2Table.resize(ATAN2_TABLE_RES, std::vector<float>(ATAN2_TABLE_RES));
+	for (int i = 0; i < ATAN2_TABLE_RES; ++i) {
+		for (int j = 0; j < ATAN2_TABLE_RES; ++j) {
+			float y = (i / (float)ATAN2_TABLE_RES) * 2 - 1; // Map i to [-1, 1]
+			float x = (j / (float)ATAN2_TABLE_RES) * 2 - 1; // Map j to [-1, 1]
+			atan2Table[i][j] = std::atan2(y, x);
+		}
+	}
+}
+
+float Console::getAtan2Value(float y, float x) {
+	float length = std::sqrt(x * x + y * y);  // Calculate the length of the vector
+	if (length == 0) {
+		length = 1;  // To avoid division by zero, if length is zero, set it to 1
+	}
+	
+	float normalizedY = y / length;
+	float normalizedX = x / length;
+
+	int i = static_cast<int>(((normalizedY + 1) / 2.0) * ATAN2_TABLE_RES); // Map normalizedY to [0, ATAN2_TABLE_RES]
+	int j = static_cast<int>(((normalizedX + 1) / 2.0) * ATAN2_TABLE_RES); // Map normalizedX to [0, ATAN2_TABLE_RES]
+	i = std::max(0, std::min(i, ATAN2_TABLE_RES - 1));
+	j = std::max(0, std::min(j, ATAN2_TABLE_RES - 1));
+
+	return atan2Table[i][j];
 }
 
 void Console::addCommand(CommandType _type) {

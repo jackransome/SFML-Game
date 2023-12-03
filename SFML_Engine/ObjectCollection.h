@@ -53,7 +53,7 @@ public:
 	void addJammer(int x, int y);
 	void addDefenseOrb(int x, int y);
 	void addBuildDrone(int x, int y);
-	void addSpark(int x, int y, int height);
+	void addSpark(int x, int y, int height, float colour);
 	void addGenerator(int x, int y);
 	void addEnemyBombRover(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
@@ -72,6 +72,7 @@ public:
 	void runPickUp(int id);
 	void runDrop(int id);
 	void runDropWithoutPickuper(int id);
+	glm::vec2 getClosestControllablePosition(int currentID);
 	int getClosestControllable(int currentID);
 	void pullToPoint(float x, float y, int range);
 	void sellObjects(float startX, float startY, float endX, float endY, int marketRelayID);

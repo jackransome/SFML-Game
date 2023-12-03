@@ -59,7 +59,6 @@ void DefenseOrb::update(){
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cosSinValues.x, 12 * cosSinValues.y - 8 + pConsole->getSinValue(bob_counter) * 4);
 			glm::vec2 d2 = target - shootPos;
 			float d = d2.x * d2.x + d2.y * d2.y;
-			std::cout << d << "\n\n";
 			if (d2.x * d2.x + d2.y * d2.y > 150) {
 				pConsole->addCommand(commandAddBeam, shootPos.x, shootPos.y, target.x, target.y, id);
 				if (!beamSoundPlaying) {
@@ -83,7 +82,6 @@ void DefenseOrb::update(){
 		}
 		if (pInputManager->onKeyDown(mouseR)) {
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cos(3.1415 * rotation / 180.0f), 12 * sin(3.1415 * rotation / 180.0f) - 8 + pConsole->getSinValue(bob_counter) * 4);
-			//pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, target.x, target.y, id);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60.0f, id);
@@ -99,6 +97,14 @@ void DefenseOrb::update(){
 		}
 	}
 	bob_counter += 0.15 * 58;
+	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
+		if (((double)rand() / (RAND_MAX)) > 0.7) {
+			pConsole->addCommand(commandAddObject, objectSpark, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), pConsole->getSinValue(bob_counter) * 4, 1.0);
+		}
+		else {
+			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), pConsole->getSinValue(bob_counter) * 4, 1.0);
+		}
+	}
 }
 
 void DefenseOrb::onDeath() {

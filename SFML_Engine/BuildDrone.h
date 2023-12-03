@@ -20,6 +20,7 @@ private:
 	bool beamSoundPlaying = false;
 	float maxVel;
 	float acceleration;
+	float height = 0;
 	bool hasTarget = false;
 	Object* target;
 	float distance = 1000;

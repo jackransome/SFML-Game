@@ -202,6 +202,8 @@ void ObjectCollection::update() {
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
 			pConsole->addCommand(commandPlaySound, "laser_impact", 0.2 / (1 + distance / 100));
 			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFromID());
+			pConsole->addCommand(commandAddObject, objectSmoke, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 0.0, 1.0);
+			pConsole->addCommand(commandAddObject, objectSpark, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 0.0, 1.0);
 			projectiles[i]->toDelete = true;
 		}
 	}
@@ -219,6 +221,9 @@ void ObjectCollection::update() {
 		}
 		if (hit) {
 			pConsole->addCommand(commandDoAEODamage, end.x, end.y, 30, 2, beamsFrom[i]);
+		}
+		if (((double)rand() / (RAND_MAX)) < 0.25) {
+			pConsole->addCommand(commandAddObject, objectSpark, end.x, end.y, 0.0, 2.0);
 		}
 	}
 	if (numBeams) {
@@ -340,8 +345,8 @@ void ObjectCollection::addBuildDrone(int x, int y){
 	setLatestConsole();
 }
 
-void ObjectCollection::addSpark(int x, int y, int height){
-	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX))*3 - 1.5, ((double)rand() / (RAND_MAX))*1.5, ((double)rand() / (RAND_MAX))*2), ((double)rand() / (RAND_MAX))*3.5 + 0.5));
+void ObjectCollection::addSpark(int x, int y, int height, float colour){
+	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX))*3 - 1.5, ((double)rand() / (RAND_MAX))*1.5, ((double)rand() / (RAND_MAX))*2), ((double)rand() / (RAND_MAX))*3.5 + 0.5, colour));
 	setLatestId();
 	setLatestConsole();
 }
@@ -359,7 +364,7 @@ void ObjectCollection::addEnemyBombRover(int x, int y){
 }
 
 void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
-	projectiles.push_back(new Projectile(pSpriteCollection, _x, _y, _rotation, _speed, _fromID));
+	projectiles.push_back(new Projectile(pSpriteCollection, pConsole, _x, _y, _rotation, _speed, _fromID));
 }
 
 void ObjectCollection::addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID){
@@ -409,7 +414,7 @@ void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
 	}
 	if (o1->getCollidability() == droneCol && o2->getCollidability() == droneCol) {
 		if (CollisionDetection::CheckRectangleIntersect(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer())) {
-			CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+			CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
 		}
 		
 	}
@@ -569,6 +574,42 @@ void ObjectCollection::runDropWithoutPickuper(int id) {
 	object->setPickedUp(false);
 }
 
+glm::vec2 ObjectCollection::getClosestControllablePosition(int currentID) {
+	int mouseX = pInputManager->translatedMouseX;
+	int mouseY = pInputManager->translatedMouseY;
+	Object* current = getObjectById(currentID);
+	glm::vec2 closestPos = glm::vec2(-1000);
+	if (current == nullptr) {
+		std::cout << "current object does not exist\n";
+		return closestPos;
+	}
+	int currentX = current->getBoundingBox().x;
+	int currentY = current->getBoundingBox().y;
+	Controllable* controllable;
+	if (!(controllable = dynamic_cast<Controllable*>(current))) {
+		std::cout << "current object given is not controllable\n";
+	}
+	int range = controllable->getRange();
+	int closestDistance = 100000;
+	int distanceFromCurrent = 0;
+	int distanceFromMouse = 0;
+	
+	for (int i = 0; i < objects.size(); i++) {
+		if ((controllable = dynamic_cast<Controllable*>(objects[i]))) {
+			//if another object is found that is controllable and not the current object
+			//get distance, see if its within range
+			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			distanceFromMouse = CollisionDetection::getDistance(glm::vec2(mouseX, mouseY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			if (distanceFromCurrent < range && distanceFromMouse < closestDistance) {
+				//if closest so far, record distance and the id of that object
+				closestDistance = distanceFromMouse;
+				closestPos = objects[i]->getCenter();
+			}
+		}
+	}
+	return closestPos;
+}
+
 int ObjectCollection::getClosestControllable(int currentID){
 	int mouseX = pInputManager->translatedMouseX;
 	int mouseY = pInputManager->translatedMouseY;
@@ -589,7 +630,7 @@ int ObjectCollection::getClosestControllable(int currentID){
 	int distanceFromMouse = 0;
 	int closestID = -1;
 	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getId() != currentID && (controllable = dynamic_cast<Controllable*>(objects[i]))) {
+		if ((controllable = dynamic_cast<Controllable*>(objects[i]))) {
 			//if another object is found that is controllable and not the current object
 			//get distance, see if its within range
 			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));

@@ -86,7 +86,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	timer = Timer(250, &console);
 	inventory = Inventory();
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera, &inventory);
-	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection);
+	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection, &inputManager, &camera);
 	builder = Builder(&spriteCollection, &inventory, &console, &inputManager);
 	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager);
@@ -149,6 +149,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("generator_stack_1", "resources/generator_stack_1.png");
 	spriteCollection.loadTexture("generator_stack_2", "resources/generator_stack_2.png"); 
 	spriteCollection.loadTexture("enemy_rover_bomb_stack_1", "resources/enemy_rover_bomb_stack_1.png");
+	spriteCollection.loadTexture("switcher_overlay_current", "resources/switcher_overlay_current_2.png");
+	spriteCollection.loadTexture("switcher_overlay_prospect", "resources/switcher_overlay_prospect_2.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -242,11 +244,8 @@ void Game::HandleInput() {
 	inputManager.update();
 	console.addTime("Start of handleinput1");
 	if (gameState == 1) {
-		if (inputManager.onKeyDown(space)) {
-			//console.addCommand(commandPlaySound, "hh");
-			//console.addCommand(commandShakeScreen, 15.0f);	
-			controlSwitcher.switchControl();
-		}
+		controlSwitcher.handleInput();
+
 		if (inputManager.isKeyDown(f)) {
 			console.addCommand(commandEnableDebug, 1);
 			debugMode = true;
@@ -254,13 +253,6 @@ void Game::HandleInput() {
 		if (inputManager.isKeyDown(g)) {
 			console.addCommand(commandEnableDebug, 0);
 			debugMode = false;
-		}
-		if (inputManager.isKeyDown(r)) {
-			/*if (snowOpacity <= 0.99) {
-				snowOpacity += 0.01;
-				snowSystem.setOpacity(snowOpacity);
-			}*/
-			controlSwitcher.drawOverlay();
 		}
 		if (inputManager.onKeyDown(r)) {
 			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
@@ -393,7 +385,7 @@ void Game::Draw() {
 	console.addTime("Start of draw");
 	
 	pWindow->clear();
-
+	
 	if (gameState == 1) {
 		spriteCollection.setPipelineIndex(0);
 		//in game
@@ -409,7 +401,9 @@ void Game::Draw() {
 		//spriteCollection.setFullBrightMode(false);
 		uiManager.draw();
 		builder.draw();
+		controlSwitcher.draw();
 		spriteCollection.setPipelineIndex(1);
+		
 	}
 	else if (gameState == 0) {
 		spriteCollection.setPipelineIndex(0);
@@ -486,7 +480,6 @@ void Game::loadGameplay(){
 	objectCollection.addRelay(-150, 00);
 	objectCollection.addMarketRelay(150, 0);
 	objectCollection.addAutoTurret(0, -150);
-	objectCollection.addBuildDrone(-200, -200);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
 	objectCollection.addGenerator(100, 0);

@@ -49,7 +49,7 @@ void CommandExecuter::execute(Command command) {
 			pObjectCollection->addRelay(command.f1, command.f2);
 			break;
 		case objectSpark:
-			pObjectCollection->addSpark(command.f1, command.f2, command.f3);
+			pObjectCollection->addSpark(command.f1, command.f2, command.f3, command.f4);
 			break;
 		case objectGenerator:
 			pObjectCollection->addGenerator(command.f1, command.f2);

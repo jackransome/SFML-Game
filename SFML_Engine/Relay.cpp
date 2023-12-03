@@ -43,4 +43,12 @@ void Relay::onDeath() {
 
 void Relay::update() {
 	pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
+		if (((double)rand() / (RAND_MAX)) > 0.7) {
+			pConsole->addCommand(commandAddObject, objectSpark, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 60 * ((double)rand() / (RAND_MAX)), 1.0);
+		}
+		else {
+			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 60 * ((double)rand() / (RAND_MAX)), 1.0);
+		}
+	}
 }

@@ -12,10 +12,16 @@ Explosion::Explosion(SpriteCollection* _pSpriteCollection, Console* _pConsole, S
 	int temp = size*2 + rand() % 3;
 	for (int i = 0; i < temp; i++) {
 		pConsole->addCommand(commandAddObject, objectSmoke, getCenter().x + 2 * (-(size*2.5) / 2 + rand() % (int)(size*2.5)), getCenter().y + 2 * (-(size * 2.5) / 2 + rand() % (int)(size * 2.5)), 0.0, 3.0f);
+		if (i % 3 == 0) {
+			pConsole->addCommand(commandAddObject, objectSpark, x + size * ((double)rand() / (RAND_MAX)), y + size * ((double)rand() / (RAND_MAX)), 5.0, 1.0);
+		}
 	}
 	pConsole->addCommand(commandAddObject, objectSmoke, getCenter().x, getCenter().y, 0.0, 3.0f);
 	pConsole->addCommand(commandShakeScreen, (size/5)*12.5f);
 	pConsole->addCommand(commandPlaySound, "explosion" + std::to_string(rand() % 3 + 1), size/4 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	
+	
+	
 }
 
 void Explosion::draw()

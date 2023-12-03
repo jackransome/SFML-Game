@@ -3,7 +3,7 @@
 Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y, float _height, float _scale) :
 	Decoration(_pSpriteCollection, x, y) {
 	//opacity = 0.3;
-	opacity = 0.25 + 0.5 * (rand() % 10) / 10;
+	opacity = 0.4 + 0.5 * (rand() % 10) / 10;
 	decay = 0.975 - float(rand() % 8) * 0.025;
 	riseSpeed = 0.75 + float(rand() % 8) / 8;
 	type = objectSmoke;

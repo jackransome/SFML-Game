@@ -70,19 +70,19 @@ private:
 	std::vector<sf::Font> fonts;
 	bool orderZ = false;
 	sf::Shader *lightingShader;
-	int maxPointLights = 120;
-	sf::Glsl::Vec2 pointLightPositions[120];
-	sf::Glsl::Vec3 pointLightColours[120];
-	float pointLightTypes[120];
-	float pointLightIntensities[120];
+	int maxPointLights = 190;
+	sf::Glsl::Vec2 pointLightPositions[190];
+	sf::Glsl::Vec3 pointLightColours[190];
+	float pointLightTypes[190];
+	float pointLightIntensities[190];
 	int numPointLights = 0;
 
 	int maxBeamLights = 100;
-	sf::Glsl::Vec2 beamLightPositions1[100];
-	sf::Glsl::Vec2 beamLightPositions2[100];
-	sf::Glsl::Vec3 beamLightColours[100];
-	float beamLightTypes[100];
-	float beamLightIntensities[100];
+	sf::Glsl::Vec2 beamLightPositions1[50];
+	sf::Glsl::Vec2 beamLightPositions2[50];
+	sf::Glsl::Vec3 beamLightColours[50];
+	float beamLightTypes[50];
+	float beamLightIntensities[50];
 	int numBeamLights = 0;
 
 	bool absoluteMode = false;

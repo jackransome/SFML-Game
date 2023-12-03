@@ -8,7 +8,8 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
 	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile,
 	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState,
-	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay, commandAddBuildObject
+	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay,
+	commandAddBuildObject, commandAddDamageParticles
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,
@@ -166,8 +167,11 @@ public:
 	float getSinValue(int degrees);
 	float getCosValue(int degrees);
 	glm::vec2 getTrigValue(int degrees);
+	float getAtan2Value(float y, float x);
 private:
 	std::vector<glm::vec2> trigTable; // 0 to 360 degrees
+	static const int ATAN2_TABLE_RES = 360; // Resolution of the table
+	std::vector<std::vector<float>> atan2Table;
 	glm::vec2 controlPositon = glm::vec2(0, 0);
 	long int frame = 0;
 	bool enableLogging = false;

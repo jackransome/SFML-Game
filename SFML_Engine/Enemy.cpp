@@ -19,7 +19,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	isLiving = true;
 	damageRange = 60;
 	maxReload = 15;
-	targetingRange = 500;
+	targetingRange = 1000;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
 	pSoundPlayer->setVolume(AmbientSoundId, 0);
@@ -84,6 +84,15 @@ void Enemy::update() {
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
 	//velocity = clamp((velocity + (newDirection * acceleration)), max vel)
 	pSoundPlayer->setVolume(AmbientSoundId, 0.15*pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	
+	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
+		if (((double)rand() / (RAND_MAX)) > 0.7) {
+			pConsole->addCommand(commandAddObject, objectSpark, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 5.0, 1.0);
+		}
+		else {
+			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 1.0, 1.0);
+		}
+	}
 }
 
 void Enemy::draw() {

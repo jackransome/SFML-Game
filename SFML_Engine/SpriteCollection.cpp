@@ -560,10 +560,10 @@ void SpriteCollection::sendLightDataToShader(){
 		pointLightPositions[i] = sf::Glsl::Vec2(pointLightPositions[i].x - pCamera->getPosition().x + *pWindowW / 2, -pointLightPositions[i].y + pCamera->getPosition().y + *pWindowH / 2);
 	}
 	lightingShader->setUniform("numPointLights", (float)numPointLights);
-	lightingShader->setUniformArray("pointLightPositions", pointLightPositions, 100);
-	lightingShader->setUniformArray("pointLightColours", pointLightColours, 100);
-	lightingShader->setUniformArray("pointLightIntensities", pointLightIntensities, 100);
-	lightingShader->setUniformArray("pointLightTypes", pointLightTypes, 100);
+	lightingShader->setUniformArray("pointLightPositions", pointLightPositions, 190);
+	lightingShader->setUniformArray("pointLightColours", pointLightColours, 190);
+	lightingShader->setUniformArray("pointLightIntensities", pointLightIntensities, 190);
+	lightingShader->setUniformArray("pointLightTypes", pointLightTypes, 190);
 	numPointLights = 0;
 
 	for (int i = 0; i < numBeamLights; i++) {
