@@ -19,7 +19,7 @@ void CommandExecuter::execute(Command command) {
 			pObjectCollection->addFootPrint(command.f1, command.f2);
 			break;
 		case objectSmoke:
-			pObjectCollection->addSmoke(command.f1, command.f2);
+			pObjectCollection->addSmoke(command.f1, command.f2, command.f3, command.f4);
 			break;
 		case objectAction1animation:
 			pObjectCollection->addAction1Animation(command.f1, command.f2);
@@ -54,6 +54,9 @@ void CommandExecuter::execute(Command command) {
 		case objectGenerator:
 			pObjectCollection->addGenerator(command.f1, command.f2);
 			break;
+		case objectEnemyBombRover:
+			pObjectCollection->addEnemyBombRover(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
@@ -64,7 +67,7 @@ void CommandExecuter::execute(Command command) {
 			pObjectCollection->addFootPrint(command.f1, command.f2);
 			break;
 		case objectSmoke:
-			pObjectCollection->addSmoke(command.f1, command.f2);
+			pObjectCollection->addSmoke(command.f1, command.f2, command.f3, command.f4);
 			break;
 		case objectAction1animation:
 			pObjectCollection->addAction1Animation(command.f1, command.f2);

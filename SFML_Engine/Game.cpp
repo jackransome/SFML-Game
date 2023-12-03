@@ -147,7 +147,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("build_drone_stack_1", "resources/build_drone_stack_1.png");
 	spriteCollection.loadTexture("menu_pane", "resources/menu_pane.png");
 	spriteCollection.loadTexture("generator_stack_1", "resources/generator_stack_1.png");
-
+	spriteCollection.loadTexture("generator_stack_2", "resources/generator_stack_2.png"); 
+	spriteCollection.loadTexture("enemy_rover_bomb_stack_1", "resources/enemy_rover_bomb_stack_1.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -211,6 +212,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("menu_click", "resources/sound_menu_click2.wav");
 	soundPlayer.loadSound("build_beam", "resources/sound_build_beam.wav");
 	soundPlayer.loadSound("generator_ambient_1", "resources/sound_generator_ambient_1.wav");
+	soundPlayer.loadSound("generator_produce_1", "resources/sound_generator_produce_1.wav");
+	soundPlayer.loadSound("enemy_bomb_1", "resources/sound_enemy_bomb_1.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -264,15 +267,9 @@ void Game::HandleInput() {
 		}
 		if (inputManager.onKeyDown(t)) {
 			console.addCommand(commandAddObject, objectEnemy, inputManager.translatedMouseX, inputManager.translatedMouseY);
-			//if (snowOpacity >= 0.01) {
-			//	snowOpacity -= 0.01;
-			//	snowSystem.setOpacity(snowOpacity);
-			//}
 		}
-		if (inputManager.isKeyDown(y)) {
-			//snowSystem.setSpeed(10);
-			//snowSystem.setFallAngle(0.5);
-			//snowSystem.setSize(50);
+		if (inputManager.onKeyDown(y)) {
+			console.addCommand(commandAddObject, objectEnemyBombRover, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(u)) {
 
@@ -492,6 +489,8 @@ void Game::loadGameplay(){
 	objectCollection.addBuildDrone(-200, -200);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
+	objectCollection.addGenerator(100, 0);
+	objectCollection.addEnemyBombRover(-900, -200);
 	
 
 	glm::vec2 temp;

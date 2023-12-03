@@ -9,8 +9,8 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	pConsole = _pConsole;
 	type = objectAutoTurret;
 	pSoundPlayer = _pSoundPlayer;
-	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2); //CHANGE
-	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 11, 2); //CHANGE
+	baseStack = SpriteStack(pSpriteCollection, "autoturret_base_stack", 12, 12, 4, 2);
+	barrelStack = SpriteStack(pSpriteCollection, "autoturret_barrel_stack", 16, 16, 11, 2);
 	targetingRange = 600;
 	canBePickedUp = true;
 	maxReload = 15;

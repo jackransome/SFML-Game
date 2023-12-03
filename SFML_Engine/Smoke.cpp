@@ -1,6 +1,6 @@
 #include "Smoke.h"
 
-Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y) :
+Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y, float _height, float _scale) :
 	Decoration(_pSpriteCollection, x, y) {
 	//opacity = 0.3;
 	opacity = 0.25 + 0.5 * (rand() % 10) / 10;
@@ -9,10 +9,12 @@ Smoke::Smoke(SpriteCollection* _pSpriteCollection, float x, float y) :
 	type = objectSmoke;
 	image = "decoration_smoke_" + std::to_string(rand()%4 + 1);
 	rotation = rand() % 360;
+	height = _height;
+	scale = _scale;
 }
 
 void Smoke::draw() {
-	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName(image), boundingBox.x - 7, boundingBox.y - 7 - height, -10000, 3, opacity, rotation, 8, 8, 14, 14);
+	pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName(image), boundingBox.x - 7, boundingBox.y - 7 - height, boundingBox.y - 7, scale, opacity, rotation, 8, 8, 14, 14);
 }
 
 void Smoke::update() {

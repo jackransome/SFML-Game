@@ -54,6 +54,7 @@ void ObjectCollection::draw() {
 	//inventory test drawing:
 	pSpriteCollection->setAbsoluteMode(true);
 	pSpriteCollection->addTextDraw(1, 50, 50, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->addTextDraw(1, 50, 100, 1000000, std::to_string(pInventory->getResources(Resource::component)), 40, sf::Color(255, 255, 255, 255));
 	pSpriteCollection->setAbsoluteMode(false);
 	
 	numBeamsToDraw = 0;
@@ -63,6 +64,7 @@ void ObjectCollection::update() {
 	Miner* tempM;
 	AutoTurret* tempA;
 	Enemy* tempE;
+	EnemyBombRover* tempB;
 	Mineable* tempM2;
 	Pickuper* tempP;
 	Object* tempOb;
@@ -135,13 +137,23 @@ void ObjectCollection::update() {
 				}
 			}
 			//if enemy
-			if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
+			else if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
 				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
 				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
 					tempE->setTarget(target.x, target.y, target.z, target.w);
 				}
 				else {
 					tempE->RemoveTarget();
+				}
+			}
+
+			else if ((tempB = dynamic_cast<EnemyBombRover*>(objects[i]))) {
+				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempB->getTargetingRange()) {
+					tempB->setTarget(target.x, target.y);
+				}
+				else {
+					tempB->RemoveTarget();
 				}
 			}
 			objects[i]->update();
@@ -230,8 +242,8 @@ void ObjectCollection::addFootPrint(float x, float y) {
 	setLatestConsole();
 }
 
-void ObjectCollection::addSmoke(float x, float y){
-	objects.push_back(new Smoke(pSpriteCollection, x, y));
+void ObjectCollection::addSmoke(float x, float y, float height, float scale){
+	objects.push_back(new Smoke(pSpriteCollection, x, y, height, scale));
 	setLatestId();
 	setLatestConsole();
 }
@@ -336,6 +348,12 @@ void ObjectCollection::addSpark(int x, int y, int height){
 
 void ObjectCollection::addGenerator(int x, int y){
 	objects.push_back(new Generator(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addEnemyBombRover(int x, int y){
+	objects.push_back(new EnemyBombRover(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -698,6 +716,12 @@ void ObjectCollection::freeObjectMemory(int index) {
 		break;
 	case objectDefenseOrb:
 		delete dynamic_cast<DefenseOrb*>(objects[index]);
+		break;
+	case objectGenerator:
+		delete dynamic_cast<Generator*>(objects[index]);
+		break;
+	case objectEnemyBombRover:
+		delete dynamic_cast<EnemyBombRover*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

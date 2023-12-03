@@ -113,6 +113,6 @@ void DefenseOrb::draw()
 	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation + 135);
 	glm::vec2 lightPos = getCenter() + glm::vec2(4 * cosSinValues.x, 4 * cosSinValues.y - 28 + bobHeight);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
-	mainStack.draw(boundingBox.x - 2, boundingBox.y - 2 + bobHeight, boundingBox.y, rotation + 90);
+	mainStack.draw(boundingBox.x - 2, boundingBox.y - 2 + bobHeight, boundingBox.y + boundingBox.h, rotation + 90);
 }
 

@@ -19,4 +19,7 @@ private:
 	SpriteCollection* pSpriteCollection;
 	SoundPlayer* pSoundPlayer;
 	int AmbientSoundId;
+	int blinkCounter = 0;
+	float productionProgress = 0;
+	float productionRate;
 };

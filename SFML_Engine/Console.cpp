@@ -65,6 +65,10 @@ void Console::addCommand(CommandType _type, float _f1, float _f2) {
 	commands.push(Command(_type, _f1, _f2));
 }
 
+void Console::addCommand(CommandType _type, Resource _resource, int _amount){
+	commands.push(Command(_type, _resource, _amount));
+}
+
 void Console::addCommand(Command command) {
 	commands.push(command);
 }

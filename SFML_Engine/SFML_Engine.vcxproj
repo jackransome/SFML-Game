@@ -175,6 +175,7 @@
     <ClCompile Include="Decoration.cpp" />
     <ClCompile Include="DefenseOrb.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBombRover.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventLoader.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Decoration.h" />
     <ClInclude Include="DefenseOrb.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBombRover.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventLoader.h" />
     <ClInclude Include="EventType.h" />

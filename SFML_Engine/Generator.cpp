@@ -1,7 +1,7 @@
 #include "Generator.h"
 
 Generator::Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
-	Object(x, y, 36, 28, 0, immovable, true),
+	Object(x, y, 34, 34, 0, immovable, true),
 	Living(100, 2, factionFriendly),
 	Controllable(500) {
 	boundingBox.x = _x;
@@ -9,39 +9,79 @@ Generator::Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, S
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
 	pSoundPlayer = _pSoundPlayer;
-	spriteStack = SpriteStack(pSpriteCollection, "generator_stack_1", 20, 16, 20, 2);
+	spriteStack = SpriteStack(pSpriteCollection, "generator_stack_2", 18, 18, 20, 2);
 	AmbientSoundId = pSoundPlayer->playSoundByName("generator_ambient_1", 0.4);
 	pSoundPlayer->loopSound(AmbientSoundId);
+	pSoundPlayer->setVolume(AmbientSoundId, 0);
 	canBePickedUp = true;
-	type = objectRelay;
+	type = objectGenerator;
 	isLiving = true;
 	buildTime = 8;
+	productionRate = 0.002;
+	
 }
 
 Generator::~Generator() {
 	pSoundPlayer->stopSound(AmbientSoundId);
 }
 
+void Generator::update() {
+	pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	glm::vec2 smokePos = getCenter() + glm::vec2(0, + 25);
+	pConsole->addCommand(commandAddObject, objectSmoke, smokePos.x, smokePos.y, 60.0, 1.5);
+	blinkCounter++;
+
+	productionProgress += productionRate;
+	if (productionProgress >= 1.0) {
+		pConsole->addCommand(commandAddToInventory, Resource::component, 1);
+		productionProgress = 0;
+		glm::vec2 distVector = pConsole->getControlPosition() - getCenter();
+		float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
+
+		pConsole->addCommand(commandPlaySound, "generator_produce_1", 0.25 / (1 + distance / 100));
+	}
+
+}
+
+
 void Generator::draw() {
-	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
-	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cos(direction) - 11 * sin(direction), 5 * sin(direction) + 11 * cos(direction) - 26);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
-	spriteStack.draw(boundingBox.x - 2, boundingBox.y - 2, boundingBox.y - 2, rotation);
+	
+	spriteStack.draw(boundingBox.x - 2, boundingBox.y - 2, boundingBox.y + boundingBox.h, rotation);
+
+
+	float intensity = 1.5;
+	if (blinkCounter % 8 > 3) {
+		intensity = 0.3;
+	}
+	glm::vec2 center = getCenter();
+	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation);
+	glm::vec2 lightPos = center + glm::vec2(17 * cosSinValues.x - 17 * cosSinValues.y, 17 * cosSinValues.y + 17 * cosSinValues.x - 25);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(80, 255, 90), intensity, 3);
+
+	lightPos = center - glm::vec2(17 * cosSinValues.x - 17 * cosSinValues.y, 17 * cosSinValues.y + 17 * cosSinValues.x + 25);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(80, 255, 90), intensity, 3);
+
+	lightPos = center + glm::vec2(17 * cosSinValues.x + 17 * cosSinValues.y, 17 * cosSinValues.y - 17 * cosSinValues.x - 25);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(80, 255, 90), intensity, 3);
+
+	lightPos = center - glm::vec2(17 * cosSinValues.x + 17 * cosSinValues.y, 17 * cosSinValues.y - 17 * cosSinValues.x + 25);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(80, 255, 90), intensity, 3);
+
+	//glm::vec2 lightPos = center + glm::vec2(17 * cosSinValues.x - 17 * cosSinValues.y, 17 * cosSinValues.y + 17 * cosSinValues.x - 25);
+	//pSpriteCollection->drawLightSource(lightPos, glm::vec3(100, 255, 120), 2, 2);
+	//glm::vec2 lightPos = center + 
 }
 
 void Generator::drawBuilding() {
-	spriteStack.drawUpTo(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, 1);
-	spriteStack.drawUpToPercent(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, buildProgress);
+	spriteStack.drawUpTo(boundingBox.x - 2, boundingBox.y - 2, boundingBox.y - 2, rotation, 1);
+	spriteStack.drawUpToPercent(boundingBox.x - 2, boundingBox.y - 2, boundingBox.y - 2, rotation, buildProgress);
 
-	buildHeight = buildProgress * float(40 * 2);
+	buildHeight = buildProgress * float(22 * 2);
+
+
 }
 
 void Generator::onDeath() {
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 15 + rand() % 10);
-}
-
-void Generator::update() {
-	pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 }

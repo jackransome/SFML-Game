@@ -13,7 +13,7 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,
 	objectScrapMetalPile, objectAutoTurret, objectMarketRelay, objectJammer, objectDefenseOrb,
-	objectExplosion, objectSmoke, objectBuildDrone, objectSpark, objectGenerator
+	objectExplosion, objectSmoke, objectBuildDrone, objectSpark, objectGenerator, objectEnemyBombRover
 };
 
 enum class Resource {
@@ -151,6 +151,7 @@ public:
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3);
 	void addCommand(CommandType _type, ObjectType _objectType, float _f1, float _f2, float _f3, float _f4);
 	void addCommand(CommandType _type, float _f1, float _f2);
+	void addCommand(CommandType _type, Resource _resource, int _amount);
 	void addCommand(Command command);
 	void addTime(std::string label);
 	void setControlPosition(glm::vec2 _controlPosition);

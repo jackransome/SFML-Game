@@ -25,6 +25,7 @@
 #include "BuildDrone.h"
 #include "Spark.h"
 #include "Generator.h"
+#include "EnemyBombRover.h"
 
 #include <array>
 
@@ -36,7 +37,7 @@ public:
 	void update();
 	void addMainCharacter(float x, float y);
 	void addFootPrint(float x, float y);
-	void addSmoke(float x, float y);
+	void addSmoke(float x, float y, float height, float scale);
 	void addExplosion(float x, float y, float size);
 	void addRoverTracks(float x, float y, float rotation);
 	void addAction1Animation(float x, float y);
@@ -54,6 +55,7 @@ public:
 	void addBuildDrone(int x, int y);
 	void addSpark(int x, int y, int height);
 	void addGenerator(int x, int y);
+	void addEnemyBombRover(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
 	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID);
 	void setLatestId();
