@@ -19,6 +19,8 @@ public:
 	void unloadGameplay();
 	void loadMenu();
 	void unloadMenu();
+	void loadEndScreen();
+	void unloadEndScreen();
 private:
 	bool debugMode = false;
 	int screenW;

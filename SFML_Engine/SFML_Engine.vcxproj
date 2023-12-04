@@ -207,6 +207,8 @@
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
     <ClCompile Include="SpriteStack.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
+    <ClCompile Include="TeleporterPillar.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -266,6 +268,8 @@
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />
     <ClInclude Include="SpriteStack.h" />
+    <ClInclude Include="Teleporter.h" />
+    <ClInclude Include="TeleporterPillar.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Wall.h" />

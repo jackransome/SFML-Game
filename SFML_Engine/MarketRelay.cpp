@@ -2,7 +2,7 @@
 
 MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(_x, _y, 22, 22, 0, immovable, true),
-	Living(100, 2, factionFriendly),
+	Living(100, 2),
 	Controllable(200) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
@@ -19,6 +19,7 @@ MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pI
 	sellSpaceWidth = 200;
 	sellSpaceHeight = 200;
 	isLiving = true;
+	faction = 0;
 }
 
 MarketRelay::~MarketRelay(){

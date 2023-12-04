@@ -99,6 +99,9 @@ void CommandExecuter::execute(Command command) {
 		case objectGenerator:
 			pObjectCollection->addGenerator(command.f1, command.f2);
 			break;
+		case objectTeleporterPillar:
+			pObjectCollection->addTeleporterPillar(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}
@@ -162,10 +165,10 @@ void CommandExecuter::execute(Command command) {
 		pSpriteCollection->blink();
 		break;
 	case commandAddProjectile:
-		pObjectCollection->addProjectile(command.f1, command.f2, command.f3, command.f4, command.a);
+		pObjectCollection->addProjectile(command.f1, command.f2, command.f3, command.f4, command.a, command.b);
 		break;
 	case commandAddBeam:
-		pObjectCollection->addBeam(command.f1, command.f2, command.f3, command.f4, command.a);
+		pObjectCollection->addBeam(command.f1, command.f2, command.f3, command.f4, command.a, command.b);
 		break;
 	case commandAddToInventory:
 		pObjectCollection->AddToInventory(command.resource, command.a);
@@ -191,6 +194,8 @@ void CommandExecuter::execute(Command command) {
 	case commandGoToMainMenu:
 		nextGameState = 0;
 		break;
+	case commandGoToEndScreen:
+		nextGameState = 2;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

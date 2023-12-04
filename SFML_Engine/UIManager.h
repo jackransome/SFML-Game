@@ -5,7 +5,7 @@
 #include <vector>
 
 enum class MenuType {
-	main, pause, builder
+	main, pause, builder, end
 };
 
 class UIManager {
@@ -14,7 +14,6 @@ public:
 	UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder);
 	void update();
 	void loadNewMenu(MenuType menuType);
-	
 	void unloadMenu();
 	void setState(int _state);
 	void setActive(bool _active);

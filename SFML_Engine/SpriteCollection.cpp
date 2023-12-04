@@ -512,6 +512,9 @@ void SpriteCollection::setLightShader(sf::Shader *shader) {
 }
 
 void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, float type) {
+	if (!getOnScreen(p1, 100)) {
+		return;
+	}
 	if (numPointLights >= maxPointLights) {
 		std::cout << "MAX POINT LIGHTS REACHED\n";
 		return;
@@ -662,4 +665,12 @@ void SpriteCollection::drawRasterization(sf::Texture* texture, float z, float x,
 
 void SpriteCollection::setAbsoluteMode(bool mode){
 	absoluteMode = mode;
+}
+
+bool SpriteCollection::getOnScreen(glm::vec2 position, int margin){
+	position = pCamera->transformPosition(position);
+	if (position.x < -margin || position.x > *pWindowW + margin || position.y < -margin || position.y > *pWindowH + margin) {
+		return false;
+	}
+	return true;
 }

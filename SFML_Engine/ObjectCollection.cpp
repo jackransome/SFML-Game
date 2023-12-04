@@ -68,6 +68,7 @@ void ObjectCollection::update() {
 	Mineable* tempM2;
 	Pickuper* tempP;
 	Object* tempOb;
+	Relay* tempR;
 
 	//for (int i = 0; i < objects.size(); i++) {
 	//	//if rover
@@ -128,7 +129,7 @@ void ObjectCollection::update() {
 			//if autoturret
 			if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
 
-				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
 				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
 					tempA->setTarget(target.x, target.y, target.z, target.w);
 				}
@@ -138,7 +139,7 @@ void ObjectCollection::update() {
 			}
 			//if enemy
 			else if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
-				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
 				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
 					tempE->setTarget(target.x, target.y, target.z, target.w);
 				}
@@ -148,12 +149,41 @@ void ObjectCollection::update() {
 			}
 
 			else if ((tempB = dynamic_cast<EnemyBombRover*>(objects[i]))) {
-				glm::vec4 target = getTarget(objects[i]->getCenter(), dynamic_cast<Living*>(objects[i])->getFaction());
+				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
 				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempB->getTargetingRange()) {
 					tempB->setTarget(target.x, target.y);
 				}
 				else {
 					tempB->RemoveTarget();
+				}
+			}
+			else if (tempR = dynamic_cast<Relay*>(objects[i])) {
+				int counter = 0;
+				int index1;
+				for (int j = 0; j < objects.size(); j++) {
+					if (j != i && !objects[j]->getToBuild() && objects[j]->getType() == objectRelay) {
+						if (counter == 0) {
+							counter++;
+							index1 = j;
+
+						}
+						else {
+							counter++;
+							tempR->setActive(true);
+							if (!teleporterExists) {
+								glm::vec2 teleporterPos = (objects[j]->getCenter() + objects[i]->getCenter() + objects[index1]->getCenter());
+								teleporterPos.x *= 1.0 / 3.0;
+								teleporterPos.y *= 1.0 / 3.0;
+								addTeleporter(teleporterPos.x, teleporterPos.y);
+								teleporterExists = true;
+								pConsole->addCommand(commandPlaySound, "alarm_1", pSoundPlayer->getSpatialVolume(teleporterPos, pConsole->getControlPosition()));
+							}
+
+						}
+					}
+				}
+				if (counter < 2) {
+					tempR->setActive(false);
 				}
 			}
 			objects[i]->update();
@@ -201,7 +231,7 @@ void ObjectCollection::update() {
 			glm::vec2 distVector = pConsole->getControlPosition() - projectiles[i]->getPosition();
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
 			pConsole->addCommand(commandPlaySound, "laser_impact", 0.2 / (1 + distance / 100));
-			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFromID());
+			pConsole->addCommand(commandDoAEODamage, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 50, 10, projectiles[i]->getFaction());
 			pConsole->addCommand(commandAddObject, objectSmoke, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 0.0, 1.0);
 			pConsole->addCommand(commandAddObject, objectSpark, projectiles[i]->getPosition().x, projectiles[i]->getPosition().y, 0.0, 1.0);
 			projectiles[i]->toDelete = true;
@@ -220,7 +250,7 @@ void ObjectCollection::update() {
 			}
 		}
 		if (hit) {
-			pConsole->addCommand(commandDoAEODamage, end.x, end.y, 30, 2, beamsFrom[i]);
+			pConsole->addCommand(commandDoAEODamage, end.x, end.y, 30, 2, beamsFaction[i]);
 		}
 		if (((double)rand() / (RAND_MAX)) < 0.25) {
 			pConsole->addCommand(commandAddObject, objectSpark, end.x, end.y, 0.0, 2.0);
@@ -342,37 +372,50 @@ void ObjectCollection::addDefenseOrb(int x, int y){
 void ObjectCollection::addBuildDrone(int x, int y){
 	objects.push_back(new BuildDrone(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
-	setLatestConsole();
+setLatestConsole();
 }
 
-void ObjectCollection::addSpark(int x, int y, int height, float colour){
-	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX))*3 - 1.5, ((double)rand() / (RAND_MAX))*1.5, ((double)rand() / (RAND_MAX))*2), ((double)rand() / (RAND_MAX))*3.5 + 0.5, colour));
+void ObjectCollection::addSpark(int x, int y, int height, float colour) {
+	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX)) * 3 - 1.5, ((double)rand() / (RAND_MAX)) * 1.5, ((double)rand() / (RAND_MAX)) * 2), ((double)rand() / (RAND_MAX)) * 3.5 + 0.5, colour));
 	setLatestId();
 	setLatestConsole();
 }
 
-void ObjectCollection::addGenerator(int x, int y){
+void ObjectCollection::addGenerator(int x, int y) {
 	objects.push_back(new Generator(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
-void ObjectCollection::addEnemyBombRover(int x, int y){
+void ObjectCollection::addEnemyBombRover(int x, int y) {
 	objects.push_back(new EnemyBombRover(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
-void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID){
-	projectiles.push_back(new Projectile(pSpriteCollection, pConsole, _x, _y, _rotation, _speed, _fromID));
+void ObjectCollection::addTeleporterPillar(int x, int y) {
+	objects.push_back(new TeleporterPillar(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
 }
 
-void ObjectCollection::addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID){
+void ObjectCollection::addTeleporter(int x, int y){
+	objects.push_back(new Teleporter(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID, int faction) {
+	projectiles.push_back(new Projectile(pSpriteCollection, pConsole, _x, _y, _rotation, _speed, _fromID, faction));
+}
+
+void ObjectCollection::addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID, int _faction) {
 	if (numBeams >= maxBeams) {
 		std::cout << "MAX BEAMS REACHED\n";
 	}
 	beams[numBeams] = glm::vec4(_x1, _y1, _x2, _y2);
 	beamsFrom[numBeams] = _fromID;
+	beamsFaction[numBeams] = _faction;
 	numBeams++;
 }
 
@@ -387,7 +430,7 @@ void ObjectCollection::setLatestConsole() {
 
 void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
 
-	if(o1->getCollidability() == movable) {
+	if (o1->getCollidability() == movable) {
 		if (!o2->getPickedUp() && o2->getCollidability() == movable) {
 			if (o2->getCollidability() > o1->getCollidability()) {
 				CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
@@ -416,9 +459,10 @@ void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
 		if (CollisionDetection::CheckRectangleIntersect(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer())) {
 			CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
 		}
-		
 	}
-
+	if (o1->getType() == objectTeleporter && o2->getControlled() && CollisionDetection::CheckRectangleIntersect(o1->getBoundingBoxPointer(), o2->getBoundingBoxPointer())) {
+		pConsole->addCommand(commandGoToEndScreen);
+	}
 }
 
 void ObjectCollection::drawHealthBars() {
@@ -426,17 +470,16 @@ void ObjectCollection::drawHealthBars() {
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits livings
 		if (living = dynamic_cast<Living*>(objects[i])) {
-			pSpriteCollection->addRectDraw(objects[i]->getCenter().x - 30, objects[i]->getBoundingBox().y - 30, 60*(living->getHealth()/living->getMaxHealth()), 5, 1000000, sf::Color(0, 255, 0, 10));
+			pSpriteCollection->addRectDraw(objects[i]->getCenter().x - 30, objects[i]->getBoundingBox().y - 30, 60 * (living->getHealth() / living->getMaxHealth()), 5, 1000000, sf::Color(0, 255, 0, 10));
 		}
 	}
 }
 
-void ObjectCollection::doAEODamage(float x, float y, float range, float damage, int id) {
+void ObjectCollection::doAEODamage(float x, float y, float range, float damage, int faction) {
 	Living* living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if (objects[i]->getId() != id && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
-
+		if (objects[i]->getFaction() != faction && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
 			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do damage
 				living->doDamage(damage);
@@ -461,8 +504,11 @@ void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
 	}
 }
 
-glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier faction) {
-	FactionIdentifier targetFaction = (faction == factionFriendly) ? factionHostile : factionFriendly;
+glm::vec4 ObjectCollection::getTarget(glm::vec2 position, int faction) {
+	int targetFaction = 0;
+	if (faction == 0) {
+		targetFaction = 1;
+	}
 
 	int minDistance = 10000;
 	int minIndex = -1;
@@ -471,7 +517,7 @@ glm::vec4 ObjectCollection::getTarget(glm::vec2 position, FactionIdentifier fact
 	for (int j = 0; j < objectsSize; j++) {
 
 		if (objects[j]->getLiving()) {
-			if ((targetFaction == factionHostile && objects[j]->getIsEnemy()) || (targetFaction == factionFriendly && !objects[j]->getIsEnemy())) {
+			if ((targetFaction == objects[j]->getFaction())) {
 
 				int distance = CollisionDetection::getDistance(position, objects[j]->getCenter());
 
@@ -763,6 +809,12 @@ void ObjectCollection::freeObjectMemory(int index) {
 		break;
 	case objectEnemyBombRover:
 		delete dynamic_cast<EnemyBombRover*>(objects[index]);
+		break;
+	case objectTeleporterPillar:
+		delete dynamic_cast<TeleporterPillar*>(objects[index]);
+		break;
+	case objectTeleporter:
+		delete dynamic_cast<TeleporterPillar*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

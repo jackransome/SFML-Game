@@ -2,7 +2,7 @@
 
 Generator::Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 34, 34, 0, immovable, true),
-	Living(100, 2, factionFriendly),
+	Living(100, 2),
 	Controllable(500) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
@@ -18,7 +18,7 @@ Generator::Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, S
 	isLiving = true;
 	buildTime = 8;
 	productionRate = 0.002;
-	
+	faction = 0;
 }
 
 Generator::~Generator() {

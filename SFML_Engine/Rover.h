@@ -14,6 +14,7 @@ public:
 	~Rover();
 	virtual void update() override;
 	virtual void draw() override;
+	virtual void drawBuilding() override;
 	virtual void onDeath() override;
 private:
 	float direction = 0;

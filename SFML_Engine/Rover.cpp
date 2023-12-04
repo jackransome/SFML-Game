@@ -2,7 +2,7 @@
 
 Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(x, y, 24, 24, 0, controllable, true),
-	Living(100, 2, factionFriendly),
+	Living(100, 2),
 	Pickuper(),
 	Controllable(200),
 	Miner() {
@@ -15,6 +15,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	isMining = false;
 	type = objectRover;
 	isLiving = true;
+	faction = 0;
 }
 
 Rover::~Rover(){
@@ -141,6 +142,13 @@ void Rover::draw(){
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cosSinValues.x - 11 * cosSinValues.y, 5 * cosSinValues.y + 11 * cosSinValues.x - 26);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
 	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
+}
+
+void Rover::drawBuilding(){
+	spriteStackNormal.drawUpTo(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, 1);
+	spriteStackNormal.drawUpToPercent(boundingBox.x - 3, boundingBox.y - 3, boundingBox.y - 3, rotation, buildProgress);
+	
+	buildHeight = buildProgress * float(13 * 2);
 }
 
 void Rover::onDeath() {

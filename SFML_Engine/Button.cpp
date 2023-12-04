@@ -68,6 +68,9 @@ void BuildButton::draw(){
 	else if (buildType == BuildType::generator) {
 		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Generator", 14, sf::Color(255, 255, 255, 255));
 	}
+	else if (buildType == BuildType::teleporterPillar) {
+		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Teleporter Pillar", 14, sf::Color(255, 255, 255, 255));
+	}
 }
 
 void BuildButton::update(){

@@ -3,8 +3,8 @@
 // Define the map
 std::map<BuildType, CostData> costMap = {
 	{ BuildType::autoTurret, {2, 0, 0, objectAutoTurret} },
-	{ BuildType::teleporter, {6, 0, 0, objectAutoTurret} },
-	{ BuildType::relay, {4, 0, 0, objectRelay} },
+	{ BuildType::teleporterPillar, {6, 0, 0, objectTeleporterPillar} },
+	{ BuildType::relay, {2, 4, 0, objectRelay} },
 	{ BuildType::generator, {8, 0, 0, objectGenerator} }
 };
 
@@ -30,7 +30,7 @@ void Builder::cancel(){
 
 void Builder::update(){
 	if (active) {
-		if (pInputManager->onKeyDown(mouseR)) {
+		if (pInputManager->onKeyDown(mouseR) || pInputManager->onKeyDown(mouseM)) {
 			active = false;
 			return;
 		}
@@ -54,7 +54,9 @@ void Builder::update(){
 
 void Builder::draw(){
 	if (active) {
-
+		pSpriteCollection->setAbsoluteMode(true);
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX-11, pInputManager->mouseY-11, 1000000, 2, 22, 22);
+		pSpriteCollection->setAbsoluteMode(false);
 	}
 }
 

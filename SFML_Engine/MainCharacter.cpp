@@ -2,7 +2,7 @@
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float _x, float _y) :
 	Object(_x, _y, 16, 16, 0, controllable, true),
-	Living(100, 2, factionFriendly),
+	Living(100, 2),
 	Controllable(200) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
@@ -32,7 +32,7 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
 	miniAnimation.setChangeTimer(12);
-
+	faction = 0;
 }
 
 void MainCharacter::onDeath() {

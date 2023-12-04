@@ -15,6 +15,9 @@ Spark::Spark(SpriteCollection* _pSpriteCollection, glm::vec3 _position, glm::vec
 	else if (_colour == 2) {
 		colourVec = glm::vec3(200, 200, 255);
 	}
+	else if (_colour == 3) {
+		colourVec = glm::vec3(255, 80, 255);
+	}
 }
 
 void Spark::update() {

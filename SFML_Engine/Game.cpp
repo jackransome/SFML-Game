@@ -151,6 +151,9 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("enemy_rover_bomb_stack_1", "resources/enemy_rover_bomb_stack_1.png");
 	spriteCollection.loadTexture("switcher_overlay_current", "resources/switcher_overlay_current_2.png");
 	spriteCollection.loadTexture("switcher_overlay_prospect", "resources/switcher_overlay_prospect_2.png");
+	spriteCollection.loadTexture("builder_crosshair", "resources/builder_crosshair.png"); 
+	spriteCollection.loadTexture("teleporter_pillar_stack_1", "resources/teleporter_pillar_stack_1.png");
+	spriteCollection.loadTexture("pixel_neuron", "resources/pixel_neuron.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -177,7 +180,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("beep2", "resources/beep2.wav");
 	soundPlayer.loadSound("hh4", "resources/hh4.wav");
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
-	soundPlayer.loadSound("wind", "resources/wind_better2.wav");
+	soundPlayer.loadSound("wind", "resources/wind_better3.wav");
 	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
 	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_2.wav");
 	soundPlayer.loadSound("rover_mine_1", "resources/sound_rover_mine_1.wav");
@@ -186,7 +189,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("mine_hit_1", "resources/sound_mine_hit_2.wav");
 	soundPlayer.loadSound("transfer", "resources/sound_transfer.wav");
 	soundPlayer.loadSound("laser_shot", "resources/sound_laser_shot.wav");
-	soundPlayer.loadSound("laser_shot2", "resources/sound_laser_shot2.wav");
+	soundPlayer.loadSound("laser_shot2", "resources/sound_laser_shot4.wav");
 	soundPlayer.loadSound("laser_impact", "resources/sound_laser_impact.wav");
 	soundPlayer.loadSound("drone_death_2", "resources/sound_drone_death_2.wav");
 	soundPlayer.loadSound("drone_zap_1", "resources/sound_drone_zap_1.wav");
@@ -194,9 +197,9 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("drone_zap_3", "resources/sound_drone_zap_3.wav");
 	soundPlayer.loadSound("drone_zap_4", "resources/sound_drone_zap_4.wav");
 	soundPlayer.loadSound("drone_zap_5", "resources/sound_drone_zap_5.wav");
-	soundPlayer.loadSound("relay_ambient_2", "resources/sound_market_relay_ambient_1.wav"); 
+	soundPlayer.loadSound("relay_ambient_2", "resources/sound_market_relay_ambient_2.wav"); 
 	soundPlayer.loadSound("drone_ambient_1", "resources/sound_drone_ambient_2.wav");
-	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_4.wav");
+	soundPlayer.loadSound("relay_ambient_3", "resources/sound_relay_ambient_5.wav");
 	soundPlayer.loadSound("drone_hit_1", "resources/sound_drone_hit_1.wav");
 	soundPlayer.loadSound("drone_hit_2", "resources/sound_drone_hit_2.wav");
 	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
@@ -206,7 +209,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("explosion2", "resources/sound_explosion2.wav");
 	soundPlayer.loadSound("explosion3", "resources/sound_explosion3.wav");
 	soundPlayer.loadSound("explosion4", "resources/sound_explosion4.wav");
-	soundPlayer.loadSound("beam_1", "resources/sound_beam_3.wav");
+	soundPlayer.loadSound("beam_1", "resources/sound_beam_4.wav");
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
 	soundPlayer.loadSound("menu_music", "resources/atmospheric_menu_bit_2.wav");
@@ -216,6 +219,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("generator_ambient_1", "resources/sound_generator_ambient_1.wav");
 	soundPlayer.loadSound("generator_produce_1", "resources/sound_generator_produce_1.wav");
 	soundPlayer.loadSound("enemy_bomb_1", "resources/sound_enemy_bomb_1.wav");
+	soundPlayer.loadSound("teleporter_pillar_ambient_1", "resources/sound_teleporter_pillar_ambient_1.wav");
+	soundPlayer.loadSound("alarm_1", "resources/sound_alarm_2.wav"); 
+	soundPlayer.loadSound("teleporter_ambient_1", "resources/sound_teleporter_ambient_1.wav");
+	soundPlayer.loadSound("menu_music", "resources/469.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -246,14 +253,14 @@ void Game::HandleInput() {
 	if (gameState == 1) {
 		controlSwitcher.handleInput();
 
-		if (inputManager.isKeyDown(f)) {
-			console.addCommand(commandEnableDebug, 1);
-			debugMode = true;
-		}
-		if (inputManager.isKeyDown(g)) {
-			console.addCommand(commandEnableDebug, 0);
-			debugMode = false;
-		}
+		//if (inputManager.isKeyDown(f)) {
+		//	console.addCommand(commandEnableDebug, 1);
+		//	debugMode = true;
+		//}
+		//if (inputManager.isKeyDown(g)) {
+		//	console.addCommand(commandEnableDebug, 0);
+		//	debugMode = false;
+		//}
 		if (inputManager.onKeyDown(r)) {
 			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
@@ -362,19 +369,36 @@ void Game::Run() {
 	//}
 
 	if (commandExecuter.getNextGameState() != gameState) {
-		if (gameState = commandExecuter.getNextGameState() == 0) {
+		if (commandExecuter.getNextGameState() == 0) {
 			if (gameState == 1) {
 				unloadGameplay();
 				spriteCollection.setPipelineIndex(0);
 			}
+			else if (gameState == 2) {
+				unloadEndScreen();
+			}
 			loadMenu();
+			gameState = 0;
 		}
-		if (gameState = commandExecuter.getNextGameState() == 1) {
+		else if (commandExecuter.getNextGameState() == 1) {
 			if (gameState == 0) {
 				unloadMenu();
 				spriteCollection.setPipelineIndex(1);
 			}
 			loadGameplay();
+			gameState = 1;
+		}
+		else if (commandExecuter.getNextGameState() == 2) {
+			if (gameState == 0) {
+				unloadMenu();
+				spriteCollection.setPipelineIndex(1);
+			}
+			else if (gameState == 1) {
+				unloadGameplay();
+				spriteCollection.setPipelineIndex(0);
+			}
+			loadEndScreen();
+			gameState = 2;
 		}
 		gameState = commandExecuter.getNextGameState();
 	}
@@ -429,6 +453,15 @@ void Game::Draw() {
 		uiManager.draw();
 		spriteCollection.setAbsoluteMode(false);
 	}
+	else if (gameState == 0) {
+		spriteCollection.setPipelineIndex(0);
+		spriteCollection.setAbsoluteMode(true);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("pixel_neuron"), screenW/2 - 513, screenH/2 -513 , 1, 1, 1, 1026, 1026);
+		snowSystem.drawMenu(-50, 1);
+		snowSystem2.drawMenu(10, 2);
+		uiManager.draw();
+		spriteCollection.setAbsoluteMode(false);
+	}
 
 	spriteCollection.drawAll();
 	
@@ -477,13 +510,10 @@ void Game::loadGameplay(){
 	objectCollection.setDebug(false);
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addRover(-100, -100);
-	objectCollection.addRelay(-150, 00);
-	objectCollection.addMarketRelay(150, 0);
-	objectCollection.addAutoTurret(0, -150);
+	objectCollection.addDefenseOrb(150, 0);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
-	objectCollection.addGenerator(100, 0);
-	objectCollection.addEnemyBombRover(-900, -200);
+	objectCollection.addTeleporter(-200, 100);
 	
 
 	glm::vec2 temp;
@@ -507,7 +537,7 @@ void Game::loadGameplay(){
 
 	soundPlayer.stopSound(music_id);
 	soundPlayer.update();
-	music_id = soundPlayer.playSoundByName("475", 0.5);
+	music_id = soundPlayer.playSoundByName("475", 0.0 );
 	soundPlayer.loopSound(music_id);
 	uiManager.setActive(false);
 	gameLive = true;
@@ -542,4 +572,31 @@ void Game::loadMenu(){
 
 void Game::unloadMenu() {
 
+}
+
+void Game::loadEndScreen()
+{
+	snowSystem.setSpeed(3);
+	snowSystem.setFallAngle(1.5);
+	snowSystem.setSize(100 * (float)screenH / 1080.0f);
+	snowSystem.setOpacity(0.3);
+	snowSystem.setSinMultiplier(2);
+	snowSystem2.setSpeed(3);
+	snowSystem2.setFallAngle(1.5);
+	snowSystem2.setSize(25 * (float)screenH / 1080.0f);
+	snowSystem2.setOpacity(0.2);
+	snowSystem2.setSinMultiplier(2);
+
+	soundPlayer.stopSound(music_id);
+	soundPlayer.update();
+	music_id = soundPlayer.playSoundByName("end_music", 0.6);
+	soundPlayer.loopSound(music_id);
+	camera.setPosition(screenW / 2, screenH / 2);
+	uiManager.setState(3);
+	uiManager.setActive(true);
+	gameLive = false;
+}
+
+void Game::unloadEndScreen()
+{
 }

@@ -2,7 +2,7 @@
 
 DefenseOrb::DefenseOrb(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 Object(_x, _y, 16, 16, 0, controllable, true),
-Living(100, 2, factionFriendly),
+Living(100, 2),
 Controllable(200) {
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
@@ -11,6 +11,7 @@ Controllable(200) {
 	type = objectDefenseOrb;
 	isLiving = true;
 	mainStack = SpriteStack(pSpriteCollection, "DefenseOrb_stack", 10, 10, 14, 2); //CHANGE
+	faction = 0;
 }
 
 DefenseOrb::~DefenseOrb(){
@@ -62,7 +63,7 @@ void DefenseOrb::update(){
 			if (d2.x * d2.x + d2.y * d2.y > 150) {
 				pConsole->addCommand(commandAddBeam, shootPos.x, shootPos.y, target.x, target.y, id);
 				if (!beamSoundPlaying) {
-					beamSoundId = pSoundPlayer->playSoundByName("beam_1", 0.1);
+					beamSoundId = pSoundPlayer->playSoundByName("beam_1", 0.15);
 					pSoundPlayer->loopSound(beamSoundId);
 					beamSoundPlaying = true;
 				}
@@ -84,7 +85,7 @@ void DefenseOrb::update(){
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cos(3.1415 * rotation / 180.0f), 12 * sin(3.1415 * rotation / 180.0f) - 8 + pConsole->getSinValue(bob_counter) * 4);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60.0f, id);
+			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60.0f, id, faction);
 
 			
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2);

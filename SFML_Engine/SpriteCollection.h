@@ -46,6 +46,7 @@ public:
 	sf::Texture rasterizeStack(int size, float w, float h);
 	void drawRasterization(sf::Texture* texture, float z, float x, float y, float w, float h);
 	void setAbsoluteMode(bool mode);
+	bool getOnScreen(glm::vec2 position, int margin);
 private:
 	//settings
 	bool bloomMode = false;

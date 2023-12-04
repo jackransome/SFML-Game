@@ -152,7 +152,7 @@ void InputManager::update(){
 			keyStruct.mouseR++;
 		}
 		if (keyStruct.mouseM > 0) {
-			keyStruct.mouseR++;
+			keyStruct.mouseM++;
 		}
 		if (ev.type == sf::Event::Closed) pWindow->close();
 

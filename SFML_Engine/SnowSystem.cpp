@@ -41,7 +41,7 @@ void SnowSystem::run() {
 		pSoundPlayer->setVolume(windSoundID, 0);
 	}
 	else {
-		pSoundPlayer->setVolume(windSoundID, float(size) / float(maxSize));
+		pSoundPlayer->setVolume(windSoundID, 0.5*(float(size) / float(maxSize)));
 	}
 }
 

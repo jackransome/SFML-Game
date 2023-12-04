@@ -26,6 +26,8 @@
 #include "Spark.h"
 #include "Generator.h"
 #include "EnemyBombRover.h"
+#include "TeleporterPillar.h"
+#include "Teleporter.h"
 
 #include <array>
 
@@ -56,16 +58,18 @@ public:
 	void addSpark(int x, int y, int height, float colour);
 	void addGenerator(int x, int y);
 	void addEnemyBombRover(int x, int y);
-	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID);
-	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID);
+	void addTeleporterPillar(int x, int y);
+	void addTeleporter(int x, int y);
+	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID, int faction);
+	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID, int _faction);
 	void setLatestId();
 	void setLatestConsole();
 	void runCollisionDetection(Object* o1, Object* o2);
 	void drawHealthBars();
-	void doAEODamage(float x, float y, float range, float damage, int id);
+	void doAEODamage(float x, float y, float range, float damage, int faction);
 	void setDebug(bool _debug);
 	void setEnemyTarget(int x, int y, float xv, float yv);
-	glm::vec4 getTarget(glm::vec2 position, FactionIdentifier faction);
+	glm::vec4 getTarget(glm::vec2 position,int faction);
 	void setCameraFocus(int id);
 	void setControls(int id, bool controlled);
 	void resetAllControls();
@@ -84,6 +88,7 @@ public:
 	void setLastToBuild();
 
 private:
+	bool teleporterExists = false;
 	bool controlledDead = false;
 	bool debug = false;
 	Console* pConsole;
@@ -97,6 +102,7 @@ private:
 	int numBeams = 0;
 	std::array<glm::vec4, 20> beams;
 	int beamsFrom[20];
+	int beamsFaction[20];
 	int numBeamsToDraw = 0;
 	std::array<glm::vec4, 20> beamsToDraw;
 	int cameraFocusId;

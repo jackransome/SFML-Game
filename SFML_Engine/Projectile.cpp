@@ -1,14 +1,15 @@
 #include "Projectile.h"
 
-Projectile::Projectile(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, float _rotation, float _speed, int _fromID){
+Projectile::Projectile(SpriteCollection* _pSpriteCollection, Console* _pConsole, float _x, float _y, float _rotation, float _speed, int _fromID, int _faction) {
 	position = glm::vec2(_x, _y);
 	pSpriteCollection = _pSpriteCollection;
 	rotation = _rotation;
 	speed = _speed;
 	velocity = glm::vec2(speed * cos(rotation), speed * sin(rotation));
 	lastPosition = position;
-	fromID = _fromID;
+	faction = _faction;
 	pConsole = _pConsole;
+	fromID = _fromID;
 }
 
 void Projectile::run(){
@@ -41,6 +42,11 @@ void Projectile::setPosition(glm::vec2 _position){
 	position = _position;
 }
 
-int Projectile::getFromID(){
+int Projectile::getFaction(){
+	return faction;
+}
+
+int Projectile::getFromID()
+{
 	return fromID;
 }

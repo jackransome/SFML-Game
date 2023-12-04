@@ -2,7 +2,7 @@
 
 EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 18, 18, 0, movable, true),
-	Living(100, 1, factionHostile)
+	Living(100, 1)
 {
 	target = glm::vec2(0, 0);
 	acceleration = 0.6;
@@ -20,6 +20,7 @@ EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer
 	pSoundPlayer->loopSound(AmbientSoundId);
 	pSoundPlayer->setVolume(AmbientSoundId, 0);
 	isEnemy = true;
+	faction = 1;
 }
 
 EnemyBombRover::~EnemyBombRover(){
@@ -61,7 +62,7 @@ void EnemyBombRover::draw(){
 }
 
 void EnemyBombRover::onDeath(){
-	pConsole->addCommand(commandDoAEODamage, getCenter().x, getCenter().y, 30, 30, -1);
+	pConsole->addCommand(commandDoAEODamage, getCenter().x, getCenter().y, 30, 30, id);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
 	pConsole->addCommand(commandShakeScreen, 20.0f);
 }

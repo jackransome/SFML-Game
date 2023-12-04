@@ -53,11 +53,15 @@ void UIManager::loadNewMenu(MenuType menuType){
 		state = 1;
 		break;
 	case MenuType::builder:
-		addPane(glm::vec4(25, 475, 300, 300));
+		addPane(glm::vec4(25, 475, 300, 400));
 		addButton(ButtonType::build, BuildType::autoTurret, glm::vec4(50,500,250,50));
-		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 600, 250, 50));
-		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 700, 250, 50));
+		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 600, 250, 50));
+		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 700, 250, 50));
 		state = 2;
+		break;
+	case MenuType::end:
+		addButton(ButtonType::goToMain, glm::vec4(50, 500, 250, 50));
+		state = 1;
 		break;
 	}
 }
@@ -74,6 +78,9 @@ void UIManager::loadNewMenu(int _state) {
 		break;
 	case 2:
 		loadNewMenu(MenuType::builder);
+		break;
+	case 3:
+		loadNewMenu(MenuType::end);
 		break;
 	}
 }

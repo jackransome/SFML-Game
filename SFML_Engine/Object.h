@@ -44,7 +44,9 @@ public:
 	bool getToBuild();
 	void incrementBuildProgress(float amount);
 	int getBuildHeight();
+	int getFaction();
 protected:
+	int faction = -1;
 	bool toBuild = false;
 	float buildTime = 1;
 	float buildProgress = 0;;

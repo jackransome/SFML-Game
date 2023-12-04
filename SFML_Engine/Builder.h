@@ -14,7 +14,7 @@ struct CostData {
 };
 
 enum class BuildType {
-	autoTurret, teleporter, relay, generator
+	autoTurret, teleporterPillar, relay, generator
 };
 
 // Declare the map

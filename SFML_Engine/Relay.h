@@ -14,7 +14,9 @@ public:
 	virtual void drawBuilding() override;
 	virtual void onDeath() override;
 	virtual void update() override;
+	void setActive(bool _active);
 private:
+	bool active = false;
 	SpriteStack spriteStack;
 	SpriteCollection* pSpriteCollection;
 	SoundPlayer* pSoundPlayer;

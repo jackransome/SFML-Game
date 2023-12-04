@@ -1,8 +1,8 @@
 #include "Object.h"
 
 Object::Object(float x, float y, float w, float h, float _z, Collidability _collidability, bool _hasGravity) {
-	boundingBox.x = x;
-	boundingBox.y = y;
+	boundingBox.x = x - w/2;
+	boundingBox.y = y - h/2;
 	boundingBox.w = w;
 	boundingBox.h = h;
 	boundingBox.xv = 0;
@@ -151,4 +151,8 @@ void Object::incrementBuildProgress(float amount){
 
 int Object::getBuildHeight(){
 	return buildHeight;
+}
+
+int Object::getFaction(){
+	return faction;
 }

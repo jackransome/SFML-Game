@@ -2,18 +2,19 @@
 
 Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(_x, _y, 16, 16, 0, immovable, true),
-		Living(100, 2, factionFriendly) {
-		boundingBox.x = _x;
-		boundingBox.y = _y;
-		pSpriteCollection = _pSpriteCollection;
-		pConsole = _pConsole;
-		pSoundPlayer = _pSoundPlayer;
-		spriteStack = SpriteStack(pSpriteCollection, "jammer_stack_1", 8, 8, 16, 2);
-		canBePickedUp = true;
-		type = objectJammer;
-		isLiving = true;
-		AmbientSoundId = pSoundPlayer->playSoundByName("jammer_ambient_1", 0.1);
-		pSoundPlayer->loopSound(AmbientSoundId);
+	Living(100, 2) {
+	boundingBox.x = _x;
+	boundingBox.y = _y;
+	pSpriteCollection = _pSpriteCollection;
+	pConsole = _pConsole;
+	pSoundPlayer = _pSoundPlayer;
+	spriteStack = SpriteStack(pSpriteCollection, "jammer_stack_1", 8, 8, 16, 2);
+	canBePickedUp = true;
+	type = objectJammer;
+	isLiving = true;
+	AmbientSoundId = pSoundPlayer->playSoundByName("jammer_ambient_1", 0.1);
+	pSoundPlayer->loopSound(AmbientSoundId);
+	faction = 0;
 }
 
 Jammer::~Jammer() {

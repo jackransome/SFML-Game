@@ -2,7 +2,7 @@
 
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
-	Living(100, 1, factionFriendly)
+	Living(100, 1)
 {
 	target = glm::vec2(0, 0);
 	pSpriteCollection = _pSpriteCollection;
@@ -15,8 +15,8 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	canBePickedUp = true;
 	maxReload = 15;
 	isLiving = true;
-	physicsBodyType = 1;
 	buildTime = 3;
+	faction = 0;
 }
 void AutoTurret::onDeath() {
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
@@ -39,7 +39,7 @@ void AutoTurret::update() {
 			float timetoTarget = distance / projectileSpeed;
 			target += targetVel * timetoTarget;
 
-			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2 / (1 + distance / 100));
+			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.25 / (1 + distance / 100));
 			if (barrelRotation < 0) {
 				barrelRotation += 360; // Adjust for negative angles
 			}
@@ -48,7 +48,7 @@ void AutoTurret::update() {
 			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
 			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
 
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id);
+			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
 			reloadTimer = maxReload;
 		}
 	}
