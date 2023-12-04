@@ -61,7 +61,7 @@ void UIManager::loadNewMenu(MenuType menuType){
 		break;
 	case MenuType::end:
 		addButton(ButtonType::goToMain, glm::vec4(50, 500, 250, 50));
-		state = 1;
+		state = 3;
 		break;
 	}
 }

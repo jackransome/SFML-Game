@@ -814,7 +814,7 @@ void ObjectCollection::freeObjectMemory(int index) {
 		delete dynamic_cast<TeleporterPillar*>(objects[index]);
 		break;
 	case objectTeleporter:
-		delete dynamic_cast<TeleporterPillar*>(objects[index]);
+		delete dynamic_cast<Teleporter*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

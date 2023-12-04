@@ -222,7 +222,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("teleporter_pillar_ambient_1", "resources/sound_teleporter_pillar_ambient_1.wav");
 	soundPlayer.loadSound("alarm_1", "resources/sound_alarm_2.wav"); 
 	soundPlayer.loadSound("teleporter_ambient_1", "resources/sound_teleporter_ambient_1.wav");
-	soundPlayer.loadSound("menu_music", "resources/469.wav");
+	soundPlayer.loadSound("end_music", "resources/469.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -453,7 +453,7 @@ void Game::Draw() {
 		uiManager.draw();
 		spriteCollection.setAbsoluteMode(false);
 	}
-	else if (gameState == 0) {
+	else if (gameState == 2) {
 		spriteCollection.setPipelineIndex(0);
 		spriteCollection.setAbsoluteMode(true);
 		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("pixel_neuron"), screenW/2 - 513, screenH/2 -513 , 1, 1, 1, 1026, 1026);
