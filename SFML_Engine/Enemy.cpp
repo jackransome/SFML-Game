@@ -19,7 +19,7 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	isLiving = true;
 	damageRange = 60;
 	maxReload = 15;
-	targetingRange = 1000;
+	targetingRange = 2000;
 	AmbientSoundId = pSoundPlayer->playSoundByName("drone_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
 	pSoundPlayer->setVolume(AmbientSoundId, 0);

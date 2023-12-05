@@ -360,7 +360,7 @@ void SpriteCollection::drawAll() {
 				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, false, 0, 0, 0, 0);
 			}
 			else {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->opacity);
 			}
 		}
 		else if (spriteDraws[i]->type == 1) {
@@ -382,7 +382,7 @@ void SpriteCollection::drawAll() {
 			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color, RTSel);
 		}
 		else if (spriteDraws[i]->type == 5) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 1, 0, spriteDraws[i]->opacity);
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 0, 0, 1, 0, spriteDraws[i]->opacity);
 		}
 	}
 	lit.display();
@@ -406,7 +406,7 @@ void SpriteCollection::drawAll() {
 				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, false, 0, 0, 0, 0);
 			}
 			else {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, 0, spriteDraws[i]->opacity);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->opacity);
 			}
 		}
 		else if (spriteDraws[i]->type == 1) {
@@ -428,7 +428,7 @@ void SpriteCollection::drawAll() {
 			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color, RTSel);
 		}
 		else if (spriteDraws[i]->type == 5) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 1, 0, spriteDraws[i]->opacity);
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 0, 0, 1, 0, spriteDraws[i]->opacity);
 		}
 	}
 

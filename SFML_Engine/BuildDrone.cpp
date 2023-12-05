@@ -40,7 +40,7 @@ void BuildDrone::update(){
 				building = true;
 				target->incrementBuildProgress(0.02);
 				if (!beamSoundPlaying) {
-					beamSoundId = pSoundPlayer->playSoundByName("build_beam", 0.1 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+					beamSoundId = pSoundPlayer->playSoundByName("build_beam", 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 					pSoundPlayer->loopSound(beamSoundId);
 					beamSoundPlaying = true;
 				}

@@ -16,6 +16,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	type = objectRover;
 	isLiving = true;
 	faction = 0;
+	buildTime = 8;
 }
 
 Rover::~Rover(){
@@ -66,7 +67,6 @@ void Rover::update() {
 			if (pInputManager->onKeyDown(e)) {
 				if (holding) {
 					pConsole->addCommand(commandDrop, id);
-					pSoundPlayer->playSoundByName("drop", 0.4);
 				}
 				else {
 					pConsole->addCommand(commandPickUp, id);
@@ -131,6 +131,9 @@ void Rover::update() {
 	}
 	if (holding && !lastHolding) {
 		pSoundPlayer->playSoundByName("pickup", 0.4);
+	}
+	if (!holding && lastHolding) {
+		pSoundPlayer->playSoundByName("drop", 0.4);
 	}
 	lastHolding = holding;
 	dropRotation = (direction / (2 * 3.1415)) * 360;

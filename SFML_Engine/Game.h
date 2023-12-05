@@ -7,6 +7,8 @@
 #include "ControlSwitcher.h"
 #include "ShaderManager.h"
 #include "UIManager.h"
+#include "MusicSystem.h"
+#include "Coordinator.h"
 
 class Game {
 public:
@@ -64,7 +66,8 @@ private:
 	sf::Shader* shaders[10];
 	MultiPipelineManager multiPipelineManager;
 	ShaderManager shaderManager;
+	MusicSystem musicSystem;
+	Coordinator coordinator;
 	int gameState = 0;
-	int music_id;
 	bool gameLive = false;
 };

@@ -96,6 +96,9 @@ void CommandExecuter::execute(Command command) {
 		case objectRelay:
 			pObjectCollection->addRelay(command.f1, command.f2);
 			break;
+		case objectRover:
+			pObjectCollection->addRover(command.f1, command.f2);
+			break;
 		case objectGenerator:
 			pObjectCollection->addGenerator(command.f1, command.f2);
 			break;
@@ -196,6 +199,10 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandGoToEndScreen:
 		nextGameState = 2;
+		break;
+	case commandSetLastRotation:
+		pObjectCollection->setLastRotation(command.f1);
+		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";
 	}

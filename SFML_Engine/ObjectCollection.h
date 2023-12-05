@@ -86,8 +86,14 @@ public:
 	void clear();
 	void AddToInventory(Resource resource, int amount);
 	void setLastToBuild();
-
+	int getGeneratorCount();
+	void setLastRotation(float _rotation);
+	bool checkArea(glm::vec4 _box);
+	bool checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2);
+	glm::vec2 getGeneratorPos();
 private:
+	int generatorCount = 0;
+	glm::vec2 generatorPos = glm::vec2(0);
 	bool teleporterExists = false;
 	bool controlledDead = false;
 	bool debug = false;

@@ -204,8 +204,9 @@ public:
         multiPipelines.push_back(multiPipeline);
     }
 
-    void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float scale, float rotation, float transparency) {
-        executeWithTransform(index, inputTexture, finalOutputTarget, posX, posY, scale, rotation, 0, 0, transparency, false, 0, 0, 0, 0);
+    void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float width, float height, float scale, float rotation, float transparency) {
+        executeWithTransform(index, inputTexture, finalOutputTarget, posX, posY, scale, rotation, width/2, height/2, transparency, false, 0, 0, 0, 0);
+        //THIS
     }
 
     void executeWithTransform(size_t index, const sf::Texture* inputTexture, sf::RenderTarget* finalOutputTarget, float posX, float posY, float scale) {

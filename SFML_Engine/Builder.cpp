@@ -3,16 +3,24 @@
 // Define the map
 std::map<BuildType, CostData> costMap = {
 	{ BuildType::autoTurret, {2, 0, 0, objectAutoTurret} },
-	{ BuildType::teleporterPillar, {6, 0, 0, objectTeleporterPillar} },
+	{ BuildType::rover, {4, 0, 0, objectRover} },
 	{ BuildType::relay, {2, 4, 0, objectRelay} },
 	{ BuildType::generator, {8, 0, 0, objectGenerator} }
 };
 
-Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager){
+std::map<BuildType, int> sizeMap = {
+	{ BuildType::autoTurret, 24 },
+	{ BuildType::rover, 24 },
+	{ BuildType::relay, 20 },
+	{ BuildType::generator, 34 }
+};
+
+Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection){
 	pSpriteCollection = _pSpriteCollection;
 	pInventory = _pInventory;
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
+	pObjectCollection = _pObjectCollection;
 }
 
 bool Builder::getActive() {
@@ -22,6 +30,7 @@ bool Builder::getActive() {
 void Builder::activate(BuildType buildType){
 	currentBuildType = buildType;
 	active = true;
+	rotation = 0;
 }
 
 void Builder::cancel(){
@@ -34,16 +43,25 @@ void Builder::update(){
 			active = false;
 			return;
 		}
+		if (pInputManager->isKeyDown(q)) {
+			rotation -= 5;
+		}
+		if (pInputManager->isKeyDown(e)) {
+			rotation += 5;
+		}
 		if (pInputManager->onKeyDown(mouseL)) {
 			mouseLDown = true;
 		}
 		if (mouseLDown && pInputManager->onKeyUp(mouseL)) {
-			if (checkResources(currentBuildType)) {
-				buy(currentBuildType);
-				pConsole->addCommand(commandAddBuildObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+			if (pObjectCollection->checkArea(glm::vec4(pInputManager->translatedMouseX - (sizeMap[currentBuildType]/2), pInputManager->translatedMouseY - (sizeMap[currentBuildType] / 2), sizeMap[currentBuildType], sizeMap[currentBuildType]))) {
+				if (checkResources(currentBuildType)) {
+					buy(currentBuildType);
+					pConsole->addCommand(commandAddBuildObject, costMap[currentBuildType].objectType, pInputManager->translatedMouseX, pInputManager->translatedMouseY);
+					pConsole->addCommand(commandSetLastRotation, rotation);
+				}
+				active = false;
+				mouseLDown = false;
 			}
-			active = false;
-			mouseLDown = false;
 		}
 		pInputManager->disableMouseButtons();
 	}
@@ -54,9 +72,12 @@ void Builder::update(){
 
 void Builder::draw(){
 	if (active) {
-		pSpriteCollection->setAbsoluteMode(true);
-		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX-11, pInputManager->mouseY-11, 1000000, 2, 22, 22);
-		pSpriteCollection->setAbsoluteMode(false);
+		if (pObjectCollection->checkArea(glm::vec4(pInputManager->translatedMouseX - (sizeMap[currentBuildType] / 2), pInputManager->translatedMouseY - (sizeMap[currentBuildType] / 2), sizeMap[currentBuildType], sizeMap[currentBuildType]))) {
+			pSpriteCollection->setAbsoluteMode(true);
+			pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX - 11, pInputManager->mouseY - 11, 1000000, 2, rotation, 22, 22);
+			//pSpriteCollection->addRotatedImageDrawCut(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX - 11, pInputManager->mouseY - 11, 0, 0, 0, 11, 11, 2, rotation);
+			pSpriteCollection->setAbsoluteMode(false);
+		}
 	}
 }
 

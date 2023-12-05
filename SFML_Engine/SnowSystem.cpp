@@ -18,13 +18,52 @@ SnowSystem::SnowSystem(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoun
 }
 
 void SnowSystem::run() {
+	if (abs(fallAngle - fallAngleTarget) < 0.1) {
+		fallAngle = fallAngleTarget;
+	}
+	if (abs(fallSpeed - fallAngleTarget) < 0.1) {
+		fallSpeed = fallAngleTarget;
+	}
+	if (abs(opacity - opacityTarget) < 0.01) {
+		opacity = opacityTarget;
+	}
+
+	if (size < sizeTarget) {
+		size += 0.3;
+	}
+	else if (size > sizeTarget) {
+		size -= 0.3;
+	}
+	if (opacity > opacityTarget) {
+		opacity -= 0.01;
+	}
+	else if (opacity < opacityTarget)  {
+		opacity += 0.01;
+	}
+
+	if (fallSpeed > fallSpeedTarget) {
+		fallSpeed -= 0.1;
+	}
+	else if (opacity < opacityTarget) {
+		fallSpeed += 0.1;
+	}
+	if (fallAngle > fallAngleTarget) {
+		fallAngle -= 0.01;
+	}
+	else if (opacity < opacityTarget) {
+		fallAngle += 0.01;
+	}
+
+
+
+
 	time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	//get direction vector
 	glm::vec2 direction = glm::vec2(cos(fallAngle), sin(fallAngle));
 	glm::vec2 cameraPos = pCamera->getPosition();
 	//get normal to direction vector
 	glm::vec2 normalDirection = glm::vec2(direction.y*0.5, direction.x*0.5);
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < floor(size); i++) {
 		if (snowParts[i].opacity < snowParts[i].maxOpacity) {
 			snowParts[i].opacity += 0.01;
 		}
@@ -37,7 +76,7 @@ void SnowSystem::run() {
 			snowParts[i] = getNewSnowPart(cameraPos);
 		}
 	}
-	if (menuMode) {
+	if (menuMode || !active) {
 		pSoundPlayer->setVolume(windSoundID, 0);
 	}
 	else {
@@ -47,7 +86,7 @@ void SnowSystem::run() {
 
 void SnowSystem::draw(float z){
 	menuMode = false;
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < floor(size); i++) {
 		pSpriteCollection->addImageDraw(pTexture, snowParts[i].x, snowParts[i].y, z, 2, snowParts[i].opacity * opacity, 800*2, 800*2);
 	}
 	glm::vec2 cameraPos = pCamera->getPosition();
@@ -58,7 +97,7 @@ void SnowSystem::draw(float z){
 
 void SnowSystem::drawMenu(float z, float scale) {
 	menuMode = true;
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < floor(size); i++) {
 		pSpriteCollection->addImageDraw(pMenuTexture, snowParts[i].x, snowParts[i].y, z, scale, snowParts[i].opacity * opacity, 1000 * scale, 1000 * scale);
 
 		//pSpriteCollection->addRectDraw((snowParts[i].x - 800) / 100, (snowParts[i].y - 800) / 100, 16, 16, 1200000, sf::Color(0, 255, 0, 10));
@@ -69,32 +108,46 @@ void SnowSystem::drawMenu(float z, float scale) {
 
 void SnowSystem::setFallAngle(float _fallAngle) {
 	fallAngle = _fallAngle;
+	fallAngleTarget = _fallAngle;
 }
 
 void SnowSystem::setSpeed(float _fallSpeed){
 	fallSpeed = _fallSpeed;
+	fallSpeedTarget = _fallSpeed;
 }
 
 void SnowSystem::setOpacity(float _opacity){
 	opacity = _opacity;
+	opacityTarget = _opacity;
 }
 
 void SnowSystem::setSize(int _size){
 	size = _size;
+	sizeTarget = _size;
 }
 
-void SnowSystem::changeSize(int change){
-	size += change;
-	if (size > maxSize) {
-		size = maxSize;
-	}
-	else if (size < 0) {
-		size = 0;
-	}
+void SnowSystem::changeFallAngle(float _fallAngle) {
+	fallAngleTarget = _fallAngle;
+}
+
+void SnowSystem::changeSpeed(float _fallSpeed) {
+	fallSpeedTarget = _fallSpeed;
+}
+
+void SnowSystem::changeOpacity(float _opacity) {
+	opacityTarget = _opacity;
+}
+
+void SnowSystem::changeSize(int _size) {
+	sizeTarget = _size;
 }
 
 void SnowSystem::setSinMultiplier(float sM){
 	sinMultiplier = sM;
+}
+
+void SnowSystem::setActive(bool _active){
+	active = _active;
 }
 
 SnowPart SnowSystem::getNewSnowPart(glm::vec2 cameraPos){

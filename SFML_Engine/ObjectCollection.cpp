@@ -76,11 +76,18 @@ void ObjectCollection::update() {
 	//		pullToPoint(objects[i]->getCenter().x, objects[i]->getCenter().y, 300);
 	//	}
 	//}
+
+	generatorCount = 0;
 	for (int i = 0; i < objects.size(); i++) {
 		for (int j = 0; j < objects.size(); j++) {
 			if (i != j) {
 				runCollisionDetection(objects[i], objects[j]);
 			}
+		}
+		if (objects[i]->getType() == objectGenerator && !objects[i]->getToBuild()) {
+			generatorCount++;
+			generatorPos.x = objects[i]->getBoundingBoxPointer()->x;
+			generatorPos.y = objects[i]->getBoundingBoxPointer()->y;
 		}
 		if (objects[i]->getToBuild()) {
 			for (int j = 0; j < objects.size(); j++) {
@@ -429,7 +436,7 @@ void ObjectCollection::setLatestConsole() {
 }
 
 void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
-
+	if (o1->getPickedUp() || o2->getPickedUp()) return;
 	if (o1->getCollidability() == movable) {
 		if (!o2->getPickedUp() && o2->getCollidability() == movable) {
 			if (o2->getCollidability() > o1->getCollidability()) {
@@ -586,12 +593,12 @@ void ObjectCollection::runPickUp(int id){
 }
 
 void ObjectCollection::runDrop(int id) {
-	Object* object = getObjectById(id);
-	if (object == nullptr) {
+	Object* object1 = getObjectById(id);
+	if (object1 == nullptr) {
 		return;
 	}
 	Pickuper* pickuper;
-	if (!(pickuper = dynamic_cast<Pickuper*>(object))) {
+	if (!(pickuper = dynamic_cast<Pickuper*>(object1))) {
 		std::cout << "OBJECT WITH ID " << id << " NOT A PICKUPER\n";
 		return;
 	}
@@ -599,14 +606,18 @@ void ObjectCollection::runDrop(int id) {
 		std::cout << "OBJECT WITH ID " << id << " NOT HOLDING ANYTHING\n";
 		return;
 	}
-	object = getObjectById(pickuper->getIdHeld());
-	pickuper->drop();
-	if (object == nullptr) {
+	
+	Object* object2 = getObjectById(pickuper->getIdHeld());
+	if (object2 == nullptr) {
 		return;
 	}
-	object->setPickedUp(false);
-	object->setCenter(pickuper->getPickupPos());
-	object->setRotation(pickuper->getDropRotation());
+	BoundingBox* temp = object2->getBoundingBoxPointer(); 
+	if (!checkArea(glm::vec4(temp->x, temp->y, temp->w, temp->h), object1->getId(), object2->getId())) return;
+	pickuper->drop();
+
+	object2->setPickedUp(false);
+	object2->setCenter(pickuper->getPickupPos());
+	object2->setRotation(pickuper->getDropRotation());
 	pickuper->drop();
 }
 
@@ -761,6 +772,36 @@ void ObjectCollection::AddToInventory(Resource resource, int amount){
 
 void ObjectCollection::setLastToBuild(){
 	objects[objects.size() - 1]->setToBuild(true);
+}
+
+int ObjectCollection::getGeneratorCount() {
+	return generatorCount;
+}
+
+void ObjectCollection::setLastRotation(float _rotation){
+	objects[objects.size() - 1]->setRotation(_rotation);
+}
+
+bool ObjectCollection::checkArea(glm::vec4 _box){
+	for (int i = 0; i < objects.size(); i++) {
+		if (CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool ObjectCollection::checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2) {
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getCollidability() != none && objects[i]->getId() != exclusionID1 && objects[i]->getId() != exclusionID2 && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+glm::vec2 ObjectCollection::getGeneratorPos(){
+	return generatorPos;
 }
 
 void ObjectCollection::freeObjectMemory(int index) {

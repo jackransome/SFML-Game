@@ -9,7 +9,7 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile,
 	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState,
 	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay,
-	commandAddBuildObject, commandAddDamageParticles, commandGoToEndScreen
+	commandAddBuildObject, commandAddDamageParticles, commandGoToEndScreen, commandSetLastRotation
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,

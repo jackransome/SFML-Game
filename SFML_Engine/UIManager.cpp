@@ -43,6 +43,9 @@ void UIManager::loadNewMenu(MenuType menuType){
 	if (buttons.size() > 0) {
 		buttons.clear();
 	}
+	if (panes.size() > 0) {
+		panes.clear();
+	}
 	switch (menuType) {
 	case MenuType::main:
 		addButton(ButtonType::startGame, glm::vec4(50, 500, 250, 50));
@@ -53,10 +56,11 @@ void UIManager::loadNewMenu(MenuType menuType){
 		state = 1;
 		break;
 	case MenuType::builder:
-		addPane(glm::vec4(25, 475, 300, 400));
+		addPane(glm::vec4(25, 475, 300, 700));
 		addButton(ButtonType::build, BuildType::autoTurret, glm::vec4(50,500,250,50));
 		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 600, 250, 50));
 		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 700, 250, 50));
+		addButton(ButtonType::build, BuildType::rover, glm::vec4(50, 800, 250, 50));
 		state = 2;
 		break;
 	case MenuType::end:

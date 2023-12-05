@@ -2,7 +2,7 @@
 #include "Inventory.h"
 #include "SpriteCollection.h"
 #include "InputManager.h"
-
+#include "ObjectCollection.h"
 
 
 // Define a struct to hold your associated values
@@ -14,7 +14,7 @@ struct CostData {
 };
 
 enum class BuildType {
-	autoTurret, teleporterPillar, relay, generator
+	autoTurret, teleporterPillar, relay, generator, rover
 };
 
 // Declare the map
@@ -25,7 +25,7 @@ extern std::map<BuildType, CostData> costMap;
 class Builder {
 public:
 	Builder() {};
-	Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager);
+	Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection);
 	void activate(BuildType buildType);
 	void cancel();
 	void update();
@@ -33,6 +33,7 @@ public:
 	void draw();
 	bool checkResources(BuildType buildType);
 private:
+	float rotation = 0;
 	bool mouseLDown = false;
 	void buy(BuildType buildType);
 	bool active = false;;
@@ -41,4 +42,5 @@ private:
 	Inventory* pInventory;
 	Console* pConsole;
 	InputManager* pInputManager;
+	ObjectCollection* pObjectCollection;
 };
