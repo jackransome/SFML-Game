@@ -29,10 +29,10 @@ void AutoTurret::update() {
 	//std::cout << target.x << "|" << target.y << "|" << barrelRotation << "\n";
 	//if ready to fire, fire (via command)
 	if (hasTarget ){
-		if (reloadTimer <= 0) {
-			glm::vec2 center = getCenter();
-			barrelRotation = 180.0f * atan2((target.y - center.y), (target.x - center.x)) / (3.1415);
 		
+		glm::vec2 center = getCenter();
+		barrelRotation = 180.0f * pConsole->getAtan2Value((target.y - center.y), (target.x - center.x)) / (3.1415);
+		if (reloadTimer <= 0) {
 			glm::vec2 distVector = pConsole->getControlPosition() - center;
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
 			float targetVelMagnitude = sqrt(targetVel.x * targetVel.x + targetVel.y * targetVel.y);

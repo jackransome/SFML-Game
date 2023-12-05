@@ -15,7 +15,7 @@ EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer
 	hostile = true;
 	isLiving = true;
 	explodeRange = 60;
-	targetingRange = 1000;
+	targetingRange = 2000;
 	AmbientSoundId = pSoundPlayer->playSoundByName("enemy_bomb_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
 	pSoundPlayer->setVolume(AmbientSoundId, 0);
@@ -25,9 +25,14 @@ EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer
 
 EnemyBombRover::~EnemyBombRover(){
 	pSoundPlayer->stopSound(AmbientSoundId);
+	if (moveSoundPlaying) {
+		pSoundPlayer->stopSound(moveSoundId);
+	}
 }
 
 void EnemyBombRover::update(){
+	boundingBox.xv = 0;
+	boundingBox.yv = 0;
 	if (hasTarget) {
 		
 		glm::vec2 center = getCenter();
@@ -42,7 +47,7 @@ void EnemyBombRover::update(){
 		
 		// if current direction is within 45 degrees of the right direction, move forwards
 		if (isAngleWithinThreshold(center, target, rotation, 3.141592 / 4)) {
-			moveTowardsTarget(rotation, 2);
+			moveTowardsTarget(rotation, speed);
 		}
 	}
 	pSoundPlayer->setVolume(AmbientSoundId, 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
@@ -54,11 +59,43 @@ void EnemyBombRover::update(){
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 12 * ((double)rand() / (RAND_MAX)), 1.0);
 		}
 	}
+
+	if (trackTimer < 19) {
+		trackTimer += speed;
+	}
+	if ((boundingBox.yv != 0 || boundingBox.xv != 0)) {
+		if (!moveSoundPlaying) {
+			moveSoundId = pSoundPlayer->playSoundByName("enemy_rover_moving", 0.0);
+			pSoundPlayer->loopSoundBetween(moveSoundId, 0.3, 1.0);
+
+			moveSoundPlaying = true;
+		}
+		if (trackTimer >= 19) {
+			pConsole->addCommand(commandAddObject, objectRoverTracksMini, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2, (rotation / (2 * 3.1415)) * 360 + 90);
+			trackTimer = 0;
+		}
+	}
+	else {
+		if (moveSoundPlaying) {
+			pSoundPlayer->stopSound(moveSoundId);
+			moveSoundPlaying = false;
+		}
+	}
+	if (moveSoundPlaying) {
+		pSoundPlayer->setVolume(moveSoundId, 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	}
+	boundingBox.x += boundingBox.xv;
+	boundingBox.y += boundingBox.yv;
+
+	blinkCounter++;
 }
 
 void EnemyBombRover::draw(){
 	stack.draw(boundingBox.x + boundingBox.w / 2 - 10, boundingBox.y + boundingBox.h / 2 - 10, boundingBox.y, ((rotation / (2 * 3.1415)) * 360)+90);
-	pSpriteCollection->drawLightSource(getCenter() + glm::vec2(0, -17), glm::vec3(255, 0, 0), 2, 3);
+	if (blinkCounter % 16 > 12) {
+		pSpriteCollection->drawLightSource(getCenter() + glm::vec2(0, -17), glm::vec3(255, 0, 0), 4, 3);
+	}
+	
 }
 
 void EnemyBombRover::onDeath(){
@@ -116,8 +153,8 @@ void EnemyBombRover::moveTowardsTarget(float& direction, float amount) {
 
 	// Move the center towards the target
 	glm::vec2 movement = movementVector * amount;
-	boundingBox.x += movement.x;
-	boundingBox.y += movement.y;
+	boundingBox.xv = movement.x;
+	boundingBox.yv = movement.y;
 }
 
 float EnemyBombRover::normalizeAngle(float angle) {

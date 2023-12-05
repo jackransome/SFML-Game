@@ -69,6 +69,7 @@ void ObjectCollection::update() {
 	Pickuper* tempP;
 	Object* tempOb;
 	Relay* tempR;
+	EnemyTurretRover* tempT;
 
 	//for (int i = 0; i < objects.size(); i++) {
 	//	//if rover
@@ -154,7 +155,6 @@ void ObjectCollection::update() {
 					tempE->RemoveTarget();
 				}
 			}
-
 			else if ((tempB = dynamic_cast<EnemyBombRover*>(objects[i]))) {
 				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
 				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempB->getTargetingRange()) {
@@ -162,6 +162,15 @@ void ObjectCollection::update() {
 				}
 				else {
 					tempB->RemoveTarget();
+				}
+			}
+			else if ((tempT = dynamic_cast<EnemyTurretRover*>(objects[i]))) {
+				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
+				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempT->getTargetingRange()) {
+					tempT->setTarget(target.x, target.y);
+				}
+				else {
+					tempT->RemoveTarget();
 				}
 			}
 			else if (tempR = dynamic_cast<Relay*>(objects[i])) {
@@ -303,6 +312,12 @@ void ObjectCollection::addRoverTracks(float x, float y, float rotation){
 	setLatestConsole();
 }
 
+void ObjectCollection::addRoverTracksMini(float x, float y, float rotation){
+	objects.push_back(new RoverTracksMini(pSpriteCollection, x, y, rotation));
+	setLatestId();
+	setLatestConsole();
+}
+
 void ObjectCollection::addAction1Animation(float x, float y) {
 	objects.push_back(new Action1Animation(pSpriteCollection, x, y));
 	setLatestId();
@@ -396,6 +411,12 @@ void ObjectCollection::addGenerator(int x, int y) {
 
 void ObjectCollection::addEnemyBombRover(int x, int y) {
 	objects.push_back(new EnemyBombRover(pSpriteCollection, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addEnemyTurretRover(int x, int y){
+	objects.push_back(new EnemyTurretRover(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -504,7 +525,6 @@ void ObjectCollection::setDebug(bool _debug) {
 
 void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
 	for (int i = 0; i < objects.size(); i++) {
-		//check if object inherits living
 		if (objects[i]->getType() == objectEnemy) {
 			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y, xv, yv);
 		}
@@ -758,6 +778,7 @@ bool ObjectCollection::getControlledDead(){
 }
 
 void ObjectCollection::clear(){
+	generatorCount = 0;
 	controlledDead = true;
 	for (int i = 0; i < objects.size(); i++) {
 		freeObjectMemory(i);
@@ -784,7 +805,7 @@ void ObjectCollection::setLastRotation(float _rotation){
 
 bool ObjectCollection::checkArea(glm::vec4 _box){
 	for (int i = 0; i < objects.size(); i++) {
-		if (CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
+		if (objects[i]->getCollidability() != none && objects[i]->getCollidability() != droneCol && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
 			return false;
 		}
 	}
@@ -793,7 +814,7 @@ bool ObjectCollection::checkArea(glm::vec4 _box){
 
 bool ObjectCollection::checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2) {
 	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getCollidability() != none && objects[i]->getId() != exclusionID1 && objects[i]->getId() != exclusionID2 && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
+		if (objects[i]->getCollidability() != none && objects[i]->getCollidability() != droneCol && objects[i]->getId() != exclusionID1 && objects[i]->getId() != exclusionID2 && CollisionDetection::CheckRectangleIntersect(objects[i]->getBoundingBoxPointer(), &_box)) {
 			return false;
 		}
 	}
@@ -856,6 +877,9 @@ void ObjectCollection::freeObjectMemory(int index) {
 		break;
 	case objectTeleporter:
 		delete dynamic_cast<Teleporter*>(objects[index]);
+		break;
+	case objectEnemyTurretRover:
+		delete dynamic_cast<EnemyTurretRover*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

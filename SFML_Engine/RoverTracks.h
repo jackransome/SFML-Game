@@ -12,3 +12,15 @@ protected:
 	float opacity;
 	SpriteSheet spriteSheet;
 };
+
+class RoverTracksMini : public Decoration {
+public:
+	RoverTracksMini(SpriteCollection* _pSpriteCollection, float x, float y, float _rotation);
+	virtual void draw() override;
+	virtual void update() override;
+protected:
+	float rotation;
+	float decay;
+	float opacity;
+	SpriteSheet spriteSheet;
+};

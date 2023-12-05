@@ -16,6 +16,7 @@ public:
 	void runscreenShake();
 private:
 	float screenshake = 0;
+	float maxScreenShake = 30;
 	float screenshakeDecay;
 	float screenshakeCutoff;
 	int* pScreenW;

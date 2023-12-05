@@ -15,7 +15,7 @@ enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, obj
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,
 	objectScrapMetalPile, objectAutoTurret, objectMarketRelay, objectJammer, objectDefenseOrb,
 	objectExplosion, objectSmoke, objectBuildDrone, objectSpark, objectGenerator, objectEnemyBombRover,
-	objectTeleporterPillar, objectTeleporter
+	objectTeleporterPillar, objectTeleporter, objectEnemyTurretRover, objectRoverTracksMini
 };
 
 enum class Resource {

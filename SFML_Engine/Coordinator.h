@@ -14,4 +14,5 @@ private:
 	MusicSystem* pMusicSystem;
 	Console* pConsole;
 	SnowSystem* snowSystem;
+	int alarmTimer = 0;
 };

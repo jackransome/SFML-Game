@@ -27,6 +27,9 @@ void CommandExecuter::execute(Command command) {
 		case objectRoverTracks:
 			pObjectCollection->addRoverTracks(command.f1, command.f2, command.f3);
 			break;
+		case objectRoverTracksMini:
+			pObjectCollection->addRoverTracksMini(command.f1, command.f2, command.f3);
+			break;
 		case objectExplosion:
 			pObjectCollection->addExplosion(command.f1, command.f2, command.f3);
 			break;
@@ -56,6 +59,9 @@ void CommandExecuter::execute(Command command) {
 			break;
 		case objectEnemyBombRover:
 			pObjectCollection->addEnemyBombRover(command.f1, command.f2);
+			break;
+		case objectEnemyTurretRover:
+			pObjectCollection->addEnemyTurretRover(command.f1, command.f2);
 			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";

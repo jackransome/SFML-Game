@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
-	Object(_x, _y, 18, 18, 0, movable, true),
+	Object(_x, _y, 18, 18, 0, controllable, true),
 	Living(100, 1)
 {
 	position = glm::vec2(_x, _y);

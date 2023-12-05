@@ -18,7 +18,6 @@ public:
 private:
 	SpriteCollection* pSpriteCollection;
 	Console* pConsole;
-	float projectileSpeed = 60;
 	glm::vec2 target;
 	glm::vec2 targetVel;
 	float barrelRotation = 0;
@@ -27,6 +26,8 @@ private:
 	SoundPlayer* pSoundPlayer;
 	bool hasTarget = false;
 	int targetingRange;
+
 	int reloadTimer = 0;
 	int maxReload;
+	float projectileSpeed = 60;
 };

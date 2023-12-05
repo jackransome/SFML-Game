@@ -512,7 +512,7 @@ void SpriteCollection::setLightShader(sf::Shader *shader) {
 }
 
 void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float intensity, float type) {
-	if (!getOnScreen(p1, 100)) {
+	if (!getOnScreen(p1, 300)) {
 		return;
 	}
 	if (numPointLights >= maxPointLights) {

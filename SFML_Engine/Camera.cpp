@@ -43,6 +43,9 @@ void Camera::setScreenshakeCutoff(float cutoff) {
 }
 
 void Camera::runscreenShake(){
+	if (screenshake > maxScreenShake) {
+		screenshake = maxScreenShake;
+	}
 	if (screenshake < screenshakeCutoff) {
 		screenshake = 0;
 	}

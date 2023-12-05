@@ -225,6 +225,9 @@
     <ClCompile Include="Coordinator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTurretRover.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="Coordinator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTurretRover.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

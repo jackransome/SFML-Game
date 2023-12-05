@@ -30,5 +30,10 @@ private:
 	SoundPlayer* pSoundPlayer;
 	int AmbientSoundId;
 	SpriteStack stack;
+	int blinkCounter = 0;
+	float speed = 2.5;
+	int moveSoundId;
+	bool moveSoundPlaying = false;
+	int trackTimer = 0;
 
 };

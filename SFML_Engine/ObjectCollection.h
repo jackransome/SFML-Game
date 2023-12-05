@@ -28,6 +28,7 @@
 #include "EnemyBombRover.h"
 #include "TeleporterPillar.h"
 #include "Teleporter.h"
+#include "EnemyTurretRover.h"
 
 #include <array>
 
@@ -42,6 +43,7 @@ public:
 	void addSmoke(float x, float y, float height, float scale);
 	void addExplosion(float x, float y, float size);
 	void addRoverTracks(float x, float y, float rotation);
+	void addRoverTracksMini(float x, float y, float rotation);
 	void addAction1Animation(float x, float y);
 	void addWall(int x, int y, int w, int h);
 	void addEnemy(int x, int y);
@@ -58,6 +60,7 @@ public:
 	void addSpark(int x, int y, int height, float colour);
 	void addGenerator(int x, int y);
 	void addEnemyBombRover(int x, int y);
+	void addEnemyTurretRover(int x, int y);
 	void addTeleporterPillar(int x, int y);
 	void addTeleporter(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID, int faction);

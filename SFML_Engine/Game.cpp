@@ -122,6 +122,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("rover_stack_crate", "resources/rover_stack_crate.png");
 	spriteCollection.loadTexture("crate_stack_1", "resources/crate_stack_1.png");
 	spriteCollection.loadTexture("decoration_rover_tracks_1", "resources/decoration_rover_tracks_1.png");
+	spriteCollection.loadTexture("decoration_rover_mini_tracks_1", "resources/decoration_mini_rover_tracks_1.png");
 	spriteCollection.loadTexture("relay_stack_1", "resources/relay_stack_1.png");
 	spriteCollection.loadTexture("rover_stack_relay", "resources/rover_stack_relay.png");
 	spriteCollection.loadTexture("scrap_stack_1", "resources/scrap_stack_1.png"); 
@@ -156,6 +157,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("builder_crosshair", "resources/builder_crosshair.png"); 
 	spriteCollection.loadTexture("teleporter_pillar_stack_1", "resources/teleporter_pillar_stack_1.png");
 	spriteCollection.loadTexture("pixel_neuron", "resources/pixel_neuron.png");
+	spriteCollection.loadTexture("enemy_rover_range_stack_1", "resources/enemy_rover_range_stack_1.png");
+	spriteCollection.loadTexture("enemy_rover_range_barrel_stack_1", "resources/enemy_rover_range_barrel_stack_1.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -229,6 +232,8 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("music_beat_1", "resources/music_beat_2.wav");
 	soundPlayer.loadSound("distant_roar", "resources/sound_distant_roar_2.wav");
 	soundPlayer.loadSound("517", "resources/517.wav");
+	soundPlayer.loadSound("enemy_turret_rover_ambient_1", "resources/sound_enemy_turret_rover_ambient_1.wav"); 
+	soundPlayer.loadSound("enemy_rover_moving", "resources/sound_enemy_rover_moving_2.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -256,15 +261,6 @@ void Game::HandleInput() {
 	console.addTime("Start of handleinput1");
 	if (gameState == 1) {
 		controlSwitcher.handleInput();
-
-		//if (inputManager.isKeyDown(f)) {
-		//	console.addCommand(commandEnableDebug, 1);
-		//	debugMode = true;
-		//}
-		//if (inputManager.isKeyDown(g)) {
-		//	console.addCommand(commandEnableDebug, 0);
-		//	debugMode = false;
-		//}
 		if (inputManager.onKeyDown(r)) {
 			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
@@ -275,11 +271,7 @@ void Game::HandleInput() {
 			console.addCommand(commandAddObject, objectEnemyBombRover, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(u)) {
-
-			//console.addCommand(commandAddObject, objectScrapMetalDrop, inputManager.translatedMouseX, inputManager.translatedMouseY);
-			//snowSystem.setSpeed(1);
-			//snowSystem.setFallAngle(1.6);
-			//snowSystem.setSize(30);
+			console.addCommand(commandAddObject, objectEnemyTurretRover, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(escape)) {
 			if (gameState == 1){
@@ -329,17 +321,11 @@ void Game::Run() {
 			if (controlSwitcher.getControlling()) {
 				console.setControlPosition(controlSwitcher.getControlPosition());
 			}
-
-			if (inputManager.isKeyDown(c)) {
-				snowSystem.changeSize(-1);
-			}
-			if (inputManager.isKeyDown(v)) {
-				snowSystem.changeSize(+1);
-			}
 			snowSystem.run();
 			objectCollection.update();
 
 		}
+		coordinator.update(objectCollection.getGeneratorCount(), objectCollection.getGeneratorPos());
 	}
 	else  {
 		//menu
@@ -407,7 +393,7 @@ void Game::Run() {
 		gameState = commandExecuter.getNextGameState();
 	}
 	musicSystem.update();
-	coordinator.update(objectCollection.getGeneratorCount(), objectCollection.getGeneratorPos());
+	
 }
 
 void Game::Draw() {
