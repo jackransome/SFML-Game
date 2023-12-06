@@ -12,7 +12,7 @@ public:
 	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity);
 	~Object();
 	BoundingBox getBoundingBox();
-	BoundingBox *getBoundingBoxPointer();
+	BoundingBox* getBoundingBoxPointer();
 	glm::vec2 getCenter();
 	virtual void update();
 	virtual void draw();
@@ -45,6 +45,11 @@ public:
 	void incrementBuildProgress(float amount);
 	int getBuildHeight();
 	int getFaction();
+
+	bool getIsPowered() { return isPowered; }
+	bool getIsControllable() { return isControllable; }
+	bool getIsPowerProducer() { return isPowerProducer; }
+	bool getIsPowerDistributer() { return isPowerDistributer; }
 protected:
 	int faction = -1;
 	bool toBuild = false;
@@ -69,4 +74,8 @@ protected:
 	bool hasGravity;
 	int physicsBodyType = 0;
 	bool isEnemy = false;
+	bool isPowered = false;
+	bool isControllable = false;
+	bool isPowerProducer = false;
+	bool isPowerDistributer = false;
 };

@@ -34,8 +34,8 @@ private:
 	int blinkCounter = 0;
 	float barrelRotation = 0;
 	int reloadTimer = 0;
-	int maxReload = 30;
-	float projectileSpeed = 60;
+	int maxReload = 60;
+	float projectileSpeed = 50;
 	float speed = 2.5;
 	int moveSoundId;
 	bool moveSoundPlaying = false;

@@ -196,6 +196,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectCollection.cpp" />
     <ClCompile Include="Pickuper.cpp" />
+    <ClCompile Include="Powered.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="Rover.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectCollection.h" />
     <ClInclude Include="Pickuper.h" />
+    <ClInclude Include="Powered.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Relay.h" />
     <ClInclude Include="Rover.h" />

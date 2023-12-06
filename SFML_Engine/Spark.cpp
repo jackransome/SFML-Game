@@ -4,6 +4,7 @@ Spark::Spark(SpriteCollection* _pSpriteCollection, glm::vec3 _position, glm::vec
 	Decoration(_pSpriteCollection, position.x, position.y) {
 	position = _position;
 	velocity = _velocity;
+	velocity.z *= 2;
 	pSpriteCollection = _pSpriteCollection;
 	brightness = _brightness;
 	if (_colour == 0) {
@@ -22,7 +23,7 @@ Spark::Spark(SpriteCollection* _pSpriteCollection, glm::vec3 _position, glm::vec
 
 void Spark::update() {
 	position += velocity;
-	velocity.z -= 0.1;
+	velocity.z -= 0.2;
 
 	if (position.z < 0) {
 		position.z = 0;

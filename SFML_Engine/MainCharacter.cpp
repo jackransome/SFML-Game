@@ -2,8 +2,8 @@
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float _x, float _y) :
 	Object(_x, _y, 16, 16, 0, controllable, true),
-	Living(100, 2),
-	Controllable(200) {
+	Living(100, 2, &isLiving),
+	Controllable(200, &isControllable) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	animationRunLeft = SpriteSheet(pSpriteCollection, "mc_run_left", 22, 32, 6, 2);

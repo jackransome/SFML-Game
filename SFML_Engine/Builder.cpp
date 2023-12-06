@@ -2,7 +2,7 @@
 
 // Define the map
 std::map<BuildType, CostData> costMap = {
-	{ BuildType::autoTurret, {2, 0, 0, objectAutoTurret} },
+	{ BuildType::autoTurret, {0, 1, 0, objectAutoTurret} },
 	{ BuildType::rover, {4, 0, 0, objectRover} },
 	{ BuildType::relay, {2, 4, 0, objectRelay} },
 	{ BuildType::generator, {8, 0, 0, objectGenerator} }
@@ -30,7 +30,7 @@ bool Builder::getActive() {
 void Builder::activate(BuildType buildType){
 	currentBuildType = buildType;
 	active = true;
-	rotation = 0;
+	rotation = ((float)rand() / (float)RAND_MAX)*360;
 }
 
 void Builder::cancel(){

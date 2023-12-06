@@ -26,7 +26,7 @@ private:
 	SoundPlayer* pSoundPlayer;
 	bool hasTarget = false;
 	int targetingRange;
-
+	glm::vec2 shootPos;
 	int reloadTimer = 0;
 	int maxReload;
 	float projectileSpeed = 60;

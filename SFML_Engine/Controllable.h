@@ -2,7 +2,7 @@
 
 class Controllable {
 public:
-	Controllable(int _range);
+	Controllable(int _range, bool* ObjectFlag);
 	int getRange();
 private:
 	int range;

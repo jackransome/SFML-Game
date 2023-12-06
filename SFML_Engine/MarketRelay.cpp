@@ -2,8 +2,8 @@
 
 MarketRelay::MarketRelay(SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(_x, _y, 22, 22, 0, immovable, true),
-	Living(100, 2),
-	Controllable(200) {
+	Living(100, 2, &isLiving),
+	Controllable(200, &isControllable) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;

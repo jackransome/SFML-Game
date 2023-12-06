@@ -2,7 +2,7 @@
 
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
-	Living(100, 1)
+	Living(100, 1, &isLiving)
 {
 	target = glm::vec2(0, 0);
 	pSpriteCollection = _pSpriteCollection;
@@ -33,20 +33,20 @@ void AutoTurret::update() {
 		glm::vec2 center = getCenter();
 		barrelRotation = 180.0f * pConsole->getAtan2Value((target.y - center.y), (target.x - center.x)) / (3.1415);
 		if (reloadTimer <= 0) {
-			glm::vec2 distVector = pConsole->getControlPosition() - center;
+			glm::vec2 distVector = target - center;
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
-			float targetVelMagnitude = sqrt(targetVel.x * targetVel.x + targetVel.y * targetVel.y);
 			float timetoTarget = distance / projectileSpeed;
 			target += targetVel * timetoTarget;
 
-			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.25 / (1 + distance / 100));
+
+			//pConsole->addCommand(commandPlaySound, "laser_shot2", 0.25 / (1 + distance / 100));
 			if (barrelRotation < 0) {
 				barrelRotation += 360; // Adjust for negative angles
 			}
 			glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
-			glm::vec2 shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
+			shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
 			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
-			float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
+			float radians = pConsole->getAtan2Value((target.y - shootPos.y), (target.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
 			reloadTimer = maxReload;
@@ -75,7 +75,7 @@ void AutoTurret::draw() {
 
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 3);
 }
 
 void AutoTurret::drawBuilding(){

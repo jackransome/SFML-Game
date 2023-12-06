@@ -32,6 +32,10 @@
 
 #include <array>
 
+struct powerNode {
+
+};
+
 class ObjectCollection {
 public:
 	ObjectCollection();
@@ -70,6 +74,7 @@ public:
 	void runCollisionDetection(Object* o1, Object* o2);
 	void drawHealthBars();
 	void doAEODamage(float x, float y, float range, float damage, int faction);
+	void doAEOHealing(float x, float y, float range, float amount, int faction);
 	void setDebug(bool _debug);
 	void setEnemyTarget(int x, int y, float xv, float yv);
 	glm::vec4 getTarget(glm::vec2 position,int faction);
@@ -93,8 +98,14 @@ public:
 	void setLastRotation(float _rotation);
 	bool checkArea(glm::vec4 _box);
 	bool checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2);
+	void addToPowerIDs(Object* object);
+	void removeFromPowerIDs(Object* object);
+
 	glm::vec2 getGeneratorPos();
 private:
+	void removePowerId(std::vector<int>& vec, int value);
+	void recreatePowerGraph();
+
 	int generatorCount = 0;
 	glm::vec2 generatorPos = glm::vec2(0);
 	bool teleporterExists = false;
@@ -118,6 +129,12 @@ private:
 	int nextId = 0;
 	int frame = 0;
 	Inventory* pInventory;	
+
+	std::vector<int> producerIDs;
+	std::vector<int> distributorIDs;
+	std::vector<int> poweredIDs;
+	bool poweredVectorsChanged = false;
+
 
 	void freeObjectMemory(int index);
 };

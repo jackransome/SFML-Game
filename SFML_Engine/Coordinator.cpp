@@ -36,7 +36,18 @@ void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
 			snowSystem->changeOpacity(0.7);
 			snowSystem->setSinMultiplier(2);
 		}
-		if (alarmTimer > 280 && ((float)rand() / (float)RAND_MAX) > 0.975) {
+
+		//we want the max prob to be rand > 0.95, starting at 0.98, happening over 40 seconds, so 60*40+280 is the 0.95, 280 is 0.98
+		float initialChance = 0.99;
+		float finalChance = 0.95;
+		float seconds = 90;
+		float chance = (initialChance - (initialChance - finalChance) * float(alarmTimer - 280) / (60.0 * seconds));
+		chance = std::max(finalChance, chance);
+		std::cout << chance << "\n";
+
+		//0.98 - 0.03 * float(alarmTimer - 280)/(60*40)
+		if (alarmTimer > 280 && ((float)rand() / (float)RAND_MAX) > chance) {
+			//spawn a new enemy
 			int distance = 1000 + ((float)rand() / (float)RAND_MAX) * 500;
 			float angle = ((float)rand() / (float)RAND_MAX) * 360;
 			glm::vec2 location = generatorPos + pConsole->getTrigValue(angle) * float(distance);

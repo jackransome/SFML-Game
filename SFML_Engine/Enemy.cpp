@@ -2,7 +2,7 @@
 
 Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 18, 18, 0, controllable, true),
-	Living(100, 1)
+	Living(100, 1, &isLiving)
 {
 	position = glm::vec2(_x, _y);
 	target = glm::vec2(0, 0);
@@ -32,7 +32,8 @@ Enemy::~Enemy(){
 }
 
 void Enemy::update() {
-
+	boundingBox.xv = 0;
+	boundingBox.yv = 0;
 	position.x = boundingBox.x;
 	position.y = boundingBox.y;
 
@@ -59,13 +60,16 @@ void Enemy::update() {
 			pConsole->addCommand(commandShakeScreen, 2.0f);
 			reloadTimer = maxReload;
 		}
-		normaliseVec(&newDirection);
-		velocity = velocity + newDirection * acceleration;
-		if (sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > maxVel) {
-			normaliseVec(&velocity);
-			velocity *= maxVel;
+		else {
+			normaliseVec(&newDirection);
+			velocity = velocity + newDirection * acceleration;
+			if (sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > maxVel) {
+				normaliseVec(&velocity);
+				velocity *= maxVel;
+			}
+			position = position + velocity;
 		}
-		position = position + velocity;
+
 	}
 	else {
 		velocity = glm::vec2(0, 0);
@@ -77,8 +81,8 @@ void Enemy::update() {
 	boundingBox.yv = velocity.y;
 	
 
-	boundingBox.x = boundingBox.x + boundingBox.xv;
-	boundingBox.y = boundingBox.y + boundingBox.yv;
+	boundingBox.x += boundingBox.xv;
+	boundingBox.y += boundingBox.yv;
 	
 
 	//take current velocity, add new direction * accelleration, normalise if magnitude greater than max speed and multiply by max speed
@@ -107,7 +111,7 @@ void Enemy::draw() {
 
 void Enemy::onDeath(){
 	//pConsole->addCommand(commandPlaySound, "drone_death_2", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
-	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
+	//pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 5 + rand()%10);
 	pConsole->addCommand(commandShakeScreen, 12.5f);
 }

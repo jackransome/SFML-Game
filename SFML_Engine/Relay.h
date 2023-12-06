@@ -5,8 +5,9 @@
 #include "Living.h"
 #include "Controllable.h"
 #include "SoundPlayer.h"
+#include "PowerDistributor.h"
 
-class Relay : public Object, public Living, public Controllable {
+class Relay : public Object, public Living, public PowerDistributor {
 public:
 	Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Relay();

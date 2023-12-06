@@ -132,9 +132,6 @@
     <ClCompile Include="MarketRelay.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Pickuper.cpp">
       <Filter>Source Files\Object inheritables</Filter>
     </ClCompile>
@@ -228,6 +225,12 @@
     <ClCompile Include="EnemyTurretRover.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Powered.cpp">
+      <Filter>Source Files\Object inheritables</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Object inheritables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -300,9 +303,6 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="MarketRelay.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Relay.h">
@@ -415,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="EnemyTurretRover.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Powered.h">
+      <Filter>Header Files\Object inheritabless</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

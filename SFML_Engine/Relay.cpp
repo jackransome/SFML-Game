@@ -2,8 +2,8 @@
 
 Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 20, 20, 0, immovable, true),
-	Living(100, 2),
-	Controllable(500) {
+	Living(100, 2, &isLiving),
+	PowerDistributor(500, &isPowerDistributer) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
@@ -24,14 +24,14 @@ Relay::~Relay(){
 }
 
 void Relay::draw() {
-	float lightPhase = 0.5f + sin(pConsole->getFrame() / 80.0f) / 2.0f; // 160, 214, 255
+	float lightPhase = 0.5f + sin(pConsole->getFrame() / 80.0f) / 3.0f; // 160, 214, 255
 	glm::vec3 colour = glm::vec3(255, 80, 255);
 	if (active) {
-		colour = glm::vec3(255, 160, 255);
+		colour = glm::vec3(255, 0, 230);
 		lightPhase = 1;
 	}
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 100, 255), 2* lightPhase, 1);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 100, 255), 0.2* lightPhase, 0);
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), colour, 2* lightPhase, 3);
+	//pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 100, 255), 0.2* lightPhase, 0);
 	spriteStack.draw(boundingBox.x-3, boundingBox.y-3, boundingBox.y + boundingBox.h, rotation);
 }
 

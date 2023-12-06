@@ -2,7 +2,7 @@
 
 Jammer::Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(_x, _y, 16, 16, 0, immovable, true),
-	Living(100, 2) {
+	Living(100, 2, &isLiving) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;

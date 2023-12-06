@@ -7,6 +7,7 @@ BuildDrone::BuildDrone(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoun
 	pSoundPlayer = _pSoundPlayer;
 	mainStack = SpriteStack(pSpriteCollection, "build_drone_stack_1", 8, 8, 14, 2);
 	type = objectBuildDrone;
+	bob_counter = ((double)rand() / (RAND_MAX)) * 100;
 }
 
 BuildDrone::~BuildDrone(){

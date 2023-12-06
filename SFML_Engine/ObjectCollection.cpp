@@ -103,6 +103,7 @@ void ObjectCollection::update() {
 		}
 		else {
 			if (objects[i]->getPickedUp()) {
+				//if currently picked up, either drop if the object that picked you up is dead, or move with it accordingly
 				tempOb = getObjectById(objects[i]->getPickedUpById());
 				if (tempOb == nullptr) {
 					//DROP
@@ -266,7 +267,8 @@ void ObjectCollection::update() {
 			}
 		}
 		if (hit) {
-			pConsole->addCommand(commandDoAEODamage, end.x, end.y, 30, 2, beamsFaction[i]);
+			doAEOHealing(end.x, end.y, 30, 2, beamsFaction[i]);
+			doAEODamage(end.x, end.y, 30, 2, beamsFaction[i]);
 		}
 		if (((double)rand() / (RAND_MAX)) < 0.25) {
 			pConsole->addCommand(commandAddObject, objectSpark, end.x, end.y, 0.0, 2.0);
@@ -514,6 +516,19 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage, 
 				if (living->getHealth() <= 0) {
 					objects[i]->setToDestroy(true);
 				}
+			}
+		}
+	}
+}
+
+void ObjectCollection::doAEOHealing(float x, float y, float range, float amount, int faction){
+	Living* living;
+	for (int i = 0; i < objects.size(); i++) {
+		//check if object inherits living
+		if (objects[i]->getFaction() == faction && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
+			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
+				//do healing
+				living->doDamage(-amount);
 			}
 		}
 	}
@@ -784,7 +799,12 @@ void ObjectCollection::clear(){
 		freeObjectMemory(i);
 	}
 	objects.clear();
+	for (int i = 0; i < projectiles.size(); i++) {
+		delete projectiles[i];
+	}
+	projectiles.clear();
 	nextId = 0;
+	teleporterExists = false;
 }
 
 void ObjectCollection::AddToInventory(Resource resource, int amount){
@@ -819,6 +839,43 @@ bool ObjectCollection::checkArea(glm::vec4 _box, int exclusionID1, int exclusion
 		}
 	}
 	return true;
+}
+
+void ObjectCollection::addToPowerIDs(Object* object){
+	if (object->getIsPowerDistributer()) {
+		distributorIDs.push_back(object->getId());
+	}
+	if (object->getIsPowerProducer()) {
+		producerIDs.push_back(object->getId());
+	}
+	if (object->getIsPowered()) {
+		poweredIDs.push_back(object->getId());
+	}
+	poweredVectorsChanged = true;
+}
+
+void ObjectCollection::removeFromPowerIDs(Object* object) {
+	if (object->getIsPowerDistributer()) {
+		removePowerId(distributorIDs, object->getId());
+	}
+	if (object->getIsPowerProducer()) {
+		removePowerId(producerIDs, object->getId());
+	}
+	if (object->getIsPowered()) {
+		removePowerId(poweredIDs, object->getId());
+	}
+	poweredVectorsChanged = true;
+}
+
+void ObjectCollection::removePowerId(std::vector<int>& vec, int value) {
+	auto newEnd = std::remove(vec.begin(), vec.end(), value);
+	vec.erase(newEnd, vec.end());
+}
+
+void ObjectCollection::recreatePowerGraph(){
+
+
+	poweredVectorsChanged = false;
 }
 
 glm::vec2 ObjectCollection::getGeneratorPos(){
@@ -880,6 +937,9 @@ void ObjectCollection::freeObjectMemory(int index) {
 		break;
 	case objectEnemyTurretRover:
 		delete dynamic_cast<EnemyTurretRover*>(objects[index]);
+		break;
+	case objectBuildDrone:
+		delete dynamic_cast<BuildDrone*>(objects[index]);
 		break;
 	default:
 		delete objects[index];

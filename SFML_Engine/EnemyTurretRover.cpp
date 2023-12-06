@@ -2,7 +2,7 @@
 
 EnemyTurretRover::EnemyTurretRover(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 18, 18, 0, movable, true),
-	Living(100, 1)
+	Living(100, 1, &isLiving)
 {
 	target = glm::vec2(0, 0);
 	acceleration = 0.6;
@@ -135,7 +135,7 @@ void EnemyTurretRover::draw() {
 }
 
 void EnemyTurretRover::onDeath() {
-	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
+	//pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 5 + rand() % 10);
 	pConsole->addCommand(commandShakeScreen, 12.5f);
 }

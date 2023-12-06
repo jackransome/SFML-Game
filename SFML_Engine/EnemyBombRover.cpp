@@ -2,7 +2,7 @@
 
 EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 18, 18, 0, movable, true),
-	Living(100, 1)
+	Living(100, 1, &isLiving)
 {
 	target = glm::vec2(0, 0);
 	acceleration = 0.6;

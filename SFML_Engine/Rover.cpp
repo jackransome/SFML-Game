@@ -2,9 +2,10 @@
 
 Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(x, y, 24, 24, 0, controllable, true),
-	Living(100, 2),
+	Living(100, 2, &isLiving),
+	Powered(200,200, &isPowered),
 	Pickuper(),
-	Controllable(200),
+	Controllable(200, &isControllable),
 	Miner() {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
@@ -14,7 +15,6 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	spriteStackNormal = SpriteStack(pSpriteCollection, "rover_stack_1", 14, 20, 13, 2);
 	isMining = false;
 	type = objectRover;
-	isLiving = true;
 	faction = 0;
 	buildTime = 8;
 }
@@ -29,11 +29,10 @@ Rover::~Rover(){
 }
 
 void Rover::update() {
-	//boundingBox.x = position.x*100;
-	//boundingBox.y = position.y*100;
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled) {
+	
+	if (controlled && hasCharge()) {
 		if (pInputManager->isKeyDown(a)) {
 			direction -= 0.1;
 		}
@@ -73,6 +72,7 @@ void Rover::update() {
 				}
 			}
 			if (pInputManager->isKeyDown(e)) {
+				changeCharge(-0.05);
 				isMining = true;
 				if (!mineSoundPlaying) {
 					mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.1);
@@ -113,6 +113,7 @@ void Rover::update() {
 		trackTimer++;
 	}
 	if ((boundingBox.yv != 0 || boundingBox.xv != 0) ) {
+		changeCharge(-0.02);
 		if (!moveSoundPlaying) {
 			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.12);
 			pSoundPlayer->loopSoundBetween(moveSoundId, 1, 2);
@@ -143,7 +144,7 @@ void Rover::draw(){
 	//5,11 offset for the light
 	glm::vec2 cosSinValues = pConsole->getTrigValue(direction*180 / 3.141592);
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cosSinValues.x - 11 * cosSinValues.y, 5 * cosSinValues.y + 11 * cosSinValues.x - 26);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2*getChargePercentage(), 2);
 	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
 }
 

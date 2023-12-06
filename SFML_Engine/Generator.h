@@ -5,8 +5,9 @@
 #include "Living.h"
 #include "Controllable.h"
 #include "SoundPlayer.h"
+#include "PowerProducer.h"
 
-class Generator : public Object, public Living, public Controllable {
+class Generator : public Object, public Living, public PowerProducer {
 public:
 	Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Generator();

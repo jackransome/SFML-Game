@@ -2,7 +2,7 @@
 
 class Living {
 public:
-	Living(float _maxHealth, float _regenRate);
+	Living(float _maxHealth, float _regenRate, bool* objectFlag);
 	virtual void onDeath() {};
 	float getHealth();
 	float getMaxHealth();

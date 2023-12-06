@@ -1,8 +1,9 @@
 #include "Living.h"
 
-Living::Living(float _maxHealth, float _regenRate) {
+Living::Living(float _maxHealth, float _regenRate, bool* objectFlag) {
 	maxHealth = health = _maxHealth;
 	regenRate = _regenRate;
+	*objectFlag = true;
 }
 
 float Living::getHealth() {

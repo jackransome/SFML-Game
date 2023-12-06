@@ -81,7 +81,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 
 	spriteCollection.setLightShader(shaderManager.getShader("lighting"));
 
-	soundPlayer.setGlobalVolume(1);
+	soundPlayer.setGlobalVolume(0.1);
 	console = Console();
 	timer = Timer(250, &console);
 	inventory = Inventory();
@@ -503,12 +503,17 @@ void Game::loadGameplay(){
 	snowSystem.setOpacity(0.6);
 	snowSystem.setSinMultiplier(2);
 
+	inventory.clear();
+
 	objectCollection.setDebug(false);
 	objectCollection.addMainCharacter(0, 0);
 	objectCollection.addRover(-100, -100);
 	objectCollection.addDefenseOrb(150, 0);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
+	//inventory.addResources(Resource::component, 300);
+	//inventory.addResources(Resource::scrap, 300);
+	
 	
 
 	glm::vec2 temp;
