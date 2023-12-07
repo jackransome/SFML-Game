@@ -4,9 +4,6 @@ Enemy::Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, f
 	Object(_x, _y, 18, 18, 0, controllable, true),
 	Living(100, 1, &isLiving)
 {
-	position = glm::vec2(_x, _y);
-	target = glm::vec2(0, 0);
-	velocity = glm::vec2(0, 0);
 	acceleration = 0.6;
 	maxVel = 2;
 	pSoundPlayer = _pSoundPlayer;
@@ -34,15 +31,14 @@ Enemy::~Enemy(){
 void Enemy::update() {
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	position.x = boundingBox.x;
-	position.y = boundingBox.y;
 
-	if (hasTarget) {
-		glm::vec2 newDirection = target - position;
+	if (auto sharedTarget = target.lock()) {
+		glm::vec2 targetPos = sharedTarget->getCenter();
+		glm::vec2 newDirection = targetPos - getCenter();
 		float distance = sqrt(newDirection.x * newDirection.x + newDirection.y * newDirection.y);
 		if (distance < damageRange && reloadTimer <= 0) {
-			
-			pConsole->addCommand(commandDoAEODamage, target.x, target.y, 10, 10, id);
+
+			pConsole->addCommand(commandDoAEODamage, targetPos.x, targetPos.y, 10, 10, id);
 			switch (rand() % 4) {
 			case 0:
 				pConsole->addCommand(commandPlaySound, "drone_hit_1", 0.3 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
@@ -62,23 +58,15 @@ void Enemy::update() {
 		}
 		else {
 			normaliseVec(&newDirection);
-			velocity = velocity + newDirection * acceleration;
-			if (sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > maxVel) {
-				normaliseVec(&velocity);
-				velocity *= maxVel;
-			}
-			position = position + velocity;
+			boundingBox.xv = newDirection.x * maxVel;
+			boundingBox.yv = newDirection.y * maxVel;
 		}
-
 	}
 	else {
-		velocity = glm::vec2(0, 0);
+		hasTarget = false;
 	}
 	
 	reloadTimer--;
-	
-	boundingBox.xv = velocity.x;
-	boundingBox.yv = velocity.y;
 	
 
 	boundingBox.x += boundingBox.xv;
@@ -116,11 +104,8 @@ void Enemy::onDeath(){
 	pConsole->addCommand(commandShakeScreen, 12.5f);
 }
 
-void Enemy::setTarget(int x, int y, float xvel, float yvel) {
-	target.x = x;
-	target.y = y;
-	targetVel.x = xvel;
-	targetVel.y = yvel;
+void Enemy::setTarget(std::shared_ptr<Object> _target) {
+	target = _target;
 	hasTarget = true;
 }
 

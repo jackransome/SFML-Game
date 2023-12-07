@@ -231,6 +231,9 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Object inheritables</Filter>
     </ClCompile>
+    <ClCompile Include="PowerProducer.cpp">
+      <Filter>Source Files\Object inheritables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -420,6 +423,12 @@
       <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
+      <Filter>Header Files\Object inheritabless</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerProducer.h">
+      <Filter>Header Files\Object inheritabless</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerDistributor.h">
       <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
   </ItemGroup>

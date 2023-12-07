@@ -9,7 +9,7 @@
 class DefenseOrb : public Object, public Living, public Controllable {
 public:
 	DefenseOrb(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
-	~DefenseOrb();
+	~DefenseOrb() override;
 	virtual void onDeath() override;
 	virtual void update() override;
 	virtual void draw() override;

@@ -10,7 +10,7 @@
 class Generator : public Object, public Living, public PowerProducer {
 public:
 	Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
-	~Generator();
+	~Generator() override;
 	virtual void draw() override;
 	virtual void drawBuilding() override;
 	virtual void onDeath() override;

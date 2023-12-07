@@ -6,7 +6,7 @@
 enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, commandEnableDebug,
 	commandSetCameraPos, commandDrawGreenRect, commandDrawRedRect, commandDoAEODamage, commandNull,
 	commandDamageAtMouse, commandLoopSound, commandStopSound, commandSetCameraFocusId, commandEnableObjectControls,
-	commandDisableObjectControls, commandPickUp, commandDrop, commandSellObjects, commandBlink, commandAddProjectile,
+	commandDisableObjectControls, commandPickUp, commandDrop, commandBlink, commandAddProjectile,
 	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState,
 	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay,
 	commandAddBuildObject, commandAddDamageParticles, commandGoToEndScreen, commandSetLastRotation

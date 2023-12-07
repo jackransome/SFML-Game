@@ -33,7 +33,14 @@
 #include <array>
 
 struct powerNode {
+	int id;
+	glm::vec2 position;
+};
 
+struct powerNetwork {
+	std::vector<powerNode> relays;
+	std::vector<powerNode> users;
+	std::vector<powerNode> generators;
 };
 
 class ObjectCollection {
@@ -71,13 +78,12 @@ public:
 	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID, int _faction);
 	void setLatestId();
 	void setLatestConsole();
-	void runCollisionDetection(Object* o1, Object* o2);
+	void runCollisionDetection(Object& o1, Object& o2);
 	void drawHealthBars();
 	void doAEODamage(float x, float y, float range, float damage, int faction);
 	void doAEOHealing(float x, float y, float range, float amount, int faction);
 	void setDebug(bool _debug);
-	void setEnemyTarget(int x, int y, float xv, float yv);
-	glm::vec4 getTarget(glm::vec2 position,int faction);
+	std::shared_ptr<Object> getTarget(glm::vec2 position,int faction, float range);
 	void setCameraFocus(int id);
 	void setControls(int id, bool controlled);
 	void resetAllControls();
@@ -87,8 +93,7 @@ public:
 	glm::vec2 getClosestControllablePosition(int currentID);
 	int getClosestControllable(int currentID);
 	void pullToPoint(float x, float y, int range);
-	void sellObjects(float startX, float startY, float endX, float endY, int marketRelayID);
-	Object* getObjectById(int id);
+	std::shared_ptr<Object> getObjectById(int id);
 	void setControlledDead(bool cd);
 	bool getControlledDead();
 	void clear();
@@ -98,13 +103,9 @@ public:
 	void setLastRotation(float _rotation);
 	bool checkArea(glm::vec4 _box);
 	bool checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2);
-	void addToPowerIDs(Object* object);
-	void removeFromPowerIDs(Object* object);
 
 	glm::vec2 getGeneratorPos();
 private:
-	void removePowerId(std::vector<int>& vec, int value);
-	void recreatePowerGraph();
 
 	int generatorCount = 0;
 	glm::vec2 generatorPos = glm::vec2(0);
@@ -116,8 +117,8 @@ private:
 	SpriteCollection* pSpriteCollection;
 	SoundPlayer* pSoundPlayer;
 	Camera* pCamera;
-	std::vector<Object*> objects;
-	std::vector<Projectile*> projectiles;
+	std::vector<std::shared_ptr<Object>> objects;
+	std::vector< std::shared_ptr<Projectile>> projectiles;
 	int maxBeams = 20;
 	int numBeams = 0;
 	std::array<glm::vec4, 20> beams;
@@ -128,13 +129,7 @@ private:
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;
-	Inventory* pInventory;	
+	Inventory* pInventory;
 
-	std::vector<int> producerIDs;
-	std::vector<int> distributorIDs;
-	std::vector<int> poweredIDs;
-	bool poweredVectorsChanged = false;
-
-
-	void freeObjectMemory(int index);
+	std::vector<powerNetwork> powerNetworks;
 };

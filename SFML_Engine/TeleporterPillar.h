@@ -9,7 +9,7 @@
 class TeleporterPillar : public Object, public Living {
 public:
 	TeleporterPillar(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
-	~TeleporterPillar();
+	~TeleporterPillar() override;
 	virtual void draw() override;
 	virtual void drawBuilding() override;
 	virtual void onDeath() override;

@@ -511,8 +511,8 @@ void Game::loadGameplay(){
 	objectCollection.addDefenseOrb(150, 0);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
-	//inventory.addResources(Resource::component, 300);
-	//inventory.addResources(Resource::scrap, 300);
+	inventory.addResources(Resource::component, 300);
+	inventory.addResources(Resource::scrap, 300);
 	
 	
 

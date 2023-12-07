@@ -8,10 +8,10 @@
 class BuildDrone : public Object {
 public:
 	BuildDrone(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
-	~BuildDrone();
+	~BuildDrone() override;
 	virtual void update() override;
 	virtual void draw() override;
-	void setTarget(Object* target);
+	void setTarget(std::shared_ptr<Object> _target);
 	void RemoveTarget();
 	bool getHasTarget();
 private:
@@ -21,8 +21,7 @@ private:
 	float maxVel;
 	float acceleration;
 	float height = 0;
-	bool hasTarget = false;
-	Object* target;
+	std::weak_ptr<Object> target;
 	float distance = 1000;
 	float buildRange = 50;
 	SoundPlayer* pSoundPlayer;

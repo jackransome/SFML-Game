@@ -11,21 +11,18 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void drawBuilding() override;
-	void setTarget(int x, int y, float xvel, float yvel);
+	void setTarget(std::shared_ptr<Object> _target);
 	virtual void onDeath() override;
 	void RemoveTarget();
 	int getTargetingRange();
 private:
 	SpriteCollection* pSpriteCollection;
 	Console* pConsole;
-	glm::vec2 target;
-	glm::vec2 targetVel;
 	float barrelRotation = 0;
 	SpriteStack baseStack;
 	SpriteStack barrelStack;
 	SoundPlayer* pSoundPlayer;
-	bool hasTarget = false;
-	int targetingRange;
+	std::weak_ptr<Object> target;
 	glm::vec2 shootPos;
 	int reloadTimer = 0;
 	int maxReload;

@@ -10,7 +10,7 @@ enum Collidability { immovable, controllable, movable, none, droneCol };
 class Object {
 public:
 	Object(float x, float y, float w, float h, float z, Collidability _collidability, bool hasGravity);
-	~Object();
+	virtual ~Object();
 	BoundingBox getBoundingBox();
 	BoundingBox* getBoundingBoxPointer();
 	glm::vec2 getCenter();
@@ -42,7 +42,7 @@ public:
 	bool getIsEnemy();
 	void setToBuild(bool _toBuild);
 	bool getToBuild();
-	void incrementBuildProgress(float amount);
+	bool incrementBuildProgress(float amount);
 	int getBuildHeight();
 	int getFaction();
 
@@ -50,6 +50,9 @@ public:
 	bool getIsControllable() { return isControllable; }
 	bool getIsPowerProducer() { return isPowerProducer; }
 	bool getIsPowerDistributer() { return isPowerDistributer; }
+
+	bool getHasTarget();
+	float getTargetingRange();
 protected:
 	int faction = -1;
 	bool toBuild = false;
@@ -60,7 +63,7 @@ protected:
 	bool controlled = false;
 	Console* pConsole;
 	int id;
-	bool toDestroy;
+	bool toDestroy = false;
 	BoundingBox boundingBox;
 	bool canBePickedUp = false;
 	bool pickedUp = false;
@@ -78,4 +81,6 @@ protected:
 	bool isControllable = false;
 	bool isPowerProducer = false;
 	bool isPowerDistributer = false;
+	bool hasTarget = false;
+	float targetingRange = 0;
 };

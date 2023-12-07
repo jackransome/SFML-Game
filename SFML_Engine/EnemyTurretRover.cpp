@@ -4,7 +4,6 @@ EnemyTurretRover::EnemyTurretRover(SpriteCollection* _pSpriteCollection, SoundPl
 	Object(_x, _y, 18, 18, 0, movable, true),
 	Living(100, 1, &isLiving)
 {
-	target = glm::vec2(0, 0);
 	acceleration = 0.6;
 	maxVel = 2;
 	pSoundPlayer = _pSoundPlayer;
@@ -34,10 +33,11 @@ EnemyTurretRover::~EnemyTurretRover() {
 void EnemyTurretRover::update() {
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (hasTarget) {
+	if (auto sharedTarget = target.lock()) {
 
+		glm::vec2 targetPos = sharedTarget->getCenter();
 		glm::vec2 center = getCenter();
-		glm::vec2 distV = target - center;
+		glm::vec2 distV = targetPos - center;
 		float distance = sqrt(distV.x * distV.x + distV.y * distV.y);
 		if (distance < 20) {
 			doDamage(1000000);
@@ -47,7 +47,7 @@ void EnemyTurretRover::update() {
 			// shoot at target
 			
 			glm::vec2 center = getCenter();
-			barrelRotation = 180.0f * pConsole->getAtan2Value((target.y - center.y), (target.x - center.x)) / (3.1415);
+			barrelRotation = 180.0f * pConsole->getAtan2Value((targetPos.y - center.y), (targetPos.x - center.x)) / (3.1415);
 
 			if (reloadTimer <= 0) {
 				glm::vec2 distVector = pConsole->getControlPosition() - center;
@@ -60,7 +60,7 @@ void EnemyTurretRover::update() {
 				glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
 				glm::vec2 shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
 				//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
-				float radians = atan2((target.y - shootPos.y), (target.x - shootPos.x));
+				float radians = atan2((targetPos.y - shootPos.y), (targetPos.x - shootPos.x));
 
 				pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
 				reloadTimer = maxReload;
@@ -68,13 +68,16 @@ void EnemyTurretRover::update() {
 		}
 		else {
 			//given current center and target, change current direction
-			adjustDirection(center, target, rotation, 0.05);
-
+			adjustDirection(center, targetPos, rotation, 0.05);
+			
 			// if current direction is within 45 degrees of the right direction, move forwards
-			if (isAngleWithinThreshold(center, target, rotation, 3.141592 / 4)) {
+			if (isAngleWithinThreshold(center, targetPos, rotation, 3.141592 / 4)) {
 				moveTowardsTarget(rotation, speed);
 			}
 		}
+	}
+	else {
+		hasTarget = false;
 	}
 	reloadTimer--;
 	//setting volume based on distance
@@ -140,10 +143,9 @@ void EnemyTurretRover::onDeath() {
 	pConsole->addCommand(commandShakeScreen, 12.5f);
 }
 
-void EnemyTurretRover::setTarget(int x, int y) {
+void EnemyTurretRover::setTarget(std::shared_ptr<Object> _target) {
+	target = _target;
 	hasTarget = true;
-	target.x = x;
-	target.y = y;
 }
 
 int EnemyTurretRover::getTargetingRange() {

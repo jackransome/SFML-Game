@@ -8,11 +8,11 @@
 class EnemyTurretRover : public Object, public Living {
 public:
 	EnemyTurretRover(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
-	~EnemyTurretRover();
+	~EnemyTurretRover() override;
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;
-	void setTarget(int x, int y);
+	void setTarget(std::shared_ptr<Object> _target);
 	int getTargetingRange();
 	void RemoveTarget();
 private:
@@ -23,9 +23,7 @@ private:
 	SpriteCollection* pSpriteCollection;
 	float maxVel;
 	float acceleration;
-	bool hasTarget = false;
-	int targetingRange;
-	glm::vec2 target;
+	std::weak_ptr<Object> target;
 	int explodeRange;
 	SoundPlayer* pSoundPlayer;
 	int AmbientSoundId;

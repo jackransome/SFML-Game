@@ -2,6 +2,7 @@
 #include "CollisionDetection.h"
 #include <cstdlib>  // For rand() and RAND_MAX
 #include <chrono>
+#include <memory>
 
 ObjectCollection::ObjectCollection() {}
 
@@ -61,15 +62,15 @@ void ObjectCollection::draw() {
 }
 
 void ObjectCollection::update() {
-	Miner* tempM;
-	AutoTurret* tempA;
-	Enemy* tempE;
-	EnemyBombRover* tempB;
-	Mineable* tempM2;
-	Pickuper* tempP;
-	Object* tempOb;
-	Relay* tempR;
-	EnemyTurretRover* tempT;
+	std::shared_ptr <Miner> tempM;
+	std::shared_ptr <AutoTurret> tempA;
+	std::shared_ptr <Enemy> tempE;
+	std::shared_ptr <EnemyBombRover> tempB;
+	std::shared_ptr <Mineable> tempM2;
+	std::shared_ptr <Pickuper> tempP;
+	std::shared_ptr<Object> tempOb;
+	std::shared_ptr<Relay> tempR;
+	std::shared_ptr <EnemyTurretRover> tempT;
 
 	//for (int i = 0; i < objects.size(); i++) {
 	//	//if rover
@@ -82,7 +83,7 @@ void ObjectCollection::update() {
 	for (int i = 0; i < objects.size(); i++) {
 		for (int j = 0; j < objects.size(); j++) {
 			if (i != j) {
-				runCollisionDetection(objects[i], objects[j]);
+				runCollisionDetection(*objects[i], *objects[j]);
 			}
 		}
 		if (objects[i]->getType() == objectGenerator && !objects[i]->getToBuild()) {
@@ -93,7 +94,7 @@ void ObjectCollection::update() {
 		if (objects[i]->getToBuild()) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (objects[j]->getType() == objectBuildDrone){
-					BuildDrone* drone = dynamic_cast<BuildDrone*>(objects[j]);
+					auto drone = std::dynamic_pointer_cast<BuildDrone>(objects[j]);
 					if (!drone->getHasTarget()) {
 						drone->setTarget(objects[i]);
 					}
@@ -110,16 +111,16 @@ void ObjectCollection::update() {
 					runDropWithoutPickuper(objects[i]->getId());
 				}
 				else {
-					tempP = dynamic_cast<Pickuper*>(tempOb);
+					tempP = std::dynamic_pointer_cast<Pickuper>(tempOb);
 					objects[i]->setCenter(tempP->getPickupPos());
 					objects[i]->setRotation(tempP->getDropRotation());
 				}
 			}
 			//if can mine and is mining, get the mining point and check other objects for mineable and then if the point overlaps with them, 
-			if ((tempM = dynamic_cast<Miner*>(objects[i]))) {
+			if ((tempM = std::dynamic_pointer_cast<Miner>(objects[i]))) {
 				if (tempM->getIsMining()) {
 					for (int j = 0; j < objects.size(); j++) {
-						if ((tempM2 = dynamic_cast<Mineable*>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
+						if ((tempM2 = std::dynamic_pointer_cast<Mineable>(objects[j])) && CollisionDetection::pointRectangleIntersect(tempM->getMinePoint(), objects[j]->getBoundingBoxPointer())) {
 							tempM2->mine(tempM->getStrength());
 							if (rand() % 100 > 95 || frame % 20 == 0) {
 								pSoundPlayer->playSoundByName("mine_hit_1", 0.12);
@@ -136,45 +137,22 @@ void ObjectCollection::update() {
 				}
 			}
 			//if autoturret
-			if ((tempA = dynamic_cast<AutoTurret*>(objects[i]))) {
-
-				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
-				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempA->getTargetingRange()) {
-					tempA->setTarget(target.x, target.y, target.z, target.w);
-				}
-				else {
-					tempA->RemoveTarget();
-				}
+			if (objects[i]->getType() == objectAutoTurret && !objects[i]->getHasTarget()) {
+				std::dynamic_pointer_cast<AutoTurret>(objects[i])->setTarget(getTarget(objects[i]->getCenter(), objects[i]->getFaction(), objects[i]->getTargetingRange()));
 			}
-			//if enemy
-			else if ((tempE = dynamic_cast<Enemy*>(objects[i]))) {
-				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
-				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempE->getTargetingRange()) {
-					tempE->setTarget(target.x, target.y, target.z, target.w);
-				}
-				else {
-					tempE->RemoveTarget();
-				}
+			//if enemy drone
+			else if (objects[i]->getType() == objectEnemy && !objects[i]->getHasTarget()) {
+				std::dynamic_pointer_cast<Enemy>(objects[i])->setTarget(getTarget(objects[i]->getCenter(), objects[i]->getFaction(), objects[i]->getTargetingRange()));
 			}
-			else if ((tempB = dynamic_cast<EnemyBombRover*>(objects[i]))) {
-				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
-				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempB->getTargetingRange()) {
-					tempB->setTarget(target.x, target.y);
-				}
-				else {
-					tempB->RemoveTarget();
-				}
+			//if enemy bomb rover
+			else if (objects[i]->getType() == objectEnemyBombRover && !objects[i]->getHasTarget()) {
+				std::dynamic_pointer_cast<EnemyBombRover>(objects[i])->setTarget(getTarget(objects[i]->getCenter(), objects[i]->getFaction(), objects[i]->getTargetingRange()));
 			}
-			else if ((tempT = dynamic_cast<EnemyTurretRover*>(objects[i]))) {
-				glm::vec4 target = getTarget(objects[i]->getCenter(), objects[i]->getFaction());
-				if (CollisionDetection::getDistance(target, objects[i]->getCenter()) < tempT->getTargetingRange()) {
-					tempT->setTarget(target.x, target.y);
-				}
-				else {
-					tempT->RemoveTarget();
-				}
+			//if enemy turret rover
+			else if (objects[i]->getType() == objectEnemyTurretRover && !objects[i]->getHasTarget()) {
+				std::dynamic_pointer_cast<EnemyTurretRover>(objects[i])->setTarget(getTarget(objects[i]->getCenter(), objects[i]->getFaction(), objects[i]->getTargetingRange()));
 			}
-			else if (tempR = dynamic_cast<Relay*>(objects[i])) {
+			else if (tempR = std::dynamic_pointer_cast<Relay>(objects[i])) {
 				int counter = 0;
 				int index1;
 				for (int j = 0; j < objects.size(); j++) {
@@ -214,10 +192,13 @@ void ObjectCollection::update() {
 			}
 			if (objects[i]->getPickedUp()) {
 				tempOb = getObjectById(objects[i]->getPickedUpById());
-				tempP = dynamic_cast<Pickuper*>(tempOb);
+				tempP = std::dynamic_pointer_cast<Pickuper>(tempOb);
 				tempP->drop();
 			}
-			freeObjectMemory(i);
+			if (objects[i]->getLiving()) {
+				//std::dynamic_pointer_cast<Living>(objects[i])->onDeath();
+			}
+			
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
@@ -284,159 +265,159 @@ void ObjectCollection::update() {
 }
 
 void ObjectCollection::addMainCharacter(float x, float y) {
-	objects.push_back(new MainCharacter(pInputManager, pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<MainCharacter>(pInputManager, pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addFootPrint(float x, float y) {
-	objects.push_back(new FootPrint(pSpriteCollection, x, y));
+	objects.push_back(std::make_shared < FootPrint>(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addSmoke(float x, float y, float height, float scale){
-	objects.push_back(new Smoke(pSpriteCollection, x, y, height, scale));
+	objects.push_back(std::make_shared < Smoke>(pSpriteCollection, x, y, height, scale));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addExplosion(float x, float y, float size) {
-	objects.push_back(new Explosion(pSpriteCollection, pConsole, pSoundPlayer, x, y, size));
+	objects.push_back(std::make_shared<Explosion>(pSpriteCollection, pConsole, pSoundPlayer, x, y, size));
 	setLatestId();
 	setLatestConsole();
 }
 
 
 void ObjectCollection::addRoverTracks(float x, float y, float rotation){
-	objects.push_back(new RoverTracks(pSpriteCollection, x, y, rotation));
+	objects.push_back(std::make_shared<RoverTracks>(pSpriteCollection, x, y, rotation));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRoverTracksMini(float x, float y, float rotation){
-	objects.push_back(new RoverTracksMini(pSpriteCollection, x, y, rotation));
+	objects.push_back(std::make_shared<RoverTracksMini>(pSpriteCollection, x, y, rotation));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addAction1Animation(float x, float y) {
-	objects.push_back(new Action1Animation(pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<Action1Animation>(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addWall(int x, int y, int w, int h) {
-	objects.push_back(new Wall(pSpriteCollection, x, y, w, h));
+	objects.push_back(std::make_shared<Wall>(pSpriteCollection, x, y, w, h));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addEnemy(int x, int y) {
-	objects.push_back(new Enemy(pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Enemy>(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRover(int x, int y){
-	objects.push_back(new Rover(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Rover>(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addCrate(int x, int y){
-	objects.push_back(new Crate(pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<Crate>(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addRelay(int x, int y){
-	objects.push_back(new Relay(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Relay>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalPile(int x, int y){
-	objects.push_back(new ScrapMetalPile(pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<ScrapMetalPile>(pSpriteCollection, x, y));
 	objects[objects.size() - 1]->setRotation((rand() % 360));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addScapMetalDrop(int x, int y) {
-	objects.push_back(new ScrapMetalDrop(pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<ScrapMetalDrop>(pSpriteCollection, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addMarketRelay(int x, int y){
-	objects.push_back(new MarketRelay(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<MarketRelay>(pSpriteCollection, pInputManager, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addAutoTurret(int x, int y){
-	objects.push_back(new AutoTurret(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<AutoTurret>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addJammer(int x, int y){
-	objects.push_back(new Jammer(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Jammer>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addDefenseOrb(int x, int y){
-	objects.push_back(new DefenseOrb(pInputManager, pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<DefenseOrb>(pInputManager, pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addBuildDrone(int x, int y){
-	objects.push_back(new BuildDrone(pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<BuildDrone>(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 setLatestConsole();
 }
 
 void ObjectCollection::addSpark(int x, int y, int height, float colour) {
-	objects.push_back(new Spark(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX)) * 3 - 1.5, ((double)rand() / (RAND_MAX)) * 1.5, ((double)rand() / (RAND_MAX)) * 2), ((double)rand() / (RAND_MAX)) * 3.5 + 0.5, colour));
+	objects.push_back(std::make_shared<Spark>(pSpriteCollection, glm::vec3(x, y, height), glm::vec3(((double)rand() / (RAND_MAX)) * 3 - 1.5, ((double)rand() / (RAND_MAX)) * 1.5, ((double)rand() / (RAND_MAX)) * 2), ((double)rand() / (RAND_MAX)) * 3.5 + 0.5, colour));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addGenerator(int x, int y) {
-	objects.push_back(new Generator(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Generator>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addEnemyBombRover(int x, int y) {
-	objects.push_back(new EnemyBombRover(pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<EnemyBombRover>(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addEnemyTurretRover(int x, int y){
-	objects.push_back(new EnemyTurretRover(pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<EnemyTurretRover>(pSpriteCollection, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addTeleporterPillar(int x, int y) {
-	objects.push_back(new TeleporterPillar(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<TeleporterPillar>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addTeleporter(int x, int y){
-	objects.push_back(new Teleporter(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Teleporter>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }
 
 void ObjectCollection::addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID, int faction) {
-	projectiles.push_back(new Projectile(pSpriteCollection, pConsole, _x, _y, _rotation, _speed, _fromID, faction));
+	projectiles.push_back(std::make_shared<Projectile>(pSpriteCollection, pConsole, _x, _y, _rotation, _speed, _fromID, faction));
 }
 
 void ObjectCollection::addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID, int _faction) {
@@ -458,60 +439,62 @@ void ObjectCollection::setLatestConsole() {
 	objects[objects.size() - 1]->setConsolePointer(pConsole);
 }
 
-void ObjectCollection::runCollisionDetection(Object* o1, Object* o2) {
-	if (o1->getPickedUp() || o2->getPickedUp()) return;
-	if (o1->getCollidability() == movable) {
-		if (!o2->getPickedUp() && o2->getCollidability() == movable) {
-			if (o2->getCollidability() > o1->getCollidability()) {
-				CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+void ObjectCollection::runCollisionDetection(Object& o1, Object& o2) {
+	if (o1.getPickedUp() || o2.getPickedUp()) return;
+	if (o1.getCollidability() == movable) {
+		if (!o2.getPickedUp() && o2.getCollidability() == movable) {
+			if (o2.getCollidability() > o1.getCollidability()) {
+				CollisionDetection::correctPosition(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer());
 			}
 			else {
-				CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+				CollisionDetection::correctPositionBoth(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer());
 			}
 		}
 
 	}
-	if (o1->getCollidability() == controllable) {
-		if (o1->getId() == cameraFocusId && o2->getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(o1->getBoundingBoxPointer(), o2->getBoundingBoxPointer())) {
+	if (o1.getCollidability() == controllable) {
+		if (o1.getId() == cameraFocusId && o2.getType() == objectScrapMetalDrop && CollisionDetection::CheckRectangleIntersect(o1.getBoundingBoxPointer(), o2.getBoundingBoxPointer())) {
 			pInventory->addResources(Resource::scrap, 1);
-			o2->setToDestroy(true);
+			o2.setToDestroy(true);
 		}
-		if (o2->getCollidability() == controllable) {
-			CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
-		}
-	}
-	if (o1->getCollidability() < movable) {
-		if (!o2->getPickedUp() && o2->getCollidability() < 3 && o2->getCollidability() > o1->getCollidability()) {
-			CollisionDetection::correctPosition(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+		if (o2.getCollidability() == controllable) {
+			CollisionDetection::correctPositionBoth(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer());
 		}
 	}
-	if (o1->getCollidability() == droneCol && o2->getCollidability() == droneCol) {
-		if (CollisionDetection::CheckRectangleIntersect(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer())) {
-			CollisionDetection::correctPositionBoth(o2->getBoundingBoxPointer(), o1->getBoundingBoxPointer());
+	if (o1.getCollidability() < movable) {
+		if (!o2.getPickedUp() && o2.getCollidability() < 3 && o2.getCollidability() > o1.getCollidability()) {
+			CollisionDetection::correctPosition(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer());
 		}
 	}
-	if (o1->getType() == objectTeleporter && o2->getControlled() && CollisionDetection::CheckRectangleIntersect(o1->getBoundingBoxPointer(), o2->getBoundingBoxPointer())) {
+	if (o1.getCollidability() == droneCol && o2.getCollidability() == droneCol) {
+		if (CollisionDetection::CheckRectangleIntersect(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer())) {
+			CollisionDetection::correctPositionBoth(o2.getBoundingBoxPointer(), o1.getBoundingBoxPointer());
+		}
+	}
+	if (o1.getType() == objectTeleporter && o2.getControlled() && CollisionDetection::CheckRectangleIntersect(o1.getBoundingBoxPointer(), o2.getBoundingBoxPointer())) {
 		pConsole->addCommand(commandGoToEndScreen);
 	}
 }
 
 void ObjectCollection::drawHealthBars() {
-	Living* living;
+	std::shared_ptr<Living>living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits livings
-		if (living = dynamic_cast<Living*>(objects[i])) {
+		if (objects[i]->getLiving()) {
+			living = std::dynamic_pointer_cast<Living>(objects[i]);
 			pSpriteCollection->addRectDraw(objects[i]->getCenter().x - 30, objects[i]->getBoundingBox().y - 30, 60 * (living->getHealth() / living->getMaxHealth()), 5, 1000000, sf::Color(0, 255, 0, 10));
 		}
 	}
 }
 
 void ObjectCollection::doAEODamage(float x, float y, float range, float damage, int faction) {
-	Living* living;
+	std::shared_ptr<Living> living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if (objects[i]->getFaction() != faction && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
+		if (objects[i]->getFaction() != faction && objects[i]->getLiving() && !objects[i]->getPickedUp()) {
 			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do damage
+				living = std::dynamic_pointer_cast<Living>(objects[i]);
 				living->doDamage(damage);
 				if (living->getHealth() <= 0) {
 					objects[i]->setToDestroy(true);
@@ -522,12 +505,13 @@ void ObjectCollection::doAEODamage(float x, float y, float range, float damage, 
 }
 
 void ObjectCollection::doAEOHealing(float x, float y, float range, float amount, int faction){
-	Living* living;
+	std::shared_ptr<Living> living;
 	for (int i = 0; i < objects.size(); i++) {
 		//check if object inherits living
-		if (objects[i]->getFaction() == faction && (living = dynamic_cast<Living*>(objects[i])) && !objects[i]->getPickedUp()) {
+		if (objects[i]->getFaction() == faction && objects[i]->getLiving() && !objects[i]->getPickedUp()) {
 			if (pow((objects[i]->getBoundingBox().x + (objects[i]->getBoundingBox().w / 2)) - x, 2) + pow((objects[i]->getBoundingBox().y + (objects[i]->getBoundingBox().h / 2)) - y, 2) < pow(range, 2)) {
 				//do healing
+				living = std::dynamic_pointer_cast<Living>(objects[i]);
 				living->doDamage(-amount);
 			}
 		}
@@ -538,15 +522,7 @@ void ObjectCollection::setDebug(bool _debug) {
 	debug = _debug;
 }
 
-void ObjectCollection::setEnemyTarget(int x, int y, float xv, float yv){
-	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getType() == objectEnemy) {
-			dynamic_cast<Enemy*>(objects[i])->setTarget(x, y, xv, yv);
-		}
-	}
-}
-
-glm::vec4 ObjectCollection::getTarget(glm::vec2 position, int faction) {
+std::shared_ptr<Object> ObjectCollection::getTarget(glm::vec2 position, int faction, float range) {
 	int targetFaction = 0;
 	if (faction == 0) {
 		targetFaction = 1;
@@ -570,13 +546,10 @@ glm::vec4 ObjectCollection::getTarget(glm::vec2 position, int faction) {
 			}
 		}
 	}
-	if (minIndex == -1) {
-		return glm::vec4(100000, 100000, 0, 0);
+	if (minIndex == -1 || minDistance > range) {
+		return std::shared_ptr<Object>();
 	}
-
-	auto& targetObject = objects[minIndex];
-	glm::vec2 tempPos = targetObject->getCenter() + glm::vec2(targetObject->getBoundingBox().xv * 5, targetObject->getBoundingBox().yv * 5);
-	return glm::vec4(tempPos.x, tempPos.y, targetObject->getBoundingBox().xv, targetObject->getBoundingBox().yv);
+	return objects[minIndex];
 }
 
 
@@ -600,12 +573,12 @@ void ObjectCollection::resetAllControls(){
 }
 
 void ObjectCollection::runPickUp(int id){
-	Object* object = getObjectById(id);
+	std::shared_ptr<Object> object = getObjectById(id);
 	if (object == nullptr) {
 		return;
 	}
-	Pickuper* pickuper;
-	if (!(pickuper = dynamic_cast<Pickuper*>(object))) {
+	std::shared_ptr<Pickuper> pickuper;
+	if (!(pickuper = std::dynamic_pointer_cast<Pickuper>(object))) {
 		std::cout << "OBJECT WITH ID " << id << " NOT A PICKUPER\n";
 		return;
 	}
@@ -628,12 +601,12 @@ void ObjectCollection::runPickUp(int id){
 }
 
 void ObjectCollection::runDrop(int id) {
-	Object* object1 = getObjectById(id);
+	std::shared_ptr<Object> object1 = getObjectById(id);
 	if (object1 == nullptr) {
 		return;
 	}
-	Pickuper* pickuper;
-	if (!(pickuper = dynamic_cast<Pickuper*>(object1))) {
+	std::shared_ptr<Pickuper> pickuper;
+	if (!(pickuper = std::dynamic_pointer_cast<Pickuper>(object1))) {
 		std::cout << "OBJECT WITH ID " << id << " NOT A PICKUPER\n";
 		return;
 	}
@@ -642,7 +615,7 @@ void ObjectCollection::runDrop(int id) {
 		return;
 	}
 	
-	Object* object2 = getObjectById(pickuper->getIdHeld());
+	std::shared_ptr<Object> object2 = getObjectById(pickuper->getIdHeld());
 	if (object2 == nullptr) {
 		return;
 	}
@@ -657,19 +630,14 @@ void ObjectCollection::runDrop(int id) {
 }
 
 void ObjectCollection::runDropWithoutPickuper(int id) {
-	Object* object = getObjectById(id);
-	if (object == nullptr) {
-		std::cout << "OBJECT WITH ID " << id << " NOT FOUND\n";
-		return;
-	}
-
+	std::shared_ptr<Object> object = getObjectById(id);
 	object->setPickedUp(false);
 }
 
 glm::vec2 ObjectCollection::getClosestControllablePosition(int currentID) {
 	int mouseX = pInputManager->translatedMouseX;
 	int mouseY = pInputManager->translatedMouseY;
-	Object* current = getObjectById(currentID);
+	std::shared_ptr<Object> current = getObjectById(currentID);
 	glm::vec2 closestPos = glm::vec2(-1000);
 	if (current == nullptr) {
 		std::cout << "current object does not exist\n";
@@ -677,8 +645,8 @@ glm::vec2 ObjectCollection::getClosestControllablePosition(int currentID) {
 	}
 	int currentX = current->getBoundingBox().x;
 	int currentY = current->getBoundingBox().y;
-	Controllable* controllable;
-	if (!(controllable = dynamic_cast<Controllable*>(current))) {
+	std::shared_ptr<Controllable> controllable;
+	if (!(controllable = std::dynamic_pointer_cast<Controllable>(current))) {
 		std::cout << "current object given is not controllable\n";
 	}
 	int range = controllable->getRange();
@@ -687,7 +655,7 @@ glm::vec2 ObjectCollection::getClosestControllablePosition(int currentID) {
 	int distanceFromMouse = 0;
 	
 	for (int i = 0; i < objects.size(); i++) {
-		if ((controllable = dynamic_cast<Controllable*>(objects[i]))) {
+		if ((controllable = std::dynamic_pointer_cast<Controllable>(objects[i]))) {
 			//if another object is found that is controllable and not the current object
 			//get distance, see if its within range
 			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
@@ -705,15 +673,15 @@ glm::vec2 ObjectCollection::getClosestControllablePosition(int currentID) {
 int ObjectCollection::getClosestControllable(int currentID){
 	int mouseX = pInputManager->translatedMouseX;
 	int mouseY = pInputManager->translatedMouseY;
-	Object* current = getObjectById(currentID);
+	std::shared_ptr<Object> current = getObjectById(currentID);
 	if (current == nullptr) {
 		std::cout << "current object does not exist\n";
 		return -1;
 	}
 	int currentX = current->getBoundingBox().x;
 	int currentY = current->getBoundingBox().y;
-	Controllable* controllable;
-	if (!(controllable = dynamic_cast<Controllable*>(current))) {
+	std::shared_ptr<Controllable> controllable;
+	if (!(controllable = std::dynamic_pointer_cast<Controllable>(current))) {
 		std::cout << "current object given is not controllable\n";
 	}
 	int range = controllable->getRange();
@@ -722,7 +690,7 @@ int ObjectCollection::getClosestControllable(int currentID){
 	int distanceFromMouse = 0;
 	int closestID = -1;
 	for (int i = 0; i < objects.size(); i++) {
-		if ((controllable = dynamic_cast<Controllable*>(objects[i]))) {
+		if ((controllable = std::dynamic_pointer_cast<Controllable>(objects[i]))) {
 			//if another object is found that is controllable and not the current object
 			//get distance, see if its within range
 			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
@@ -741,7 +709,7 @@ void ObjectCollection::pullToPoint(float x, float y, int range){
 	glm::vec2 direction;
 	float distance;
 	for (int i = 0; i < objects.size(); i++) {
-		if (dynamic_cast<ScrapMetalDrop*>(objects[i])) {
+		if (std::dynamic_pointer_cast<ScrapMetalDrop>(objects[i])) {
 			direction.x = x - objects[i]->getBoundingBox().x;
 			direction.y = y - objects[i]->getBoundingBox().y;
 			distance = sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -757,23 +725,7 @@ void ObjectCollection::pullToPoint(float x, float y, int range){
 	}
 }
 
-void ObjectCollection::sellObjects(float startX, float startY, float w, float h, int marketRelayID){
-	BoundingBox temp;
-	temp.x = startX;
-	temp.y = startY;
-	temp.w = w;
-	temp.h = h;
-	int credits = 0;
-	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->getSellable() && CollisionDetection::pointRectangleIntersect(objects[i]->getCenter(), &temp)){
-			objects[i]->setToDestroy(true);
-			credits += 1;
-		}
-	}
-	dynamic_cast<MarketRelay*>(getObjectById(marketRelayID))->addCredit(credits);
-}
-
-Object* ObjectCollection::getObjectById(int id)
+std::shared_ptr<Object> ObjectCollection::getObjectById(int id)
 {
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getId() == id) {
@@ -795,13 +747,7 @@ bool ObjectCollection::getControlledDead(){
 void ObjectCollection::clear(){
 	generatorCount = 0;
 	controlledDead = true;
-	for (int i = 0; i < objects.size(); i++) {
-		freeObjectMemory(i);
-	}
 	objects.clear();
-	for (int i = 0; i < projectiles.size(); i++) {
-		delete projectiles[i];
-	}
 	projectiles.clear();
 	nextId = 0;
 	teleporterExists = false;
@@ -841,108 +787,6 @@ bool ObjectCollection::checkArea(glm::vec4 _box, int exclusionID1, int exclusion
 	return true;
 }
 
-void ObjectCollection::addToPowerIDs(Object* object){
-	if (object->getIsPowerDistributer()) {
-		distributorIDs.push_back(object->getId());
-	}
-	if (object->getIsPowerProducer()) {
-		producerIDs.push_back(object->getId());
-	}
-	if (object->getIsPowered()) {
-		poweredIDs.push_back(object->getId());
-	}
-	poweredVectorsChanged = true;
-}
-
-void ObjectCollection::removeFromPowerIDs(Object* object) {
-	if (object->getIsPowerDistributer()) {
-		removePowerId(distributorIDs, object->getId());
-	}
-	if (object->getIsPowerProducer()) {
-		removePowerId(producerIDs, object->getId());
-	}
-	if (object->getIsPowered()) {
-		removePowerId(poweredIDs, object->getId());
-	}
-	poweredVectorsChanged = true;
-}
-
-void ObjectCollection::removePowerId(std::vector<int>& vec, int value) {
-	auto newEnd = std::remove(vec.begin(), vec.end(), value);
-	vec.erase(newEnd, vec.end());
-}
-
-void ObjectCollection::recreatePowerGraph(){
-
-
-	poweredVectorsChanged = false;
-}
-
 glm::vec2 ObjectCollection::getGeneratorPos(){
 	return generatorPos;
-}
-
-void ObjectCollection::freeObjectMemory(int index) {
-	switch (objects[index]->getType()) {
-	case objectCrate:
-		delete dynamic_cast<Crate*>(objects[index]);
-		break;
-	case objectFootprint:
-		delete dynamic_cast<FootPrint*>(objects[index]);
-		break;
-	case objectRoverTracks:
-		delete dynamic_cast<RoverTracks*>(objects[index]);
-		break;
-	case objectRover:
-		delete dynamic_cast<Rover*>(objects[index]);
-		break;
-	case objectMainCharacter:
-		delete dynamic_cast<MainCharacter*>(objects[index]);
-		break;
-	case objectRelay:
-		delete dynamic_cast<Relay*>(objects[index]);
-		break;
-	case objectWall:
-		delete dynamic_cast<Wall*>(objects[index]);
-		break;
-	case objectEnemy:
-		delete dynamic_cast<Enemy*>(objects[index]);
-		break;
-	case objectScrapMetalDrop:
-		delete dynamic_cast<ScrapMetalDrop*>(objects[index]);
-		break;
-	case objectScrapMetalPile:
-		delete dynamic_cast<ScrapMetalPile*>(objects[index]);
-		break;
-	case objectAutoTurret:
-		delete dynamic_cast<AutoTurret*>(objects[index]);
-		break;
-	case objectMarketRelay:
-		delete dynamic_cast<MarketRelay*>(objects[index]);
-		break;
-	case objectDefenseOrb:
-		delete dynamic_cast<DefenseOrb*>(objects[index]);
-		break;
-	case objectGenerator:
-		delete dynamic_cast<Generator*>(objects[index]);
-		break;
-	case objectEnemyBombRover:
-		delete dynamic_cast<EnemyBombRover*>(objects[index]);
-		break;
-	case objectTeleporterPillar:
-		delete dynamic_cast<TeleporterPillar*>(objects[index]);
-		break;
-	case objectTeleporter:
-		delete dynamic_cast<Teleporter*>(objects[index]);
-		break;
-	case objectEnemyTurretRover:
-		delete dynamic_cast<EnemyTurretRover*>(objects[index]);
-		break;
-	case objectBuildDrone:
-		delete dynamic_cast<BuildDrone*>(objects[index]);
-		break;
-	default:
-		delete objects[index];
-		break;
-	}
 }

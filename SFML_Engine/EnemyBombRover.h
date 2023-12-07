@@ -8,11 +8,11 @@
 class EnemyBombRover : public Object, public Living {
 public:
 	EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
-	~EnemyBombRover();
+	~EnemyBombRover() override;
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;
-	void setTarget(int x, int y);
+	void setTarget(std::shared_ptr<Object> _target);
 	int getTargetingRange();
 	void RemoveTarget();
 private:
@@ -23,9 +23,6 @@ private:
 	SpriteCollection* pSpriteCollection;
 	float maxVel;
 	float acceleration;
-	bool hasTarget = false;
-	int targetingRange;
-	glm::vec2 target;
 	int explodeRange;
 	SoundPlayer* pSoundPlayer;
 	int AmbientSoundId;
@@ -35,5 +32,7 @@ private:
 	int moveSoundId;
 	bool moveSoundPlaying = false;
 	int trackTimer = 0;
+
+	std::weak_ptr<Object> target;
 
 };

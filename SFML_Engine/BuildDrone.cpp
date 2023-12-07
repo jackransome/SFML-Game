@@ -27,19 +27,20 @@ bool BuildDrone::getHasTarget() {
 void BuildDrone::update(){
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (hasTarget) {
-		if (!target->getToBuild() || target->getToDestroy()) {
+	if (auto sharedTarget = target.lock()) {
+		if (!sharedTarget->getToBuild() || sharedTarget->getToDestroy()) {
 			hasTarget = false;
 			building = false;
+			target.reset();
 		}
 		else {
-			glm::vec2 targetPos = target->getCenter();
+			glm::vec2 targetPos = sharedTarget->getCenter();
 			glm::vec2 center = getCenter();
 			glm::vec2 toTarget = targetPos - center;
 			distance = sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y);
 			if (distance < buildRange) {
 				building = true;
-				target->incrementBuildProgress(0.02);
+				sharedTarget->incrementBuildProgress(0.02);
 				if (!beamSoundPlaying) {
 					beamSoundId = pSoundPlayer->playSoundByName("build_beam", 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 					pSoundPlayer->loopSound(beamSoundId);
@@ -48,10 +49,9 @@ void BuildDrone::update(){
 				else {
 					pSoundPlayer->setVolume(beamSoundId, 0.1 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 					if (((double)rand() / (RAND_MAX)) < 0.1) {
-						pConsole->addCommand(commandAddObject, objectSpark, targetPos.x, targetPos.y, target->getBuildHeight());
+						pConsole->addCommand(commandAddObject, objectSpark, targetPos.x, targetPos.y, sharedTarget->getBuildHeight());
 					}
 				}
-				
 			}
 			else {
 				boundingBox.xv = toTarget.x / 12;
@@ -70,6 +70,7 @@ void BuildDrone::update(){
 			beamSoundPlaying = false;
 		}
 		building = false;
+		hasTarget = false;
 	}
 
 	boundingBox.x = boundingBox.x + boundingBox.xv;
@@ -80,16 +81,18 @@ void BuildDrone::update(){
 void BuildDrone::draw(){
 	float bobHeight = pConsole->getSinValue(bob_counter) * 4;
 	if (building) {
-		if (height < target->getBuildHeight()) {
-			height += 1;
-		}
-		else if (height > target->getBuildHeight() + 1) {
-			height -= 2;
-		}
+		if (auto sharedTarget = target.lock()) {
+			if (height < sharedTarget->getBuildHeight()) {
+				height += 1;
+			}
+			else if (height > sharedTarget->getBuildHeight() + 1) {
+				height -= 2;
+			}
 
-		glm::vec2 cosSinValues1 = pConsole->getTrigValue(rotation);
-		glm::vec2 beamStartPos = getCenter() + glm::vec2(0, bobHeight - 8 - height) + cosSinValues1*8.0f;
-		pSpriteCollection->drawBeamLight(beamStartPos, target->getCenter() + glm::vec2(0, -target->getBuildHeight()), glm::vec3(200, 200, 255), 0.5, 1);
+			glm::vec2 cosSinValues1 = pConsole->getTrigValue(rotation);
+			glm::vec2 beamStartPos = getCenter() + glm::vec2(0, bobHeight - 8 - height) + cosSinValues1 * 8.0f;
+			pSpriteCollection->drawBeamLight(beamStartPos, sharedTarget->getCenter() + glm::vec2(0, -sharedTarget->getBuildHeight()), glm::vec3(200, 200, 255), 0.5, 1);
+		}
 	}
 	else if (height > 0) {
 		height -= 2;
@@ -105,10 +108,11 @@ void BuildDrone::draw(){
 
 }
 
-void BuildDrone::setTarget(Object* _target){
+void BuildDrone::setTarget(std::shared_ptr<Object> _target){
 	target = _target;
 	hasTarget = true;
-	glm::vec2 targetPos = target->getCenter();
+	auto sharedTarget = target.lock();
+	glm::vec2 targetPos = sharedTarget->getCenter();
 	glm::vec2 center = getCenter();
 	rotation = 180.0f * atan2((targetPos.y - (center.y - 8 + pConsole->getSinValue(bob_counter) * 4)), (targetPos.x - center.x)) / (3.1415);
 }

@@ -4,7 +4,6 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	Object(_x, _y, 24, 24, 0, immovable, true),
 	Living(100, 1, &isLiving)
 {
-	target = glm::vec2(0, 0);
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
 	type = objectAutoTurret;
@@ -24,19 +23,19 @@ void AutoTurret::onDeath() {
 }
 
 void AutoTurret::update() {
-	//get angle from our center to the target and set barrelRotation
 	
-	//std::cout << target.x << "|" << target.y << "|" << barrelRotation << "\n";
 	//if ready to fire, fire (via command)
-	if (hasTarget ){
-		
+	if (auto sharedTarget = target.lock()){
+		glm::vec2 targetPos = sharedTarget->getCenter();
+		glm::vec2 targetVel = glm::vec2(sharedTarget->getBoundingBoxPointer()->xv, sharedTarget->getBoundingBoxPointer()->yv);
 		glm::vec2 center = getCenter();
-		barrelRotation = 180.0f * pConsole->getAtan2Value((target.y - center.y), (target.x - center.x)) / (3.1415);
+		//get angle from our center to the target and set barrelRotation
+		barrelRotation = 180.0f * pConsole->getAtan2Value((targetPos.y - center.y), (targetPos.x - center.x)) / (3.1415);
 		if (reloadTimer <= 0) {
-			glm::vec2 distVector = target - center;
+			glm::vec2 distVector = targetPos - center;
 			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
 			float timetoTarget = distance / projectileSpeed;
-			target += targetVel * timetoTarget;
+			targetPos += targetVel * timetoTarget;
 
 
 			//pConsole->addCommand(commandPlaySound, "laser_shot2", 0.25 / (1 + distance / 100));
@@ -46,11 +45,14 @@ void AutoTurret::update() {
 			glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
 			shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
 			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
-			float radians = pConsole->getAtan2Value((target.y - shootPos.y), (target.x - shootPos.x));
+			float radians = pConsole->getAtan2Value((targetPos.y - shootPos.y), (targetPos.x - shootPos.x));
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
 			reloadTimer = maxReload;
 		}
+	}
+	else {
+		hasTarget = false;
 	}
 	reloadTimer--;
 	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
@@ -86,11 +88,8 @@ void AutoTurret::drawBuilding(){
 	buildHeight = buildProgress * float(15 * 2);
 }
 
-void AutoTurret::setTarget(int x, int y, float xvel, float yvel) {
-	target.x = x;
-	target.y = y;
-	targetVel.x = xvel;
-	targetVel.y = yvel;
+void AutoTurret::setTarget(std::shared_ptr<Object> _target) {
+	target = _target;
 	hasTarget = true;
 }
 

@@ -10,7 +10,7 @@
 class Jammer : public Object, public Living {
 public:
 	Jammer(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
-	~Jammer();
+	~Jammer() override;
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void onDeath() override;

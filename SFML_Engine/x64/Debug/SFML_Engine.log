@@ -1,27 +1,14 @@
-﻿  Enemy.cpp
+﻿  BuildDrone.cpp
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(234,68): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(266,46): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Shader_Pipeline_Classes.h(266,39): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(10,20): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(23,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(48,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(51,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(54,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(57,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(90,46): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(94,133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(94,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(97,133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(97,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(115,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(120,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\Enemy.cpp(121,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(10,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(43,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(45,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(50,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(52,113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(79,22): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(93,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(103,59): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jack\Documents\GitHub\SFML-Game\SFML_Engine\BuildDrone.cpp(118,127): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   SFML_Engine.vcxproj -> C:\Users\Jack\Documents\GitHub\SFML-Game\x64\Debug\SFML_Engine.exe

@@ -4,7 +4,6 @@ EnemyBombRover::EnemyBombRover(SpriteCollection* _pSpriteCollection, SoundPlayer
 	Object(_x, _y, 18, 18, 0, movable, true),
 	Living(100, 1, &isLiving)
 {
-	target = glm::vec2(0, 0);
 	acceleration = 0.6;
 	maxVel = 2;
 	pSoundPlayer = _pSoundPlayer;
@@ -33,22 +32,26 @@ EnemyBombRover::~EnemyBombRover(){
 void EnemyBombRover::update(){
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (hasTarget) {
+	if (auto sharedTarget = target.lock()) {
 		
+		glm::vec2 targetPos = sharedTarget->getCenter();
 		glm::vec2 center = getCenter();
-		glm::vec2 distV = target - center;
+		glm::vec2 distV = targetPos - center;
 		float distance = sqrt(distV.x * distV.x + distV.y * distV.y);
 		if (distance < 20) {
 			doDamage(1000000);
 		}
 
 		//given current center and target, change current direction
-		adjustDirection(center, target, rotation, 0.05);
+		adjustDirection(center, targetPos, rotation, 0.05);
 		
 		// if current direction is within 45 degrees of the right direction, move forwards
-		if (isAngleWithinThreshold(center, target, rotation, 3.141592 / 4)) {
+		if (isAngleWithinThreshold(center, targetPos, rotation, 3.141592 / 4)) {
 			moveTowardsTarget(rotation, speed);
 		}
+	}
+	else {
+		hasTarget = false;
 	}
 	pSoundPlayer->setVolume(AmbientSoundId, 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
@@ -104,10 +107,9 @@ void EnemyBombRover::onDeath(){
 	pConsole->addCommand(commandShakeScreen, 20.0f);
 }
 
-void EnemyBombRover::setTarget(int x, int y){
+void EnemyBombRover::setTarget(std::shared_ptr<Object> _target) {
+	target = _target;
 	hasTarget = true;
-	target.x = x;
-	target.y = y;
 }
 
 int EnemyBombRover::getTargetingRange(){

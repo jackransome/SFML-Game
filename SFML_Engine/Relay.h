@@ -10,7 +10,7 @@
 class Relay : public Object, public Living, public PowerDistributor {
 public:
 	Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
-	~Relay();
+	~Relay() override;
 	virtual void draw() override;
 	virtual void drawBuilding() override;
 	virtual void onDeath() override;

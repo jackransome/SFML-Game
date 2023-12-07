@@ -6,7 +6,7 @@
 class Teleporter : public Object {
 public:
 	Teleporter(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
-	~Teleporter();
+	~Teleporter() override;
 	virtual void draw() override;
 	virtual void update() override;
 private:

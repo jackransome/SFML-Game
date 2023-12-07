@@ -8,23 +8,18 @@
 class Enemy : public Object, public Living {
 public:
 	Enemy(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
-	~Enemy();
+	~Enemy() override;
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void onDeath() override;
-	void setTarget(int x, int y, float xvel, float yvel);
+	void setTarget(std::shared_ptr<Object> _target);
 	int getTargetingRange();
 	void RemoveTarget();
 private:
 	SpriteCollection* pSpriteCollection;
 	float maxVel;
 	float acceleration;
-	bool hasTarget = false;
-	int targetingRange;
-	glm::vec2 target;
-	glm::vec2 targetVel;
-	glm::vec2 velocity;
-	glm::vec2 position;
+	std::weak_ptr<Object> target;
 	int damageRange;
 	int reloadTimer = 0;
 	int maxReload;

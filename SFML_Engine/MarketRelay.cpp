@@ -87,7 +87,7 @@ void MarketRelay::update() {
 					finalStartPoint.y = std::max(finalStartPoint.y, center.y - sellSpaceHeight / 2);
 					finalEndPoint.x = std::min(finalEndPoint.x, center.x + sellSpaceWidth / 2);
 					finalEndPoint.y = std::min(finalEndPoint.y, center.y + sellSpaceHeight / 2);
-					pConsole->addCommand(commandSellObjects, finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, id);
+					//pConsole->addCommand(commandSellObjects, finalStartPoint.x, finalStartPoint.y, finalEndPoint.x - finalStartPoint.x, finalEndPoint.y - finalStartPoint.y, id);
 
 					startPointValid = false;
 				}

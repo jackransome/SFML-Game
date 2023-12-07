@@ -167,9 +167,6 @@ void CommandExecuter::execute(Command command) {
 	case commandDrop:
 		pObjectCollection->runDrop(command.a);
 		break;
-	case commandSellObjects:
-		pObjectCollection->sellObjects(command.f1, command.f2, command.f3, command.f4, command.a);
-		break;
 	case commandBlink:
 		pSpriteCollection->blink();
 		break;

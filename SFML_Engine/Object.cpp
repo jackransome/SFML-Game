@@ -141,12 +141,13 @@ bool Object::getToBuild() {
 	return toBuild;
 }
 
-void Object::incrementBuildProgress(float amount){
-
+bool Object::incrementBuildProgress(float amount){
 	buildProgress += amount*(1.0/buildTime);
 	if (buildProgress >= 1) {
 		toBuild = false;
+		return true;
 	}
+	return false;
 }
 
 int Object::getBuildHeight(){
@@ -155,4 +156,12 @@ int Object::getBuildHeight(){
 
 int Object::getFaction(){
 	return faction;
+}
+
+bool Object::getHasTarget(){
+	return hasTarget;
+}
+
+float Object::getTargetingRange(){
+	return targetingRange;
 }
