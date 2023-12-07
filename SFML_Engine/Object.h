@@ -46,16 +46,18 @@ public:
 	int getBuildHeight();
 	int getFaction();
 
-	bool getIsPowered() { return isPowered; }
+	bool getIsPowerNode() { return isPowerNode; }
 	bool getIsControllable() { return isControllable; }
-	bool getIsPowerProducer() { return isPowerProducer; }
-	bool getIsPowerDistributer() { return isPowerDistributer; }
 
 	bool getHasTarget();
 	float getTargetingRange();
+	bool getJustBuilt();
+	void resetJustBuilt();
+	bool getFullyCharged();
 protected:
 	int faction = -1;
 	bool toBuild = false;
+	bool justBuilt = true;
 	float buildTime = 1;
 	float buildProgress = 0;;
 	int buildHeight = 0;
@@ -77,10 +79,10 @@ protected:
 	bool hasGravity;
 	int physicsBodyType = 0;
 	bool isEnemy = false;
-	bool isPowered = false;
+
 	bool isControllable = false;
-	bool isPowerProducer = false;
-	bool isPowerDistributer = false;
+	bool isPowerNode = false;
 	bool hasTarget = false;
 	float targetingRange = 0;
+	bool fullyCharged = false;
 };

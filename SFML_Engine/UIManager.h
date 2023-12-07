@@ -11,7 +11,7 @@ enum class MenuType {
 class UIManager {
 public:
 	UIManager() {};
-	UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder);
+	UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder, PowerManager* _pPowerManager);
 	void update();
 	void loadNewMenu(MenuType menuType);
 	void unloadMenu();
@@ -33,6 +33,7 @@ private:
 	SpriteCollection* pSpriteCollection;
 	InputManager* pInputManager;
 	Builder* pBuilder;
+	PowerManager* pPowerManager;
 	bool active = true;
 	int state = -1; //0 = mainmenu, 1 = buildmenu, 2 = pausemenu
 	//ADD PANES FOR ORGANIZATION,, AESTHETIC< AND NO CLICK THRU

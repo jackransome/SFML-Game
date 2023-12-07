@@ -225,14 +225,14 @@
     <ClCompile Include="EnemyTurretRover.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Powered.cpp">
-      <Filter>Source Files\Object inheritables</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Object inheritables</Filter>
     </ClCompile>
-    <ClCompile Include="PowerProducer.cpp">
+    <ClCompile Include="PowerNode.cpp">
       <Filter>Source Files\Object inheritables</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,17 +419,14 @@
     <ClInclude Include="EnemyTurretRover.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Powered.h">
-      <Filter>Header Files\Object inheritabless</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
-    <ClInclude Include="PowerProducer.h">
+    <ClInclude Include="PowerNode.h">
       <Filter>Header Files\Object inheritabless</Filter>
     </ClInclude>
-    <ClInclude Include="PowerDistributor.h">
-      <Filter>Header Files\Object inheritabless</Filter>
+    <ClInclude Include="PowerManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

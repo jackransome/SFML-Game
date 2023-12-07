@@ -114,3 +114,25 @@ void MainMenuButton::draw() {
 	drawBox();
 	pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Go to main menu", 14, sf::Color(255, 255, 255, 255));
 }
+
+ConnectButton::ConnectButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, PowerManager* _pPowerManager, glm::vec4 _bbox):
+	Button(_pConsole, _pSpriteCollection, ButtonType::connect, _bbox)
+	{
+	pPowerManager = _pPowerManager;
+	pConsole = _pConsole;
+	pSpriteCollection = _pSpriteCollection;
+}
+
+void ConnectButton::press(){
+	pPowerManager->activate();
+	pConsole->addCommand(commandCloseMenu);
+}
+
+void ConnectButton::draw() {
+	drawBox();
+	pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Connect power", 14, sf::Color(255, 255, 255, 255));
+}
+
+void ConnectButton::update(){
+
+}

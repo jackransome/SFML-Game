@@ -2,7 +2,8 @@
 
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
-	Living(100, 1, &isLiving)
+	Living(100, 1, &isLiving),
+	PowerNode(_pConsole, 50, 0, &isPowerNode, false, 1, _pSpriteCollection, _x, _y)
 {
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
@@ -26,29 +27,31 @@ void AutoTurret::update() {
 	
 	//if ready to fire, fire (via command)
 	if (auto sharedTarget = target.lock()){
-		glm::vec2 targetPos = sharedTarget->getCenter();
-		glm::vec2 targetVel = glm::vec2(sharedTarget->getBoundingBoxPointer()->xv, sharedTarget->getBoundingBoxPointer()->yv);
-		glm::vec2 center = getCenter();
-		//get angle from our center to the target and set barrelRotation
-		barrelRotation = 180.0f * pConsole->getAtan2Value((targetPos.y - center.y), (targetPos.x - center.x)) / (3.1415);
-		if (reloadTimer <= 0) {
-			glm::vec2 distVector = targetPos - center;
-			float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
-			float timetoTarget = distance / projectileSpeed;
-			targetPos += targetVel * timetoTarget;
+		if (getPercentage() > 0) {
+			glm::vec2 targetPos = sharedTarget->getCenter();
+			glm::vec2 targetVel = glm::vec2(sharedTarget->getBoundingBoxPointer()->xv, sharedTarget->getBoundingBoxPointer()->yv);
+			glm::vec2 center = getCenter();
+			//get angle from our center to the target and set barrelRotation
+			barrelRotation = 180.0f * pConsole->getAtan2Value((targetPos.y - center.y), (targetPos.x - center.x)) / (3.1415);
+			if (reloadTimer <= 0) {
+				glm::vec2 distVector = targetPos - center;
+				float distance = sqrt(distVector.x * distVector.x + distVector.y * distVector.y);
+				float timetoTarget = distance / projectileSpeed;
+				targetPos += targetVel * timetoTarget;
 
+				pSoundPlayer->playSoundByName("laser_shot2", 0.25 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+				discharge(1);
+				if (barrelRotation < 0) {
+					barrelRotation += 360; // Adjust for negative angles
+				}
+				glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
+				shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
+				//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
+				float radians = pConsole->getAtan2Value((targetPos.y - shootPos.y), (targetPos.x - shootPos.x));
 
-			//pConsole->addCommand(commandPlaySound, "laser_shot2", 0.25 / (1 + distance / 100));
-			if (barrelRotation < 0) {
-				barrelRotation += 360; // Adjust for negative angles
+				pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
+				reloadTimer = maxReload;
 			}
-			glm::vec2 cosSinValues = pConsole->getTrigValue(barrelRotation);
-			shootPos = center + glm::vec2(18 * cosSinValues.x, 18 * cosSinValues.y - 20);
-			//glm::vec2 shootPos = center + glm::vec2(18 * cos(3.1415 * barrelRotation / 180.0f), 18 * sin(3.1415 * barrelRotation / 180.0f) - 16);
-			float radians = pConsole->getAtan2Value((targetPos.y - shootPos.y), (targetPos.x - shootPos.x));
-
-			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, projectileSpeed, id, faction);
-			reloadTimer = maxReload;
 		}
 	}
 	else {
@@ -63,6 +66,8 @@ void AutoTurret::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 1.0, 1.0);
 		}
 	}
+	discharge(0.1);
+	updatePosition(getCenter().x, getCenter().y);
 }
 
 void AutoTurret::draw() {
@@ -77,7 +82,7 @@ void AutoTurret::draw() {
 
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 3);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), getPercentage() * 2, 3);
 }
 
 void AutoTurret::drawBuilding(){

@@ -2,10 +2,11 @@
 
 // Define the map
 std::map<BuildType, CostData> costMap = {
-	{ BuildType::autoTurret, {0, 1, 0, objectAutoTurret} },
+	{ BuildType::autoTurret, {2, 0, 0, objectAutoTurret} },
 	{ BuildType::rover, {4, 0, 0, objectRover} },
-	{ BuildType::relay, {2, 4, 0, objectRelay} },
-	{ BuildType::generator, {8, 0, 0, objectGenerator} }
+	{ BuildType::relay, {4, 0, 0, objectRelay} },
+	{ BuildType::generator, {8, 0, 0, objectGenerator} },
+	{ BuildType::teleporterPillar, {0, 4, 0, objectTeleporterPillar} }
 };
 
 std::map<BuildType, int> sizeMap = {

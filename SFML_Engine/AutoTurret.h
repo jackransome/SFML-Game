@@ -4,8 +4,9 @@
 #include "Living.h"
 #include "SpriteStack.h"
 #include "SoundPlayer.h"
+#include "PowerNode.h"
 
-class AutoTurret : public Object, public Living {
+class AutoTurret : public Object, public Living, public PowerNode {
 public:
 	AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
 	virtual void update() override;

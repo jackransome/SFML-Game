@@ -7,9 +7,8 @@
 #include "SoundPlayer.h"
 #include "Controllable.h"
 #include "Miner.h"
-#include "Powered.h"
 
-class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner, public Powered {
+class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner {
 public:
 	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
 	~Rover() override;

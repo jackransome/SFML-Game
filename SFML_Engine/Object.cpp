@@ -145,6 +145,7 @@ bool Object::incrementBuildProgress(float amount){
 	buildProgress += amount*(1.0/buildTime);
 	if (buildProgress >= 1) {
 		toBuild = false;
+		justBuilt = true;
 		return true;
 	}
 	return false;
@@ -164,4 +165,16 @@ bool Object::getHasTarget(){
 
 float Object::getTargetingRange(){
 	return targetingRange;
+}
+
+bool Object::getJustBuilt(){
+	return justBuilt;
+}
+
+void Object::resetJustBuilt(){
+	justBuilt = false;
+}
+
+bool Object::getFullyCharged(){
+	return fullyCharged;
 }

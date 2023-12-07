@@ -5,6 +5,7 @@ Spark::Spark(SpriteCollection* _pSpriteCollection, glm::vec3 _position, glm::vec
 	position = _position;
 	velocity = _velocity;
 	velocity.z *= 2;
+	type = objectSpark;
 	pSpriteCollection = _pSpriteCollection;
 	brightness = _brightness;
 	if (_colour == 0) {
@@ -35,6 +36,8 @@ void Spark::update() {
 	if (brightness < 0.075) {
 		toDestroy = true;
 	}
+	boundingBox.x = position.x;
+	boundingBox.y = position.y;
 }
 
 void Spark::draw(){

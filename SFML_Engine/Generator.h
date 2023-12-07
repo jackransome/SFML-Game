@@ -5,9 +5,9 @@
 #include "Living.h"
 #include "Controllable.h"
 #include "SoundPlayer.h"
-#include "PowerProducer.h"
+#include "PowerNode.h"
 
-class Generator : public Object, public Living, public PowerProducer {
+class Generator : public Object, public Living, public PowerNode {
 public:
 	Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int x, int y);
 	~Generator() override;

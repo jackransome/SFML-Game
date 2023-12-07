@@ -14,12 +14,16 @@ ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputMana
 	pCamera = _pCamera;
 	debug = false;
 	pInventory = _pinventory;
+	// Initialize the map with zero counts for each command
+	for (int i = 0; i < object_count; ++i) {
+		objectCounter[static_cast<ObjectType>(i)] = 0;
+	}
 }
 
 void ObjectCollection::draw() {
 	if (!debug) {
 		for (int i = 0; i < objects.size(); i++) {
-			if (objects[i]->getType() == objectFootprint) {
+			if (objects[i]->getType() == objectSpark) {
 				int e = 0;
 			}
 			if (CollisionDetection::getDistance(pCamera->getPosition(), objects[i]->getCenter()) < 2000) {
@@ -71,6 +75,7 @@ void ObjectCollection::update() {
 	std::shared_ptr<Object> tempOb;
 	std::shared_ptr<Relay> tempR;
 	std::shared_ptr <EnemyTurretRover> tempT;
+	std::shared_ptr<TeleporterPillar> tempTP;
 
 	//for (int i = 0; i < objects.size(); i++) {
 	//	//if rover
@@ -79,18 +84,24 @@ void ObjectCollection::update() {
 	//	}
 	//}
 
-	generatorCount = 0;
 	for (int i = 0; i < objects.size(); i++) {
+		if (!objects[i]->getToBuild() && objects[i]->getJustBuilt()) {
+			
+			changeObjectCount(objects[i]->getType(), 1);
+
+			objects[i]->resetJustBuilt();
+
+			if (objects[i]->getType() == objectGenerator) {
+				generatorPos.x = objects[i]->getBoundingBoxPointer()->x;
+				generatorPos.y = objects[i]->getBoundingBoxPointer()->y;
+			}
+		}
 		for (int j = 0; j < objects.size(); j++) {
 			if (i != j) {
 				runCollisionDetection(*objects[i], *objects[j]);
 			}
 		}
-		if (objects[i]->getType() == objectGenerator && !objects[i]->getToBuild()) {
-			generatorCount++;
-			generatorPos.x = objects[i]->getBoundingBoxPointer()->x;
-			generatorPos.y = objects[i]->getBoundingBoxPointer()->y;
-		}
+
 		if (objects[i]->getToBuild()) {
 			for (int j = 0; j < objects.size(); j++) {
 				if (objects[j]->getType() == objectBuildDrone){
@@ -103,6 +114,9 @@ void ObjectCollection::update() {
 			//objects[i]->incrementBuildProgress(0.01);
 		}
 		else {
+			if (objects[i]->getIsPowerNode()) {
+				std::dynamic_pointer_cast<PowerNode>(objects[i])->distribute();
+			}
 			if (objects[i]->getPickedUp()) {
 				//if currently picked up, either drop if the object that picked you up is dead, or move with it accordingly
 				tempOb = getObjectById(objects[i]->getPickedUpById());
@@ -152,11 +166,11 @@ void ObjectCollection::update() {
 			else if (objects[i]->getType() == objectEnemyTurretRover && !objects[i]->getHasTarget()) {
 				std::dynamic_pointer_cast<EnemyTurretRover>(objects[i])->setTarget(getTarget(objects[i]->getCenter(), objects[i]->getFaction(), objects[i]->getTargetingRange()));
 			}
-			else if (tempR = std::dynamic_pointer_cast<Relay>(objects[i])) {
+			else if ((tempTP = std::dynamic_pointer_cast<TeleporterPillar>(objects[i])) && objects[i]->getFullyCharged()) {
 				int counter = 0;
 				int index1;
 				for (int j = 0; j < objects.size(); j++) {
-					if (j != i && !objects[j]->getToBuild() && objects[j]->getType() == objectRelay) {
+					if (j != i && !objects[j]->getToBuild() && objects[j]->getType() == objectTeleporterPillar && objects[j]->getFullyCharged()) {
 						if (counter == 0) {
 							counter++;
 							index1 = j;
@@ -164,7 +178,7 @@ void ObjectCollection::update() {
 						}
 						else {
 							counter++;
-							tempR->setActive(true);
+							tempTP->setActive(true);
 							if (!teleporterExists) {
 								glm::vec2 teleporterPos = (objects[j]->getCenter() + objects[i]->getCenter() + objects[index1]->getCenter());
 								teleporterPos.x *= 1.0 / 3.0;
@@ -173,17 +187,16 @@ void ObjectCollection::update() {
 								teleporterExists = true;
 								pConsole->addCommand(commandPlaySound, "alarm_1", pSoundPlayer->getSpatialVolume(teleporterPos, pConsole->getControlPosition()));
 							}
-
+							
 						}
 					}
 				}
 				if (counter < 2) {
-					tempR->setActive(false);
+					tempTP->setActive(false);
 				}
 			}
 			objects[i]->update();
 		}
-
 	}
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getToDestroy()) {
@@ -195,16 +208,12 @@ void ObjectCollection::update() {
 				tempP = std::dynamic_pointer_cast<Pickuper>(tempOb);
 				tempP->drop();
 			}
-			if (objects[i]->getLiving()) {
-				//std::dynamic_pointer_cast<Living>(objects[i])->onDeath();
-			}
-			
+			changeObjectCount(objects[i]->getType(), -1);
 			objects.erase(objects.begin() + i);
 			i--;
 			continue;
 		}
 	}
-	Living* living;
 	bool hit;
 	for (int i = 0; i < projectiles.size(); i++) {
 		if (projectiles[i]->toDelete) {
@@ -705,6 +714,62 @@ int ObjectCollection::getClosestControllable(int currentID){
 	return closestID;
 }
 
+std::shared_ptr<Object> ObjectCollection::getClosestPowerNode()
+{
+	int mouseX = pInputManager->translatedMouseX;
+	int mouseY = pInputManager->translatedMouseY;
+	int closestDistance = 100000;
+	int distanceFromMouse = 0;
+	std::shared_ptr<Object> ptr = std::shared_ptr<Object>();
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getIsPowerNode()) {
+			distanceFromMouse = CollisionDetection::getDistance(glm::vec2(mouseX, mouseY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			if (distanceFromMouse < closestDistance) {
+				//if closest so far, record distance and the id of that object
+				closestDistance = distanceFromMouse;
+				ptr = objects[i];;
+			}
+		}
+	}
+	return ptr;
+}
+
+std::shared_ptr<Object> ObjectCollection::getClosestPowerNode(int currentID)
+{
+	std::shared_ptr<Object> ptr = std::shared_ptr<Object>();
+	int mouseX = pInputManager->translatedMouseX;
+	int mouseY = pInputManager->translatedMouseY;
+	std::shared_ptr<Object> current = getObjectById(currentID);
+	if (current == nullptr) {
+		std::cout << "current object does not exist\n";
+		return ptr;
+	}
+	int currentX = current->getBoundingBox().x;
+	int currentY = current->getBoundingBox().y;
+	std::shared_ptr<Controllable> controllable;
+	if (!(controllable = std::dynamic_pointer_cast<Controllable>(current))) {
+		std::cout << "current object given is not controllable\n";
+	}
+	int range = controllable->getRange();
+	int closestDistance = 100000;
+	int distanceFromCurrent = 0;
+	int distanceFromMouse = 0;
+	for (int i = 0; i < objects.size(); i++) {
+		if ((controllable = std::dynamic_pointer_cast<Controllable>(objects[i]))) {
+			//if another object is found that is controllable and not the current object
+			//get distance, see if its within range
+			distanceFromCurrent = CollisionDetection::getDistance(glm::vec2(currentX, currentY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			distanceFromMouse = CollisionDetection::getDistance(glm::vec2(mouseX, mouseY), glm::vec2(objects[i]->getBoundingBox().x, objects[i]->getBoundingBox().y));
+			if (distanceFromCurrent < range && distanceFromMouse < closestDistance) {
+				//if closest so far, record distance and the id of that object
+				closestDistance = distanceFromMouse;
+				ptr = objects[i];
+			}
+		}
+	}
+	return ptr;
+}
+
 void ObjectCollection::pullToPoint(float x, float y, int range){
 	glm::vec2 direction;
 	float distance;
@@ -745,12 +810,14 @@ bool ObjectCollection::getControlledDead(){
 }
 
 void ObjectCollection::clear(){
-	generatorCount = 0;
 	controlledDead = true;
 	objects.clear();
 	projectiles.clear();
 	nextId = 0;
 	teleporterExists = false;
+	for (auto& pair : objectCounter) {
+		pair.second = 0;
+	}
 }
 
 void ObjectCollection::AddToInventory(Resource resource, int amount){
@@ -762,7 +829,7 @@ void ObjectCollection::setLastToBuild(){
 }
 
 int ObjectCollection::getGeneratorCount() {
-	return generatorCount;
+	return objectCounter[objectGenerator];
 }
 
 void ObjectCollection::setLastRotation(float _rotation){
@@ -785,6 +852,10 @@ bool ObjectCollection::checkArea(glm::vec4 _box, int exclusionID1, int exclusion
 		}
 	}
 	return true;
+}
+
+void ObjectCollection::changeObjectCount(ObjectType type, int change){
+	objectCounter[type] += change;
 }
 
 glm::vec2 ObjectCollection::getGeneratorPos(){

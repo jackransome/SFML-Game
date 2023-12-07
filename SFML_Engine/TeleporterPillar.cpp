@@ -2,7 +2,9 @@
 
 TeleporterPillar::TeleporterPillar(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 12, 12, 0, immovable, true),
-	Living(100, 2, &isLiving) {
+	Living(100, 2, &isLiving),
+	PowerNode(_pConsole, 500, 0, &isPowerNode, false, 1, _pSpriteCollection, _x, _y) 
+{
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
@@ -22,9 +24,8 @@ TeleporterPillar::~TeleporterPillar() {
 }
 
 void TeleporterPillar::draw() {
-	float lightPhase = 0.7f + sin(pConsole->getFrame() / 80.0f) / 2.0f;
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(160, 214, 255), 2 * lightPhase, 1);
-	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(160, 214, 255), 0.2 * lightPhase, 0);
+	float lightPhase = 0.7f + sin(pConsole->getFrame() / 10.0f) / 2.0f;
+	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 50, 255), 2 * lightPhase * getPercentage(), 3);
 	spriteStack.draw(boundingBox.x - 1, boundingBox.y - 1, boundingBox.y + boundingBox.h, rotation);
 }
 
@@ -41,7 +42,7 @@ void TeleporterPillar::onDeath() {
 }
 
 void TeleporterPillar::update() {
-	pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
+	//pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
 		if (((double)rand() / (RAND_MAX)) > 0.7) {
 			pConsole->addCommand(commandAddObject, objectSpark, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 36 * ((double)rand() / (RAND_MAX)), 1.0);
@@ -50,4 +51,12 @@ void TeleporterPillar::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 36 * ((double)rand() / (RAND_MAX)), 1.0);
 		}
 	}
+	updatePosition(getCenter().x, getCenter().y);
+	if (getPercentage() == 1) {
+		fullyCharged = true;
+	}
+}
+
+void TeleporterPillar::setActive(bool _active) {
+	active = _active;
 }

@@ -3,9 +3,10 @@
 #include "Console.h"
 #include "Builder.h"
 #include "SpriteSheet.h"
+#include "PowerManager.h"
 
 enum class ButtonType {
-	build, back, openMenu, startGame, goToMain
+	build, back, openMenu, startGame, goToMain, connect
 };
 
 class Button {
@@ -25,7 +26,7 @@ protected:
 	ButtonType type;
 	SpriteCollection* pSpriteCollection;
 	bool hoverOver = false;
-	bool active;
+	bool active = true;
 	void drawBox();
 	SpriteSheet imgGrey;
 	SpriteSheet imgReady;
@@ -56,4 +57,16 @@ public:
 	MainMenuButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, glm::vec4 _bbox);
 	virtual void press() override;
 	virtual void draw() override;
+};
+
+class ConnectButton : public Button {
+public:
+	ConnectButton(Console* _pConsole, SpriteCollection* _pSpriteCollection, PowerManager* _pPowerManager, glm::vec4 _bbox);
+	virtual void press() override;
+	virtual void draw() override;
+	virtual void update() override;
+private:
+	PowerManager* pPowerManager;
+	BuildType buildType;
+
 };

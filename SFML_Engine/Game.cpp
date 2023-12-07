@@ -81,14 +81,15 @@ Game::Game(sf::RenderWindow* pwindow)  {
 
 	spriteCollection.setLightShader(shaderManager.getShader("lighting"));
 
-	soundPlayer.setGlobalVolume(0.1);
+	soundPlayer.setGlobalVolume(1.0);
 	console = Console();
 	timer = Timer(250, &console);
 	inventory = Inventory();
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera, &inventory);
 	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection, &inputManager, &camera);
 	builder = Builder(&spriteCollection, &inventory, &console, &inputManager, &objectCollection);
-	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder);
+	powerManager = PowerManager(&spriteCollection, &console, &inputManager, &objectCollection, &camera);
+	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder, &powerManager);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager);
 	musicSystem = MusicSystem(&soundPlayer);
 	coordinator = Coordinator(&musicSystem, &console, &snowSystem);
@@ -157,8 +158,12 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("builder_crosshair", "resources/builder_crosshair.png"); 
 	spriteCollection.loadTexture("teleporter_pillar_stack_1", "resources/teleporter_pillar_stack_1.png");
 	spriteCollection.loadTexture("pixel_neuron", "resources/pixel_neuron.png");
+	spriteCollection.loadTexture("power_manager_overlay_1", "resources/power_manager_overlay_1.png");
+	spriteCollection.loadTexture("power_manager_overlay_2", "resources/power_manager_overlay_2.png");
+	spriteCollection.loadTexture("pixel_neuron", "resources/pixel_neuron.png");
 	spriteCollection.loadTexture("enemy_rover_range_stack_1", "resources/enemy_rover_range_stack_1.png");
 	spriteCollection.loadTexture("enemy_rover_range_barrel_stack_1", "resources/enemy_rover_range_barrel_stack_1.png");
+	spriteCollection.loadTexture("power_cable", "resources/power_cable.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -314,6 +319,7 @@ void Game::Run() {
 
 
 			builder.update();
+			powerManager.update();
 
 			if (objectCollection.getControlledDead()) {
 				controlSwitcher.setControlling(false);
@@ -405,7 +411,7 @@ void Game::Draw() {
 		spriteCollection.setPipelineIndex(0);
 		//in game
 		camera.runscreenShake();
-		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -100000, 1, 1, 4500, 4500);
+		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -10000000, 1, 1, 4500, 4500);
 		//spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
 		objectCollection.draw();
 		snowSystem.draw(100000);
@@ -416,6 +422,7 @@ void Game::Draw() {
 		//spriteCollection.setFullBrightMode(false);
 		uiManager.draw();
 		builder.draw();
+		powerManager.draw();
 		controlSwitcher.draw();
 		spriteCollection.setPipelineIndex(1);
 		

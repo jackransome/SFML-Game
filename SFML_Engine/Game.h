@@ -9,6 +9,7 @@
 #include "UIManager.h"
 #include "MusicSystem.h"
 #include "Coordinator.h"
+#include "PowerManager.h"
 
 class Game {
 public:
@@ -68,6 +69,7 @@ private:
 	ShaderManager shaderManager;
 	MusicSystem musicSystem;
 	Coordinator coordinator;
+	PowerManager powerManager;
 	int gameState = 0;
 	bool gameLive = false;
 };

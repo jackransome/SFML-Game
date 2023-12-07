@@ -29,19 +29,10 @@
 #include "TeleporterPillar.h"
 #include "Teleporter.h"
 #include "EnemyTurretRover.h"
+#include "PowerNode.h"
 
+#include <unordered_map>
 #include <array>
-
-struct powerNode {
-	int id;
-	glm::vec2 position;
-};
-
-struct powerNetwork {
-	std::vector<powerNode> relays;
-	std::vector<powerNode> users;
-	std::vector<powerNode> generators;
-};
 
 class ObjectCollection {
 public:
@@ -92,6 +83,8 @@ public:
 	void runDropWithoutPickuper(int id);
 	glm::vec2 getClosestControllablePosition(int currentID);
 	int getClosestControllable(int currentID);
+	std::shared_ptr<Object> getClosestPowerNode(int currentID);
+	std::shared_ptr<Object> getClosestPowerNode();
 	void pullToPoint(float x, float y, int range);
 	std::shared_ptr<Object> getObjectById(int id);
 	void setControlledDead(bool cd);
@@ -103,11 +96,11 @@ public:
 	void setLastRotation(float _rotation);
 	bool checkArea(glm::vec4 _box);
 	bool checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2);
+	void changeObjectCount(ObjectType type, int change);
 
 	glm::vec2 getGeneratorPos();
 private:
-
-	int generatorCount = 0;
+	std::unordered_map<ObjectType, int> objectCounter;
 	glm::vec2 generatorPos = glm::vec2(0);
 	bool teleporterExists = false;
 	bool controlledDead = false;
@@ -130,6 +123,4 @@ private:
 	int nextId = 0;
 	int frame = 0;
 	Inventory* pInventory;
-
-	std::vector<powerNetwork> powerNetworks;
 };

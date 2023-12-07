@@ -3,7 +3,7 @@
 Generator::Generator(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 34, 34, 0, immovable, true),
 	Living(100, 2, &isLiving),
-	PowerProducer(0.5, &isPowerProducer) {
+	PowerNode(_pConsole, 500, 0, &isPowerNode, true, 5, _pSpriteCollection, _x, _y) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
@@ -48,6 +48,7 @@ void Generator::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 40 * ((double)rand() / (RAND_MAX)), 1.0);
 		}
 	}
+	addCharge(1);
 }
 
 
@@ -77,6 +78,8 @@ void Generator::draw() {
 	//glm::vec2 lightPos = center + glm::vec2(17 * cosSinValues.x - 17 * cosSinValues.y, 17 * cosSinValues.y + 17 * cosSinValues.x - 25);
 	//pSpriteCollection->drawLightSource(lightPos, glm::vec3(100, 255, 120), 2, 2);
 	//glm::vec2 lightPos = center + 
+	drawConections();
+	updatePosition(getCenter().x, getCenter().y);
 }
 
 void Generator::drawBuilding() {

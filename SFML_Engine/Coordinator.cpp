@@ -7,7 +7,7 @@ Coordinator::Coordinator(MusicSystem* _pMusicSystem, Console* _pConsole, SnowSys
 }
 
 void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
-
+	return;
 	if (generatorCount && !lastGenertorCount) {
 		pConsole->addCommand(commandPlaySound, "distant_roar", 1.0);
 		pMusicSystem->fadeInWithDelay("music_ominous_1", 1.5, 0.35, 5);

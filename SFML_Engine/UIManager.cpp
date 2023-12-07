@@ -1,11 +1,12 @@
 #include "UIManager.h"
 #include "CollisionDetection.h"
 
-UIManager::UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder) {
+UIManager::UIManager(Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Builder* _pBuilder, PowerManager* _pPowerManager) {
 	pConsole = _pConsole;
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
 	pBuilder = _pBuilder;
+	pPowerManager = _pPowerManager;
 }
 
 void UIManager::update(){
@@ -61,6 +62,8 @@ void UIManager::loadNewMenu(MenuType menuType){
 		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 600, 250, 50));
 		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 700, 250, 50));
 		addButton(ButtonType::build, BuildType::rover, glm::vec4(50, 800, 250, 50));
+		addButton(ButtonType::build, BuildType::teleporterPillar, glm::vec4(50, 900, 250, 50));
+		addButton(ButtonType::connect, glm::vec4(50, 1000, 250, 50));
 		state = 2;
 		break;
 	case MenuType::end:
@@ -139,9 +142,9 @@ void UIManager::addButton(ButtonType type, glm::vec4 bbox){
 		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, bbox));
 	} else if (type == ButtonType::goToMain) {
 		buttons.push_back(std::make_unique<MainMenuButton>(pConsole, pSpriteCollection, bbox));
-	}	else if (type == ButtonType::back) {
+	}	else if (type == ButtonType::connect) {
 		//UNFINISHED
-		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, bbox));
+		buttons.push_back(std::make_unique<ConnectButton>(pConsole, pSpriteCollection, pPowerManager, bbox));
 	}
 }
 
