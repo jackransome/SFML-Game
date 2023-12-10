@@ -39,6 +39,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH
 	keyStruct.mouseL = false;
 	keyStruct.mouseR = false;
 	keyStruct.mouseM = false;
+	keyStruct.mouseW = false;
 	lastKeyStruct = keyStruct;
 	pScreenW = screenW;
 	pScreenH = screenH;
@@ -47,6 +48,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH
 void InputManager::update(){
 	disableMB = false;
 	lastKeyStruct = keyStruct;
+	keyStruct.mouseW = 0;
 	while (pWindow->pollEvent(ev))
 	{
 		if (keyStruct.a > 0) {
@@ -436,6 +438,9 @@ void InputManager::update(){
 				keyStruct.mouseM = 0;
 			}
 		}
+		if (ev.type == sf::Event::MouseWheelMoved) {
+			keyStruct.mouseW = ev.mouseWheel.delta;
+		}
 		if (ev.type == sf::Event::Resized) {
 			pWindow->setView(sf::View(sf::FloatRect(0, 0, ev.size.width, ev.size.height)));
 			//pWindow->setView(sf::View(sf::FloatRect(0, 0, 1920, 1080)));
@@ -545,6 +550,9 @@ int InputManager::isKeyDown(keys key){
 	case mouseM:
 		if (disableMB) return 0;
 		return keyStruct.mouseM;
+	case mouseW:
+		std::cout << keyStruct.mouseW << "\n";
+		return keyStruct.mouseW;
 	}
 	std::cout << "key not implemented!\n";
 	return false;
@@ -751,8 +759,9 @@ bool InputManager::onKeyUp(keys key){
 }
 
 void InputManager::translateMouseCoords(float cameraX, float cameraY){
-	translatedMouseX = mouseX + cameraX;
-	translatedMouseY = mouseY + cameraY;
+	translatedMouseX = cameraX - *pScreenW/(2 * scale) + mouseX/scale;
+	translatedMouseY = cameraY - *pScreenH / (2 * scale) + mouseY / scale;
+	std::cout << "| " << mouseX << " | " << cameraX << "\n";
 }
 
 int InputManager::getMenuMode() {
@@ -765,4 +774,8 @@ void InputManager::setMenuMode(int mode){
 
 void InputManager::disableMouseButtons(){
 	disableMB = true;
+}
+
+void InputManager::setScale(float _scale){
+	scale = _scale;
 }

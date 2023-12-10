@@ -26,14 +26,20 @@ void PowerManager::update(){
 		}
 		std::shared_ptr<Object> object;
 		if (object = pObjectCollection->getClosestPowerNode()) {
-			if (pInputManager->onKeyDown(mouseL)) {
+			if (pInputManager->onKeyUp(mouseL)) {
 				if (!from) {
 					from = object;
 				}
 				else {
-					//CONNECT POWER
-					std::dynamic_pointer_cast<PowerNode>(from)->addConnection(std::dynamic_pointer_cast<PowerNode>(object).get());
-					cancel();
+					if (from == to) {
+						cancel();
+						return;
+					}
+					else {
+						//CONNECT POWER
+						std::dynamic_pointer_cast<PowerNode>(from)->addConnection(std::dynamic_pointer_cast<PowerNode>(object).get());
+						cancel();
+					}
 				}
 			}
 			else {

@@ -59,8 +59,11 @@ void DefenseOrb::update(){
 		if (pInputManager->isKeyDown(mouseL)) {			
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cosSinValues.x, 12 * cosSinValues.y - 8 + pConsole->getSinValue(bob_counter) * 4);
 			glm::vec2 d2 = target - shootPos;
-			float d = d2.x * d2.x + d2.y * d2.y;
-			if (d2.x * d2.x + d2.y * d2.y > 150) {
+			float d = sqrt(d2.x * d2.x + d2.y * d2.y);
+			if (d > 10) {
+				d2 /= d;
+				d2 *= 1000;
+				target = shootPos + d2;
 				pConsole->addCommand(commandAddBeam, shootPos.x, shootPos.y, target.x, target.y, id);
 				if (!beamSoundPlaying) {
 					beamSoundId = pSoundPlayer->playSoundByName("beam_1", 0.15);

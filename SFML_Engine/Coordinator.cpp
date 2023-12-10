@@ -28,6 +28,7 @@ void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
 	}
 
 	if (generatorCount) {
+
 		//spawn enemies
 		if (alarmTimer == 240) {
 			snowSystem->changeSpeed(16);
@@ -40,7 +41,7 @@ void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
 		//we want the max prob to be rand > 0.95, starting at 0.98, happening over 40 seconds, so 60*40+280 is the 0.95, 280 is 0.98
 		float initialChance = 0.99;
 		float finalChance = 0.95;
-		float seconds = 90;
+		float seconds = 400;
 		float chance = (initialChance - (initialChance - finalChance) * float(alarmTimer - 280) / (60.0 * seconds));
 		chance = std::max(finalChance, chance);
 		std::cout << chance << "\n";

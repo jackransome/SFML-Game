@@ -2,13 +2,15 @@
 
 CommandExecuter::CommandExecuter() {}
 
-CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, UIManager* _pUIManager){
+CommandExecuter::CommandExecuter(ObjectCollection* _pObjectCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, UIManager* _pUIManager, Builder* _pBuilder, PowerManager* _pPowerManager){
 	pObjectCollection = _pObjectCollection;
 	pSoundPlayer = _pSoundPlayer;
 	pCamera = _pCamera;
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
 	pUIManager = _pUIManager;
+	pBuilder = _pBuilder;
+	pPowerManager = _pPowerManager;
 }
 
 void CommandExecuter::execute(Command command) {
@@ -205,6 +207,12 @@ void CommandExecuter::execute(Command command) {
 		break;
 	case commandSetLastRotation:
 		pObjectCollection->setLastRotation(command.f1);
+		break;
+	case commandCloseBuilder:
+		pBuilder->cancel();
+		break;
+	case commandCloseConnector:
+		pPowerManager->cancel();
 		break;
 	default:
 		std::cout << "UNKNOWN COMMAND";

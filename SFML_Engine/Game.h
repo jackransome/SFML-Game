@@ -72,4 +72,6 @@ private:
 	PowerManager powerManager;
 	int gameState = 0;
 	bool gameLive = false;
+	float zoomLevel = 1;
+	float zoomTarget = 1;
 };

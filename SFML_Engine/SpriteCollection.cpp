@@ -350,25 +350,25 @@ void SpriteCollection::drawAll() {
 		}
 		// type 0 = image, 1 = image section, 2 = rectangle, 3 = circle, 4 = text
 		if (useCamera) {
-			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
+			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y), globalScale);
 		}
 		else {
 			temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y);
 		}
 		if (spriteDraws[i]->type == 0) {
 			if (spriteDraws[i]->rotationPoint) {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, false, 0, 0, 0, 0);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale * globalScale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, false, 0, 0, 0, 0);
 			}
 			else {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->opacity);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->w, spriteDraws[i]->h, spriteDraws[i]->scale * globalScale, spriteDraws[i]->rotation, spriteDraws[i]->opacity);
 			}
 		}
 		else if (spriteDraws[i]->type == 1) {
 			if (spriteDraws[i]->rotationPoint) {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, true, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale * globalScale, spriteDraws[i]->rotation, spriteDraws[i]->rx, spriteDraws[i]->ry, spriteDraws[i]->opacity, true, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 			}
 			else {
-				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale, spriteDraws[i]->opacity, spriteDraws[i]->rotation, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
+				multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pTexture->getTexture(), RTSel, temp.x, temp.y, spriteDraws[i]->scale * globalScale, spriteDraws[i]->opacity, spriteDraws[i]->rotation, spriteDraws[i]->sX, spriteDraws[i]->sY, spriteDraws[i]->sW, spriteDraws[i]->sH);
 			}
 			
 		}
@@ -382,7 +382,7 @@ void SpriteCollection::drawAll() {
 			drawText(spriteDraws[i]->fontIndex, temp.x, temp.y, spriteDraws[i]->string, spriteDraws[i]->fontSize, spriteDraws[i]->color, RTSel);
 		}
 		else if (spriteDraws[i]->type == 5) {
-			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 0, 0, 1, 0, spriteDraws[i]->opacity);
+			multiPipelineManager->executeWithTransform(spriteDraws[i]->pipelineIndex, spriteDraws[i]->pRaster, RTSel, temp.x, temp.y, 0, 0, globalScale, 0, spriteDraws[i]->opacity);
 		}
 	}
 	lit.display();
@@ -519,12 +519,12 @@ void SpriteCollection::drawLightSource(glm::vec2 p1, glm::vec3 colour, float int
 		std::cout << "MAX POINT LIGHTS REACHED\n";
 		return;
 	}
-	pointLightPositions[numPointLights].x = p1.x;
-	pointLightPositions[numPointLights].y = p1.y;
+	pointLightPositions[numPointLights].x = p1.x * globalScale;
+	pointLightPositions[numPointLights].y = p1.y * globalScale;
 	pointLightColours[numPointLights].x = colour.x;
 	pointLightColours[numPointLights].y = colour.y;
 	pointLightColours[numPointLights].z = colour.z;
-	pointLightIntensities[numPointLights] = intensity;
+	pointLightIntensities[numPointLights] = intensity;// *globalScale;
 	pointLightTypes[numPointLights] = type;
 	numPointLights++;
 }
@@ -534,14 +534,14 @@ void SpriteCollection::drawBeamLight(glm::vec2 p1, glm::vec2 p2, glm::vec3 colou
 		std::cout << "MAX BEAM LIGHTS REACHED\n";
 		return;
 	}
-	beamLightPositions1[numBeamLights].x = p1.x;
-	beamLightPositions1[numBeamLights].y = p1.y;
-	beamLightPositions2[numBeamLights].x = p2.x;
-	beamLightPositions2[numBeamLights].y = p2.y;
+	beamLightPositions1[numBeamLights].x = p1.x * globalScale;
+	beamLightPositions1[numBeamLights].y = p1.y * globalScale;
+	beamLightPositions2[numBeamLights].x = p2.x * globalScale;
+	beamLightPositions2[numBeamLights].y = p2.y * globalScale;
 	beamLightColours[numBeamLights].x = colour.x;
 	beamLightColours[numBeamLights].y = colour.y;
 	beamLightColours[numBeamLights].z = colour.z;
-	beamLightIntensities[numBeamLights] = intensity;
+	beamLightIntensities[numBeamLights] = intensity;// *globalScale;
 	beamLightTypes[numBeamLights] = type;
 	numBeamLights++;
 }
@@ -560,7 +560,7 @@ void SpriteCollection::clearSpriteDraws() {
 
 void SpriteCollection::sendLightDataToShader(){
 	for (int i = 0; i < numPointLights; i++) {
-		pointLightPositions[i] = sf::Glsl::Vec2(pointLightPositions[i].x - pCamera->getPosition().x + *pWindowW / 2, -pointLightPositions[i].y + pCamera->getPosition().y + *pWindowH / 2);
+		pointLightPositions[i] = sf::Glsl::Vec2(pointLightPositions[i].x - pCamera->getPosition().x*globalScale + *pWindowW / 2, -pointLightPositions[i].y + pCamera->getPosition().y * globalScale + *pWindowH / 2);
 	}
 	lightingShader->setUniform("numPointLights", (float)numPointLights);
 	lightingShader->setUniformArray("pointLightPositions", pointLightPositions, 190);
@@ -570,8 +570,8 @@ void SpriteCollection::sendLightDataToShader(){
 	numPointLights = 0;
 
 	for (int i = 0; i < numBeamLights; i++) {
-		beamLightPositions1[i] = sf::Glsl::Vec2(beamLightPositions1[i].x - pCamera->getPosition().x + *pWindowW / 2, -beamLightPositions1[i].y + pCamera->getPosition().y + *pWindowH / 2);
-		beamLightPositions2[i] = sf::Glsl::Vec2(beamLightPositions2[i].x - pCamera->getPosition().x + *pWindowW / 2, -beamLightPositions2[i].y + pCamera->getPosition().y + *pWindowH / 2);
+		beamLightPositions1[i] = sf::Glsl::Vec2(beamLightPositions1[i].x - pCamera->getPosition().x * globalScale + *pWindowW / 2, -beamLightPositions1[i].y + pCamera->getPosition().y * globalScale + *pWindowH / 2);
+		beamLightPositions2[i] = sf::Glsl::Vec2(beamLightPositions2[i].x - pCamera->getPosition().x * globalScale + *pWindowW / 2, -beamLightPositions2[i].y + pCamera->getPosition().y * globalScale + *pWindowH / 2);
 	}
 	lightingShader->setUniform("numBeamLights", (float)numBeamLights);
 	lightingShader->setUniformArray("beamLightPositions1", beamLightPositions1, 50);
@@ -586,7 +586,7 @@ void SpriteCollection::sendLightDataToShader(){
 	lightingShader->setUniform("ambientLightColour", sf::Glsl::Vec3(255,255,255));
 	lightingShader->setUniform("time", (float)(frame % 30));
 	lightingShader->setUniform("noiseIntensity", 0.5f);
-
+	lightingShader->setUniform("scale", globalScale);
 }
 
 void SpriteCollection::orderByZ() {
@@ -673,4 +673,12 @@ bool SpriteCollection::getOnScreen(glm::vec2 position, int margin){
 		return false;
 	}
 	return true;
+}
+
+void SpriteCollection::setScale(float _scale){
+	globalScale = _scale;
+}
+
+float SpriteCollection::getScale(){
+	return globalScale;
 }

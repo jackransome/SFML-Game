@@ -26,6 +26,10 @@ glm::vec2 Camera::transformPosition(glm::vec2 toTransform) {
 	return toTransform - position + glm::vec2(*pScreenW /2, *pScreenH /2) + screenshakePosition;
 }
 
+glm::vec2 Camera::transformPosition(glm::vec2 toTransform, float scale) {
+	return toTransform*scale - position*scale + glm::vec2(*pScreenW / 2, *pScreenH / 2) + screenshakePosition;
+}
+
 void Camera::setScreenshakeAmount(float amount){
 	screenshake = amount;
 }

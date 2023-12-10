@@ -63,6 +63,11 @@ void PowerNode::drawConections(){
 		drawPos = position / 2.0f + connections[i]->getPosition() / 2.0f;
 		difference = connections[i]->getPosition() - position;
 		length = sqrt(difference.x* difference.x + difference.y * difference.y);
+		if (length > 200) {
+			connections.erase(connections.begin() + i);
+			i--;
+			continue;
+		}
 		rotation = -ppConsole->getAtan2Value(difference.x, difference.y)*180.0/3.141592 - 90;
 		pSpriteCollection->addRotatedImageDrawCut(pSpriteCollection->getPointerFromName("power_cable"), drawPos.x - length/2, drawPos.y - 3, -1000000, 0, 0, length/2, 3, 2, rotation);
 	}

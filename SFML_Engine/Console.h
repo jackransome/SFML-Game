@@ -9,13 +9,14 @@ enum CommandType{ commandShakeScreen, commandPlaySound, commandAddObject, comman
 	commandDisableObjectControls, commandPickUp, commandDrop, commandBlink, commandAddProjectile,
 	commandAddBeam, commandAddToInventory, commandCloseMenu, commandOpenMenu, commandChangeMenuState,
 	commandEnableMenuInputMode, commandDisableMenuInputMode, commandGoToMainMenu, commandGoToGameplay,
-	commandAddBuildObject, commandAddDamageParticles, commandGoToEndScreen, commandSetLastRotation
+	commandAddBuildObject, commandAddDamageParticles, commandGoToEndScreen, commandSetLastRotation,
+	commandCloseBuilder, commandCloseConnector
 };
 enum ObjectType{ objectFootprint, objectAction1animation, objectRoverTracks, objectCrate, objectRover,
 	objectMainCharacter, objectRelay, objectNull, objectWall, objectEnemy, objectScrapMetalDrop,
 	objectScrapMetalPile, objectAutoTurret, objectMarketRelay, objectJammer, objectDefenseOrb,
 	objectExplosion, objectSmoke, objectBuildDrone, objectSpark, objectGenerator, objectEnemyBombRover,
-	objectTeleporterPillar, objectTeleporter, objectEnemyTurretRover, objectRoverTracksMini,	object_count
+	objectTeleporterPillar, objectTeleporter, objectEnemyTurretRover, objectRoverTracksMini, object_count
 };
 
 enum class Resource {

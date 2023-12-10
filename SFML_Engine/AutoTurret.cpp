@@ -24,7 +24,6 @@ void AutoTurret::onDeath() {
 }
 
 void AutoTurret::update() {
-	
 	//if ready to fire, fire (via command)
 	if (auto sharedTarget = target.lock()){
 		if (getPercentage() > 0) {

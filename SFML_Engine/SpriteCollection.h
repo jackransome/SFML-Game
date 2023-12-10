@@ -47,12 +47,15 @@ public:
 	void drawRasterization(sf::Texture* texture, float z, float x, float y, float w, float h);
 	void setAbsoluteMode(bool mode);
 	bool getOnScreen(glm::vec2 position, int margin);
+	void setScale(float _scale);
+	float getScale();
 private:
 	//settings
 	bool bloomMode = false;
 	bool fullBrightMode = false;
 
 	//other
+	float globalScale = 2;
 	int frame = 0;
 	MultiPipelineManager* multiPipelineManager;
 	int pipelineIndex = 0;

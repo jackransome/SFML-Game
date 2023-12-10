@@ -3,7 +3,7 @@
 TeleporterPillar::TeleporterPillar(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 12, 12, 0, immovable, true),
 	Living(100, 2, &isLiving),
-	PowerNode(_pConsole, 500, 0, &isPowerNode, false, 1, _pSpriteCollection, _x, _y) 
+	PowerNode(_pConsole, 600, 0, &isPowerNode, false, 1, _pSpriteCollection, _x, _y) 
 {
 	boundingBox.x = _x;
 	boundingBox.y = _y;

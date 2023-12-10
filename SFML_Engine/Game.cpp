@@ -90,7 +90,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	builder = Builder(&spriteCollection, &inventory, &console, &inputManager, &objectCollection);
 	powerManager = PowerManager(&spriteCollection, &console, &inputManager, &objectCollection, &camera);
 	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder, &powerManager);
-	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager);
+	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager, &builder, &powerManager);
 	musicSystem = MusicSystem(&soundPlayer);
 	coordinator = Coordinator(&musicSystem, &console, &snowSystem);
 
@@ -267,6 +267,7 @@ void Game::HandleInput() {
 	if (gameState == 1) {
 		controlSwitcher.handleInput();
 		if (inputManager.onKeyDown(r)) {
+			powerManager.activate();
 			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(t)) {
@@ -278,11 +279,24 @@ void Game::HandleInput() {
 		if (inputManager.onKeyDown(u)) {
 			console.addCommand(commandAddObject, objectEnemyTurretRover, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
+		zoomTarget *= 1.0 + inputManager.isKeyDown(mouseW)/10.0f;
+		if (zoomTarget < 1) {
+			zoomTarget = 1;
+		}
+		else if (zoomTarget > 1.75) {
+			zoomTarget = 1.75;
+		}
+		if (zoomLevel != zoomTarget) {
+			zoomLevel += (zoomTarget - zoomLevel) / 6;
+		}
+
 		if (inputManager.onKeyDown(escape)) {
 			if (gameState == 1){
 				if (uiManager.getActive() == false || uiManager.getState() != 1) {
 					uiManager.setState(1);
 					uiManager.setActive(true);
+					console.addCommand(commandCloseBuilder);
+					console.addCommand(commandCloseConnector);
 					soundPlayer.muteAllPlaying();
 				}
 				else {
@@ -307,13 +321,15 @@ void Game::Run() {
 	if (gameState == 1) {
 		//in game
 		if (gameLive) {
-			if (inputManager.onKeyDown(z)) {
+			if (inputManager.onKeyDown(q)) {
 				if (uiManager.getActive()) {
 					uiManager.setActive(false);
 				}
 				else {
 					uiManager.loadNewMenu(MenuType::builder);
 					uiManager.setActive(true);
+					console.addCommand(commandCloseBuilder);
+					console.addCommand(commandCloseConnector);
 				}
 			}
 
@@ -346,7 +362,7 @@ void Game::Run() {
 		gameLive = true;
 	}
 	soundPlayer.update();
-	inputManager.translateMouseCoords(camera.getPosition().x - screenW / 2, camera.getPosition().y - screenH / 2);
+	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
 	
 	console.incrementFrame();
 	while (console.getSize() > 0) {
@@ -399,7 +415,8 @@ void Game::Run() {
 		gameState = commandExecuter.getNextGameState();
 	}
 	musicSystem.update();
-	
+	spriteCollection.setScale(zoomLevel);
+	inputManager.setScale(zoomLevel);
 }
 
 void Game::Draw() {
@@ -506,8 +523,8 @@ void Game::loadGameplay(){
 	snowSystem2.setActive(false);
 	snowSystem.setSpeed(2.5);
 	snowSystem.setFallAngle(1.5);
-	snowSystem.setSize(50);
-	snowSystem.setOpacity(0.6);
+	snowSystem.setSize(40);
+	snowSystem.setOpacity(0.4);
 	snowSystem.setSinMultiplier(2);
 
 	inventory.clear();
@@ -518,7 +535,9 @@ void Game::loadGameplay(){
 	objectCollection.addDefenseOrb(150, 0);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
-	inventory.addResources(Resource::component, 300);
+	//objectCollection.addTeleporter(100, 100);
+
+	//inventory.addResources(Resource::component, 300);
 	inventory.addResources(Resource::scrap, 300);
 	
 	
