@@ -65,7 +65,7 @@ void AutoTurret::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 1.0, 1.0);
 		}
 	}
-	discharge(0.1);
+	discharge(0.2);
 	updatePosition(getCenter().x, getCenter().y);
 }
 

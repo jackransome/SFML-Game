@@ -315,7 +315,7 @@ void Game::HandleInput() {
 }
 
 void Game::Run() {
-
+	camera.setScale(zoomLevel);
 	console.addTime("Start of run");
 	uiManager.update();
 	if (gameState == 1) {

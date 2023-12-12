@@ -75,7 +75,7 @@ void Builder::draw(){
 	if (active) {
 		if (pObjectCollection->checkArea(glm::vec4(pInputManager->translatedMouseX - (sizeMap[currentBuildType] / 2), pInputManager->translatedMouseY - (sizeMap[currentBuildType] / 2), sizeMap[currentBuildType], sizeMap[currentBuildType]))) {
 			pSpriteCollection->setAbsoluteMode(true);
-			pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX - 11, pInputManager->mouseY - 11, 1000000, 2, rotation, 22, 22);
+			pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX - 11, pInputManager->mouseY - 11, 1000000, 2 * pSpriteCollection->getScale(), rotation, 22 * pSpriteCollection->getScale(), 22 * pSpriteCollection->getScale());
 			//pSpriteCollection->addRotatedImageDrawCut(pSpriteCollection->getPointerFromName("builder_crosshair"), pInputManager->mouseX - 11, pInputManager->mouseY - 11, 0, 0, 0, 11, 11, 2, rotation);
 			pSpriteCollection->setAbsoluteMode(false);
 		}

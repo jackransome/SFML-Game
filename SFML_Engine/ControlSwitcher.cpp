@@ -31,11 +31,11 @@ void ControlSwitcher::handleInput()
 
 void ControlSwitcher::draw(){
 	if (active) {
-		glm::vec2 prosPos = pCamera->transformPosition(pObjectCollection->getClosestControllablePosition(currentID));
-		glm::vec2 curPos = pCamera->transformPosition(pConsole->getControlPosition());
+		glm::vec2 prosPos = pCamera->transformPosition(pObjectCollection->getClosestControllablePosition(currentID) - glm::vec2(10,10));
+		glm::vec2 curPos = pCamera->transformPosition(pConsole->getControlPosition() - glm::vec2(10, 10));
 		pSpriteCollection->setAbsoluteMode(true);
-		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_current"), curPos.x - 10, curPos.y - 10, 1000000, 10, 10);
-		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_prospect"), prosPos.x - 10, prosPos.y - 10, 1000000, 10, 10);
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_current"), curPos.x, curPos.y, 1000000, pSpriteCollection->getScale(), 10, 10);
+		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_prospect"), prosPos.x, prosPos.y, 1000000, pSpriteCollection->getScale(), 10, 10);
 		pSpriteCollection->setAbsoluteMode(false);
 	}
 }

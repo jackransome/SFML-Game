@@ -24,7 +24,6 @@ private:
 	float maxVel;
 	float acceleration;
 	std::weak_ptr<Object> target;
-	int explodeRange;
 	SoundPlayer* pSoundPlayer;
 	int AmbientSoundId;
 	SpriteStack baseStack;
@@ -32,9 +31,9 @@ private:
 	int blinkCounter = 0;
 	float barrelRotation = 0;
 	int reloadTimer = 0;
-	int maxReload = 60;
-	float projectileSpeed = 50;
-	float speed = 2.5;
+	int maxReload = 50;
+	float projectileSpeed = 60;
+	float speed = 2;
 	int moveSoundId;
 	bool moveSoundPlaying = false;
 	int trackTimer = 0;

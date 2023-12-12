@@ -23,11 +23,7 @@ glm::vec2 Camera::getPosition() {
 }
 
 glm::vec2 Camera::transformPosition(glm::vec2 toTransform) {
-	return toTransform - position + glm::vec2(*pScreenW /2, *pScreenH /2) + screenshakePosition;
-}
-
-glm::vec2 Camera::transformPosition(glm::vec2 toTransform, float scale) {
-	return toTransform*scale - position*scale + glm::vec2(*pScreenW / 2, *pScreenH / 2) + screenshakePosition;
+	return toTransform * scale - position * scale + glm::vec2(*pScreenW / 2, *pScreenH / 2) + screenshakePosition;
 }
 
 void Camera::setScreenshakeAmount(float amount){
@@ -59,4 +55,8 @@ void Camera::runscreenShake(){
 	}
 	screenshakePosition.x = ((double)rand() / (RAND_MAX)) * screenshake - screenshake / 2;
 	screenshakePosition.y = ((double)rand() / (RAND_MAX)) * screenshake - screenshake / 2;
+}
+
+void Camera::setScale(float _scale){
+	scale = _scale;
 }

@@ -26,7 +26,9 @@ void PowerNode::distribute(){
 	}
 	for (int i = 0; i < connections.size(); i++) {
 		if (connections[i]->getCapacityLeft() > 0) {
-			connections[i]->addCharge(std::min(dischargeRate / counter, connections[i]->getCapacityLeft()));
+			float amount = std::min(dischargeRate / counter, connections[i]->getCapacityLeft());
+			discharge(amount);
+			connections[i]->addCharge(amount);
 		}
 	}
 }

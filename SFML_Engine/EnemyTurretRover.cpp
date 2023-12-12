@@ -14,7 +14,6 @@ EnemyTurretRover::EnemyTurretRover(SpriteCollection* _pSpriteCollection, SoundPl
 	baseStack.setRasterizeMode(false);
 	hostile = true;
 	isLiving = true;
-	explodeRange = 60;
 	targetingRange = 2000;
 	AmbientSoundId = pSoundPlayer->playSoundByName("enemy_turret_rover_ambient_1", 0.1);
 	pSoundPlayer->loopSound(AmbientSoundId);
@@ -43,7 +42,7 @@ void EnemyTurretRover::update() {
 			doDamage(1000000);
 		}
 		
-		if (distance < 500) {
+		if (distance < 400) {
 			// shoot at target
 			
 			glm::vec2 center = getCenter();

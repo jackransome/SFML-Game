@@ -54,15 +54,16 @@ void PowerManager::update(){
 }
 
 void PowerManager::draw(){
+	float scale = pSpriteCollection->getScale();
 	pSpriteCollection->setAbsoluteMode(true);
 	glm::vec2 position;
 	if (from) {
 		position = pCamera->transformPosition(from->getCenter() - glm::vec2(11,11));
-		pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("power_manager_overlay_1"), position.x, position.y, 1000000, 1, 0, 22, 22);
+		pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("power_manager_overlay_1"), position.x, position.y, 1000000, scale, 0, 22, 22);
 	}
 	if (to) {
 		position = pCamera->transformPosition(to->getCenter() - glm::vec2(11, 11));
-		pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("power_manager_overlay_2"), position.x, position.y, 1000000, 1, 0, 22, 22);
+		pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("power_manager_overlay_2"), position.x, position.y, 1000000, scale, 0, 22, 22);
 	}
 	pSpriteCollection->setAbsoluteMode(false);
 }

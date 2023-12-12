@@ -350,7 +350,7 @@ void SpriteCollection::drawAll() {
 		}
 		// type 0 = image, 1 = image section, 2 = rectangle, 3 = circle, 4 = text
 		if (useCamera) {
-			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y), globalScale);
+			temp = pCamera->transformPosition(glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y));
 		}
 		else {
 			temp = glm::vec2(spriteDraws[i]->x, spriteDraws[i]->y);
