@@ -38,6 +38,7 @@ void PowerManager::update(){
 					else {
 						//CONNECT POWER
 						std::dynamic_pointer_cast<PowerNode>(from)->addConnection(std::dynamic_pointer_cast<PowerNode>(object).get());
+						std::dynamic_pointer_cast<PowerNode>(object)->addConnection(std::dynamic_pointer_cast<PowerNode>(from).get());
 						cancel();
 					}
 				}

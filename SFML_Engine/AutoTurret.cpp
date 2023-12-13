@@ -3,7 +3,7 @@
 AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 	Object(_x, _y, 24, 24, 0, immovable, true),
 	Living(100, 1, &isLiving),
-	PowerNode(_pConsole, 50, 0, &isPowerNode, false, 1, _pSpriteCollection, _x, _y)
+	PowerNode(_pConsole, 50, 0, &isPowerNode, false, false, 1, _pSpriteCollection, _x, _y, &id)
 {
 	pSpriteCollection = _pSpriteCollection;
 	pConsole = _pConsole;
@@ -19,11 +19,13 @@ AutoTurret::AutoTurret(SpriteCollection* _pSpriteCollection, Console* _pConsole,
 	faction = 0;
 }
 void AutoTurret::onDeath() {
+	removeFromConnections();
 	pConsole->addCommand(commandAddObject, objectScrapMetalDrop, getCenter().x - 8, getCenter().y - 8);
 	pConsole->addCommand(commandAddObject, objectExplosion, getCenter().x, getCenter().y, 10 + rand() % 10);
 }
 
 void AutoTurret::update() {
+	if (!getBuilt()) setBuilt();
 	//if ready to fire, fire (via command)
 	if (auto sharedTarget = target.lock()){
 		if (getPercentage() > 0) {
@@ -82,6 +84,7 @@ void AutoTurret::draw() {
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), getPercentage() * 2, 3);
+	drawConections();
 }
 
 void AutoTurret::drawBuilding(){

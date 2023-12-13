@@ -3,7 +3,7 @@
 Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, int _x, int _y) :
 	Object(x, y, 20, 20, 0, immovable, true),
 	Living(100, 2, &isLiving),
-	PowerNode(_pConsole, 10, 0, &isPowerNode, true, 2, _pSpriteCollection, _x, _y) {
+	PowerNode(_pConsole, 10, 0, &isPowerNode, true, false, 2, _pSpriteCollection, _x, _y, &id) {
 	boundingBox.x = _x;
 	boundingBox.y = _y;
 	pSpriteCollection = _pSpriteCollection;
@@ -21,6 +21,7 @@ Relay::Relay(SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlay
 
 Relay::~Relay(){
 	pSoundPlayer->stopSound(AmbientSoundId);
+	removeFromConnections();
 }
 
 void Relay::draw() {
@@ -49,6 +50,7 @@ void Relay::onDeath() {
 }
 
 void Relay::update() {
+	if (!getBuilt()) setBuilt();
 	pSoundPlayer->setVolume(AmbientSoundId, getPercentage() * 0.15 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
 		if (((double)rand() / (RAND_MAX)) > 0.7) {

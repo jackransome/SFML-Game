@@ -64,7 +64,7 @@ protected:
 	bool sellable = false;
 	bool controlled = false;
 	Console* pConsole;
-	int id;
+	int id = -1;
 	bool toDestroy = false;
 	BoundingBox boundingBox;
 	bool canBePickedUp = false;

@@ -6,7 +6,7 @@
 class PowerNode {
 public:
 
-	PowerNode(Console* _pConsole, float _capacity, float _charge, bool* objectFlag, bool _distributor, float _dischargeRate, SpriteCollection* _pSpriteCollection, float _x, float _y) {
+	PowerNode(Console* _pConsole, float _capacity, float _charge, bool* objectFlag, bool _distributor, bool _generator, float _dischargeRate, SpriteCollection* _pSpriteCollection, float _x, float _y, int* _idPointer) {
 		*objectFlag = true;
 		capacity = _capacity;
 		charge = _charge;
@@ -15,7 +15,13 @@ public:
 		pSpriteCollection = _pSpriteCollection;
 		updatePosition(_x, _y);
 		ppConsole = _pConsole;
+		idPointer = _idPointer;
+		generator = _generator;
 	}
+	bool getGenerator();
+	bool getBuilt();
+	void setBuilt();
+	void removeConnection(int _id);
 	void addConnection(PowerNode* node);
 	float getCapacityLeft();
 	float getPercentage();
@@ -26,7 +32,11 @@ public:
 	void updatePosition(float _x, float _y);
 	void drawConections();
 	glm::vec2 getPosition();
+	int getPowerId();
+	void removeFromConnections();
 private:
+	bool generator;
+	bool built = false;
 	glm::vec2 position;
 	std::vector<PowerNode*> connections;
 	float capacity;
@@ -35,4 +45,5 @@ private:
 	float dischargeRate;
 	SpriteCollection* pSpriteCollection;
 	Console* ppConsole;
+	int* idPointer = nullptr;
 };
