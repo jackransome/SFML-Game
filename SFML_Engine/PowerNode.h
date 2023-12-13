@@ -35,6 +35,7 @@ public:
 	int getPowerId();
 	void removeFromConnections();
 private:
+	int maxLength = 250;
 	bool generator;
 	bool built = false;
 	glm::vec2 position;

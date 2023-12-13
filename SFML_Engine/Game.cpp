@@ -267,7 +267,7 @@ void Game::HandleInput() {
 	if (gameState == 1) {
 		controlSwitcher.handleInput();
 		if (inputManager.onKeyDown(r)) {
-			powerManager.activate();
+			powerManager.toggleActive();
 			//console.addCommand(commandAddObject, objectJammer, inputManager.translatedMouseX, inputManager.translatedMouseY);
 		}
 		if (inputManager.onKeyDown(t)) {
@@ -321,7 +321,7 @@ void Game::Run() {
 	if (gameState == 1) {
 		//in game
 		if (gameLive) {
-			if (inputManager.onKeyDown(q)) {
+			if (inputManager.onKeyDown(tab)) {
 				if (uiManager.getActive()) {
 					uiManager.setActive(false);
 				}

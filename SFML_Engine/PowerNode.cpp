@@ -23,6 +23,11 @@ void PowerNode::removeConnection(int _id){
 }
 
 void PowerNode::addConnection(PowerNode* node){
+	for (int i = 0; i < connections.size(); i++) {
+		if (connections[i]->getPowerId() == node->getPowerId()) {
+			return;
+		}
+	}
 	connections.push_back(node);
 }
 
@@ -99,7 +104,7 @@ void PowerNode::drawConections(){
 			drawPos = position / 2.0f + connections[i]->getPosition() / 2.0f;
 			difference = connections[i]->getPosition() - position;
 			length = sqrt(difference.x * difference.x + difference.y * difference.y);
-			if (length > 200) {
+			if (length > maxLength) {
 				connections.erase(connections.begin() + i);
 				i--;
 				continue;

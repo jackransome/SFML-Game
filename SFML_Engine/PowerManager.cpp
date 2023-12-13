@@ -12,6 +12,19 @@ void PowerManager::activate(){
 	active = true;
 }
 
+void PowerManager::toggleActive(){
+	if (active) {
+		cancel();
+	}
+	else {
+		active = true;
+	}
+}
+
+bool PowerManager::isActive() {
+	return active;
+}
+
 void PowerManager::cancel(){
 	active = false;
 	from = std::shared_ptr<Object>();
@@ -27,19 +40,21 @@ void PowerManager::update(){
 		std::shared_ptr<Object> object;
 		if (object = pObjectCollection->getClosestPowerNode()) {
 			if (pInputManager->onKeyUp(mouseL)) {
-				if (!from) {
+				auto sharedTarget = from.lock();
+				if (!sharedTarget) {
 					from = object;
 				}
 				else {
-					if (from == to) {
+					if (sharedTarget->getId() == to->getId()) {
 						cancel();
 						return;
 					}
 					else {
 						//CONNECT POWER
-						std::dynamic_pointer_cast<PowerNode>(from)->addConnection(std::dynamic_pointer_cast<PowerNode>(object).get());
-						std::dynamic_pointer_cast<PowerNode>(object)->addConnection(std::dynamic_pointer_cast<PowerNode>(from).get());
+						std::dynamic_pointer_cast<PowerNode>(sharedTarget)->addConnection(std::dynamic_pointer_cast<PowerNode>(object).get());
+						std::dynamic_pointer_cast<PowerNode>(object)->addConnection(std::dynamic_pointer_cast<PowerNode>(sharedTarget).get());
 						cancel();
+						active = true;
 					}
 				}
 			}
@@ -58,8 +73,8 @@ void PowerManager::draw(){
 	float scale = pSpriteCollection->getScale();
 	pSpriteCollection->setAbsoluteMode(true);
 	glm::vec2 position;
-	if (from) {
-		position = pCamera->transformPosition(from->getCenter() - glm::vec2(11,11));
+	if (auto sharedTarget = from.lock()) {
+		position = pCamera->transformPosition(sharedTarget->getCenter() - glm::vec2(11,11));
 		pSpriteCollection->addRotatedImageDraw(pSpriteCollection->getPointerFromName("power_manager_overlay_1"), position.x, position.y, 1000000, scale, 0, 22, 22);
 	}
 	if (to) {

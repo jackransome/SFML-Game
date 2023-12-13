@@ -31,6 +31,7 @@ InputManager::InputManager(sf::RenderWindow* pwindow, int *screenW, int *screenH
 	keyStruct.y = false;
 	keyStruct.z = false;
 	keyStruct.space = false;
+	keyStruct.tab= false;
 	keyStruct.escape = false;
 	keyStruct.upArrow = false;
 	keyStruct.downArrow = false;
@@ -131,6 +132,9 @@ void InputManager::update(){
 		}
 		if (keyStruct.space > 0) {
 			keyStruct.space++;
+		}
+		if (keyStruct.tab > 0) {
+			keyStruct.tab++;
 		}
 		if (keyStruct.escape > 0) {
 			keyStruct.escape++;
@@ -240,6 +244,9 @@ void InputManager::update(){
 
 			if (ev.key.code == sf::Keyboard::Space) {
 				keyStruct.space = 1;
+			}
+			if (ev.key.code == sf::Keyboard::Tab) {
+				keyStruct.tab = 1;
 			}
 			if (ev.key.code == sf::Keyboard::Escape) {
 				keyStruct.escape = 1;
@@ -369,6 +376,9 @@ void InputManager::update(){
 
 			if (ev.key.code == sf::Keyboard::Space) {
 				keyStruct.space = 0;
+			}
+			if (ev.key.code == sf::Keyboard::Tab) {
+				keyStruct.tab = 0;
 			}
 			if (ev.key.code == sf::Keyboard::Escape) {
 				keyStruct.escape = 0;
@@ -511,6 +521,8 @@ int InputManager::isKeyDown(keys key){
 		return keyStruct.z;
 	case space:
 		return keyStruct.space;
+	case tab:
+		return keyStruct.tab;
 	case escape:
 		return keyStruct.escape;
 	case n1:
@@ -614,6 +626,8 @@ bool InputManager::onKeyDown(keys key) {
 		return !lastKeyStruct.z && keyStruct.z;
 	case space:
 		return !lastKeyStruct.space && keyStruct.space;
+	case tab:
+		return !lastKeyStruct.tab && keyStruct.tab;
 	case escape:
 		return !lastKeyStruct.escape && keyStruct.escape;
 	case n1:
@@ -714,6 +728,8 @@ bool InputManager::onKeyUp(keys key){
 		return lastKeyStruct.z && !keyStruct.z;
 	case space:
 		return lastKeyStruct.space && !keyStruct.space;
+	case tab:
+		return lastKeyStruct.tab && !keyStruct.tab;
 	case escape:
 		return lastKeyStruct.escape && !keyStruct.escape;
 	case n1:

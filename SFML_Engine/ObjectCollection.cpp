@@ -201,6 +201,8 @@ void ObjectCollection::update() {
 	for (int i = 0; i < objects.size(); i++) {
 		if (objects[i]->getToDestroy()) {
 			if (objects[i]->getControlled()) {
+				//HERE1
+				
 				controlledDead = true;
 			}
 			if (objects[i]->getPickedUp()) {
@@ -860,4 +862,8 @@ void ObjectCollection::changeObjectCount(ObjectType type, int change){
 
 glm::vec2 ObjectCollection::getGeneratorPos(){
 	return generatorPos;
+}
+
+void ObjectCollection::controlClosest(){
+
 }

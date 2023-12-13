@@ -100,6 +100,7 @@ public:
 
 	glm::vec2 getGeneratorPos();
 private:
+	void controlClosest();
 	std::unordered_map<ObjectType, int> objectCounter;
 	glm::vec2 generatorPos = glm::vec2(0);
 	bool teleporterExists = false;
