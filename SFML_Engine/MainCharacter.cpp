@@ -1,9 +1,10 @@
 #include "MainCharacter.h"
 
-MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, float _x, float _y) :
+MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, Console *_pConsole, float _x, float _y) :
 	Object(_x, _y, 16, 16, 0, controllable, true),
 	Living(100, 2, &isLiving),
-	Controllable(200, &isControllable) {
+	Controllable(200, &isControllable),
+	PowerNode(_pConsole, 10,0, &isPowerNode, false, false, 2, _pSpriteCollection, _x, _y, &id) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	animationRunLeft = SpriteSheet(pSpriteCollection, "mc_run_left", 22, 32, 6, 2);
@@ -33,6 +34,7 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	miniAnimation = SpriteSheet(pSpriteCollection, "mc_mini_run_right", 8, 20, 2, 2);
 	miniAnimation.setChangeTimer(12);
 	faction = 0;
+	setBuilt();	
 }
 
 void MainCharacter::onDeath() {
@@ -43,9 +45,10 @@ void MainCharacter::onDeath() {
 void MainCharacter::update() {
 	//boundingBox.x = 100*position.x;
 	//boundingBox.y = 100*position.y;
+	updatePowerPosition(getCenter().x, getCenter().y);
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	if (controlled) {
+	if (controlled && getPercentage() > 0) {
 		if (pInputManager->isKeyDown(lShift)) {
 			vel = 4;
 			sprinting = true;
@@ -112,8 +115,8 @@ void MainCharacter::update() {
 
 	//physicsBody->SetTransform(b2Vec2(boundingBox.x / 100, boundingBox.y/100), 0);
 	//physicsBody->SetLinearVelocity(b2Vec2(boundingBox.xv / 100, boundingBox.yv / 100));
-	if ((boundingBox.xv || boundingBox.yv) && pConsole->getFrame() % 9 == 0) {
-
+	if ((boundingBox.xv || boundingBox.yv)) {
+		discharge(0.01);
 	}
 
 	if (sprinting) {
@@ -181,6 +184,7 @@ void MainCharacter::update() {
 void MainCharacter::draw() {
 	eyeVisible1 = false;
 	eyeVisible2 = false;
+	drawPowerConections();
 	if (sprinting) {
 		if (boundingBox.xv < 0) {
 			animationRunLeft.run();
@@ -372,13 +376,13 @@ void MainCharacter::draw() {
 		}
 	}
 	if (eyeVisible1) {
-		pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 1, 1);
+		pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 1*getPercentage(), 1);
 		
 	}
 	pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 0.03, 0);
 	pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 0.03, 0);
 	if (eyeVisible2) {
-		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1, 1);
+		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1* getPercentage(), 1);
 		
 	}
 	boundingBox.xv = 0;

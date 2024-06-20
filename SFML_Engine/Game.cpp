@@ -164,6 +164,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("enemy_rover_range_stack_1", "resources/enemy_rover_range_stack_1.png");
 	spriteCollection.loadTexture("enemy_rover_range_barrel_stack_1", "resources/enemy_rover_range_barrel_stack_1.png");
 	spriteCollection.loadTexture("power_cable", "resources/power_cable.png");
+	spriteCollection.loadTexture("battery_stack", "resources/battery_stack_1.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -192,7 +193,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("punch1", "resources/punch1.wav");
 	soundPlayer.loadSound("wind", "resources/wind_better3.wav");
 	soundPlayer.loadSound("footstep_snow", "resources/footstep_snow.wav");
-	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_2.wav");
+	soundPlayer.loadSound("rover_move_1", "resources/sound_rover_move_5.wav");
 	soundPlayer.loadSound("rover_mine_1", "resources/sound_rover_mine_1.wav");
 	soundPlayer.loadSound("pickup", "resources/sound_pickup.wav");
 	soundPlayer.loadSound("drop", "resources/sound_drop.wav");
@@ -214,11 +215,11 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("drone_hit_2", "resources/sound_drone_hit_2.wav");
 	soundPlayer.loadSound("drone_hit_3", "resources/sound_drone_hit_3.wav");
 	soundPlayer.loadSound("drone_hit_4", "resources/sound_drone_hit_4.wav");
-	soundPlayer.loadSound("explosion", "resources/sound_explosion.wav");
-	soundPlayer.loadSound("explosion1", "resources/sound_explosion1.wav");
-	soundPlayer.loadSound("explosion2", "resources/sound_explosion2.wav");
-	soundPlayer.loadSound("explosion3", "resources/sound_explosion3.wav");
-	soundPlayer.loadSound("explosion4", "resources/sound_explosion4.wav");
+	soundPlayer.loadSound("explosion", "resources/sound_explosion01.wav");
+	soundPlayer.loadSound("explosion1", "resources/sound_explosion02.wav");
+	soundPlayer.loadSound("explosion2", "resources/sound_explosion03.wav");
+	soundPlayer.loadSound("explosion3", "resources/sound_explosion04.wav");
+	soundPlayer.loadSound("explosion4", "resources/sound_explosion05.wav");
 	soundPlayer.loadSound("beam_1", "resources/sound_beam_4.wav");
 	soundPlayer.loadSound("jammer_ambient_1", "resources/sound_jammer_ambient_1.wav");
 	soundPlayer.loadSound("475", "resources/475.wav");
@@ -236,6 +237,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("music_ominous_1", "resources/music_ominous_1.wav");
 	soundPlayer.loadSound("music_beat_1", "resources/music_beat_2.wav");
 	soundPlayer.loadSound("distant_roar", "resources/sound_distant_roar_2.wav");
+	soundPlayer.loadSound("sound_battery", "resources/sound_battery_1.wav");
 	soundPlayer.loadSound("517", "resources/517.wav");
 	soundPlayer.loadSound("enemy_turret_rover_ambient_1", "resources/sound_enemy_turret_rover_ambient_1.wav"); 
 	soundPlayer.loadSound("enemy_rover_moving", "resources/sound_enemy_rover_moving_2.wav");
@@ -535,10 +537,11 @@ void Game::loadGameplay(){
 	objectCollection.addDefenseOrb(150, 0);
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
+	objectCollection.addBattery(100, 0);
 	//objectCollection.addTeleporter(100, 100);
 
 	//inventory.addResources(Resource::component, 300);
-	inventory.addResources(Resource::scrap, 300);
+	inventory.addResources(Resource::scrap, 0);
 	
 	
 

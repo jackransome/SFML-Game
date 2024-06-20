@@ -27,6 +27,7 @@ void TeleporterPillar::draw() {
 	float lightPhase = 0.7f + sin(pConsole->getFrame() / 10.0f) / 2.0f;
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 50, 255), 2 * lightPhase * getPercentage(), 3);
 	spriteStack.draw(boundingBox.x - 1, boundingBox.y - 1, boundingBox.y + boundingBox.h, rotation);
+	drawPowerConections();
 }
 
 void TeleporterPillar::drawBuilding() {
@@ -42,6 +43,7 @@ void TeleporterPillar::onDeath() {
 }
 
 void TeleporterPillar::update() {
+	if (!getBuilt()) setBuilt();
 	//pSoundPlayer->setVolume(AmbientSoundId, 0.5 * pSoundPlayer->getSpatialVolume(pConsole->getControlPosition(), getCenter()));
 	if ((getHealth() / getMaxHealth()) < ((double)rand() / (RAND_MAX)) && ((double)rand() / (RAND_MAX)) > 0.85) {
 		if (((double)rand() / (RAND_MAX)) > 0.7) {
@@ -51,7 +53,7 @@ void TeleporterPillar::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 36 * ((double)rand() / (RAND_MAX)), 1.0);
 		}
 	}
-	updatePosition(getCenter().x, getCenter().y);
+	updatePowerPosition(getCenter().x, getCenter().y);
 	if (getPercentage() == 1) {
 		fullyCharged = true;
 	}

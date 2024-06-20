@@ -30,6 +30,7 @@
 #include "Teleporter.h"
 #include "EnemyTurretRover.h"
 #include "PowerNode.h"
+#include "Battery.h"
 
 #include <unordered_map>
 #include <array>
@@ -64,6 +65,7 @@ public:
 	void addEnemyBombRover(int x, int y);
 	void addEnemyTurretRover(int x, int y);
 	void addTeleporterPillar(int x, int y);
+	void addBattery(int x, int y);
 	void addTeleporter(int x, int y);
 	void addProjectile(float _x, float _y, float _rotation, float _speed, int _fromID, int faction);
 	void addBeam(float _x1, float _y1, float _x2, float _y2, int _fromID, int _faction);

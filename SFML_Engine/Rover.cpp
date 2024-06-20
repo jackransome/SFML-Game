@@ -1,11 +1,12 @@
 #include "Rover.h"
 
-Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
+Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Console* _pConsole, float _x, float _y) :
 	Object(x, y, 24, 24, 0, controllable, true),
 	Living(100, 2, &isLiving),
 	Pickuper(),
 	Controllable(200, &isControllable),
-	Miner() {
+	Miner(),
+	PowerNode(_pConsole, 25, 0, &isPowerNode, false, false, 2, _pSpriteCollection, _x, _y, &id) {
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
@@ -16,6 +17,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	type = objectRover;
 	faction = 0;
 	buildTime = 8;
+	setBuilt();
 }
 
 Rover::~Rover(){
@@ -30,8 +32,8 @@ Rover::~Rover(){
 void Rover::update() {
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
-	
-	if (controlled) {
+	updatePowerPosition(getCenter().x, getCenter().y);
+	if (controlled && getPercentage() > 0) {
 		if (pInputManager->isKeyDown(a)) {
 			direction -= 0.1;
 		}
@@ -72,6 +74,7 @@ void Rover::update() {
 			}
 			if (pInputManager->isKeyDown(e)) {
 				isMining = true;
+				discharge(0.01);
 				if (!mineSoundPlaying) {
 					mineSoundId = pSoundPlayer->playSoundByName("rover_mine_1", 0.1);
 					pSoundPlayer->loopSoundBetween(mineSoundId, 1, 2);
@@ -110,7 +113,8 @@ void Rover::update() {
 	if (trackTimer < 5) {
 		trackTimer++;
 	}
-	if ((boundingBox.yv != 0 || boundingBox.xv != 0) ) {
+	if ((boundingBox.yv || boundingBox.xv) ) {
+		discharge(0.01);
 		if (!moveSoundPlaying) {
 			moveSoundId = pSoundPlayer->playSoundByName("rover_move_1", 0.12);
 			pSoundPlayer->loopSoundBetween(moveSoundId, 1, 2);
@@ -138,10 +142,11 @@ void Rover::update() {
 }
 
 void Rover::draw(){
+	drawPowerConections();
 	//5,11 offset for the light
 	glm::vec2 cosSinValues = pConsole->getTrigValue(direction*180 / 3.141592);
 	glm::vec2 lightPos = getCenter() + glm::vec2(5 * cosSinValues.x - 11 * cosSinValues.y, 5 * cosSinValues.y + 11 * cosSinValues.x - 26);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2*getPercentage(), 2);
 	spriteStackNormal.draw(boundingBox.x + boundingBox.w / 2 - 14, boundingBox.y + boundingBox.h / 2 - 20, boundingBox.y, (direction / (2 * 3.1415)) * 360);
 }
 

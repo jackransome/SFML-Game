@@ -34,7 +34,7 @@ void Relay::draw() {
 	pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(20,255,20), getPercentage() * 2, 3);
 	//pSpriteCollection->drawLightSource(glm::vec2(boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 68), glm::vec3(255, 100, 255), 0.2* lightPhase, 0);
 	spriteStack.draw(boundingBox.x-3, boundingBox.y-3, boundingBox.y + boundingBox.h, rotation);
-	drawConections();
+	drawPowerConections();
 }
 
 void Relay::drawBuilding(){
@@ -60,7 +60,7 @@ void Relay::update() {
 			pConsole->addCommand(commandAddObject, objectSmoke, boundingBox.x + boundingBox.w * ((double)rand() / (RAND_MAX)), boundingBox.y + boundingBox.h * ((double)rand() / (RAND_MAX)), 60 * ((double)rand() / (RAND_MAX)), 1.0);
 		}
 	}
-	updatePosition(getCenter().x, getCenter().y);
+	updatePowerPosition(getCenter().x, getCenter().y);
 }
 
 void Relay::setActive(bool _active){

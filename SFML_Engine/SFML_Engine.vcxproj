@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="AutoTurret.cpp" />
+    <ClCompile Include="Battery.cpp" />
     <ClCompile Include="BuildDrone.cpp" />
     <ClCompile Include="Builder.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="Spark.cpp" />
+    <ClCompile Include="Spirit.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="SpriteCollection.cpp" />
     <ClCompile Include="SpriteStack.cpp" />
@@ -221,6 +223,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="AutoTurret.h" />
+    <ClInclude Include="Battery.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BuildDrone.h" />
     <ClInclude Include="Builder.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="Spark.h" />
+    <ClInclude Include="Spirit.h" />
     <ClInclude Include="SpriteDraw.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="SpriteCollection.h" />

@@ -7,7 +7,7 @@ Coordinator::Coordinator(MusicSystem* _pMusicSystem, Console* _pConsole, SnowSys
 }
 
 void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
-	return;
+	//return;
 	if (generatorCount && !lastGenertorCount) {
 		pConsole->addCommand(commandPlaySound, "distant_roar", 1.0);
 		pMusicSystem->fadeInWithDelay("music_ominous_1", 1.5, 0.35, 5);
@@ -39,9 +39,9 @@ void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
 		}
 
 		//we want the max prob to be rand > 0.95, starting at 0.98, happening over 40 seconds, so 60*40+280 is the 0.95, 280 is 0.98
-		float initialChance = 0.99;
-		float finalChance = 0.95;
-		float seconds = 400;
+		float initialChance = 0.985;
+		float finalChance = 0.93;
+		float seconds = 500;
 		float chance = (initialChance - (initialChance - finalChance) * float(alarmTimer - 280) / (60.0 * seconds));
 		chance = std::max(finalChance, chance);
 		std::cout << chance << "\n";

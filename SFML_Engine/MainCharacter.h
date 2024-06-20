@@ -4,12 +4,13 @@
 #include "InputManager.h"
 #include "Living.h"
 #include "Controllable.h"
+#include "PowerNode.h"
 
 enum Direction {up, down, left, right};
 
-class MainCharacter : public Object, public Living, public Controllable {
+class MainCharacter : public Object, public Living, public Controllable, public PowerNode {
 public:
-	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, float x, float y);
+	MainCharacter(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, Console* _pConsole, float x, float y);
 	virtual void update() override;
 	virtual void onDeath() override;
 	virtual void draw() override;

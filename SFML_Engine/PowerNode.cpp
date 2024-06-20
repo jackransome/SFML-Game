@@ -74,7 +74,7 @@ void PowerNode::discharge(float amount){
 	}
 }
 
-void PowerNode::updatePosition(float _x, float _y){
+void PowerNode::updatePowerPosition(float _x, float _y){
 	position.x = _x;
 	position.y = _y;
 }
@@ -94,7 +94,7 @@ void PowerNode::removeFromConnections(){
 	}
 }
 
-void PowerNode::drawConections(){
+void PowerNode::drawPowerConections(){
 	glm::vec2 drawPos;
 	glm::vec2 difference;
 	float length;

@@ -276,7 +276,7 @@ void ObjectCollection::update() {
 }
 
 void ObjectCollection::addMainCharacter(float x, float y) {
-	objects.push_back(std::make_shared<MainCharacter>(pInputManager, pSpriteCollection, x, y));
+	objects.push_back(std::make_shared<MainCharacter>(pInputManager, pSpriteCollection, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -331,7 +331,7 @@ void ObjectCollection::addEnemy(int x, int y) {
 }
 
 void ObjectCollection::addRover(int x, int y){
-	objects.push_back(std::make_shared<Rover>(pInputManager, pSpriteCollection, pSoundPlayer, x, y));
+	objects.push_back(std::make_shared<Rover>(pInputManager, pSpriteCollection, pSoundPlayer, pConsole, x, y));
 	setLatestId();
 	setLatestConsole();
 }
@@ -417,6 +417,12 @@ void ObjectCollection::addEnemyTurretRover(int x, int y){
 
 void ObjectCollection::addTeleporterPillar(int x, int y) {
 	objects.push_back(std::make_shared<TeleporterPillar>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
+	setLatestId();
+	setLatestConsole();
+}
+
+void ObjectCollection::addBattery(int x, int y) {
+	objects.push_back(std::make_shared<Battery>(pSpriteCollection, pConsole, pSoundPlayer, x, y));
 	setLatestId();
 	setLatestConsole();
 }

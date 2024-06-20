@@ -80,8 +80,8 @@ void Generator::draw() {
 	//glm::vec2 lightPos = center + glm::vec2(17 * cosSinValues.x - 17 * cosSinValues.y, 17 * cosSinValues.y + 17 * cosSinValues.x - 25);
 	//pSpriteCollection->drawLightSource(lightPos, glm::vec3(100, 255, 120), 2, 2);
 	//glm::vec2 lightPos = center + 
-	drawConections();
-	updatePosition(getCenter().x, getCenter().y);
+	drawPowerConections();
+	updatePowerPosition(getCenter().x, getCenter().y);
 }
 
 void Generator::drawBuilding() {

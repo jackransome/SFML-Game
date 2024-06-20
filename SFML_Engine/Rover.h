@@ -7,10 +7,11 @@
 #include "SoundPlayer.h"
 #include "Controllable.h"
 #include "Miner.h"
+#include "PowerNode.h"
 
-class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner {
+class Rover : public Object, public Living, public Pickuper, public Controllable, public Miner, public PowerNode {
 public:
-	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, float x, float y);
+	Rover(InputManager* _pInputManager, SpriteCollection* pSpriteCollection, SoundPlayer* _pSoundPlayer, Console* _pConsole, float x, float y);
 	~Rover() override;
 	virtual void update() override;
 	virtual void draw() override;

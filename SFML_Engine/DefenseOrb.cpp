@@ -2,7 +2,7 @@
 
 DefenseOrb::DefenseOrb(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 Object(_x, _y, 16, 16, 0, controllable, true),
-Living(10000, 2, &isLiving),
+Living(100, 2, &isLiving),
 Controllable(200, &isControllable) {
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;

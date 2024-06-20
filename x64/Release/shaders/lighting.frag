@@ -1,0 +1,119 @@
+uniform sampler2D texture;
+
+uniform vec2 pointLightPositions[190];
+uniform vec3 pointLightColours[190];
+uniform float pointLightIntensities[190];
+uniform float pointLightTypes[190];
+uniform float numPointLights;
+
+uniform vec2 beamLightPositions1[50];
+uniform vec2 beamLightPositions2[50];
+uniform vec3 beamLightColours[50];
+uniform float beamLightIntensities[50];
+uniform float beamLightTypes[50];
+uniform float numBeamLights;
+
+uniform float ambientLightLevel;
+uniform vec3 ambientLightColour;
+uniform float time;
+uniform float noiseIntensity;
+
+uniform float scale;
+
+float noise(vec2 seed)
+{
+	//float newx = seed.x - mod(seed.x, 2);
+	//float newy = seed.y - mod(seed.y, 2);
+    float a = (seed.x / 3.14159 + 4.0) * (seed.y / 5.49382 + 4.0) * ((fract(time) + 1.0));
+	//float b = (newx / 3.14159 + 4.0) * (newy / 5.49382 + 4.0) * ((fract(time) + 1.0));
+    return mod((mod(a, 13.0) + 1.0) * (mod(a, 123.0) + 1.0), 0.01) - 0.005;// + mod((mod(b, 13) + 1.0) * (mod(b, 123) + 1.0), 0.01) - 0.005;
+}
+
+float distanceToLineSegment(vec2 point, vec2 a, vec2 b) {
+    // Vector from a to b
+    vec2 ab = b - a;
+    // Vector from a to point
+    vec2 ap = point - a;
+    // Calculate the projection of ap onto ab, using dot product
+    float projection = dot(ap, ab) / dot(ab, ab);
+    // Clamp projection between 0.0 and 1.0 to ensure it lies within the line segment
+    projection = clamp(projection, 0.0, 1.0);
+    // Find the closest point on the line segment
+    vec2 closestPoint = a + projection * ab;
+    // Return the distance between the point and the closest point on the line segment
+    return distance(point, closestPoint);
+}
+
+void main()
+{
+    // lookup the pixel in the texture
+    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+	if (pixel.a > 0.0){
+		vec4 newLightColor = vec4(ambientLightLevel*ambientLightColour.r/255.0, ambientLightLevel*ambientLightColour.g/255.0, ambientLightLevel*ambientLightColour.b/255.0, 1.0);
+		float newLightIntensity = 0.0;
+		float newBloomIntensity = 0.0;
+		vec4 bloomColour = vec4(0.0, 0.0, 0.0, 0.0);
+		float d = 0.0;
+		for(int j = 0; j < numPointLights; j++)
+		{
+			newLightIntensity = 0;
+			newBloomIntensity = 0;
+			d = distance(pointLightPositions[j], gl_FragCoord.xy)/scale;
+			if (pointLightTypes[j] == 0.0){
+					newLightIntensity = pointLightIntensities[j] / (d*d*0.00005 + 1.0);
+			} else if (pointLightTypes[j] == 1.0) {
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
+			} else if (pointLightTypes[j] == 2.0) {
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
+				newLightIntensity = (pointLightIntensities[j]/10.0) / (d*d*0.00005 + 1.0);
+		} else if (pointLightTypes[j] == 3.0) {
+				newBloomIntensity = pointLightIntensities[j] / (d*d);
+				newLightIntensity = (pointLightIntensities[j]* 0.02) / (d*d*0.00005 + 1.0);
+			}
+			
+			bloomColour += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newBloomIntensity);
+			newLightColor += (vec4(pointLightColours[j].r/255.0, pointLightColours[j].g/255.0, pointLightColours[j].b/255.0, 1)*newLightIntensity);
+		}
+
+		for(int j = 0; j < numBeamLights; j++)
+		{
+			newLightIntensity = 0.0;
+			newBloomIntensity = 0.0;
+			d = distanceToLineSegment(gl_FragCoord.xy, beamLightPositions1[j], beamLightPositions2[j])/scale;
+			if (beamLightTypes[j] <= 0.01){
+				newLightIntensity = beamLightIntensities[j] / (d*d*0.00005 + 1.0);
+			} else if (beamLightTypes[j] <= 1.0) {
+				newBloomIntensity = beamLightIntensities[j] / (d*d);
+			} else if (beamLightTypes[j] == 2.0){
+				newLightIntensity = (beamLightIntensities[j]/20.0) / (d*d*0.00005 + 1.0) + beamLightIntensities[j] / (d*d);
+			}
+			bloomColour += (vec4(beamLightColours[j].r/255.0, beamLightColours[j].g/255.0, beamLightColours[j].b/255.0, 1.0)*newBloomIntensity);
+			newLightColor += (vec4(beamLightColours[j].r/255.0, beamLightColours[j].g/255.0, beamLightColours[j].b/255.0, 1.0)*newLightIntensity);
+			
+
+		}
+		if (newLightColor.r > 1){
+			newLightColor.r = 1;
+		}
+		if (newLightColor.g > 1){
+			newLightColor.g = 1;
+		}
+		if (newLightColor.b > 1){
+			newLightColor.b = 1;
+		}
+
+		pixel = vec4((newLightColor.r) * pixel.r, (newLightColor.g) * pixel.g,(newLightColor.b) * pixel.b, pixel.a) + bloomColour;
+
+
+		//film grain
+
+		float t = pixel.a;
+		pixel -= noiseIntensity*4*noise(gl_FragCoord.xy + vec2(time*100, 0));
+		pixel.a = t;
+	}
+
+
+
+    // multiply it by the color
+    gl_FragColor = gl_Color * pixel;
+}

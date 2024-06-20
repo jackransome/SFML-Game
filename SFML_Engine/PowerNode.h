@@ -13,7 +13,7 @@ public:
 		distributor = _distributor;
 		dischargeRate = _dischargeRate;
 		pSpriteCollection = _pSpriteCollection;
-		updatePosition(_x, _y);
+		updatePowerPosition(_x, _y);
 		ppConsole = _pConsole;
 		idPointer = _idPointer;
 		generator = _generator;
@@ -29,8 +29,8 @@ public:
 	void distribute();
 	void addCharge(float amount);
 	void discharge(float amount);
-	void updatePosition(float _x, float _y);
-	void drawConections();
+	void updatePowerPosition(float _x, float _y);
+	void drawPowerConections();
 	glm::vec2 getPosition();
 	int getPowerId();
 	void removeFromConnections();

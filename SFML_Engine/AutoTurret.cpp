@@ -68,7 +68,7 @@ void AutoTurret::update() {
 		}
 	}
 	discharge(0.2);
-	updatePosition(getCenter().x, getCenter().y);
+	updatePowerPosition(getCenter().x, getCenter().y);
 }
 
 void AutoTurret::draw() {
@@ -84,7 +84,7 @@ void AutoTurret::draw() {
 	baseStack.draw(boundingBox.x, boundingBox.y, boundingBox.y, rotation);
 	barrelStack.draw(boundingBox.x - 4, boundingBox.y - 16, boundingBox.y + 1, barrelRotation - 90);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), getPercentage() * 2, 3);
-	drawConections();
+	drawPowerConections();
 }
 
 void AutoTurret::drawBuilding(){
