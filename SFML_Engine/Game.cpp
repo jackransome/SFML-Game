@@ -96,12 +96,12 @@ Game::Game(sf::RenderWindow* pwindow)  {
 
 	spriteCollection.loadTexture("animation1", "resources/animation1.png");
 	spriteCollection.loadTexture("pillar_small_2", "resources/pillar_small_2.png");
+	spriteCollection.loadTexture("fire_animation_1", "resources/fire_animation_1.png");
+	spriteCollection.loadTexture("drone_fly", "resources/drone_fly.png");
 	spriteCollection.loadTexture("mc_walk_back", "resources/main_character/mc_walk_back.png");
 	spriteCollection.loadTexture("mc_walk_right", "resources/main_character/mc_walk_right.png");
 	spriteCollection.loadTexture("mc_walk_left", "resources/main_character/mc_walk_left.png");
 	spriteCollection.loadTexture("mc_walk_front", "resources/main_character/mc_walk_front.png");
-	spriteCollection.loadTexture("fire_animation_1", "resources/fire_animation_1.png");
-	spriteCollection.loadTexture("drone_fly", "resources/drone_fly.png");
 	spriteCollection.loadTexture("mc_run_left", "resources/main_character/mc_run_left.png");
 	spriteCollection.loadTexture("mc_run_right", "resources/main_character/mc_run_right.png");
 	spriteCollection.loadTexture("mc_run_down", "resources/main_character/mc_run_down2.png");
@@ -110,8 +110,22 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("mc_stand_back", "resources/main_character/mc_stand_back.png");
 	spriteCollection.loadTexture("mc_stand_left", "resources/main_character/mc_stand_left.png");
 	spriteCollection.loadTexture("mc_stand_right", "resources/main_character/mc_stand_right.png");
-	spriteCollection.loadTexture("action1", "resources/action1.png");
-	spriteCollection.loadTexture("mc_mini_run_right", "resources/main_character/mc_mini_run_right.png"); 
+	spriteCollection.loadTexture("mc_arm", "resources/main_character/mc_arm.png");
+	spriteCollection.loadTexture("mc_elbow", "resources/main_character/mc_elbow.png");
+
+	spriteCollection.loadTexture("mc_walk_back_na", "resources/main_character/na/mc_walk_back_na.png");
+	spriteCollection.loadTexture("mc_walk_right_na", "resources/main_character/na/mc_walk_right_na.png");
+	spriteCollection.loadTexture("mc_walk_left_na", "resources/main_character/na/mc_walk_left_na.png");
+	spriteCollection.loadTexture("mc_walk_front_na", "resources/main_character/na/mc_walk_front_na.png");
+	spriteCollection.loadTexture("mc_run_left_na", "resources/main_character/na/mc_run_left_na.png");
+	spriteCollection.loadTexture("mc_run_right_na", "resources/main_character/na/mc_run_right_na.png");
+	spriteCollection.loadTexture("mc_run_down_na", "resources/main_character/na/mc_run_down2_na.png");
+	spriteCollection.loadTexture("mc_run_up_na", "resources/main_character/na/mc_run_up_na.png");
+	spriteCollection.loadTexture("mc_blink_1_na", "resources/main_character/na/mc_blink_1_na.png");
+	spriteCollection.loadTexture("mc_stand_back_na", "resources/main_character/na/mc_stand_back_na.png");
+	spriteCollection.loadTexture("mc_stand_left_na", "resources/main_character/na/mc_stand_left_na.png");
+	spriteCollection.loadTexture("mc_stand_right_na", "resources/main_character/na/mc_stand_right_na.png");
+
 	spriteCollection.loadTexture("enemyDrone1", "resources/enemyDrone1.png");
 	spriteCollection.loadTexture("snow1", "resources/snow2.png");
 	spriteCollection.loadTexture("white_background", "resources/white_background.png");
