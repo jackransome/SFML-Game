@@ -1,4 +1,5 @@
 #include "ControlSwitcher.h"
+#include "PowerNode.h"
 
 ControlSwitcher::ControlSwitcher(ObjectCollection* _pObjectCollection, Console* _pConsole, SpriteCollection* _pSpriteCollection, InputManager* _pInputManager, Camera* _pCamera){
 	pObjectCollection = _pObjectCollection;
@@ -38,6 +39,27 @@ void ControlSwitcher::draw(){
 		pSpriteCollection->addImageDraw(pSpriteCollection->getPointerFromName("switcher_overlay_prospect"), prosPos.x, prosPos.y, 1000000, pSpriteCollection->getScale(), 10, 10);
 		pSpriteCollection->setAbsoluteMode(false);
 	}
+
+	std::shared_ptr<PowerNode> tempNode = std::dynamic_pointer_cast<PowerNode>(pObjectCollection->getObjectById(currentID));
+	
+	if (tempNode != nullptr) {
+		float e = tempNode->getPercentage();
+		pSpriteCollection->setAbsoluteMode(true);
+		int a = 4;
+		int b = 4;
+		int c = 140;
+		int d = 30;
+		int x = 50;
+		int y = 50;
+		pSpriteCollection->addRectDraw(x, y, c, a, -10, sf::Color(50, 50, 50, 255));
+		pSpriteCollection->addRectDraw(x, y, a, d, -10, sf::Color(50, 50, 50, 255));
+		pSpriteCollection->addRectDraw(x, y + d - a, c, a, -10, sf::Color(50, 50, 50, 255));
+		pSpriteCollection->addRectDraw(x + c - a, y, a, d, -10, sf::Color(50, 50, 50, 255));
+		pSpriteCollection->addRectDraw(x + a + b, y + a + b, e * float(c - 2 * (a + b)), (d - 2 * (a + b)), -10, sf::Color(139, 224, 255, 180));
+		//pSpriteCollection->addTextDraw(2, 150, 50, -100, std::to_string(std::dynamic_pointer_cast<PowerNode>(pObjectCollection->getObjectById(currentID))->getPercentage()), 20, sf::Color(255, 255, 255, 255));
+		//pSpriteCollection->addRectDraw(50, 50, 1000, 50, -10, sf::Color(255, 255, 255, 255));
+		pSpriteCollection->setAbsoluteMode(false);
+	}
 }
 
 void ControlSwitcher::switchControl(){
@@ -66,4 +88,3 @@ bool ControlSwitcher::getControlling(){
 void ControlSwitcher::setControlling(bool _controlling){
 	controlling = _controlling;
 }
-

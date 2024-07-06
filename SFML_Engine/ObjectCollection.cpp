@@ -58,8 +58,8 @@ void ObjectCollection::draw() {
 	}
 	//inventory test drawing:
 	pSpriteCollection->setAbsoluteMode(true);
-	pSpriteCollection->addTextDraw(1, 50, 50, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 40, sf::Color(255, 255, 255, 255));
-	pSpriteCollection->addTextDraw(1, 50, 100, 1000000, std::to_string(pInventory->getResources(Resource::component)), 40, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->addTextDraw(2, 50, 400, 1000000, std::to_string(pInventory->getResources(Resource::scrap)), 14, sf::Color(255, 255, 255, 255));
+	pSpriteCollection->addTextDraw(2, 106, 400, 1000000, std::to_string(pInventory->getResources(Resource::component)), 14, sf::Color(255, 255, 255, 255));
 	pSpriteCollection->setAbsoluteMode(false);
 	
 	numBeamsToDraw = 0;
@@ -104,7 +104,7 @@ void ObjectCollection::update() {
 
 		if (objects[i]->getToBuild()) {
 			for (int j = 0; j < objects.size(); j++) {
-				if (objects[j]->getType() == objectBuildDrone){
+				if (objects[j]->getType() == objectBuildDrone && !objects[j]->getToBuild()){
 					auto drone = std::dynamic_pointer_cast<BuildDrone>(objects[j]);
 					if (!drone->getHasTarget()) {
 						drone->setTarget(objects[i]);

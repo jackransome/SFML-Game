@@ -41,18 +41,23 @@ int main()
     {
         int start = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
         
+        int startLogic = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
         // Input
         game.HandleInput();
 
         // Logic
         game.Run();
-
+        int startDraw = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
         // Draw
         game.Draw();
-        
+        int endDraw = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+        std::cout << "logic took " << startDraw - startLogic << "ms, draw took " << endDraw - startDraw << "ms\n";
         // sfml display window
         window.display();
-        std::cout << "FPS: " << 1000.0f/(float)((int)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - start) << "\n";
+        
+        
+
+        //std::cout << "FPS: " << 1000.0f/(float)((int)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - start) << "\n";
     }
     game.finishAudio();
 

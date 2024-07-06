@@ -116,6 +116,9 @@ void CommandExecuter::execute(Command command) {
 		case objectBattery:
 			pObjectCollection->addBattery(command.f1, command.f2);
 			break;
+		case objectBuildDrone:
+			pObjectCollection->addBuildDrone(command.f1, command.f2);
+			break;
 		default:
 			std::cout << "UNKNOWN OBJECT";
 		}

@@ -192,14 +192,21 @@ void MainCharacter::draw() {
 			if (animationRunLeft.getFrame() == 0 || animationRunLeft.getFrame() == 3) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 19);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 19);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 24);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 24);
+
 			}
 			else if (animationRunLeft.getFrame() == 1 || animationRunLeft.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 21);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 21);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 26);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 26);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 17);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 5, boundingBox.y - 48 + 17);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 22);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 18, boundingBox.y - 48 + 22);
 			}
 			eyeVisible1 = true;
 			if (animationRunLeft.getChangedFrame() && animationRunLeft.getFrame() == 1) {
@@ -211,16 +218,22 @@ void MainCharacter::draw() {
 			animationRunRight.run();
 			animationRunRight.draw(boundingBox.x- 8-6, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 			if (animationRunRight.getFrame() == 0 || animationRunRight.getFrame() == 3) {
-				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
-				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
+				eyePosition1 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 19);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 19); //26 24
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 24);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 24);
 			}
 			else if (animationRunRight.getFrame() == 1 || animationRunRight.getFrame() == 2) {
-				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 21);
-				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
+				eyePosition1 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 21);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 21);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 26);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 26);
 			}
 			else {
-				eyePosition1 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 17);
-				eyePosition2 = glm::vec2(boundingBox.x - 8 - 6 + 39, boundingBox.y - 48 + 19);
+				eyePosition1 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 17);
+				eyePosition2 = glm::vec2(boundingBox.x - 8 + 33, boundingBox.y - 48 + 17);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 22);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 - 6 + 26, boundingBox.y - 48 + 22);
 			}
 			eyeVisible1 = true;
 			if (animationRunRight.getChangedFrame() && animationRunRight.getFrame() == 1) {
@@ -236,14 +249,20 @@ void MainCharacter::draw() {
 			if (animationWalkLeft.getFrame() == 0 || animationWalkLeft.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 23);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 23);
 			}
 			else if (animationWalkLeft.getFrame() == 1) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 15);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 15);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 25);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 11);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 11);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 21);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 21);
 			}
 			eyeVisible1 = true;
 			if (animationWalkLeft.getChangedFrame() && animationWalkLeft.getFrame() == 1) {
@@ -257,14 +276,20 @@ void MainCharacter::draw() {
 			if (animationWalkRight.getFrame() == 0 || animationWalkRight.getFrame() == 2) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 23);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 23);
 			}
 			else if (animationWalkRight.getFrame() == 1) {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 15);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 15);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 25);
 			}
 			else {
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 11);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 11);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 21);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 21);
 			}
 			eyeVisible1 = true;
 			if (animationWalkRight.getChangedFrame() && animationWalkRight.getFrame() == 1) {
@@ -278,6 +303,8 @@ void MainCharacter::draw() {
 			switch (direction) {
 			case up:
 				imageStandBack.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y+ boundingBox.h);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 				break;
@@ -287,6 +314,8 @@ void MainCharacter::draw() {
 					blinkCounter = 0;
 
 				}
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				if (blinkCounter > 160) {
 					animationBlink.drawFrame(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h, 1);
 				}
@@ -296,19 +325,23 @@ void MainCharacter::draw() {
 					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
 					eyeVisible1 = true;
 					eyeVisible2 = true;
-
 				}
 				break;
 			case left:
 				eyeVisible1 = true;
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 9, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 23);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 23);
 				imageStandLeft.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 			case right:
 				eyeVisible1 = true;
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 23, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 23);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 23);
+				//15 23
 				imageStandRight.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				break;
 
@@ -321,10 +354,14 @@ void MainCharacter::draw() {
 				if ((animationRunDown.getFrame() > 0 && animationRunDown.getFrame() < 4) || (animationRunDown.getFrame() > 6 && animationRunDown.getFrame() < 10)) {
 					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 15);
 					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 15);
+					shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 27);
+					shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 27);
 				}
 				else {
 					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
 					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
+					shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+					shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				}
 
 				eyeVisible1 = true;
@@ -337,13 +374,17 @@ void MainCharacter::draw() {
 			else if (boundingBox.yv < 0) {
 				animationRunUp.run();
 				animationRunUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
-				if ((animationRunDown.getFrame() > 0 && animationRunDown.getFrame() < 4) || (animationRunDown.getFrame() > 6 && animationRunDown.getFrame() < 10)) {
+				if ((animationRunUp.getFrame() > 0 && animationRunUp.getFrame() < 4) || (animationRunUp.getFrame() > 6 && animationRunUp.getFrame() < 10)) {
 					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 15);
 					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 15);
+					shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+					shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				}
 				else {
 					eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
 					eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
+					shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 23);
+					shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 23);
 				}
 				if (animationRunUp.getChangedFrame() && (animationRunUp.getFrame() == 4 || animationRunUp.getFrame() == 10)) {
 					//pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
@@ -356,6 +397,8 @@ void MainCharacter::draw() {
 				animationWalkDown.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				eyeVisible1 = true;
 				eyeVisible2 = true;
 				if (animationWalkDown.getChangedFrame() && (animationWalkDown.getFrame() == 0 || animationWalkDown.getFrame() == 4)) {
@@ -368,6 +411,8 @@ void MainCharacter::draw() {
 				animationWalkUp.draw(boundingBox.x - 8, boundingBox.y - 48, boundingBox.y + boundingBox.h);
 				eyePosition1 = glm::vec2(boundingBox.x - 8 + 13, boundingBox.y - 48 + 13);
 				eyePosition2 = glm::vec2(boundingBox.x - 8 + 19, boundingBox.y - 48 + 13);
+				shoulderPos1 = glm::vec2(boundingBox.x - 8 + 7, boundingBox.y - 48 + 25);
+				shoulderPos2 = glm::vec2(boundingBox.x - 8 + 25, boundingBox.y - 48 + 25);
 				if (animationWalkUp.getChangedFrame() && (animationWalkUp.getFrame() == 1 || animationWalkUp.getFrame() == 5)) {
 					//pConsole->addCommand(commandAddObject, objectFootprint, boundingBox.x + boundingBox.w / 2, boundingBox.y + boundingBox.h / 2 - 6);
 					//pConsole->addCommand(commandPlaySound, "footstep_snow", 0.1);
@@ -381,10 +426,26 @@ void MainCharacter::draw() {
 	}
 	pSpriteCollection->drawLightSource(eyePosition1, glm::vec3(160, 214, 255), 0.03, 0);
 	pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 0.03, 0);
+
+	pSpriteCollection->drawLightSource(shoulderPos1, glm::vec3(255, 214, 55), 0.06, 1);
+	pSpriteCollection->drawLightSource(shoulderPos2, glm::vec3(255, 214, 55), 0.06, 1);
+
 	if (eyeVisible2) {
-		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1* getPercentage(), 1);
-		
+		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1 * getPercentage(), 1);
 	}
+
+	//drawing arms:
+	switch (direction) {
+	case up:
+		break;
+	case down:
+		break;
+	case left:
+		break;
+	case right:
+		break;
+	}
+
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;
 }

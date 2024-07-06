@@ -6,14 +6,16 @@ std::map<BuildType, CostData> costMap = {
 	{ BuildType::rover, {4, 0, 0, objectRover} },
 	{ BuildType::relay, {4, 0, 0, objectRelay} },
 	{ BuildType::generator, {8, 0, 0, objectGenerator} },
-	{ BuildType::teleporterPillar, {0, 4, 0, objectTeleporterPillar} }
+	{ BuildType::teleporterPillar, {0, 4, 0, objectTeleporterPillar} },
+	{ BuildType::buildDrone, {9, 0, 0, objectBuildDrone} }
 };
 
 std::map<BuildType, int> sizeMap = {
 	{ BuildType::autoTurret, 24 },
 	{ BuildType::rover, 24 },
 	{ BuildType::relay, 20 },
-	{ BuildType::generator, 34 }
+	{ BuildType::generator, 34 },
+	{ BuildType::buildDrone, 5 }
 };
 
 Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection){
@@ -90,6 +92,16 @@ bool Builder::checkResources(BuildType buildType){
 		return false;
 	}
 	return true;
+}
+
+int Builder::getScrapNeeded(BuildType buildType)
+{
+	return costMap[buildType].scrap;
+}
+
+int Builder::getComponentsNeeded(BuildType buildType)
+{
+	return costMap[buildType].components;
 }
 
 

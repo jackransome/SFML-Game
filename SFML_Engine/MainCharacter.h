@@ -34,6 +34,8 @@ private:
 	Direction direction;
 	glm::vec2 eyePosition1 = glm::vec2(0,0);
 	glm::vec2 eyePosition2 = glm::vec2(0, 0);
+	glm::vec2 shoulderPos1 = glm::vec2(0, 0);
+	glm::vec2 shoulderPos2 = glm::vec2(0, 0);
 	bool eyeVisible1 = false;
 	bool eyeVisible2 = false;
 	float vel;

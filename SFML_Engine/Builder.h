@@ -14,7 +14,7 @@ struct CostData {
 };
 
 enum class BuildType {
-	autoTurret, teleporterPillar, relay, generator, rover
+	autoTurret, relay, generator, teleporterPillar, rover, buildDrone, count
 };
 
 // Declare the map
@@ -32,6 +32,8 @@ public:
 	bool getActive();
 	void draw();
 	bool checkResources(BuildType buildType);
+	int getScrapNeeded(BuildType buildType);
+	int getComponentsNeeded(BuildType buildType);
 private:
 	float rotation = 0;
 	bool mouseLDown = false;

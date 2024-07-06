@@ -47,6 +47,9 @@ void UIManager::loadNewMenu(MenuType menuType){
 	if (panes.size() > 0) {
 		panes.clear();
 	}
+	if (panes.size() > 0) {
+		textboxes.clear();
+	}
 	switch (menuType) {
 	case MenuType::main:
 		addButton(ButtonType::startGame, glm::vec4(50, 500, 250, 50));
@@ -57,13 +60,11 @@ void UIManager::loadNewMenu(MenuType menuType){
 		state = 1;
 		break;
 	case MenuType::builder:
-		addPane(glm::vec4(25, 475, 300, 700));
-		addButton(ButtonType::build, BuildType::autoTurret, glm::vec4(50,500,250,50));
-		addButton(ButtonType::build, BuildType::generator, glm::vec4(50, 600, 250, 50));
-		addButton(ButtonType::build, BuildType::relay, glm::vec4(50, 700, 250, 50));
-		addButton(ButtonType::build, BuildType::rover, glm::vec4(50, 800, 250, 50));
-		addButton(ButtonType::build, BuildType::teleporterPillar, glm::vec4(50, 900, 250, 50));
-		addButton(ButtonType::connect, glm::vec4(50, 1000, 250, 50));
+		addPane(glm::vec4(25, 475, 500, 700));
+		for (int i = 0; i < static_cast<int>(BuildType::count); i++) {
+			addBuildbuttonWithCost(static_cast<BuildType>(i), glm::vec4(50, 500 + 100*i, 250, 50));
+		}
+		addButton(ButtonType::connect, glm::vec4(150, 1100, 250, 50));
 		state = 2;
 		break;
 	case MenuType::end:
@@ -72,6 +73,16 @@ void UIManager::loadNewMenu(MenuType menuType){
 		break;
 	}
 }
+
+void UIManager::addBuildbuttonWithCost(BuildType _type, glm::vec4 _bbox){
+	glm::vec4 temp1 = _bbox;
+	glm::vec4 temp2 = _bbox;
+	temp1.x += 100;
+	temp2.y += 16;
+	addButton(ButtonType::build, _type, temp1);
+	addTextBox(TextboxType::display, temp2, std::to_string(pBuilder->getScrapNeeded(_type)) + " | " + std::to_string(pBuilder->getComponentsNeeded(_type)));
+}
+
 void UIManager::loadNewMenu(int _state) {
 	if (buttons.size() > 0) {
 		buttons.clear();
@@ -99,10 +110,13 @@ void UIManager::drawPane(glm::vec4 pane){
 void UIManager::clear(){
 	buttons.clear();
 	panes.clear();
+	textboxes.clear();
 }
 
 void UIManager::unloadMenu(){
 	buttons.clear();
+	panes.clear();
+	textboxes.clear();
 }
 
 void UIManager::setState(int _state){
@@ -129,6 +143,9 @@ void UIManager::draw(){
 		for (int i = 0; i < panes.size(); i++) {
 			drawPane(panes[i]);
 		}
+		for (int i = 0; i < textboxes.size(); i++) {
+			textboxes[i]->draw();
+		}
 	}
 	pSpriteCollection->setAbsoluteMode(false);
 }
@@ -137,20 +154,29 @@ int UIManager::getState(){
 	return state;
 }
 
-void UIManager::addButton(ButtonType type, glm::vec4 bbox){
-	if (type == ButtonType::startGame) {
-		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, bbox));
-	} else if (type == ButtonType::goToMain) {
-		buttons.push_back(std::make_unique<MainMenuButton>(pConsole, pSpriteCollection, bbox));
-	}	else if (type == ButtonType::connect) {
+void UIManager::addButton(ButtonType _type, glm::vec4 _bbox){
+	if (_type == ButtonType::startGame) {
+		buttons.push_back(std::make_unique<StartGameButton>(pConsole, pSpriteCollection, _bbox));
+	} else if (_type == ButtonType::goToMain) {
+		buttons.push_back(std::make_unique<MainMenuButton>(pConsole, pSpriteCollection, _bbox));
+	}	else if (_type == ButtonType::connect) {
 		//UNFINISHED
-		buttons.push_back(std::make_unique<ConnectButton>(pConsole, pSpriteCollection, pPowerManager, bbox));
+		buttons.push_back(std::make_unique<ConnectButton>(pConsole, pSpriteCollection, pPowerManager, _bbox));
 	}
 }
 
-void UIManager::addButton(ButtonType type, BuildType buildType, glm::vec4 bbox) {
+void UIManager::addButton(ButtonType _type, BuildType _buildType, glm::vec4 _bbox) {
 
-	buttons.push_back(std::make_unique<BuildButton>(pConsole, pSpriteCollection, pBuilder, buildType, bbox));
+	buttons.push_back(std::make_unique<BuildButton>(pConsole, pSpriteCollection, pBuilder, _buildType, _bbox));
+}
+
+void UIManager::addTextBox(TextboxType _type, glm::vec4 _bbox, std::string _text) {
+	if (_type == TextboxType::display) {
+		textboxes.push_back(std::make_unique<DisplayTextbox>(pConsole, pSpriteCollection, _bbox, _text));
+	}
+	else {
+		std::cout << "TextboxType does not exist\n";
+	}
 }
 
 void UIManager::addPane(glm::vec4 bbox){

@@ -74,6 +74,9 @@ void BuildButton::draw(){
 	else if (buildType == BuildType::rover) {
 		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build Rover", 14, sf::Color(255, 255, 255, 255));
 	}
+	else if (buildType == BuildType::buildDrone) {
+		pSpriteCollection->addTextDraw(2, bbox[0] + 16, bbox[1] + 16, 1000005, "Build buildDrone", 14, sf::Color(255, 255, 255, 255));
+	}
 }
 
 void BuildButton::update(){

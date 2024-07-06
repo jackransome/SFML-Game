@@ -3,7 +3,8 @@
 DefenseOrb::DefenseOrb(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y) :
 Object(_x, _y, 16, 16, 0, controllable, true),
 Living(100, 2, &isLiving),
-Controllable(200, &isControllable) {
+Controllable(200, &isControllable),
+PowerNode(_pConsole, 20, 0, &isPowerNode, false, false, 2, _pSpriteCollection, _x, _y, &id) {
 	pSpriteCollection = _pSpriteCollection;
 	pInputManager = _pInputManager;
 	pConsole = _pConsole;
@@ -12,6 +13,7 @@ Controllable(200, &isControllable) {
 	isLiving = true;
 	mainStack = SpriteStack(pSpriteCollection, "DefenseOrb_stack", 10, 10, 14, 2); //CHANGE
 	faction = 0;
+	setBuilt();
 }
 
 DefenseOrb::~DefenseOrb(){
@@ -22,11 +24,11 @@ DefenseOrb::~DefenseOrb(){
 
 void DefenseOrb::update(){
 	glm::vec2 center = getCenter();
-	
-	if (controlled) {
+	updatePowerPosition(getCenter().x, getCenter().y);
+	if (controlled && getPercentage() > 0) {
 		target = glm::vec2(pInputManager->translatedMouseX, pInputManager->translatedMouseY);
 
-		float speed = 0.4;
+		float speed = 2.4;
 		float dxv = 0;
 		float dyv = 0;
 		if (pInputManager->isKeyDown(w)) {
@@ -49,24 +51,35 @@ void DefenseOrb::update(){
 		boundingBox.yv += dyv;
 		
 	}
-	boundingBox.xv *= 0.90;
-	boundingBox.yv *= 0.90;
+	if ((boundingBox.xv || boundingBox.yv)) {
+		discharge(0.01);
+	}
+	boundingBox.xv *= 0.50;
+	boundingBox.yv *= 0.50;
+	if (abs(boundingBox.yv) <= 0.01) {
+		boundingBox.yv = 0;
+	}
+	if (abs(boundingBox.xv) <= 0.01) {
+		boundingBox.xv = 0;
+	}
 	boundingBox.x += boundingBox.xv;
 	boundingBox.y += boundingBox.yv;
 	rotation = 180.0f * atan2((target.y - (center.y - 8 + pConsole->getSinValue(bob_counter) * 4)), (target.x - center.x)) / (3.1415);
 	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation);
-	if (controlled && !pInputManager->getMenuMode()) {
+	if (controlled && !pInputManager->getMenuMode() && getPercentage() > 0) {
 		if (pInputManager->isKeyDown(mouseL)) {			
 			glm::vec2 shootPos = getCenter() + glm::vec2(12 * cosSinValues.x, 12 * cosSinValues.y - 8 + pConsole->getSinValue(bob_counter) * 4);
 			glm::vec2 d2 = target - shootPos;
 			float d = sqrt(d2.x * d2.x + d2.y * d2.y);
 			if (d > 10) {
+				discharge(0.02);
 				d2 /= d;
 				d2 *= 1000;
 				target = shootPos + d2;
 				pConsole->addCommand(commandAddBeam, shootPos.x, shootPos.y, target.x, target.y, id);
 				if (!beamSoundPlaying) {
 					beamSoundId = pSoundPlayer->playSoundByName("beam_1", 0.15);
+					
 					pSoundPlayer->loopSound(beamSoundId);
 					beamSoundPlaying = true;
 				}
@@ -90,7 +103,7 @@ void DefenseOrb::update(){
 
 			pConsole->addCommand(commandAddProjectile, shootPos.x, shootPos.y, radians, 60.0f, id, faction);
 
-			
+			discharge(0.5);
 			pConsole->addCommand(commandPlaySound, "laser_shot2", 0.2);
 		}
 	}
@@ -118,11 +131,12 @@ void DefenseOrb::onDeath() {
 
 void DefenseOrb::draw()
 {
+	drawPowerConections();
 	float bobHeight = pConsole->getSinValue(bob_counter) * 4;
 	
 	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation + 135);
 	glm::vec2 lightPos = getCenter() + glm::vec2(4 * cosSinValues.x, 4 * cosSinValues.y - 28 + bobHeight);
-	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2, 2);
+	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 2 * getPercentage(), 2);
 	mainStack.draw(boundingBox.x - 2, boundingBox.y - 2 + bobHeight, boundingBox.y + boundingBox.h, rotation + 90);
 }
 

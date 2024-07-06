@@ -11,6 +11,7 @@ public:
 	~BuildDrone() override;
 	virtual void update() override;
 	virtual void draw() override;
+	virtual void drawBuilding() override;
 	void setTarget(std::shared_ptr<Object> _target);
 	void RemoveTarget();
 	bool getHasTarget();

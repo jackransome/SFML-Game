@@ -216,6 +216,7 @@
     <ClCompile Include="SpriteStack.cpp" />
     <ClCompile Include="Teleporter.cpp" />
     <ClCompile Include="TeleporterPillar.cpp" />
+    <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="SpriteStack.h" />
     <ClInclude Include="Teleporter.h" />
     <ClInclude Include="TeleporterPillar.h" />
+    <ClInclude Include="Textbox.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Wall.h" />

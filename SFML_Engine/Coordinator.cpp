@@ -44,7 +44,7 @@ void Coordinator::update(int generatorCount, glm::vec2 generatorPos){
 		float seconds = 500;
 		float chance = (initialChance - (initialChance - finalChance) * float(alarmTimer - 280) / (60.0 * seconds));
 		chance = std::max(finalChance, chance);
-		std::cout << chance << "\n";
+		//std::cout << chance << "\n";
 
 		//0.98 - 0.03 * float(alarmTimer - 280)/(60*40)
 		if (alarmTimer > 280 && ((float)rand() / (float)RAND_MAX) > chance) {

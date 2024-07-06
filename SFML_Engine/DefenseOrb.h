@@ -5,8 +5,9 @@
 #include "Living.h"
 #include "Controllable.h"
 #include "SoundPlayer.h"
+#include "PowerNode.h"
 
-class DefenseOrb : public Object, public Living, public Controllable {
+class DefenseOrb : public Object, public Living, public Controllable, public PowerNode {
 public:
 	DefenseOrb(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, Console* _pConsole, SoundPlayer* _pSoundPlayer, float _x, float _y);
 	~DefenseOrb() override;

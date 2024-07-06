@@ -240,7 +240,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.loadSound("sound_battery", "resources/sound_battery_1.wav");
 	soundPlayer.loadSound("517", "resources/517.wav");
 	soundPlayer.loadSound("enemy_turret_rover_ambient_1", "resources/sound_enemy_turret_rover_ambient_1.wav"); 
-	soundPlayer.loadSound("enemy_rover_moving", "resources/sound_enemy_rover_moving_2.wav");
+	soundPlayer.loadSound("enemy_rover_moving", "resources/sounds_enemy_rover_moving_2.wav");
 	snowSystem = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	snowSystem2 = SnowSystem(&spriteCollection, &soundPlayer, &camera, &screenW, &screenH, camera.getPosition());
 	camera.setScreenDimensions(&screenW, &screenH);
@@ -251,7 +251,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.setOrderZ(true);
 	spriteCollection.addFont("resources/fonts/Hacked_CRT.TTF");
 	spriteCollection.addFont("resources/fonts/LLDOT2__.TTF"); 
-	spriteCollection.addFont("resources/fonts/dogica.ttf");
+	spriteCollection.addFont("resources/fonts/dogica0.ttf");
 	spriteCollection.setWindowDimensions(&screenW, &screenH);
 	ambientLightColour = sf::Glsl::Vec3(255/255.0, 253/255.0, 240/255.0);
 	//console.addCommand(commandPlaySound, "wind");
@@ -541,7 +541,7 @@ void Game::loadGameplay(){
 	//objectCollection.addTeleporter(100, 100);
 
 	//inventory.addResources(Resource::component, 300);
-	inventory.addResources(Resource::scrap, 0);
+	inventory.addResources(Resource::scrap, 300);
 	
 	
 

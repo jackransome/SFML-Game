@@ -563,7 +563,6 @@ int InputManager::isKeyDown(keys key){
 		if (disableMB) return 0;
 		return keyStruct.mouseM;
 	case mouseW:
-		std::cout << keyStruct.mouseW << "\n";
 		return keyStruct.mouseW;
 	}
 	std::cout << "key not implemented!\n";
@@ -777,7 +776,6 @@ bool InputManager::onKeyUp(keys key){
 void InputManager::translateMouseCoords(float cameraX, float cameraY){
 	translatedMouseX = cameraX - *pScreenW/(2 * scale) + mouseX/scale;
 	translatedMouseY = cameraY - *pScreenH / (2 * scale) + mouseY / scale;
-	std::cout << "| " << mouseX << " | " << cameraX << "\n";
 }
 
 int InputManager::getMenuMode() {

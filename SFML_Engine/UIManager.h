@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "Button.h"
+#include "Textbox.h"
 #include <vector>
 
 enum class MenuType {
@@ -25,11 +26,14 @@ private:
 	void drawPane(glm::vec4 pane);
 	void clear();
 	void addButton(ButtonType type, glm::vec4 bbox);
+	void addBuildbuttonWithCost(BuildType _type, glm::vec4 _bbox);
 	void addButton(ButtonType type, BuildType buildType, glm::vec4 bbox);
+	void addTextBox(TextboxType type, glm::vec4 _bbox, std::string _text);
 	void addPane(glm::vec4 bbox);
 	Console* pConsole;
 	std::vector<std::unique_ptr<Button>> buttons;
 	std::vector<glm::vec4> panes;
+	std::vector< std::unique_ptr<Textbox>> textboxes;
 	SpriteCollection* pSpriteCollection;
 	InputManager* pInputManager;
 	Builder* pBuilder;

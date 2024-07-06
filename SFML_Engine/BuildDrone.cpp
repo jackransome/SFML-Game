@@ -1,13 +1,14 @@
 #include "BuildDrone.h"
 
 BuildDrone::BuildDrone(SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, float _x, float _y) :
-	Object(_x, _y, 8, 8, 0, droneCol, false)
+	Object(_x, _y, 12, 12, 0, droneCol, false)
 {
 	pSpriteCollection = _pSpriteCollection;
 	pSoundPlayer = _pSoundPlayer;
 	mainStack = SpriteStack(pSpriteCollection, "build_drone_stack_1", 8, 8, 14, 2);
 	type = objectBuildDrone;
 	bob_counter = ((double)rand() / (RAND_MAX)) * 100;
+	buildTime = 12;
 }
 
 BuildDrone::~BuildDrone(){
@@ -102,10 +103,14 @@ void BuildDrone::draw(){
 	glm::vec2 cosSinValues = pConsole->getTrigValue(rotation + 45);
 	glm::vec2 lightPos = getCenter() + glm::vec2(1 * cosSinValues.x, 1 * cosSinValues.y - 28 + bobHeight - height);
 	pSpriteCollection->drawLightSource(lightPos, glm::vec3(160, 214, 255), 1, 3);
-	mainStack.draw(boundingBox.x - 4, boundingBox.y - 4 + bobHeight - height, boundingBox.y, rotation + 90);
+	mainStack.draw(boundingBox.x - 2, boundingBox.y - 2 + bobHeight - height, boundingBox.y, rotation + 90);
+}
 
+void BuildDrone::drawBuilding() {
+	mainStack.drawUpTo(boundingBox.x - 2, boundingBox.y - 2 -4 - height, boundingBox.y, rotation + 90, 1);
+	mainStack.drawUpToPercent(boundingBox.x - 2, boundingBox.y - 2 -4 - height, boundingBox.y, rotation + 90, buildProgress);
 
-
+	buildHeight = buildProgress * float(13 * 2);
 }
 
 void BuildDrone::setTarget(std::shared_ptr<Object> _target){
