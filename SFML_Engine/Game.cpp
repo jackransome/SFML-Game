@@ -179,6 +179,9 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("enemy_rover_range_barrel_stack_1", "resources/enemy_rover_range_barrel_stack_1.png");
 	spriteCollection.loadTexture("power_cable", "resources/power_cable.png");
 	spriteCollection.loadTexture("battery_stack", "resources/battery_stack_1.png");
+
+	spriteCollection.loadTexture("gun_repair", "resources/gun_repair.png");
+	spriteCollection.loadTexture("gun_1", "resources/gun_1.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -348,6 +351,9 @@ void Game::Run() {
 					console.addCommand(commandCloseConnector);
 				}
 			}
+			else if (inputManager.onKeyDown(e)) {
+				//open inventory
+			}
 
 
 			builder.update();
@@ -440,9 +446,9 @@ void Game::Draw() {
 	
 	pWindow->clear();
 	
-	if (gameState == 1) {
+	if (gameState == 1) {//in game
 		spriteCollection.setPipelineIndex(0);
-		//in game
+		
 		camera.runscreenShake();
 		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -10000000, 1, 1, 4500, 4500);
 		//spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
@@ -460,9 +466,9 @@ void Game::Draw() {
 		spriteCollection.setPipelineIndex(1);
 		
 	}
-	else if (gameState == 0) {
+	else if (gameState == 0) {//menu
 		spriteCollection.setPipelineIndex(0);
-		//menu 3000x1638
+
 		float scale;
 		if (3000.0f / 1638.0f > (float)screenW / (float)screenH) {
 			// means taller, so need to fit height

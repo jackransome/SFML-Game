@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|solutionrelative:SFML_Engine\\MainCharacter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|solutionrelative:SFML_Engine\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|solutionrelative:SFML_Engine\\MainCharacter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|solutionrelative:SFML_Engine\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|solutionrelative:SFML_Engine\\MainCharacter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A3A244E-DDE4-4CE0-9F3D-71DFD89BEAFC}|SFML_Engine\\SFML_Engine.vcxproj|C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\SpriteStack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 184,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -58,13 +58,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Game.cpp",
               "DocumentMoniker": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\Game.cpp",
               "RelativeDocumentMoniker": "SFML_Engine\\Game.cpp",
               "ToolTip": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\Game.cpp",
               "RelativeToolTip": "SFML_Engine\\Game.cpp",
-              "ViewState": "AQIAAHkAAAAAAAAAAAAAAHEAAABMAAAA",
+              "ViewState": "AQIAAEEBAAAAAAAAAAAAAF8BAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-07-06T11:58:56.741Z",
               "EditorCaption": ""
@@ -77,23 +77,22 @@
               "RelativeDocumentMoniker": "SFML_Engine\\MainCharacter.h",
               "ToolTip": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.h",
               "RelativeToolTip": "SFML_Engine\\MainCharacter.h",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAADkAAAAHAAAA",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAACIAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-07-06T09:24:44.405Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MainCharacter.cpp",
               "DocumentMoniker": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.cpp",
               "RelativeDocumentMoniker": "SFML_Engine\\MainCharacter.cpp",
               "ToolTip": "C:\\Users\\Jack\\Documents\\GitHub\\SFML-Game\\SFML_Engine\\MainCharacter.cpp",
               "RelativeToolTip": "SFML_Engine\\MainCharacter.cpp",
-              "ViewState": "AQIAAAIDAAAAAAAAAAAAACYDAAADAAAA",
+              "ViewState": "AQIAAAIDAAAAAAAAAAAAACwDAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-07-06T09:19:56.321Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-06T09:19:56.321Z"
             }
           ]
         }
