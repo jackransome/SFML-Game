@@ -47,7 +47,7 @@ void UIManager::loadNewMenu(MenuType menuType){
 	if (panes.size() > 0) {
 		panes.clear();
 	}
-	if (panes.size() > 0) {
+	if (textboxes.size() > 0) {
 		textboxes.clear();
 	}
 	switch (menuType) {
@@ -84,9 +84,6 @@ void UIManager::addBuildbuttonWithCost(BuildType _type, glm::vec4 _bbox){
 }
 
 void UIManager::loadNewMenu(int _state) {
-	if (buttons.size() > 0) {
-		buttons.clear();
-	}
 	switch (_state) {
 	case 0:
 		loadNewMenu(MenuType::main);
@@ -101,6 +98,7 @@ void UIManager::loadNewMenu(int _state) {
 		loadNewMenu(MenuType::end);
 		break;
 	}
+	state = _state;
 }
 
 void UIManager::drawPane(glm::vec4 pane){
@@ -117,6 +115,16 @@ void UIManager::unloadMenu(){
 	buttons.clear();
 	panes.clear();
 	textboxes.clear();
+}
+
+void UIManager::toggleState(MenuType newMenuType){
+	if (!active) {
+		active = true;
+		loadNewMenu(newMenuType);
+	}
+	else {
+		active = false;
+	}
 }
 
 void UIManager::setState(int _state){

@@ -1,5 +1,5 @@
 #pragma once
-#include "Inventory.h"
+#include "ResourceInventory.h"
 #include "SpriteCollection.h"
 #include "InputManager.h"
 #include "ObjectCollection.h"
@@ -25,7 +25,7 @@ extern std::map<BuildType, CostData> costMap;
 class Builder {
 public:
 	Builder() {};
-	Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection);
+	Builder(SpriteCollection* _pSpriteCollection, ResourceInventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection);
 	void activate(BuildType buildType);
 	void cancel();
 	void update();
@@ -41,7 +41,7 @@ private:
 	bool active = false;;
 	BuildType currentBuildType;
 	SpriteCollection* pSpriteCollection;
-	Inventory* pInventory;
+	ResourceInventory* pInventory;
 	Console* pConsole;
 	InputManager* pInputManager;
 	ObjectCollection* pObjectCollection;

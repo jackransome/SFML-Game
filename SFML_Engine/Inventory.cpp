@@ -1,16 +1,16 @@
-#include "Inventory.h"
+#include "ResourceInventory.h"
 
-Inventory::Inventory() {}
+ResourceInventory::ResourceInventory() {}
 
-void Inventory::addResources(Resource resource, int amount){
+void ResourceInventory::addResources(Resource resource, int amount){
 	resources[static_cast<int>(resource)] += amount;
 }
 
-int Inventory::getResources(Resource resource){
+int ResourceInventory::getResources(Resource resource){
 	return resources[static_cast<int>(resource)];
 }
 
-bool Inventory::removeResources(Resource resource, int amount)
+bool ResourceInventory::removeResources(Resource resource, int amount)
 {
 	if (amount <= getResources(resource)) {
 		resources[static_cast<int>(resource)] -= amount;
@@ -21,7 +21,7 @@ bool Inventory::removeResources(Resource resource, int amount)
 	}
 }
 
-void Inventory::clear(){
+void ResourceInventory::clear(){
 	for (int i = 0; i < numResourceTypes; i++) {
 		resources[i] = 0;
 	}

@@ -21,7 +21,7 @@
 #include "DefenseOrb.h"
 #include "Explosion.h"
 #include "Smoke.h"
-#include "Inventory.h"
+#include "ResourceInventory.h"
 #include "BuildDrone.h"
 #include "Spark.h"
 #include "Generator.h"
@@ -38,7 +38,7 @@
 class ObjectCollection {
 public:
 	ObjectCollection();
-	ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, Inventory* _pinventory);
+	ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, ResourceInventory* _pinventory);
 	void draw();
 	void update();
 	void addMainCharacter(float x, float y);
@@ -125,5 +125,5 @@ private:
 	int cameraFocusId;
 	int nextId = 0;
 	int frame = 0;
-	Inventory* pInventory;
+	ResourceInventory* pInventory;
 };

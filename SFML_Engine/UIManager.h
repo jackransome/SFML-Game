@@ -16,6 +16,7 @@ public:
 	void update();
 	void loadNewMenu(MenuType menuType);
 	void unloadMenu();
+	void toggleState(MenuType newMenuType);
 	void setState(int _state);
 	void setActive(bool _active);
 	bool getActive();
@@ -39,6 +40,7 @@ private:
 	Builder* pBuilder;
 	PowerManager* pPowerManager;
 	bool active = true;
+	MenuType currentMenu = MenuType::main;
 	int state = -1; //0 = mainmenu, 1 = buildmenu, 2 = pausemenu
 	//ADD PANES FOR ORGANIZATION,, AESTHETIC< AND NO CLICK THRU
 };

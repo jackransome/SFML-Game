@@ -6,7 +6,7 @@
 
 ObjectCollection::ObjectCollection() {}
 
-ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, Inventory* _pinventory) {
+ObjectCollection::ObjectCollection(Console* _pConsole, InputManager* _pInputManager, SpriteCollection* _pSpriteCollection, SoundPlayer* _pSoundPlayer, Camera* _pCamera, ResourceInventory* _pinventory) {
 	pConsole = _pConsole;
 	pInputManager = _pInputManager;
 	pSpriteCollection = _pSpriteCollection;

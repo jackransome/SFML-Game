@@ -56,7 +56,7 @@ private:
 	SnowSystem snowSystem;
 	SnowSystem snowSystem2;
 	Builder builder;
-	Inventory inventory;
+	ResourceInventory inventory;
 	UIManager uiManager;
 	sf::Shader shader1;
 	float ambientLightLevel = 0;

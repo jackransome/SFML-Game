@@ -18,7 +18,7 @@ std::map<BuildType, int> sizeMap = {
 	{ BuildType::buildDrone, 5 }
 };
 
-Builder::Builder(SpriteCollection* _pSpriteCollection, Inventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection){
+Builder::Builder(SpriteCollection* _pSpriteCollection, ResourceInventory* _pInventory, Console* _pConsole, InputManager* _pInputManager, ObjectCollection* _pObjectCollection){
 	pSpriteCollection = _pSpriteCollection;
 	pInventory = _pInventory;
 	pConsole = _pConsole;

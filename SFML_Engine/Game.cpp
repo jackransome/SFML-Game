@@ -84,7 +84,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	soundPlayer.setGlobalVolume(1.0);
 	console = Console();
 	timer = Timer(250, &console);
-	inventory = Inventory();
+	inventory = ResourceInventory();
 	objectCollection = ObjectCollection(&console, &inputManager, &spriteCollection, &soundPlayer, &camera, &inventory);
 	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection, &inputManager, &camera);
 	builder = Builder(&spriteCollection, &inventory, &console, &inputManager, &objectCollection);
@@ -310,19 +310,20 @@ void Game::HandleInput() {
 		}
 
 		if (inputManager.onKeyDown(escape)) {
-			if (gameState == 1){
-				if (uiManager.getActive() == false || uiManager.getState() != 1) {
-					uiManager.setState(1);
-					uiManager.setActive(true);
-					console.addCommand(commandCloseBuilder);
-					console.addCommand(commandCloseConnector);
-					soundPlayer.muteAllPlaying();
-				}
-				else {
-					uiManager.setActive(false);
-					soundPlayer.unmuteAll();
-				}
-				
+			uiManager.toggleState(MenuType::pause);
+			console.addCommand(commandCloseBuilder);
+			console.addCommand(commandCloseConnector);
+		}
+		if (gameLive) {
+			if (inputManager.onKeyDown(tab)) {
+				uiManager.toggleState(MenuType::builder);
+				console.addCommand(commandCloseBuilder);
+				console.addCommand(commandCloseConnector);
+			}
+			else if (inputManager.onKeyDown(e)) {
+				//open inventory
+
+				//get controlled object from control switcher, pass a pointer to it's inventory to the ui and start new ui
 			}
 		}
 	}
@@ -340,22 +341,6 @@ void Game::Run() {
 	if (gameState == 1) {
 		//in game
 		if (gameLive) {
-			if (inputManager.onKeyDown(tab)) {
-				if (uiManager.getActive()) {
-					uiManager.setActive(false);
-				}
-				else {
-					uiManager.loadNewMenu(MenuType::builder);
-					uiManager.setActive(true);
-					console.addCommand(commandCloseBuilder);
-					console.addCommand(commandCloseConnector);
-				}
-			}
-			else if (inputManager.onKeyDown(e)) {
-				//open inventory
-			}
-
-
 			builder.update();
 			powerManager.update();
 
@@ -379,9 +364,11 @@ void Game::Run() {
 	}
 	if (uiManager.getState() == 1 && uiManager.getActive()) {
 		gameLive = false;
+		soundPlayer.muteAllPlaying();
 	}
 	else {
 		gameLive = true;
+		soundPlayer.unmuteAll();
 	}
 	soundPlayer.update();
 	inputManager.translateMouseCoords(camera.getPosition().x, camera.getPosition().y);
