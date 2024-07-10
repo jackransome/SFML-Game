@@ -4,7 +4,7 @@
 #include "Button.h"
 #include "Textbox.h"
 #include <vector>
-
+#include "Inventory.h"
 enum class MenuType {
 	main, pause, builder, end
 };
@@ -22,7 +22,9 @@ public:
 	bool getActive();
 	void draw();
 	int getState();
+	
 private:
+	void drawInventory(); //109 109 109
 	void loadNewMenu(int _state);
 	void drawPane(glm::vec4 pane);
 	void clear();

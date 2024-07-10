@@ -178,3 +178,11 @@ void Object::resetJustBuilt(){
 bool Object::getFullyCharged(){
 	return fullyCharged;
 }
+
+bool Object::getHasInventory() {
+	return hasInventory;
+}
+
+Inventory* Object::getInventory() {
+	return inventory;
+}

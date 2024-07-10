@@ -1,20 +1,20 @@
 #pragma once
 #include "Item.h"
+#include "Inventory.h"
+#include <glm/glm.hpp>
+#include "Console.h"
+#include "SpriteCollection.h"
 
 class Tool : public Item {
 public:
-	Tool(int _maxAttachments);
+	Tool(int _maxAttachments, ItemType _type, Console* _pConsole, SpriteCollection* _pSpriteCollection, std::string _textureName);
 	~Tool();
-	virtual void activate() = 0;
-	virtual void drawUsing() = 0;
+	virtual void activate(glm::vec2 position, glm::vec2 target) = 0;
+	virtual void drawUsing(glm::vec2 position, glm::vec2 target) = 0;
 	virtual void update() = 0;
-	int getTotalAttachments();
-	int getMaxAttachments();
-	Item* getAttachment(int _index);
-	void addAttachment(Item* _attachment);
-	Item* removeAttachment(int _index);
+	Inventory* getAttachments();
 private:
-	int maxAttachments = 0;
-	int totalAttachments = 0;
-	Item** attachments;
+	Inventory attachments;
+	Console* pConsole;
+
 };

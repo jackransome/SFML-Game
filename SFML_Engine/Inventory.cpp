@@ -1,29 +1,80 @@
-#include "ResourceInventory.h"
+#include "Inventory.h"
 
-ResourceInventory::ResourceInventory() {}
+Inventory::Inventory(){}
 
-void ResourceInventory::addResources(Resource resource, int amount){
-	resources[static_cast<int>(resource)] += amount;
+Inventory::Inventory(int _slots, int _capacity, bool _multiples) {
+	slots = _slots;
+	capacity = _capacity;
+	multiples = _multiples;
 }
 
-int ResourceInventory::getResources(Resource resource){
-	return resources[static_cast<int>(resource)];
+Inventory::~Inventory() {}
+
+int Inventory::getSlots() {
+	return slots;
 }
 
-bool ResourceInventory::removeResources(Resource resource, int amount)
-{
-	if (amount <= getResources(resource)) {
-		resources[static_cast<int>(resource)] -= amount;
-		return false;
+int Inventory::getMaxCapacity() {
+	return capacity;
+}
+
+int Inventory::getCapacityUsed() {
+	int total = 0;
+	for (int i = 0; i < amounts.size(); i++) {
+		total += amounts[i];
+	}
+	return total;
+}
+
+bool Inventory::getMultiples() {
+	return multiples;
+}
+
+int Inventory::getAmount(int _index) {
+	if (_index >= items.size()) {
+		std::cout << "Item index too high\n";
+		return -1;
+	}
+	return amounts[_index];
+}
+
+Item* Inventory::getItem(int _index) {
+	if (_index >= items.size()) {
+		std::cout << "Item index too high\n";
+		return nullptr;
+	}
+	return items[_index];
+}
+
+void Inventory::addItem(Item* _item) {
+	if (getCapacityUsed() == capacity) {
+		std::cout << "Capacity already reached\n";
+		return;
+	}
+	bool alreadyExists = false;
+	int index = -1;
+	for (int i = 0; i < items.size(); i++) {
+		if (items[i]->getType() == _item->getType() && items[i]->getCanStack()) {
+			alreadyExists = true;
+			index = i;
+		}
+	}
+	if (multiples && alreadyExists) {
+		amounts[index]++;
 	}
 	else {
-		return false;
+		items.push_back(_item);
+		amounts.push_back(1);
 	}
 }
 
-void ResourceInventory::clear(){
-	for (int i = 0; i < numResourceTypes; i++) {
-		resources[i] = 0;
+Item* Inventory::removeItem(int _index) {
+	if (_index >= items.size()) {
+		std::cout << "Item index too high\n";
+		return nullptr;
 	}
+	Item* temp = items[_index];
+	items.erase(items.begin() + _index);
+	amounts.erase(amounts.begin() + _index);
+	return temp;
 }
-

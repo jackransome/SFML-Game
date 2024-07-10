@@ -2,7 +2,7 @@
 #include "BoundingBox.h"
 #include "Console.h"
 #include "glm/glm.hpp"
-
+#include "Inventory.h"
 enum Collidability { immovable, controllable, movable, none, droneCol };
 
 //enum ObjectType { none, player, enemy };
@@ -54,7 +54,11 @@ public:
 	bool getJustBuilt();
 	void resetJustBuilt();
 	bool getFullyCharged();
+	bool getHasInventory();
+	Inventory* getInventory();
 protected:
+	bool hasInventory = false;
+	Inventory* inventory = nullptr;
 	int faction = -1;
 	bool toBuild = false;
 	bool justBuilt = true;

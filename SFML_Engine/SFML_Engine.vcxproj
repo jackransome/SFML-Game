@@ -164,6 +164,7 @@
     <ClCompile Include="Battery.cpp" />
     <ClCompile Include="BuildDrone.cpp" />
     <ClCompile Include="Builder.cpp" />
+    <ClCompile Include="BuildTool.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="ResourceInventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jammer.cpp" />
     <ClCompile Include="Living.cpp" />
@@ -230,6 +232,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BuildDrone.h" />
     <ClInclude Include="Builder.h" />
+    <ClInclude Include="BuildTool.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetection.h" />

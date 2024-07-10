@@ -1,11 +1,22 @@
 #pragma once
+#include "SpriteSheet.h"
+
+enum class ItemType {
+	scrap, buildTool, count
+};
 
 class Item {
 public:
-	Item();
+	Item(bool _canStack, bool _isTool, ItemType _type, SpriteCollection* _pSpriteCollection, std::string textureName);
 	~Item();
-	virtual void draw() = 0;
+	void draw(float _x, float _y, float _z, float _scale);
 	bool getIsTool();
+	bool getCanStack();
+	ItemType getType();
 private:
+	bool canStack = false;
 	bool isTool = false;
+	ItemType type;
+	TextureWrapper* texture;
+	SpriteCollection* pSpriteCollection;
 };

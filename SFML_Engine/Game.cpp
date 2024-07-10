@@ -111,7 +111,10 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("mc_stand_left", "resources/main_character/mc_stand_left.png");
 	spriteCollection.loadTexture("mc_stand_right", "resources/main_character/mc_stand_right.png");
 	spriteCollection.loadTexture("mc_arm", "resources/main_character/mc_arm.png");
+	spriteCollection.loadTexture("buildToolIcon", "resources/items/buildToolIcon.png");
+
 	spriteCollection.loadTexture("mc_elbow", "resources/main_character/mc_elbow.png");
+
 
 	spriteCollection.loadTexture("mc_walk_back_na", "resources/main_character/na/mc_walk_back_na.png");
 	spriteCollection.loadTexture("mc_walk_right_na", "resources/main_character/na/mc_walk_right_na.png");
@@ -316,14 +319,38 @@ void Game::HandleInput() {
 		}
 		if (gameLive) {
 			if (inputManager.onKeyDown(tab)) {
+				//open build menu
 				uiManager.toggleState(MenuType::builder);
 				console.addCommand(commandCloseBuilder);
 				console.addCommand(commandCloseConnector);
 			}
 			else if (inputManager.onKeyDown(e)) {
-				//open inventory
+				// open inventory
 
-				//get controlled object from control switcher, pass a pointer to it's inventory to the ui and start new ui
+				// get controlled object from control switcher, pass a pointer to it's inventory to the ui
+				
+				Inventory* temp = controlSwitcher.getControllingInventory();
+				if (temp != nullptr) {
+					glm::vec2 pos = controlSwitcher.getControlPosition();
+					Inventory* temp2 = objectCollection.getClosestInventory(50);
+					if (temp2 != nullptr) {
+						//double inventory
+
+					}
+					else {
+						//single inventory
+
+					}
+				}
+				else {
+					std::cout << "controlled object has no inventory\n";
+				}
+
+
+				// if there is another object with an inventory within range, open it's inventory too
+				
+				// open inventory ui
+
 			}
 		}
 	}
@@ -377,18 +404,6 @@ void Game::Run() {
 	while (console.getSize() > 0) {
 		commandExecuter.execute(console.getCommand());
 	}
-	//if (uiManager.getActive() != builder.getActive()) {
-	//	if (uiManager.getActive()) {
-
-	//	}
-	//	else {
-	//		inputManager.setMenuMode(1);
-	//	}
-	//}
-	//else {
-	//	inputManager.setMenuMode(0);
-	//}
-
 	if (commandExecuter.getNextGameState() != gameState) {
 		if (commandExecuter.getNextGameState() == 0) {
 			if (gameState == 1) {
@@ -438,20 +453,13 @@ void Game::Draw() {
 		
 		camera.runscreenShake();
 		spriteCollection.addImageDraw(spriteCollection.getPointerFromName("white_background"), camera.getPosition().x - screenW / 2 - 1000, camera.getPosition().y - screenH / 2 - 1000, -10000000, 1, 1, 4500, 4500);
-		//spriteCollection.drawLightSource(glm::vec2(0,0), glm::vec3(255, 255, 255), 0.3, 0);
 		objectCollection.draw();
 		snowSystem.draw(100000);
-		//objectCollection.drawHealthBars();
-		//spriteCollection.setFullBrightMode(true);
-		//spriteCollection.addTextDraw(1, 0, 0, 100, "TEST_TEST_TEST_TEST", 100, sf::Color(60, 255, 100, 255));
-		//spriteCollection.addRectDraw(0, 0, 300, 300, 300, sf::Color(60, 255, 100, 255));
-		//spriteCollection.setFullBrightMode(false);
 		uiManager.draw();
 		builder.draw();
 		powerManager.draw();
 		controlSwitcher.draw();
 		spriteCollection.setPipelineIndex(1);
-		
 	}
 	else if (gameState == 0) {//menu
 		spriteCollection.setPipelineIndex(0);
@@ -514,7 +522,6 @@ void Game::Draw() {
 		}
 	}
 	console.addTime("Pre draw");
-	
 }
 
 void Game::finishAudio(){
@@ -522,12 +529,6 @@ void Game::finishAudio(){
 }
 
 void Game::loadGameplay(){
-	//snowSystem.setSpeed(4.5);
-	//snowSystem.setFallAngle(0.5);
-	//snowSystem.setSize(50);
-	//snowOpacity = 0.6;
-	//snowSystem.setOpacity(snowOpacity);
-	//snowSystem.setSinMultiplier(2);
 	snowSystem.setActive(true);
 	snowSystem2.setActive(false);
 	snowSystem.setSpeed(2.5);
@@ -545,12 +546,8 @@ void Game::loadGameplay(){
 	objectCollection.addBuildDrone(-100, -200);
 	objectCollection.addBuildDrone(-200, -100);
 	objectCollection.addBattery(100, 0);
-	//objectCollection.addTeleporter(100, 100);
 
-	//inventory.addResources(Resource::component, 300);
 	inventory.addResources(Resource::scrap, 300);
-	
-	
 
 	glm::vec2 temp;
 	int genRange = 4000;

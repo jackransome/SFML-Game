@@ -16,6 +16,7 @@ public:
 	glm::vec2 getControlPosition();
 	bool getControlling();
 	void setControlling(bool _controlling);
+	Inventory* getControllingInventory();
 private:
 	bool active = false;;
 	bool controlling;
