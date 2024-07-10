@@ -58,6 +58,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	type = objectMainCharacter;
 	faction = 0;
 	setBuilt();	
+
+	hasInventory = true;
+	inventory = new Inventory(16, 64, true);
 }
 
 void MainCharacter::onDeath() {

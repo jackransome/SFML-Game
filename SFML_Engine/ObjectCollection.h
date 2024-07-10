@@ -99,7 +99,7 @@ public:
 	bool checkArea(glm::vec4 _box);
 	bool checkArea(glm::vec4 _box, int exclusionID1, int exclusionID2);
 	void changeObjectCount(ObjectType type, int change);
-
+	Inventory* getClosestInventory(float distance, int _id, glm::vec2 _pos);
 	glm::vec2 getGeneratorPos();
 private:
 	void controlClosest();

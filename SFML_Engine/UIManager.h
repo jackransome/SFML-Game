@@ -6,7 +6,7 @@
 #include <vector>
 #include "Inventory.h"
 enum class MenuType {
-	main, pause, builder, end
+	main, pause, builder, singleInventory, doubleInventory, end
 };
 
 class UIManager {
@@ -22,7 +22,7 @@ public:
 	bool getActive();
 	void draw();
 	int getState();
-	
+	void setInventorys(Inventory* _inventory1, Inventory* _inventory2);
 private:
 	void drawInventory(); //109 109 109
 	void loadNewMenu(int _state);
@@ -44,5 +44,6 @@ private:
 	bool active = true;
 	MenuType currentMenu = MenuType::main;
 	int state = -1; //0 = mainmenu, 1 = buildmenu, 2 = pausemenu
-	//ADD PANES FOR ORGANIZATION,, AESTHETIC< AND NO CLICK THRU
+	Inventory* inventory1;
+	Inventory* inventory2;
 };

@@ -866,6 +866,15 @@ void ObjectCollection::changeObjectCount(ObjectType type, int change){
 	objectCounter[type] += change;
 }
 
+Inventory* ObjectCollection::getClosestInventory(float _distance, int _id, glm::vec2 _pos) {
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->getId() != _id && objects[i]->getHasInventory() && CollisionDetection::getDistance(_pos, objects[i]->getCenter()) < _distance) {
+			return objects[i]->getInventory();
+		}
+	}
+	return nullptr;
+}
+
 glm::vec2 ObjectCollection::getGeneratorPos(){
 	return generatorPos;
 }

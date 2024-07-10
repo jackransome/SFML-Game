@@ -89,6 +89,11 @@ void ControlSwitcher::setControlling(bool _controlling){
 	controlling = _controlling;
 }
 
+int ControlSwitcher::getControllingId() {
+	return currentID;
+}
+
 Inventory* ControlSwitcher::getControllingInventory() {
 	return pObjectCollection->getObjectById(currentID)->getInventory();
 }
+

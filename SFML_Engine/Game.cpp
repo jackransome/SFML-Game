@@ -332,13 +332,25 @@ void Game::HandleInput() {
 				Inventory* temp = controlSwitcher.getControllingInventory();
 				if (temp != nullptr) {
 					glm::vec2 pos = controlSwitcher.getControlPosition();
-					Inventory* temp2 = objectCollection.getClosestInventory(50);
+					Inventory* temp2 = objectCollection.getClosestInventory(50, controlSwitcher.getControllingId(), pos);
 					if (temp2 != nullptr) {
 						//double inventory
+
+						uiManager.setInventorys(temp, temp2);
+
+						uiManager.toggleState(MenuType::doubleInventory);
+						console.addCommand(commandCloseBuilder);
+						console.addCommand(commandCloseConnector);
 
 					}
 					else {
 						//single inventory
+
+						uiManager.setInventorys(temp, temp2);
+
+						uiManager.toggleState(MenuType::singleInventory);
+						console.addCommand(commandCloseBuilder);
+						console.addCommand(commandCloseConnector);
 
 					}
 				}

@@ -16,6 +16,7 @@ public:
 	glm::vec2 getControlPosition();
 	bool getControlling();
 	void setControlling(bool _controlling);
+	int getControllingId();
 	Inventory* getControllingInventory();
 private:
 	bool active = false;;
@@ -26,5 +27,6 @@ private:
 	Console* pConsole;
 	SpriteCollection* pSpriteCollection;
 	InputManager* pInputManager;
-	Camera* pCamera;
+	Camera* pCamera; 
+
 };

@@ -41,6 +41,7 @@ void UIManager::update(){
 }
 
 void UIManager::loadNewMenu(MenuType menuType){
+	currentMenu = menuType;
 	if (buttons.size() > 0) {
 		buttons.clear();
 	}
@@ -154,6 +155,13 @@ void UIManager::draw(){
 		for (int i = 0; i < textboxes.size(); i++) {
 			textboxes[i]->draw();
 		}
+		if (currentMenu == MenuType::singleInventory) {
+			//center it
+			//UP TO HERE: DRAW INVENTORY
+			drawInventory();
+		} else if (currentMenu == MenuType::doubleInventory) {
+
+		}
 	}
 	pSpriteCollection->setAbsoluteMode(false);
 }
@@ -189,4 +197,9 @@ void UIManager::addTextBox(TextboxType _type, glm::vec4 _bbox, std::string _text
 
 void UIManager::addPane(glm::vec4 bbox){
 	panes.push_back(bbox);
+}
+
+void UIManager::setInventorys(Inventory* _inventory1, Inventory* _inventory2) {
+	inventory1 = _inventory1;
+	inventory2 = _inventory2;
 }

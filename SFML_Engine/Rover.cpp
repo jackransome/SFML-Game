@@ -18,6 +18,9 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	faction = 0;
 	buildTime = 8;
 	setBuilt();
+
+	hasInventory = true;
+	inventory = new Inventory(16, 64, true);
 }
 
 Rover::~Rover(){
