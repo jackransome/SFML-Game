@@ -60,7 +60,9 @@ MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pS
 	setBuilt();	
 
 	hasInventory = true;
-	inventory = new Inventory(16, 64, true);
+	inventory = new Inventory(12, 64, true, false);
+	hasToolbar = true;
+	toolbar = new Inventory(3, 3, true, true);
 }
 
 void MainCharacter::onDeath() {
@@ -703,8 +705,6 @@ void MainCharacter::draw() {
 			tempV2 = perpendicularCounterClockwise(tempV1);
 			
 			tempA = acos((tempDistance / 2.0f) / armHalfLength);
-			std::cout << tempA;
-			std::cout << sin(tempA);
 
 			elbow1 = shoulderPos1 + (tempDistance / 2.0f) * tempV1+  tempV2* armHalfLength * sin(tempA);
 			
@@ -829,7 +829,7 @@ void MainCharacter::draw() {
 
 	//pSpriteCollection->drawLightSource(holdPoint, glm::vec3(255, 214, 55), 0.06, 1);
 	//pSpriteCollection->drawLightSource(elbow1, glm::vec3(255, 214, 55), 0.06, 1);
-	std::cout << "x: " << elbow1.x << ", y: " << elbow1.y << "\n";
+	//std::cout << "x: " << elbow1.x << ", y: " << elbow1.y << "\n";
 	//pSpriteCollection->drawLightSource(elbow2, glm::vec3(255, 214, 55), 0.06, 1);
 
 	if (eyeVisible2) {

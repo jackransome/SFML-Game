@@ -186,3 +186,7 @@ bool Object::getHasInventory() {
 Inventory* Object::getInventory() {
 	return inventory;
 }
+
+Inventory* Object::getToolbar() {
+	return toolbar;
+}

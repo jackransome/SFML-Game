@@ -2,10 +2,11 @@
 
 Inventory::Inventory(){}
 
-Inventory::Inventory(int _slots, int _capacity, bool _multiples) {
+Inventory::Inventory(int _slots, int _capacity, bool _multiples, bool _toolOnly) {
 	slots = _slots;
 	capacity = _capacity;
 	multiples = _multiples;
+	toolOnly = _toolOnly;
 }
 
 Inventory::~Inventory() {}
@@ -46,11 +47,14 @@ Item* Inventory::getItem(int _index) {
 	return items[_index];
 }
 
-void Inventory::addItem(Item* _item) {
-	if (getCapacityUsed() == capacity) {
-		std::cout << "Capacity already reached\n";
-		return;
-	}
+bool Inventory::addItem(Item* _item) {
+	return addItem(_item, 1000);
+}
+
+bool Inventory::addItem(Item* _item, int _index) {
+	if (toolOnly && !_item->getIsTool()) return false;
+	if (getCapacityUsed() == capacity) return false;
+
 	bool alreadyExists = false;
 	int index = -1;
 	for (int i = 0; i < items.size(); i++) {
@@ -59,13 +63,30 @@ void Inventory::addItem(Item* _item) {
 			index = i;
 		}
 	}
-	if (multiples && alreadyExists) {
+	if (multiples && alreadyExists && _item->getCanStack()) {
 		amounts[index]++;
 	}
 	else {
-		items.push_back(_item);
-		amounts.push_back(1);
+		if (items.size() == slots) {
+			return false;
+		}
+		else {
+			if (_index >= items.size()) {
+				items.push_back(_item);
+				amounts.push_back(1);
+			}
+			else {
+				items.insert(items.begin() + _index, _item);
+				amounts.insert(amounts.begin() + _index, 1);
+			}
+		}
+
 	}
+	return true;
+}
+
+int Inventory::getSlotsUsed() {
+	return items.size();;
 }
 
 Item* Inventory::removeItem(int _index) {
@@ -77,4 +98,12 @@ Item* Inventory::removeItem(int _index) {
 	items.erase(items.begin() + _index);
 	amounts.erase(amounts.begin() + _index);
 	return temp;
+}
+
+int Inventory::getCellsWidth() {
+	return std::min(4, slots);
+}
+
+int Inventory::getCellsHeight() {
+	return ceil(float(slots)/4.0f);
 }

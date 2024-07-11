@@ -19,4 +19,5 @@ private:
 	ItemType type;
 	TextureWrapper* texture;
 	SpriteCollection* pSpriteCollection;
+	int iconSize = 32;
 };

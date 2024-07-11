@@ -56,9 +56,12 @@ public:
 	bool getFullyCharged();
 	bool getHasInventory();
 	Inventory* getInventory();
+	Inventory* getToolbar();
 protected:
 	bool hasInventory = false;
 	Inventory* inventory = nullptr;
+	bool hasToolbar = false;
+	Inventory* toolbar = nullptr;
 	int faction = -1;
 	bool toBuild = false;
 	bool justBuilt = true;

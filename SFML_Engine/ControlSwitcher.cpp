@@ -97,3 +97,7 @@ Inventory* ControlSwitcher::getControllingInventory() {
 	return pObjectCollection->getObjectById(currentID)->getInventory();
 }
 
+Inventory* ControlSwitcher::getControllingToolbar() {
+	return pObjectCollection->getObjectById(currentID)->getToolbar();
+}
+

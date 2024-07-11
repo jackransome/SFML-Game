@@ -18,6 +18,7 @@ public:
 	void setControlling(bool _controlling);
 	int getControllingId();
 	Inventory* getControllingInventory();
+	Inventory* getControllingToolbar();
 private:
 	bool active = false;;
 	bool controlling;

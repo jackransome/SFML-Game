@@ -20,7 +20,7 @@ Rover::Rover(InputManager* _pInputManager, SpriteCollection* _pSpriteCollection,
 	setBuilt();
 
 	hasInventory = true;
-	inventory = new Inventory(16, 64, true);
+	inventory = new Inventory(3, 64, true, false);
 }
 
 Rover::~Rover(){

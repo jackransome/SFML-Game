@@ -187,9 +187,6 @@ void CommandExecuter::execute(Command command) {
 	case commandAddToInventory:
 		pObjectCollection->AddToInventory(command.resource, command.a);
 		break;
-	case commandChangeMenuState:
-		pUIManager->setState(command.a);
-		break;
 	case commandCloseMenu:
 		pUIManager->setActive(false);
 		break;

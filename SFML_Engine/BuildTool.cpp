@@ -14,3 +14,7 @@ void BuildTool::activate(glm::vec2 position, glm::vec2 target) {
 void BuildTool::drawUsing(glm::vec2 position, glm::vec2 target) {
 
 }
+
+void BuildTool::update()
+{
+}

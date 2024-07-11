@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ctime>
 #include "CollisionDetection.h"
+#include "BuildTool.h"
 
 Game::Game(sf::RenderWindow* pwindow)  {
 	screenW = pwindow->getSize().x;
@@ -89,7 +90,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	controlSwitcher = ControlSwitcher(&objectCollection, &console, &spriteCollection, &inputManager, &camera);
 	builder = Builder(&spriteCollection, &inventory, &console, &inputManager, &objectCollection);
 	powerManager = PowerManager(&spriteCollection, &console, &inputManager, &objectCollection, &camera);
-	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder, &powerManager);
+	uiManager = UIManager(&console, &spriteCollection, &inputManager, &builder, &powerManager, &screenW, &screenH);
 	commandExecuter = CommandExecuter(&objectCollection, &soundPlayer, &camera, &spriteCollection, &inputManager, &uiManager, &builder, &powerManager);
 	musicSystem = MusicSystem(&soundPlayer);
 	coordinator = Coordinator(&musicSystem, &console, &snowSystem);
@@ -111,7 +112,7 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("mc_stand_left", "resources/main_character/mc_stand_left.png");
 	spriteCollection.loadTexture("mc_stand_right", "resources/main_character/mc_stand_right.png");
 	spriteCollection.loadTexture("mc_arm", "resources/main_character/mc_arm.png");
-	spriteCollection.loadTexture("buildToolIcon", "resources/items/buildToolIcon.png");
+	spriteCollection.loadTexture("buildToolIcon", "resources/items/build_tool_icon_1.png");
 
 	spriteCollection.loadTexture("mc_elbow", "resources/main_character/mc_elbow.png");
 
@@ -183,8 +184,6 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("power_cable", "resources/power_cable.png");
 	spriteCollection.loadTexture("battery_stack", "resources/battery_stack_1.png");
 
-	spriteCollection.loadTexture("gun_repair", "resources/gun_repair.png");
-	spriteCollection.loadTexture("gun_1", "resources/gun_1.png");
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation1", 144, 172, 4, 1);
 	//spriteSheet1 = SpriteSheet(pwindow, &spriteCollection, "animation2", 16, 26, 6, 2);
 	//spriteSheet1.setDoesReset(false);
@@ -330,6 +329,7 @@ void Game::HandleInput() {
 				// get controlled object from control switcher, pass a pointer to it's inventory to the ui
 				
 				Inventory* temp = controlSwitcher.getControllingInventory();
+				Inventory* temp1 = controlSwitcher.getControllingToolbar();
 				if (temp != nullptr) {
 					glm::vec2 pos = controlSwitcher.getControlPosition();
 					Inventory* temp2 = objectCollection.getClosestInventory(50, controlSwitcher.getControllingId(), pos);
@@ -347,6 +347,7 @@ void Game::HandleInput() {
 						//single inventory
 
 						uiManager.setInventorys(temp, temp2);
+						uiManager.setToolbar(temp1);
 
 						uiManager.toggleState(MenuType::singleInventory);
 						console.addCommand(commandCloseBuilder);
@@ -401,7 +402,7 @@ void Game::Run() {
 		snowSystem.run();// glm::vec2(screenW / 2, screenH / 2));
 		snowSystem2.run();//glm::vec2(screenW/2, screenH/2));
 	}
-	if (uiManager.getState() == 1 && uiManager.getActive()) {
+	if (uiManager.getCurrentMenu() == MenuType::pause && uiManager.getActive()) {
 		gameLive = false;
 		soundPlayer.muteAllPlaying();
 	}
@@ -457,7 +458,6 @@ void Game::Run() {
 
 void Game::Draw() {
 	console.addTime("Start of draw");
-	
 	pWindow->clear();
 	
 	if (gameState == 1) {//in game
@@ -578,6 +578,11 @@ void Game::loadGameplay(){
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
 	controlSwitcher.setCurrentControlled(0);
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
 	objectCollection.setControlledDead(false);
 
 	soundPlayer.update();
@@ -609,7 +614,7 @@ void Game::loadMenu(){
 	soundPlayer.update();
 	musicSystem.fadeIn("menu_music", 2, 0.6);
 	camera.setPosition(screenW / 2, screenH / 2);
-	uiManager.setState(0);
+	uiManager.loadNewMenu(MenuType::main);
 	uiManager.setActive(true);
 	gameLive = false;
 }
@@ -625,7 +630,7 @@ void Game::loadEndScreen()
 	soundPlayer.update();
 	musicSystem.fadeIn("517", 0.5, 0.6);
 	camera.setPosition(screenW / 2, screenH / 2);
-	uiManager.setState(3);
+	uiManager.loadNewMenu(MenuType::end);
 	uiManager.setActive(true);
 	gameLive = false;
 }
