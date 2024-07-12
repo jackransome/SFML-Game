@@ -57,11 +57,16 @@ public:
 	bool getHasInventory();
 	Inventory* getInventory();
 	Inventory* getToolbar();
+	int getToolSelected();
+	void changeToolSelected(int _newTool);
+	void incrementToolSelected(int _amount);
 protected:
 	bool hasInventory = false;
 	Inventory* inventory = nullptr;
 	bool hasToolbar = false;
 	Inventory* toolbar = nullptr;
+	int toolSelected = 0;
+	bool holdingTool = false;
 	int faction = -1;
 	bool toBuild = false;
 	bool justBuilt = true;

@@ -31,13 +31,18 @@ public:
 		end();
 	}
 	bool getStopped() {
-		ALint sourceState;
-		alGetSourcei(source, AL_SOURCE_STATE, &sourceState);
-
-		if (sourceState == AL_STOPPED) {
-			return true;
+		if (loopsBetween) {
+			return stopped;
 		}
-		return false;
+		else {
+			ALint sourceState;
+			alGetSourcei(source, AL_SOURCE_STATE, &sourceState);
+
+			if (sourceState == AL_STOPPED) {
+				return true;
+			}
+			return false;
+		}
 	}
 	void loop() {
 		loops = true;
@@ -49,6 +54,7 @@ public:
 		loopEnd = _end;
 	}
 	void stop() {
+		stopped = true;
 		alSourceStop(source);
 	}
 	float getPlayingOffset() {
@@ -89,6 +95,7 @@ public:
 		muted = false;
 	}
 private:
+	bool stopped = false;
 	bool muted;
 	ALuint source;
 	bool loops = false;

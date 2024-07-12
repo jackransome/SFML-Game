@@ -190,6 +190,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryPane.cpp" />
+    <ClCompile Include="MachineGun.cpp" />
     <ClCompile Include="ResourceInventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jammer.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryPane.h" />
+    <ClInclude Include="MachineGun.h" />
     <ClInclude Include="ResourceInventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Jammer.h" />

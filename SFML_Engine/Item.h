@@ -13,11 +13,12 @@ public:
 	bool getIsTool();
 	bool getCanStack();
 	ItemType getType();
+protected:
+	TextureWrapper* texture;
+	SpriteCollection* pSpriteCollection;
 private:
 	bool canStack = false;
 	bool isTool = false;
 	ItemType type;
-	TextureWrapper* texture;
-	SpriteCollection* pSpriteCollection;
 	int iconSize = 32;
 };

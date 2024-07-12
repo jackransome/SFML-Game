@@ -264,6 +264,9 @@
     <ClCompile Include="BuildTool.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="MachineGun.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -480,6 +483,9 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="MachineGun.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>

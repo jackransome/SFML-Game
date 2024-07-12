@@ -1,6 +1,7 @@
 #include "MainCharacter.h"
 
 #include <glm/gtx/vector_angle.hpp>
+#include "Tool.h"
 
 MainCharacter::MainCharacter(InputManager* _pInputManager, SpriteCollection *_pSpriteCollection, Console *_pConsole, float _x, float _y) :
 	Object(_x, _y, 16, 16, 0, controllable, true),
@@ -134,6 +135,25 @@ void MainCharacter::update() {
 			}
 		}
 	}
+
+	if (toolbar->getSlotsUsed() > 0) {
+		if (holdingTool && pInputManager->isKeyDown(mouseL)) {
+			static_cast<Tool*>(toolbar->getItem(toolSelected))->activate(holdPoint, glm::vec2(pInputManager->translatedMouseX, pInputManager->translatedMouseY), id);
+		}
+		if (pInputManager->onKeyDown(n1)) {
+			changeToolSelected(0);
+		}
+		if (pInputManager->onKeyDown(n2)) {
+			changeToolSelected(1);
+		}
+		if (pInputManager->onKeyDown(n3)) {
+			changeToolSelected(2);
+		}
+		if (pInputManager->onKeyDown(v)) {
+			holdingTool = !holdingTool;
+		}
+	}
+
 	
 	//pConsole->addCommand(commandSetCameraPos, boundingBox.x, boundingBox.y);
 	boundingBox.x += boundingBox.xv;
@@ -205,6 +225,9 @@ void MainCharacter::update() {
 			}
 		}
 	}
+	for (int i = 0; i < toolbar->getSlotsUsed(); i++) {
+		static_cast<Tool*>(toolbar->getItem(i))->update();
+	}
 }
 
 double angleBetweenVectors360(const glm::vec2& vec1, const glm::vec2& vec2) {
@@ -230,7 +253,7 @@ void MainCharacter::draw() {
 	eyeVisible1 = false;
 	eyeVisible2 = false;
 	drawPowerConections();
-	if (!usingArms) {
+	if (!holdingTool) {
 		if (sprinting) {
 			if (boundingBox.xv < 0) {
 				animationRunLeft.run();
@@ -790,6 +813,14 @@ void MainCharacter::draw() {
 
 			break;
 		}
+
+		/*float aimAngle = angleBetweenVectors360((shoulderPos1 + shoulderPos2) / 2.0f, holdPoint);
+		int z1 = 0;
+		int z2 = 0;
+		if ((aimAngle >= 0 && aimAngle <= 90) || (aimAngle >= 180 && aimAngle <= 270)) {
+			z1 = 
+		}*/
+
 		float offset = 1;
 		if (direction == down || direction == left) {
 			offset = 1;
@@ -797,6 +828,7 @@ void MainCharacter::draw() {
 		else {
 			offset = -1;
 		}
+		float toolZ = offset / 2.0;
 		r = angleBetweenVectors360(glm::vec2(1, 0), elbow1 - shoulderPos1);
 		pSpriteCollection->addRotatedImageDrawCut(arm, shoulderPos1.x - 10, shoulderPos1.y-2, boundingBox.y + boundingBox.h + offset, 0, 0, 10, 2, 2, r);
 		r = angleBetweenVectors360(glm::vec2(1, 0), holdPoint - elbow1);
@@ -808,12 +840,15 @@ void MainCharacter::draw() {
 		else {
 			offset = -1;
 		}
+		toolZ += offset / 2.0;
 		r = angleBetweenVectors360(glm::vec2(1, 0), elbow2 - shoulderPos2);
 		pSpriteCollection->addRotatedImageDrawCut(arm, shoulderPos2.x - 10, shoulderPos2.y - 2, boundingBox.y + boundingBox.h + offset, 0, 0, 10, 2, 2, r);
 		r = angleBetweenVectors360(glm::vec2(1, 0), holdPoint - elbow2);
 		pSpriteCollection->addRotatedImageDrawCut(arm, elbow2.x - 10, elbow2.y - 2, boundingBox.y + boundingBox.h + offset, 0, 0, 10, 2, 2, r);
 
 		pSpriteCollection->addImageDraw(elbow, elbow2.x-2, elbow2.y-2, boundingBox.y + boundingBox.h + offset, 4, 4);
+		pSpriteCollection->addImageDraw(elbow, pInputManager->translatedMouseX-4, pInputManager->translatedMouseY-4, boundingBox.y + boundingBox.h + offset, 4, 4);
+		static_cast<Tool*>(toolbar->getItem(toolSelected))->drawUsing(holdPoint, glm::vec2(pInputManager->translatedMouseX, pInputManager->translatedMouseY), boundingBox.y + boundingBox.h + toolZ);
 		//pSpriteCollection->addRotatedImageDraw(arm, shoulderPos1.x - 2, shoulderPos1.y, boundingBox.y + boundingBox.h, 2, r, 9, 3);
 		//pSpriteCollection->addRotatedImageDraw(arm, shoulderPos2.x - 2, shoulderPos2.y, boundingBox.y + boundingBox.h, 2, 1, 1, 2, 2, 9, 3);
 	}
@@ -835,8 +870,6 @@ void MainCharacter::draw() {
 	if (eyeVisible2) {
 		pSpriteCollection->drawLightSource(eyePosition2, glm::vec3(160, 214, 255), 1 * getPercentage(), 1);
 	}
-
-
 
 	boundingBox.xv = 0;
 	boundingBox.yv = 0;

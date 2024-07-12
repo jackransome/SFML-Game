@@ -4,6 +4,7 @@
 #include <ctime>
 #include "CollisionDetection.h"
 #include "BuildTool.h"
+#include "MachineGun.h"
 
 Game::Game(sf::RenderWindow* pwindow)  {
 	screenW = pwindow->getSize().x;
@@ -113,9 +114,13 @@ Game::Game(sf::RenderWindow* pwindow)  {
 	spriteCollection.loadTexture("mc_stand_right", "resources/main_character/mc_stand_right.png");
 	spriteCollection.loadTexture("mc_arm", "resources/main_character/mc_arm.png");
 	spriteCollection.loadTexture("buildToolIcon", "resources/items/build_tool_icon_1.png");
+	spriteCollection.loadTexture("buildTool", "resources/items/build_tool_used.png");
+	spriteCollection.loadTexture("buildToolFlipped", "resources/items/build_tool_used_flipped.png");
+	spriteCollection.loadTexture("gun1Icon", "resources/items/gun_1_icon.png");
+	spriteCollection.loadTexture("machineGun", "resources/items/machine_gun_used.png");
+	spriteCollection.loadTexture("machineGunFlipped", "resources/items/machine_gun_used_flipped.png");
 
 	spriteCollection.loadTexture("mc_elbow", "resources/main_character/mc_elbow.png");
-
 
 	spriteCollection.loadTexture("mc_walk_back_na", "resources/main_character/na/mc_walk_back_na.png");
 	spriteCollection.loadTexture("mc_walk_right_na", "resources/main_character/na/mc_walk_right_na.png");
@@ -323,7 +328,7 @@ void Game::HandleInput() {
 				console.addCommand(commandCloseBuilder);
 				console.addCommand(commandCloseConnector);
 			}
-			else if (inputManager.onKeyDown(e)) {
+			else if (inputManager.onKeyDown(e) && controlSwitcher.getControlling()) {
 				// open inventory
 
 				// get controlled object from control switcher, pass a pointer to it's inventory to the ui
@@ -578,11 +583,11 @@ void Game::loadGameplay(){
 	console.addCommand(commandSetCameraFocusId, 0);
 	console.addCommand(commandEnableObjectControls, 0);
 	controlSwitcher.setCurrentControlled(0);
-	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
-	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
-	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
-	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
-	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection, &soundPlayer));
+	controlSwitcher.getControllingInventory()->addItem(new MachineGun(&console, &spriteCollection, &soundPlayer));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection, &soundPlayer));
+	controlSwitcher.getControllingInventory()->addItem(new MachineGun(&console, &spriteCollection, &soundPlayer));
+	controlSwitcher.getControllingInventory()->addItem(new BuildTool(&console, &spriteCollection, &soundPlayer));
 	objectCollection.setControlledDead(false);
 
 	soundPlayer.update();

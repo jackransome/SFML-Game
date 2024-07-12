@@ -190,3 +190,23 @@ Inventory* Object::getInventory() {
 Inventory* Object::getToolbar() {
 	return toolbar;
 }
+
+int Object::getToolSelected() {
+	return toolSelected;
+}
+
+void Object::changeToolSelected(int _newTool) {
+	toolSelected = _newTool;
+	if (toolSelected >= toolbar->getSlotsUsed()) {
+		toolSelected = toolbar->getSlotsUsed()-1;
+	}
+	holdingTool = true;
+}
+
+void Object::incrementToolSelected(int _amount) {
+	toolSelected += _amount;
+	while (toolSelected >= toolbar->getSlotsUsed()) {
+		toolSelected -= toolbar->getSlotsUsed();
+	}
+	holdingTool = true;
+}
